@@ -5,8 +5,7 @@
             <div class="layer-body" :class="['layer-anim-'+animation]">
                 <div class="auto-close" v-if="autoClose>0"><span v-text="autoTime"></span>秒后自动关闭</div>
                 <a href="javascript:;" class="layer-close" v-if="showClose" @click="_close"></a>
-                <div class="layer-header" v-text="title" :style="{cursor: move?'move':''}" ref="head"
-                     v-if="title"></div>
+                <div class="layer-header" v-text="title" :style="{cursor: move?'move':''}" ref="head" v-if="title" v-drag></div>
                 <div class="layer-scroll" :style="{height:scrollHeight}">
                     <div class="layer-content" v-if="content" :class="{'layer-content-text':type}">
                         <div :class="['layer-text',{success:type==1},{failure:type==2}]" v-html="content"></div>
@@ -182,6 +181,29 @@
                             this._close();
                         }
                     }, 1000);
+                }
+            }
+        },
+        directives:{
+            drag(el){
+                el.onmousedown=function(ev){
+                    var x=ev.pageX-el.offsetLeft;
+                    var y=ev.pageY-el.offsetTop;
+                    document.onmousemove=function(ev){
+                        var l=ev.pageX-x;
+                        var t=ev.pageY-y;
+                        el.style.left=l+'px';
+                        el.style.top=t+'px';
+
+                        /*el.style.left=0;
+                        el.style.top=0;
+                        el.style.transform='translate('+offset.left+'px,'+offset.top+'px)'
+                        el.style.webkitTransform = 'translate('+offset.left+'px,'+offset.top+'px)';*/
+                    };
+                    document.onmouseup=function () {
+                        document.onmousemove=null;
+                        document.onmouseup=null;
+                    }
                 }
             }
         },
