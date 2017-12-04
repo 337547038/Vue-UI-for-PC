@@ -1,0 +1,14 @@
+@charset "utf-8";
+$global-font-family: Arial, "Microsoft YaHei", "simsun"; //全局字体
+$global-font-size: 14px; //全局字体大小
+$global-background-color: #fff; //body背影颜色
+$global-body-color: #333; // body文字颜色
+$global-link: #333 #333 #333 #f00 #333; //超链接颜色4种状态颜色，link visited hover active
+$global-width: 1200px; //页面主宽度
+//$global-border: #e8e8e8 0 #fff; //主边框设置，边框颜色 圆角 背景色
+
+//常用简化写法
+@mixin height($h:30px) { height: $h; line-height: $h; }
+@mixin opacity($opacity:30) { opacity: $opacity/100; filter: alpha(opacity=$opacity); }
+@mixin clear() { display: block; content: '.'; clear: both; height: 0; line-height: 0; visibility: hidden; }
+$global-placeholder:#999;

@@ -1,0 +1,141 @@
+@charset "utf-8";
+@import "_config";
+.layer{
+  position: fixed; z-index: 1000; overflow: hidden; display: none; top: 0; height: 100%; right: 0; left: 0; bottom: 0;
+  .overlay{ position: fixed; background: rgba(55, 55, 55, .6); overflow: hidden; top: 0; height: 100%; right: 0; left: 0; bottom: 0; }
+  .layer-position{ left: 50%; top: 50%; transform: translate(-50%, -50%); position: fixed; max-width: 1200px; min-width: 200px; z-index: 1 }
+  .layer-body{ box-shadow: 1px 1px 20px rgba(0, 0, 0, .3); border-radius: 5px; background: #fff; overflow: hidden; animation-duration: 0.3s; animation-fill-mode: both; width: 100%; height: 100%; }
+  .layer-close{ display: block; position: absolute; right: 10px; top: 10px; width: 15px; height: 15px; z-index: 10;
+    &:after{ content: '✖'; position: absolute; left: 0; top: 0; display: block; color: #333; width: 100%; height: 15px; line-height: 15px; }
+    &:hover{
+      @include opacity(60);
+    }
+  }
+  .layer-header{ @include height(40px); cursor: pointer; overflow: hidden; font-size: 16px; padding-left: 15px; position: relative; border: 1px solid #e9eaec; color: #333; border-radius: 5px 5px 0 0 }
+  .layer-scroll{ overflow-x: hidden; overflow-y: auto; }
+  .layer-content{ padding: 15px;
+    &.layer-content-text{ text-align: center;
+      .layer-text{ display: inline-block; text-align: left;
+        &.success:before{ content: ''; display: inline-block; vertical-align: middle; width: 20px; height: 20px; background: #f60; margin-right: 10px; }
+        &.failure:before{ content: ''; display: inline-block; vertical-align: middle; width: 20px; height: 20px; background: #f00; margin-right: 10px; }
+      }
+    }
+  }
+  /*.layer-body{
+    //纯文字时
+    &.layer-text{ text-align: center; padding: 20px 15px; line-height: 20px;
+      .layer-txt{ display: inline-block; text-align: left; }
+      //成功时
+      .layer-success{ display: inline-block; text-align: left; padding-left: 30px; position: relative; color: #1DC116; font-size: 20px; line-height: 25px;
+        .icon{ color: #1DC116; background: #1DC116; display: inline-block; width: 20px; height: 20px; }
+      }
+      //失败时
+      .layer-failure{ display: inline-block; text-align: left; padding-left: 30px; position: relative; color: #B43D3D; font-size: 20px; line-height: 25px;
+        .icon{ color: #B43D3D; background: #B43D3D; }
+      }
+      .icon{ width: 25px; height: 25px; position: absolute; left: 0; top: 0;
+        //没引入字体图标，暂用色块代替
+        background: #f60;
+      }
+    }
+
+  }*/
+  .layer-footer{ text-align: center; margin-bottom: 20px;
+    .btn{ margin: 0 5px; }
+  }
+  .auto-close{ position: absolute; left: 10px; top: 45px }
+  &.active{ display: block; }
+}
+@keyframes scaleIn{
+  0%{
+    opacity: 0;
+    transform: scale(.5)
+  }
+  100%{
+    opacity: 1;
+    transform: scale(1)
+  }
+}
+.layer-anim-1{ animation-name: scaleIn }
+@keyframes zoomInDown{
+  0%{
+    opacity: 0;
+    transform: scale(.1) translateY(-2000px);
+    animation-timing-function: ease-in-out
+  }
+  60%{
+    opacity: 1;
+    transform: scale(.475) translateY(60px);
+    animation-timing-function: ease-out
+  }
+}
+.layer-anim-2{ animation-name: zoomInDown }
+@keyframes fadeInUpBig{
+  0%{
+    opacity: 0;
+    transform: translateY(2000px)
+  }
+  100%{
+    opacity: 1;
+    transform: translateY(0)
+  }
+}
+.layer-anim-3{ animation-name: fadeInUpBig }
+@keyframes zoomInLeft{
+  0%{
+    opacity: 0;
+    transform: scale(.1) translateX(-2000px);
+    animation-timing-function: ease-in-out
+  }
+  60%{
+    opacity: 1;
+    transform: scale(.475) translateX(48px);
+    animation-timing-function: ease-out
+  }
+}
+.layer-anim-4{ animation-name: zoomInLeft }
+@keyframes rollIn{
+  0%{
+    opacity: 0;
+    transform: translateX(-100%) rotate(-120deg)
+  }
+  100%{
+    opacity: 1;
+    transform: translateX(0) rotate(0deg)
+  }
+}
+.layer-anim-5{ animation-name: rollIn }
+@keyframes scalerotate{
+  0%{
+    opacity: 0;
+    transform: scale(0) rotate(720deg);
+  }
+  100%{
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+.layer-anim-6{ animation-name: scalerotate }
+@keyframes shake{
+  0%, 100%{
+    transform: translateX(0)
+  }
+  10%, 30%, 50%, 70%, 90%{
+    transform: translateX(-10px)
+  }
+  20%, 40%, 60%, 80%{
+    transform: translateX(10px)
+  }
+}
+.layer-anim-7{ animation-name: shake }
+@keyframes anim8{
+  0%{
+    opacity: 0;
+    transform: scale(2);
+  }
+  100%{
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.alert-anim-8{ animation-name: anim8 }

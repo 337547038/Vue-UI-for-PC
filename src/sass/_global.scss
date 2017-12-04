@@ -1,0 +1,34 @@
+@charset "utf-8";
+@import "_config";
+html, body, div, span, table, tbody, tr, th, td, em, img, strong, h1, h2, h3, h4, h5, h6, p, a, dl, dd, dt, ol, ul, li, form, label, input, textarea, button, b, i, u,sup{ margin: 0; padding: 0; list-style: none; outline: none; }
+h1, h2, h3, h4, h5, h6, b{ font-weight: 400; }
+a, img{ text-decoration: none; border: 0; }
+body{ font-family: $global-font-family; color: $global-body-color; background: $global-background-color; font-size: $global-font-size; }
+a{ color: nth($global-link, 1); font-size: $global-font-size;
+  &:link{ text-decoration: none; }
+  &:visited{ text-decoration: none; color: nth($global-link, 2); }
+  &:hover{ text-decoration: none; color: nth($global-link, 3); }
+  &:active{ text-decoration: none; color: nth($global-link, 4); }
+}
+table{ border-collapse: collapse; border-spacing: 0; width: 100%; }
+.f-left{ float: left; }
+.f-right{ float: right }
+.clear{ clear: both; }
+.clearfix{
+  &:after{
+    @include clear();
+  }
+}
+//*************************input输入框placeholder提示颜色*****************/
+//input placeholder默认颜色，ie10或以上
+// WebKit browsers
+::-webkit-input-placeholder{ color: $global-placeholder; }
+// Mozilla Firefox 4 to 18 */
+:-moz-placeholder{ color: $global-placeholder; opacity: 1; }
+// Mozilla Firefox 19+
+::-moz-placeholder{ color: $global-placeholder; opacity: 1; }
+// Internet Explorer 10+
+:-ms-input-placeholder{ color: $global-placeholder !important; }
+//去掉ie文本框的叉叉和密码输入框的眼睛图标（兼容模式不管用）
+::-ms-clear, ::-ms-reveal{ display: none; }
+//********************内容主容器*********************************/

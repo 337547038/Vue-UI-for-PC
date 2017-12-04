@@ -1,0 +1,8 @@
+@charset "utf-8";
+@import "config";
+.demo{ margin: 50px;
+  .list{padding: 15px;
+    li{ line-height: 30px;list-style: disc }
+  }
+  pre{background: #f8f8f8;padding: 10px; margin: 10px 0; line-height: 25px; white-space: inherit}
+}
