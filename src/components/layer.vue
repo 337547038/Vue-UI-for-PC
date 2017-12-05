@@ -132,6 +132,7 @@
             },
             _completed(){
                 //窗口加载完时
+                this.dialog = true;
                 if (typeof this.height != 'undefined') {
                     //如果设置了高，则在内容区添加高度,溢出时显示滚动条
                     // 如果窗口高度大于屏幕高度，即取窗口高度　
