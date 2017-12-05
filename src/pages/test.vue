@@ -6,10 +6,6 @@
 
 <script>
 
-    import Vue from 'vue'
-    import plugin from '../plugins/first'
-    Vue.use(plugin)
-
     export default {
         data(){
             return {
@@ -17,8 +13,6 @@
             }
         },
         mounted(){
-            this.num = this.$doubleNumber(this.num);
-            Vue.test()
             /* test.show({
              txt: 'abc13',
              ok: function () {

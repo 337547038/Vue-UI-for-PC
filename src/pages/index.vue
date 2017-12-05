@@ -3,6 +3,7 @@
         <h1>{{ msg }}</h1>
         <ul>
             <li><router-link to="/layer">layer</router-link></li>
+            <li><router-link to="/dialog">dialog</router-link></li>
         </ul>
 
     </div>

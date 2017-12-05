@@ -1,20 +1,21 @@
 <template>
     <div class="demo">
         <h1>Layer Demo</h1>
+        <pre>import Layer from '../components/layer'</pre>
         <ul class="list">
-            <li><a href="javascript:;" @click="openLayer">1.最基本示例</a></li>
-            <li><a href="javascript:;" @click="showLayer2=true">2.带有参数弹层</a></li>
-            <li><a href="javascript:;" @click="showLayer3">3.支持多种方式显示弹层</a></li>
-            <li><a href="javascript:;">4.支持拖动（留最后实现）</a></li>
-            <li><a href="javascript:;" @click="showLayer4=true">5.支持多层弹层</a></li>
-            <li><a href="javascript:;" @click="showLayer6=true">6.加载完成回调</a></li>
-            <li><a href="javascript:;" @click="showLayer7=true">7.添加确定取消按钮</a></li>
-            <li><a href="javascript:;" @click="showLayer8=true">8.回调事件</a></li>
-            <li><a href="javascript:;" @click="showLayer9=true">9.弹层固定类型absolute</a></li>
-            <li><a href="javascript:;" @click="showLayer10=true">10.自动关闭</a></li>
-            <li><a href="javascript:;" @click="showLayer11=true">11.可传内容</a></li>
-            <li><a href="javascript:;" @click="showLayer12=true">12.实现alert,confirm</a></li>
-            <li><a href="javascript:;" @click="showLayer13=true">13.常见成功/失败提示</a></li>
+            <li><a href="javascript:;" @click="openLayer">1、最基本示例</a></li>
+            <li><a href="javascript:;" @click="showLayer2=true">2、带有参数弹层</a></li>
+            <li><a href="javascript:;" @click="showLayer3">3、支持多种方式显示弹层</a></li>
+            <li><a href="javascript:;" @click="showLayer04=true">4、支持拖动</a></li>
+            <li><a href="javascript:;" @click="showLayer4=true">5、支持多层弹层</a></li>
+            <li><a href="javascript:;" @click="showLayer6=true">6、加载完成回调</a></li>
+            <li><a href="javascript:;" @click="showLayer7=true">7、添加确定取消按钮</a></li>
+            <li><a href="javascript:;" @click="showLayer8=true">8、回调事件</a></li>
+            <li><a href="javascript:;" @click="showLayer9=true">9、弹层固定类型absolute</a></li>
+            <li><a href="javascript:;" @click="showLayer10=true">10、自动关闭</a></li>
+            <li><a href="javascript:;" @click="showLayer11=true">11、可传内容</a></li>
+            <li><a href="javascript:;" @click="showLayer12=true">12、实现alert,confirm</a></li>
+            <li><a href="javascript:;" @click="showLayer13=true">13、常见成功/失败提示</a></li>
         </ul>
         <Layer title="最基本示例" :show.sync="showLayer">
             <pre>&lt;layer title="最基本示例" :show.sync="showLayer"></pre>
@@ -26,8 +27,9 @@
             <p>this is content</p>
             <p>this is content</p>
         </Layer>
-        <Layer title="带有参数弹窗" :show.sync="showLayer2" className="layer-1" width="500" animation="2" :maskLayer="false"
+        <Layer :show.sync="showLayer2" className="layer-1" width="500" animation="2" :maskLayer="false"
                height="300">
+            <p>这是一个没标题栏的弹层</p>
             <pre>&lt;layer title="带有参数弹窗" :show.sync="showLayer2" className="layer-1" width="500" animation="2" :maskLayer="false" height="300"></pre>
             <p>带各种参数的弹窗，如果指定了高度时，内容溢出时则显示滚动条</p>
             <p>参数类型为布尔值时，要通过v-bind的方式绑定，默认的字符，如:maskLayer="false"</p>
@@ -48,12 +50,28 @@
             <p>this is content</p>
             <p>this is content</p>
         </Layer>
-        <Layer title="支持多种方式打开" ref="layer">
+        <Layer title="支持多种方式打开" ref="layer" width="500">
             <pre>&lt;layer title="支持多种方式打开" ref="layer"><br>
             this.$refs.layer.open();
             </pre>
             <p>通过引用layer里的open()方法也可以显示弹出层，对应的this.$refs.layer.close();即可关闭</p>
             <p>当然了，用什么方法打开应用对应的方法来关闭，不能用一种方式打开，用另一种方式关闭</p>
+            <p>&nbsp;</p>
+            <h2>页面多个弹窗时</h2>
+            <p>如果一个页面存在多个弹层时，像本例子在data里定义N个showLayer*="false"，这明显是比较笨的方法。稍微改进下：</p>
+            <pre>
+               &lt;a href="javascript:;" @click="showLayer3('layer')">3.支持多种方式显示弹层&lt;/a>
+            </pre>
+            <pre>
+                showLayer3(layer){
+                this.$refs[layer].open();
+            }
+            </pre>
+            <p>点击时通过传参的方式，不需要定义showLayer*="false"</p>
+        </Layer>
+        <Layer title="支持拖动" :show.sync="showLayer04" width="500px" :move="false">
+            <p>默认是可以拖动的，这里设置以move="false"不能拖动</p>
+            <p>&nbsp;</p>
         </Layer>
         <Layer title="支持多层弹层" :show.sync="showLayer4" width="500px">
             <p>多层弹层示例，点击下面</p>
@@ -107,8 +125,122 @@
         <Layer title="可传内容" :show.sync="showLayer11" content="这里参数形式传的内容，这时不会显示组件标签中的内容了" type="2">
             <p>this is content</p>
         </Layer>
-        <Layer title="实现alert,confirm" type="0" confirm="确定" content="alert提示内容，文字居中对齐，单行居中，多行居中向左对齐" :show.sync="showLayer12" width="100"></Layer>
-        <Layer title="实现alert,confirm" type="1" confirm="确定" content="常见成功/失败提示（失败为type=2）" :show.sync="showLayer13" width="500"></Layer>
+        <Layer title="实现alert,confirm" confirm="确定" content="alert提示内容，文字居中对齐，单行居中，多行居中向左对齐"
+               :show.sync="showLayer12" width="100"></Layer>
+        <Layer title="实现alert,confirm" type="1" confirm="确定" content="常见成功/失败提示（失败为type=2）" :show.sync="showLayer13"
+               width="500"></Layer>
+        <p>在实际应用中，第11、12、13这种用法实际意义并不大，跟将content里的内容直接放组件标签中效果是一致的。更好的用法应该是不需要先在页面放一个Layer组件，类似于alert，详见layer另一种用法
+            <router-link to="/dialog" style="color:red">dialog</router-link>
+        </p>
+        <h3>参数：</h3>
+        <table class="table-1">
+            <tr>
+                <th width="80">参数</th>
+                <th width="120">默认</th>
+                <th>说明</th>
+            </tr>
+            <tr>
+                <td>show</td>
+                <td>Boolean | false</td>
+                <td>显示或隐藏弹层</td>
+            </tr>
+            <tr>
+                <td>title</td>
+                <td>String | null</td>
+                <td>弹层标题</td>
+            </tr>
+            <tr>
+                <td>content</td>
+                <td>String | null</td>
+                <td>弹层内容。通过参数传进content时，则不显示组件标签中的内容</td>
+            </tr>
+            <tr>
+                <td>type</td>
+                <td>String | null</td>
+                <td>两种特殊情况，用于显示成功/失败提示（通过样式控制）1:success,2:failure，仅content有值时有效</td>
+            </tr>
+            <tr>
+                <td>width</td>
+                <td>String | null</td>
+                <td>弹层的宽度。一般情况下不需要设置，可在样式中控制</td>
+            </tr>
+            <tr>
+                <td>height</td>
+                <td>String | null</td>
+                <td>弹层的高度。一般情况下不需要设置，如设置了高度，内容区溢出将出现滚动条，适合弹出内容比较多时</td>
+            </tr>
+            <tr>
+                <td>className</td>
+                <td>String | null</td>
+                <td>弹层的类名。为弹层添加一个样式方便控制，增加灵活性</td>
+            </tr>
+            <tr>
+                <td>showClose</td>
+                <td>Boolean | true</td>
+                <td>是否显示关闭按钮</td>
+            </tr>
+            <tr>
+                <td>autoClose</td>
+                <td>Number | 0</td>
+                <td>自动关闭时间，单位毫秒。0为不自动关闭</td>
+            </tr>
+            <tr>
+                <td>position</td>
+                <td>String | fixed</td>
+                <td>弹层显示方式，fixed和absolute两种</td>
+            </tr>
+            <tr>
+                <td>confirm</td>
+                <td>String | null</td>
+                <td>确定按钮。点击默认关闭弹层，当有回调时则需要在回调里手动关闭</td>
+            </tr>
+            <tr>
+                <td>cancel</td>
+                <td>String | null</td>
+                <td>取消按钮。同confirm</td>
+            </tr>
+            <tr>
+                <td>confirmBack</td>
+                <td>Function | null</td>
+                <td>确定回调方法；仅当confirm不为空时才会触发回调confirmBack函数；当回调为空时，点击确定后默认关闭窗口</td>
+            </tr>
+            <tr>
+                <td>cancelBack</td>
+                <td>Function | null</td>
+                <td>同confirmBack</td>
+            </tr>
+            <tr>
+                <td>closeBack</td>
+                <td>Function | null</td>
+                <td>关闭按钮回调。默认关闭弹层，有回调时执行回调，需在回调里执行关闭方法</td>
+            </tr>
+            <tr>
+                <td>afterBack</td>
+                <td>Function | null</td>
+                <td>窗口加载完回调</td>
+            </tr>
+            <tr>
+                <td>move</td>
+                <td>Boolean | true</td>
+                <td>允许拖动窗口</td>
+            </tr>
+            <tr>
+                <td>maskLayer</td>
+                <td>Boolean | true</td>
+                <td>是否显示遮罩层</td>
+            </tr>
+            <tr>
+                <td>shadeClose</td>
+                <td>Boolean | true</td>
+                <td>点击遮罩层是否关闭弹层，仅当maskLayer为true时有效</td>
+            </tr>
+            <tr>
+                <td>animation</td>
+                <td>String | 1</td>
+                <td>弹层显示的css3动画，定义了8种显示动画</td>
+            </tr>
+        </table>
+        <p>&nbsp;</p>
     </div>
 </template>
 <script>
@@ -118,6 +250,7 @@
             return {
                 showLayer: false,
                 showLayer2: false,
+                showLayer04: false,
                 showLayer4: false,
                 showLayer6: false,
                 showLayer7: false,
@@ -141,18 +274,19 @@
             },
             showLayer3(){
                 this.$refs.layer.open();
+                //this.$refs[div].open();
             },
             confirmBack(){
                 alert('您点击了确认，请在回调里关闭弹层');
-                this.showLayer8=false
+                this.showLayer8 = false
             },
             cancelBack(){
                 alert('您点击了取消，请在回调里关闭弹层');
-                this.showLayer8=false
+                this.showLayer8 = false
             },
             closeBack(){
                 alert('您点击了关闭，请在回调里关闭弹层');
-                this.showLayer8=false
+                this.showLayer8 = false
             }
         },
         filters: {}

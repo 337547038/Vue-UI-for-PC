@@ -53,6 +53,13 @@ var comm={
     //滚动条位置
     scrollTop() {
         return document.documentElement.scrollTop || document.body.scrollTop;
+    },
+    getOffset (el) {
+        //返回元素偏移位置
+        var componentRect = el.getBoundingClientRect();
+        var top = componentRect.top + (window.pageYOffset || document.documentElement.scrollTop) - (document.documentElement.clientTop || 0);
+        var left = componentRect.left + (window.pageXOffset || document.documentElement.scrollLeft) - (document.documentElement.clientLeft || 0);
+        return {left: left, top: top};
     }
 };
 export default comm;

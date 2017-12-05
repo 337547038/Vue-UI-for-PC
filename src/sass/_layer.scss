@@ -11,7 +11,7 @@
       @include opacity(60);
     }
   }
-  .layer-header{ @include height(40px); cursor: pointer; overflow: hidden; font-size: 16px; padding-left: 15px; position: relative; border: 1px solid #e9eaec; color: #333; border-radius: 5px 5px 0 0 }
+  .layer-header{ @include height(40px); overflow: hidden; font-size: 16px; padding-left: 15px; position: relative; border: 1px solid #e9eaec; color: #333; border-radius: 5px 5px 0 0; -moz-user-select: none; -webkit-user-select: none; }
   .layer-scroll{ overflow-x: hidden; overflow-y: auto; }
   .layer-content{ padding: 15px;
     &.layer-content-text{ text-align: center;
@@ -21,26 +21,7 @@
       }
     }
   }
-  /*.layer-body{
-    //纯文字时
-    &.layer-text{ text-align: center; padding: 20px 15px; line-height: 20px;
-      .layer-txt{ display: inline-block; text-align: left; }
-      //成功时
-      .layer-success{ display: inline-block; text-align: left; padding-left: 30px; position: relative; color: #1DC116; font-size: 20px; line-height: 25px;
-        .icon{ color: #1DC116; background: #1DC116; display: inline-block; width: 20px; height: 20px; }
-      }
-      //失败时
-      .layer-failure{ display: inline-block; text-align: left; padding-left: 30px; position: relative; color: #B43D3D; font-size: 20px; line-height: 25px;
-        .icon{ color: #B43D3D; background: #B43D3D; }
-      }
-      .icon{ width: 25px; height: 25px; position: absolute; left: 0; top: 0;
-        //没引入字体图标，暂用色块代替
-        background: #f60;
-      }
-    }
-
-  }*/
-  .layer-footer{ text-align: center; margin-bottom: 20px;
+  .layer-footer{ text-align: center; margin-bottom: 20px; overflow: hidden;
     .btn{ margin: 0 5px; }
   }
   .auto-close{ position: absolute; left: 10px; top: 45px }
