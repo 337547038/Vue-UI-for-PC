@@ -4,6 +4,7 @@
         <ul>
             <li><router-link to="/layer">layer</router-link></li>
             <li><router-link to="/dialog">dialog</router-link></li>
+            <li><router-link to="/carousel">carousel</router-link></li>
         </ul>
 
     </div>
@@ -12,6 +13,7 @@
 <script>
     export default {
         name: 'index',
+        path:'/',
         data () {
             return {
                 msg: 'Welcome to Vue.js UI for PC'

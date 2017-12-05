@@ -8,7 +8,7 @@
                 <div class="layer-header" v-text="title" :style="{cursor: move?'move':''}" ref="head"
                      v-if="title"></div>
                 <div class="layer-scroll" :style="{height:scrollHeight}">
-                    <div class="layer-content" v-if="content" :class="{'layer-content-text':content}">
+                    <div class="layer-content layer-content-text" v-if="content">
                         <div :class="['layer-text',{success:type==1},{failure:type==2}]" v-html="content"></div>
                     </div>
                     <div class="layer-content" v-else>

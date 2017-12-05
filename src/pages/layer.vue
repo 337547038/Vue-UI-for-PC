@@ -247,6 +247,7 @@
     import Layer from '../components/layer.vue'
     export default {
         name:'layer',
+        path:'/layer',
         data () {
             return {
                 showLayer: false,

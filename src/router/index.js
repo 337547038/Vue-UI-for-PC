@@ -5,49 +5,49 @@ import Router from 'vue-router'
  import test from '@/pages/test'
  import dialog from '@/pages/dialog'
  import carousel from '@/pages/carousel'*/
-import pages from '@/pages/index.js'
+import pages from '@/pages/pages'
 
+Vue.use(Router);
 
-Vue.use(Router)
-
-var page = function () {
-    let array=[];
-    for (let i in pages) {
-        let paa=pages[i].default;
-        array.push({
-            path:'path',
-            name:'name',
-            component:'component'
-        })
-    }
-};
-page()
+let array = [];
+for (let i in pages) {
+    let page = pages[i].default;
+    array.push({
+        path: page.path,
+        name: page.name,
+        component: page
+    });
+}
 export default new Router({
-    routes: [
-        /*{
-         path: '/',
-         name: 'index',
-         component: index
-         },
-         {
-         path: '/layer',
-         name: 'layer',
-         component: layer
-         },
-         {
-         path: '/dialog',
-         name: 'dialog',
-         component: dialog
-         },
-         {
-         path: '/carousel',
-         name: 'carousel',
-         component: carousel
-         },
-         {
-         path: '/test',
-         name: 'test',
-         component: test
-         }*/
-    ]
+    routes:array
 })
+/*export default new Router({
+    routes:
+     [
+     {
+     path: '/',
+     name: 'index',
+     component: index
+     },
+     {
+     path: '/layer',
+     name: 'layer',
+     component: layer
+     },
+     {
+     path: '/dialog',
+     name: 'dialog',
+     component: dialog
+     },
+     {
+     path: '/carousel',
+     name: 'carousel',
+     component: carousel
+     },
+     {
+     path: '/test',
+     name: 'test',
+     component: test
+
+     ] }
+})*/

@@ -1,0 +1,53 @@
+@charset "utf-8";
+@import "config";
+$height: 300px;
+.carousel{
+  height: $height; position: relative;
+  .carousel-wrapper{
+    height: $height;
+    overflow: hidden;
+    .slider{ height: $height; background-color: #ddd;}
+  }
+  //点点控制
+  .carousel-control{
+    z-index: 80;
+    text-align: center;
+    position: absolute;
+    left: 0;
+    bottom: 10px;
+    width: 100%;
+    li{ display: inline-block; margin: 0 3px; height: 4px; line-height: 4px; background: #1DC116; width: 20px; cursor: pointer;
+      &.active{ background: #f00; }
+    }
+  }
+  //前后控制
+  .carousel-direction{
+    z-index: 80;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    height: 100px;
+    margin-top: -50px;
+    width: 100%;
+    li{
+      cursor: pointer;
+      width: 0;
+      height: 0;
+      position: absolute;
+      top: 0;
+      border-style: solid;
+      border-color: transparent;
+      &.carousel-prev{
+        left: 10%;
+        border-width: 50px 50px 50px 0;
+        border-right-color: #1DC116;
+      }
+      &.carousel-next{
+        right: 10%;
+        border-width: 50px 0 50px 50px;
+        border-left-color: #1DC116;
+      }
+      &:hover{ @include opacity(60) }
+    }
+  }
+}

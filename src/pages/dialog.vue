@@ -25,6 +25,7 @@
 <script>
     export default {
         name:'dialog',
+        path:'/dialog',
         data () {
             return {}
         },
