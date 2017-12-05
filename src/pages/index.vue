@@ -11,7 +11,7 @@
 
 <script>
     export default {
-        name: 'HelloWorld',
+        name: 'index',
         data () {
             return {
                 msg: 'Welcome to Vue.js UI for PC'

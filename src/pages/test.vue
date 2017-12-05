@@ -7,6 +7,7 @@
 <script>
 
     export default {
+        name:'test',
         data(){
             return {
                 num: 1
