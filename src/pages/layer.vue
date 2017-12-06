@@ -1,7 +1,7 @@
 <template>
     <div class="demo">
         <h1>Layer Demo</h1>
-        <pre>import Layer from '../components/layer'</pre>
+        <pre>import Layer from '../components/layer/index'</pre>
         <ul class="list">
             <li><a href="javascript:;" @click="openLayer">1、最基本示例</a></li>
             <li><a href="javascript:;" @click="showLayer2=true">2、带有参数弹层</a></li>
@@ -132,6 +132,7 @@
         <p>在实际应用中，第11、12、13这种用法实际意义并不大，跟将content里的内容直接放组件标签中效果是一致的。更好的用法应该是不需要先在页面放一个Layer组件，类似于alert，详见layer另一种用法
             <router-link to="/dialog" style="color:red">dialog</router-link>
         </p>
+        <p>目前这种方法还不够完善，比较理想的应该是将弹层内容移至body根节点下，下版实现。。。</p>
         <h3>参数：</h3>
         <table class="table-1">
             <tr>
@@ -244,7 +245,7 @@
     </div>
 </template>
 <script>
-    import Layer from '../components/layer.vue'
+    import Layer from '../components/layer/index'
     export default {
         name:'layer',
         path:'/layer',

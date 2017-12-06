@@ -5,8 +5,8 @@
         <h3>用法：</h3>
         <p>在main.js中引入</p>
         <pre>
-            import layer from '../src/plugins/dialog';
-            Vue.use(layer);
+            import dialog from '../src/components/plugins/dialog'
+            Vue.use(dialog);
         </pre>
         <p>在script任意位置</p>
         <pre>

@@ -24,7 +24,6 @@
     </div>
 </template>
 <script type="text/ecmascript-6">
-    import commJs from '../plugins/comm';
     export default {
         name: 'Layer',
         data () {
@@ -136,8 +135,8 @@
                 if (typeof this.height != 'undefined') {
                     //如果设置了高，则在内容区添加高度,溢出时显示滚动条
                     // 如果窗口高度大于屏幕高度，即取窗口高度　
-                    if (commJs.height(window) < this.layerHeight) {
-                        this.layerHeight = commJs.height(window);
+                    if (this.getHeight(window) < this.layerHeight) {
+                        this.layerHeight = this.getHeight(window);
                     }
                     //滚动区域的高＝窗口的高－标题栏高
                     let headHeight = 0;
@@ -163,7 +162,7 @@
             },
             _noScroll(){
                 document.body.style.overflow = "hidden";
-                if (commJs.scrollTop() > 0) {
+                if (this.getScrollTop() > 0) {
                     document.body.style.paddingRight = "20px";//滚动条大概的宽，防抖动
                 }
             },
@@ -215,12 +214,12 @@
                     if (head) {//要存在标题时
                         head.onmousedown = function (ev) {
                             //先将偏移百分比转为px
-                            let offSet = commJs.getOffset(el);
-                            let layerWidth = commJs.width(el);//弹层宽
-                            let layerHeight = commJs.height(el);
-                            let windowWidth = commJs.width(window);//窗口宽
-                            let windowHeight = commJs.height(window);//窗口高
-                            let scrollTop = commJs.scrollTop();//滚动条位置
+                            let offSet = this.getOffset(el);
+                            let layerWidth = this.getWidth(el);//弹层宽
+                            let layerHeight = this.getHeight(el);
+                            let windowWidth = this.getWidth(window);//窗口宽
+                            let windowHeight = this.getHeight(window);//窗口高
+                            let scrollTop = this.scrollTop();//滚动条位置
                             let style = el.style;
                             style.width = layerWidth + 'px';
                             style.left = 0;

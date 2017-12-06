@@ -1,7 +1,7 @@
 <!--Created by 337547038 on 2017/12/5.-->
 <template>
     <div>
-test
+        test
     </div>
 </template>
 <script>

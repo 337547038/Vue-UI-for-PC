@@ -4,7 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
-import plugin from '../src/plugins/index'
+import plugin from '../src/components/plugins'
 for(let i in plugin){
   Vue.use(plugin[i].default);
 }

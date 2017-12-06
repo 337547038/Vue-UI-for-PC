@@ -1,14 +1,14 @@
 /**
- * Created by guilin on 2017/12/5.
+ * Created by guilin on 2017/12/6.
  */
-import layer from '../components/layer'
+import Layer from '../layer/index'
 export default {
     install: function (Vue, options) {
         //注册全局组件，其它页面直接引用不用import
-        Vue.component(layer.name, layer);
+        Vue.component(Layer.name, Layer);
         //添加全局API
         Vue.prototype.$dialog = function (options) {
-            var message = Vue.extend(layer);
+            var message = Vue.extend(Layer);
             const propsData = Object.assign({}, options);
             var component = new message({
                 propsData
@@ -22,5 +22,5 @@ export default {
     }
 }
 if (typeof window !== 'undefined' && window.Vue) {
-    window.Vue.use(layer)
+    window.Vue.use(Layer)
 }

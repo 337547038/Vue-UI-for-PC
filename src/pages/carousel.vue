@@ -3,25 +3,28 @@
     <div class="demo">
         <h1>Carousel 跑马灯</h1>
         <Carousel className="class-name">
-            <div class="slider">0</div>
-            <div class="slider">1</div>
-            <div class="slider">2</div>
-            <div class="slider">3</div>
+            <CarouselItem><img src="../assets/images/Desert.jpg"></CarouselItem>
+            <CarouselItem><img src="../assets/images/Hydrangeas.jpg"></CarouselItem>
+            <CarouselItem><img src="../assets/images/Jellyfish.jpg"></CarouselItem>
+            <CarouselItem><img src="../assets/images/Koala.jpg"></CarouselItem>
         </Carousel>
     </div>
 </template>
 <script>
-    import Carousel from '../components/carousel'
+    import {Carousel,CarouselItem} from '../components/carousel/index'
     export default {
         name: "carousel",
         path: '/carousel',
         data () {
             return {}
         },
-        components: {Carousel},
+        components: {Carousel,CarouselItem},
         mounted(){
         },
         methods: {},
         filters: {}
     }
 </script>
+<style>
+
+</style>
