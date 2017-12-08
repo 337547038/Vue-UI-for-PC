@@ -55,7 +55,7 @@
             <tr>
                 <td>value</td>
                 <td></td>
-                <td>选中值</td>
+                <td>选中值，通过v-model=""传参</td>
             </tr>
             <tr>
                 <td>defaultText</td>
