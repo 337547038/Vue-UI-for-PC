@@ -1,0 +1,80 @@
+@charset "utf-8";
+@import "config";
+//*需要用到input样式*/
+.select-drop-down{
+  $iconwidth: 8px; //下拉图标宽
+  display: inline-block;
+  position: relative;
+  margin-right: 10px;
+  .select-control{ position: relative;
+    &:after{ top: 6px; width: 15px; height: 15px; border: 1px solid transparent; content: ''; display: block; position: absolute; right: 10px; border-top-color: #f60; border-right-color: #f60; transition: all .2s; transform: rotate(135deg); cursor: pointer }
+  }
+  .drop-down{
+    position: absolute;
+    left: 0;
+    top: nth($global-input,6)+1;
+    width: 100%;
+    display: none;
+    background: #fff;
+    overflow-x: hidden;
+    overflow-y: auto;
+    li{
+      line-height: 30px;
+      padding-left: 10px;
+      &:hover{
+        background: #f8f8f8;
+      }
+      &.disabled{
+        font-style: italic;
+        cursor: not-allowed
+      }
+      &.active{
+        background: #36a1d3;
+        color: #fff
+      }
+    }
+    .drop-down-border{
+      border: 1px solid #f60;
+      overflow-x: hidden;
+      overflow-y: auto;
+      animation: dropDown .6s;
+    }
+  }
+  &.open{
+    z-index: 10;
+    //这里引用输入框的焦点样式
+    .select-control .input{
+      border-color: #666;
+      color: #666;
+    }
+    .drop-down{
+      display: block;
+    }
+    .select-control{
+      &:after{ transform: rotate(-45deg); top: 18px; }
+    }
+  }
+  &.select-search-box{
+    .input-control{
+      position: relative;
+      margin: 10px 0;
+    }
+  }
+}
+@keyframes dropDown {
+  0% {
+    max-height: 0;
+    opacity: .6;
+    overflow: hidden;
+  }
+  99% {
+    max-height: 300px;
+    opacity: 1;
+    overflow: hidden;
+  }
+  100% {
+    opacity: 1;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+}

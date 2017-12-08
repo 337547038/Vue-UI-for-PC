@@ -6,5 +6,6 @@ module.exports = {
     carousel: require('./carousel'),
     dialog: require('./dialog'),
     layer: require('./layer'),
+    select: require('./select'),
     test: require('./test')
 };

@@ -16,8 +16,8 @@
   .layer-content{ padding: 15px;
     &.layer-content-text{ text-align: center;
       .layer-text{ display: inline-block; text-align: left;
-        &.success:before{ content: ''; display: inline-block; vertical-align: middle; width: 20px; height: 20px; background: #f60; margin-right: 10px; }
-        &.failure:before{ content: ''; display: inline-block; vertical-align: middle; width: 20px; height: 20px; background: #f00; margin-right: 10px; }
+        &.success:before{ content: ''; display: inline-block; vertical-align: middle; width: 20px; height: 20px; background: url(assets/images/success.png); background-size: 100%; margin-right: 10px; }
+        &.failure:before{ content: ''; display: inline-block; vertical-align: middle; width: 20px; height: 20px; background: url(assets/images/failure.png); background-size: 100%;margin-right: 10px; }
       }
     }
   }

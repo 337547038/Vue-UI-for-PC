@@ -19,8 +19,14 @@
                     return {
                         position: 'absolute',
                         opacity: 0,
-                        transition: 'all 1s',
-                        webkitTransition: 'all 1s'
+                        width: '100%',
+                        transition: `opacity ${this.$parent.speed / 1000}s`,
+                        webkitTransition: `opacity ${this.$parent.speed / 1000}s`
+                    }
+                } else {
+                    return {
+                        width: this.$parent.containerWidth + 'px',
+                        float: 'left'
                     }
                 }
             }

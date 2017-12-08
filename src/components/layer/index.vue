@@ -1,12 +1,12 @@
 <template>
     <div class="layer" :class="[className,{'active':visibility}]" :style="{zIndex:zIndex}" v-if="dialog">
         <div class="overlay" v-if="maskLayer" @click="_layerShadeClose"></div>
-        <div class="layer-position" :style="layerStyle" v-drag="move">
+        <div class="layer-position" :style="layerStyle" ref="layer">
             <div class="layer-body" :class="['layer-anim-'+animation]">
                 <div class="auto-close" v-if="autoClose>0"><span v-text="autoTime"></span>秒后自动关闭</div>
                 <a href="javascript:;" class="layer-close" v-if="showClose" @click="_close"></a>
                 <div class="layer-header" v-text="title" :style="{cursor: move?'move':''}" ref="head"
-                     v-if="title"></div>
+                     v-if="title" @mousedown="_mouseDown"></div>
                 <div class="layer-scroll" :style="{height:scrollHeight}">
                     <div class="layer-content layer-content-text" v-if="content">
                         <div :class="['layer-text',{success:type==1},{failure:type==2}]" v-html="content"></div>
@@ -162,8 +162,8 @@
             },
             _noScroll(){
                 document.body.style.overflow = "hidden";
-                if (this.getScrollTop() > 0) {
-                    document.body.style.paddingRight = "20px";//滚动条大概的宽，防抖动
+                if (this.getHeight(document) > this.getHeight(window)) {
+                    document.body.style.paddingRight = "17px";//滚动条大概的宽，防抖动
                 }
             },
             _confirm(){
@@ -202,63 +202,58 @@
                         }
                     }, 1000);
                 }
-            }
-        },
-        directives: {
-            //拖动指令
-            drag(el, status){
-                if (status.value) {
-                    //如果允许拖动
+            },
+            _mouseDown(ev){
+                if (this.move && this.title) {
+                    //要存在标题时
                     let flag = false;
-                    let head = el.querySelector('.layer-header');
-                    if (head) {//要存在标题时
-                        head.onmousedown = function (ev) {
-                            //先将偏移百分比转为px
-                            let offSet = this.getOffset(el);
-                            let layerWidth = this.getWidth(el);//弹层宽
-                            let layerHeight = this.getHeight(el);
-                            let windowWidth = this.getWidth(window);//窗口宽
-                            let windowHeight = this.getHeight(window);//窗口高
-                            let scrollTop = this.scrollTop();//滚动条位置
-                            let style = el.style;
-                            style.width = layerWidth + 'px';
-                            style.left = 0;
-                            style.top = 0;
-                            style.transform = 'translate(' + offSet.left + 'px,' + (offSet.top - scrollTop) + 'px)';
-                            style.webkitTransform = 'translate(' + offSet.left + 'px,' + (offSet.top - scrollTop) + 'px)';
-                            let x = ev.pageX - offSet.left;
-                            let y = ev.pageY - offSet.top;
-                            flag = true;
-                            document.onmousemove = function (ev) {
-                                if (flag) {
-                                    let left = ev.pageX - x;
-                                    let top = ev.pageY - y - scrollTop;
-                                    if (left <= 0) {
-                                        left = 0;//最左边
-                                    } else if (left > windowWidth - layerWidth) {
-                                        //最右边，窗口宽－弹层宽
-                                        left = windowWidth - layerWidth;
-                                    }
-                                    if (top <= 0) {
-                                        top = 0;
-                                    } else if (top > windowHeight - layerHeight) {
-                                        top = windowHeight - layerHeight;
-                                    }
-                                    style.transform = 'translate(' + left + 'px,' + top + 'px)';
-                                    style.webkitTransform = 'translate(' + left + 'px,' + top + 'px)';
-                                }
-                                return false;
-                            };
-                            document.onmouseup = function () {
-                                document.onmousemove = null;
-                                document.onmouseup = null;
-                                flag = false;
-                            };
+                    let head = this.$refs.head;
+                    let layer = this.$refs.layer;
+                    //先将偏移百分比转为px
+                    let offSet = this.getOffset(layer);
+                    let layerWidth = offSet.width;//弹层宽
+                    let layerHeight = offSet.height;
+                    let windowWidth = this.getWidth(window);//窗口宽
+                    let windowHeight = this.getHeight(window);//窗口高
+                    let scrollTop = this.getScrollTop();//滚动条位置
+                    let style = layer.style;
+                    style.width = layerWidth + 'px';
+                    style.left = 0;
+                    style.top = 0;
+                    style.transform = 'translate(' + offSet.left + 'px,' + (offSet.top - scrollTop) + 'px)';
+                    style.webkitTransform = 'translate(' + offSet.left + 'px,' + (offSet.top - scrollTop) + 'px)';
+                    let x = ev.pageX - offSet.left;
+                    let y = ev.pageY - offSet.top;
+                    flag = true;
+                    document.onmousemove = function (ev) {
+                        if (flag) {
+                            let left = ev.pageX - x;
+                            let top = ev.pageY - y - scrollTop;
+                            if (left <= 0) {
+                                left = 0;//最左边
+                            } else if (left > windowWidth - layerWidth) {
+                                //最右边，窗口宽－弹层宽
+                                left = windowWidth - layerWidth;
+                            }
+                            if (top <= 0) {
+                                top = 0;
+                            } else if (top > windowHeight - layerHeight) {
+                                top = windowHeight - layerHeight;
+                            }
+                            style.transform = `translate(${left}px,${top}px)`;
+                            style.webkitTransform = `translate(${left}px,${top}px)`;
                         }
-                    }
+                        return false;
+                    };
+                    document.onmouseup = function () {
+                        document.onmousemove = null;
+                        document.onmouseup = null;
+                        flag = false;
+                    };
                 }
             }
         },
+        directives: {},
         watch: {
             show(v){
                 this.visibility = v;

@@ -17,15 +17,19 @@
             <li><a href="javascript:;" @click="openAlert">1、open alert</a></li>
             <li><a href="javascript:;" @click="openAlert2">2、not title</a></li>
             <li><a href="javascript:;" @click="openAlert3">3、callBack</a></li>
+            <li><a href="javascript:;" @click="openAlert4(1)">4、success</a></li>
+            <li><a href="javascript:;" @click="openAlert4(2)">5、failure</a></li>
         </ul>
         <p>其它所有参数的用法跟layer是一致的</p>
-        <p>go to <router-link to="/layer">layer</router-link></p>
+        <p>go to
+            <router-link to="/layer">layer</router-link>
+        </p>
     </div>
 </template>
 <script>
     export default {
-        name:'dialog',
-        path:'/dialog',
+        name: 'dialog',
+        path: '/dialog',
         data () {
             return {}
         },
@@ -59,13 +63,24 @@
                     confirmBack(){
                         this.close();
                         this.$dialog({
-                            content:'You clicked confirm,this is new dialog',
+                            content: 'You clicked confirm,this is new dialog',
                             confirm: 'ok'
                         })
                     },
                     cancelBack(){
                         this.close()
                     }
+                })
+            },
+            openAlert4(t){
+                this.$dialog({
+                    title: t ? "success" : "failure",
+                    content: 'this is content',
+                    width:'300',
+                    animation: '6',
+                    confirm: 'confirm',
+                    cancel: 'cancel',
+                    type: t
                 })
             }
         },

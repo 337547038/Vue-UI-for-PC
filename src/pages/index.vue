@@ -2,17 +2,10 @@
     <div class="hello">
         <h1>{{ msg }}</h1>
         <ul>
-            <li>
-                <router-link to="/layer">layer</router-link>
-            </li>
-            <li>
-                <router-link to="/dialog">dialog</router-link>
-            </li>
-            <li>
-                <router-link to="/carousel">carousel</router-link>
+            <li v-for="item in link">
+                <router-link :to="item">{{item}}</router-link>
             </li>
         </ul>
-
     </div>
 </template>
 
@@ -22,11 +15,13 @@
         path: '/',
         data () {
             return {
-                msg: 'Welcome to Vue.js UI for PC'
+                msg: 'Welcome to Vue.js UI for PC',
+                link: ['layer', 'dialog', 'carousel', 'select']
             }
         },
         mounted(){
-           // console.log(this.getHeight(window));
+
+            // console.log(this.getHeight(window));
         }
     }
 </script>

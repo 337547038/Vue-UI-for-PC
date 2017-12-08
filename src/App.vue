@@ -10,5 +10,5 @@
     }
 </script>
 <style lang="scss">
-   @import "sass/index.scss";
+    @import "sass/index.scss";
 </style>

@@ -8,7 +8,7 @@
     &:hover{ opacity: .8 }
   }
 }
-.demo{ margin: 50px;
+.demo{ margin: 50px auto; padding: 0 30px; max-width: 1200px;
   .list{ padding: 15px;
     li{ line-height: 30px; list-style: disc }
   }

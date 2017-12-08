@@ -1,17 +1,17 @@
 @charset "utf-8";
 @import "config";
-$height: 300px;
+$height: 360px;
 .carousel{
   height: $height; position: relative;
   .carousel-wrapper{
     height: $height;
     overflow: hidden;
     position: relative;
-    .carousel-slide{ height: $height;}
+    .carousel-slide{ height: $height; }
     &.fade{
       //淡入淡出过度
       .carousel-slide{
-        &.active{}
+        &.active{ }
       }
     }
   }
@@ -33,28 +33,28 @@ $height: 300px;
     position: absolute;
     left: 0;
     top: 50%;
-    height: 100px;
-    margin-top: -50px;
+    height: 50px;
+    margin-top: -25px;
     width: 100%;
     li{
       cursor: pointer;
-      width: 0;
-      height: 0;
+      width: 30px;
+      height: 30px;
       position: absolute;
       top: 0;
-      border-style: solid;
-      border-color: transparent;
+      border: 3px solid transparent;
+      border-top-color: #b43d3d;
+      border-right-color: #b43d3d;
       &.carousel-prev{
         left: 10%;
-        border-width: 50px 50px 50px 0;
-        border-right-color: #1DC116;
+        transform: rotate(-135deg);
       }
       &.carousel-next{
         right: 10%;
-        border-width: 50px 0 50px 50px;
-        border-left-color: #1DC116;
+        transform: rotate(45deg);
       }
       &:hover{ @include opacity(60) }
+      &.disable{ cursor: not-allowed;border-top-color: #ddd; border-right-color: #ddd; }
     }
   }
 }

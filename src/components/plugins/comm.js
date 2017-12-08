@@ -59,11 +59,13 @@ export default {
                     return document.documentElement.scrollTop || document.body.scrollTop;
                 },
                 getOffset (el) {
-                    //返回元素偏移位置
+                    //返回元素偏移位置，同时返回宽高
                     var componentRect = el.getBoundingClientRect();
                     var top = componentRect.top + (window.pageYOffset || document.documentElement.scrollTop) - (document.documentElement.clientTop || 0);
                     var left = componentRect.left + (window.pageXOffset || document.documentElement.scrollLeft) - (document.documentElement.clientLeft || 0);
-                    return {left: left, top: top};
+                    let width = el.offsetWidth;
+                    let height = el.offsetHeight;
+                    return {left: left, top: top, width: width, height: height};
                 }
             }
         });
