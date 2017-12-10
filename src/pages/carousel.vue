@@ -1,8 +1,17 @@
 <template>
     <div class="demo">
         <h1>Carousel </h1>
-        <p>&nbsp;</p>
-        <h3>淡入淡出效果</h3>
+        <h2>使用</h2>
+        <pre>
+            import {Carousel, CarouselItem} from '../components/carousel/index'
+        </pre>
+        <pre>
+            &lt;Carousel><br>
+                &lt;CarouselItem>&lt;img src="../assets/images/1.jpg">&lt;/CarouselItem><br>
+            &lt;CarouselItem>&lt;img src="../assets/images/1.jpg">&lt;/CarouselItem><br>
+            &lt;/Carousel>
+        </pre>
+        <h2>淡入淡出效果</h2>
         <Carousel className="class-name" :slideAfter="slideAfter">
             <CarouselItem><img src="../assets/images/1.jpg"></CarouselItem>
             <CarouselItem><img src="../assets/images/2.jpg"></CarouselItem>
@@ -10,7 +19,7 @@
             <CarouselItem><img src="../assets/images/4.jpg"></CarouselItem>
         </Carousel>
         <p>&nbsp;</p>
-        <h3>滑动效果</h3>
+        <h2>滑动效果</h2>
         <Carousel className="class2" animation="slide" :autoPlay="false" :loop="true">
             <CarouselItem><img src="../assets/images/3.jpg"></CarouselItem>
             <CarouselItem><img src="../assets/images/1.jpg"></CarouselItem>
@@ -18,7 +27,7 @@
             <CarouselItem>也可以是文字和图片混排</CarouselItem>
         </Carousel>
         <p>&nbsp;</p>
-        <h3>参数</h3>
+        <h3>参数Carousel</h3>
         <table class="table-1">
             <tr>
                 <th width="80">参数</th>
@@ -26,7 +35,7 @@
                 <th>说明</th>
             </tr>
             <tr>
-                <td>className</td>
+                <td>class</td>
                 <td>String</td>
                 <td></td>
             </tr>

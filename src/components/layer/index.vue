@@ -1,5 +1,5 @@
 <template>
-    <div class="layer" :class="[className,{'active':visibility}]" :style="{zIndex:zIndex}" v-if="dialog">
+    <div class="layer" :class="{'active':visibility}" :style="{zIndex:zIndex}" v-if="dialog">
         <div class="overlay" v-if="maskLayer" @click="_layerShadeClose"></div>
         <div class="layer-position" :style="layerStyle" ref="layer">
             <div class="layer-body" :class="['layer-anim-'+animation]">
@@ -28,8 +28,9 @@
         name: 'Layer',
         data () {
             return {
-                visibility: this.show,
+                visibility: this.value,
                 layerHeight: parseInt(this.height),
+                layerWidth: parseInt(this.width),
                 scrollHeight: '',
                 zIndex: '',//多层时处理层级关系
                 autoTime: '',//自动关闭时间
@@ -43,14 +44,14 @@
             });
         },
         props: {
-            show: {
+            value: {
                 //show or hide the layer
                 type: Boolean,
                 default: false
             },
             title: String,
             content: String,//内容。通过参数传进content时，则不显示组件标签中的内容
-            type: String,//两种特殊情况1:success,2:failure，仅content不为空时有效
+            type: Number,//两种特殊情况1:success,2:failure，仅content不为空时有效
             width: String,//一般情况下不需要设置，可在样式中控制
             height: String,//如果设置了高度，溢出将出现滚动条
             className: String,
@@ -107,9 +108,9 @@
                 this._layerClose();
             },
             _layerClose(){
-                //更新父组件show参数（因props是单向的，子组件修改props时不会同步到父组件）
+                //通过v-model绑定value，这里要通过触发input事件
                 this.visibility = false;
-                this.$emit('update:show', false);
+                this.$emit('input', false);
                 //清空计时器
                 clearInterval(this.clearTime);
                 //清空层级关系
@@ -156,9 +157,25 @@
                 this._autoClose();
                 //禁止body滚动
                 this._noScroll();
+                //防字体模糊，translate时如果偏移非偶数时页面字体会模糊
+                this._fontsBlurred();
                 //加载完成回调
                 //this.$emit('afterBack');
                 this.afterBack ? this.afterBack() : "";
+            },
+            _fontsBlurred(){
+                this.$nextTick(()=> {
+                    let el = this.$refs.layer;
+                    let width = this.getWidth(el);
+                    let height = parseInt(this.getHeight(el));
+                    if (height % 2 != 0) {
+                        //如果不是偶数
+                        this.layerHeight = height + 1
+                    }
+                    if (width % 2 != 0) {
+                        this.layerWidth = width + 1;
+                    }
+                });
             },
             _noScroll(){
                 document.body.style.overflow = "hidden";
@@ -218,10 +235,10 @@
                     let scrollTop = this.getScrollTop();//滚动条位置
                     let style = layer.style;
                     style.width = layerWidth + 'px';
-                    style.left = 0;
-                    style.top = 0;
-                    style.transform = 'translate(' + offSet.left + 'px,' + (offSet.top - scrollTop) + 'px)';
-                    style.webkitTransform = 'translate(' + offSet.left + 'px,' + (offSet.top - scrollTop) + 'px)';
+                    style.left = offSet.left + 'px';
+                    style.top = offSet.top - scrollTop + 'px';
+                    style.transform = 'translate(0,0)';//translate偏移非偶数时会导致字体模糊
+                    style.webkitTransform = 'translate(0,0)';
                     let x = ev.pageX - offSet.left;
                     let y = ev.pageY - offSet.top;
                     flag = true;
@@ -240,8 +257,10 @@
                             } else if (top > windowHeight - layerHeight) {
                                 top = windowHeight - layerHeight;
                             }
-                            style.transform = `translate(${left}px,${top}px)`;
-                            style.webkitTransform = `translate(${left}px,${top}px)`;
+                            style.left = left + 'px';
+                            style.top = top + 'px';
+                            //style.transform = `translate(${left}px,${top}px)`;
+                            //style.webkitTransform = `translate(${left}px,${top}px)`;
                         }
                         return false;
                     };
@@ -255,7 +274,7 @@
         },
         directives: {},
         watch: {
-            show(v){
+            value(v){
                 this.visibility = v;
                 if (v) {
                     this.$nextTick(function () {
@@ -267,7 +286,7 @@
         computed: {
             layerStyle(){
                 return {
-                    width: parseInt(this.width) + 'px',
+                    width: parseInt(this.layerWidth) + 'px',
                     height: this.layerHeight + 'px',//如果设置了高度，这个高度会根据屏幕大小发生变化
                     position: this.position
                 }

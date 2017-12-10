@@ -7,5 +7,6 @@ module.exports = {
     dialog: require('./dialog'),
     layer: require('./layer'),
     select: require('./select'),
+    tabs: require('./tabs'),
     test: require('./test')
 };

@@ -1,5 +1,5 @@
 <template>
-    <div class="carousel" :class="className">
+    <div class="carousel">
         <div class="carousel-wrapper fade" v-if="animation=='fade'" @mouseover="_mouseOver" @mouseleave="_mouseLeave">
             <slot/>
         </div>

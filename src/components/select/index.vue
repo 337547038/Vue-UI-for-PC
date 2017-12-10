@@ -1,6 +1,6 @@
 <!--Created by 337547038 on 2017/12/7.-->
 <template>
-    <div class="select-drop-down" :class="{'open':show,[className]:className}" ref="select">
+    <div class="select-drop-down" :class="{'open':show}" ref="select">
         <div class="select-control" @click="_showHide">
             <div class="input-control" :class="{'focus':show,'placeholder':placeholder,'disabled':disabled}"
                  v-text="text">
@@ -37,7 +37,6 @@
         props: {
             value: String,//通过v-model传进来
             defaultText: String,//默认显示的文本
-            className: String,
             showNum: String,//显示下拉个数，超出显示滚动条
             option: Array,//下拉选顶
             optionUrl: String,//请求数据地址，同时传了option，请求成功后会更新option
