@@ -1,5 +1,5 @@
 <!--Created by 337547038 on 2017/12/11.-->
-<script type="text/ecmascript-6">
+<script>
     export default {
         props: ['fn', 'item'],
         name: '',

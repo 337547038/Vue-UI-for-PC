@@ -2,7 +2,7 @@
 <template>
     <table class="v-table" :class="{'table-stripe':stripe,'table-border':border,'table-hover':hover}">
         <colgroup>
-            <col width="200">
+            <col v-for="item in columns" :width="item.width">
         </colgroup>
         <tbody>
         <tr v-if="showHeader">
@@ -12,13 +12,16 @@
             </th>
         </tr>
         <tr v-for="d in data" :class="{'hover':hover}">
-            <td v-for="item in columns" :style="{width:item.width}" :class="{[item.className]:item.className}">
-                <!--<div class="table-cell" :style="{width:item.width}"
+            <td v-for="item in columns" :class="{[item.className]:item.className}">
+                <div class="table-cell" :style="{width:item.width}"
                      :class="{'ellipsis':item.ellipsis,[item.align]:item.align}">
-                    {{d[item.key]}}
-                </div>-->
-                <!--<div v-html="_getContent(item.render)"></div>-->
-                <render :fn="item.render" :item="d"></render>
+                    <template v-if="item.render">
+                        <render :fn="item.render" :item="d[item.key]"></render>
+                    </template>
+                    <template v-else>
+                        {{d[item.key]}}
+                    </template>
+                </div>
             </td>
         </tr>
         </tbody>
@@ -57,11 +60,6 @@
 
         },
         methods: {
-            _getContent(c){
-                if (typeof c === 'function') {
-
-                }
-            }
         },
         computed: {},
         filters: {}
