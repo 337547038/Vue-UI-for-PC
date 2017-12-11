@@ -8,5 +8,7 @@ module.exports = {
     layer: require('./layer'),
     select: require('./select'),
     tabs: require('./tabs'),
+    loading: require('./loading'),
+    table: require('./table'),
     test: require('./test')
 };

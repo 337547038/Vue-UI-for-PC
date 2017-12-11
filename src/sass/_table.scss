@@ -1,0 +1,24 @@
+@charset "utf-8";
+.v-table{ width: 100%; border: 1px solid #ddd;
+  th, td{ border-bottom: 1px solid #ddd; text-align: left; line-height: 22px }
+  th{ background: #f8f8f9 }
+  .table-cell{ padding: 10px 10px; box-sizing: border-box; }
+  /*对齐方法，添加在td或th标签*/
+  .left{ text-align: left }
+  .right{ text-align: right }
+  .center{ text-align: center }
+  /*对于td不换行时*/
+  .ellipsis{ white-space: nowrap; text-overflow: ellipsis; overflow: hidden }
+  /*奇偶分隔*/
+  &.table-stripe{
+    tr:nth-child(odd) td{ background: #f8f8f9 }
+  }
+  /*鼠标悬停时的高亮*/
+  &.table-hover{
+    tr:hover td{ background: #eaf4fe; transition: all .5s }
+  }
+  /*显示竖向边框*/
+  &.table-border{
+    th, td{border: 1px solid #ddd; }
+  }
+}

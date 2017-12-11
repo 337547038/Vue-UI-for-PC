@@ -16,7 +16,7 @@
         data () {
             return {
                 msg: 'Welcome to Vue.js UI for PC',
-                link: ['layer', 'dialog', 'carousel', 'select','tabs']
+                link: ['layer', 'dialog', 'carousel', 'select','tabs','loading','table']
             }
         },
         mounted(){

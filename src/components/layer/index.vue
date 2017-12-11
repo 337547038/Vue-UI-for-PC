@@ -1,5 +1,5 @@
 <template>
-    <div class="layer" :class="{'active':visibility}" :style="{zIndex:zIndex}" v-if="dialog">
+    <div class="layer" :class="{'active':visibility,[className]:className}" :style="{zIndex:zIndex}" v-if="dialog">
         <div class="overlay" v-if="maskLayer" @click="_layerShadeClose"></div>
         <div class="layer-position" :style="layerStyle" ref="layer">
             <div class="layer-body" :class="['layer-anim-'+animation]">

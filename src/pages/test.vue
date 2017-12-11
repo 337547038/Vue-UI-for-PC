@@ -2,7 +2,7 @@
 <template>
     <div>
 000
-        <Test></Test>
+        <Test :render="render">132</Test>
     </div>
 </template>
 <script>
@@ -16,6 +16,12 @@
         mounted(){
         },
         components: {Test},
-        methods: {}
+        methods: {
+
+                 render:function (h,params) {
+                    return h('div','render ok')
+
+            }
+        }
     }
 </script>

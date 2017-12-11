@@ -34,6 +34,12 @@
             <TabPane label="tabs 1" name="1">
                 <p>如标签前面要带icon，这可以通过样式实现，样式能实现的优先使用样式实现了。</p>
                 <p>为tabs添加一个class，然后通过背景或是伪类添加背景图片或是字体图标</p>
+                <p>如添加class="tabs-3"</p>
+                <pre>
+                    .tabs-3 .tabs-tab:before{ content: ''; display: inline-block; vertical-align: middle; width: 15px; height: 15px; background: #f60; }<br>
+    .tabs-3 .tabs-tab:nth-child(2):before{ background: #2d8cf0 }<br>
+    .tabs-3 .tabs-tab:nth-child(3):before{ background: #4ca40b }
+                </pre>
             </TabPane>
             <TabPane label="tabs 2" name="2">this is tabs 2 content</TabPane>
             <TabPane label="tabs 3" name="3">this is tabs 3 content</TabPane>
