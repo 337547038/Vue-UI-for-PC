@@ -1,33 +1,37 @@
 <!--Created by 337547038 on 2017/12/11.-->
 <template>
-    <table class="v-table" :class="{'table-stripe':stripe,'table-border':border,'table-hover':hover}" ref="table">
-        <colgroup>
-            <col v-for="item in columns" :width="item.width">
-        </colgroup>
-        <tbody>
-        <tr v-if="showHeader">
-            <th v-for="item in columns" :class="{[item.className]:item.className}">
-                <div class="table-cell" :style="{width:item.width}" :class="{[item.align]:item.align}">
-                    <span v-text="item.title"></span>
-                    <i v-if="item.sortable" @click="_orderBy(item,$event)" class="sort"></i>
-                </div>
-            </th>
-        </tr>
-        <tr v-for="d in tableData" :class="{'hover':hover}">
-            <td v-for="item in columns" :class="{[item.className]:item.className}">
-                <div class="table-cell" :style="{width:item.width}"
-                     :class="{'ellipsis':item.ellipsis,[item.align]:item.align}">
-                    <template v-if="item.render">
-                        <render :fn="item.render" :item="d[item.key]"></render>
-                    </template>
-                    <template v-else>
-                        {{d[item.key]}}
-                    </template>
-                </div>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="table-container" :style="containerStyle" ref="tableContainer">
+        <table class="table" :class="{'table-stripe':stripe,'table-border':border,'table-hover':hover}" :style="{width:innerWidth}">
+            <colgroup>
+                <col v-for="item in columns" :width="item.width">
+            </colgroup>
+            <thead class="table-head" ref="tableHead" v-if="showHeader">
+            <tr>
+                <th v-for="item in columns" :class="{[item.className]:item.className}">
+                    <div class="table-cell" :style="{width:item.width}" :class="{[item.align]:item.align}">
+                        <span v-text="item.title"></span>
+                        <i v-if="item.sortable" @click="_orderBy(item,$event)" class="sort"></i>
+                    </div>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="d in tableData" :class="{'hover':hover}">
+                <td v-for="item in columns" :class="{[item.className]:item.className}">
+                    <div class="table-cell" :style="{width:item.width}"
+                         :class="{'ellipsis':item.ellipsis,[item.align]:item.align}">
+                        <template v-if="item.render">
+                            <render :fn="item.render" :item="d[item.key]"></render>
+                        </template>
+                        <template v-else>
+                            {{d[item.key]}}
+                        </template>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </template>
 <script>
     import render from './redner'
@@ -42,6 +46,9 @@
         props: {
             columns: Array,
             data: Array,
+            height: String,//table的高，溢出显示滚动条，表头固定
+            width:String,//最外层div的宽，
+            innerWidth:String,//里外table的宽，主要是用来显示横向滚动条，除此外一般都不需要设置
             align: String,
             hover: {//鼠标悬停时的高亮
                 type: Boolean,
@@ -62,11 +69,7 @@
         },
         components: {render},
         mounted(){
-            /*let table = this.$refs.table.rows[0];
-             let cells = table.cells.length;//有多少列
-             for (let i = 0; i < cells; i++) {
-             console.log(table.cells[i].offsetWidth);//每列的宽
-             }*/
+            this._fixedHead();
         },
         methods: {
             _orderBy(item, el){
@@ -100,9 +103,30 @@
                         return 0;
                     }
                 };
+            },
+            _fixedHead(){
+                //如果有高和表头，则固定表头
+                if (this.height && this.showHeader) {
+                    let tableContainer = this.$refs.tableContainer;
+                    tableContainer.addEventListener('scroll', this._scrollHandle.bind(this, tableContainer), false)
+                }
+            },
+            _scrollHandle(el){
+                let scrollTop = el.scrollTop;
+                let head = this.$refs.tableHead.style;
+                head.transform = `translateY(${scrollTop}px)`;
+                head.webkitTransform = `translateY(${scrollTop}px)`;
             }
         },
-        computed: {},
+        computed: {
+            containerStyle(){
+                return {
+                    overflow: 'auto',
+                    height: parseInt(this.height) + 'px',
+                    width:this.width
+                }
+            }
+        },
         filters: {},
         directives: {}
     }

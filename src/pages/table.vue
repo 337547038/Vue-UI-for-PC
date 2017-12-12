@@ -38,7 +38,16 @@
         <dateTable :columns="columns2" :data="data1"></dateTable>
         <h3>4、对数据排序</h3>
         <p>在对应的列里添加sortable="true"</p>
-        <dateTable :columns="columns3" :data="data1" test="a"></dateTable>
+        <dateTable :columns="columns3" :data="data1"></dateTable>
+        <h3>5、表头固定</h3>
+        <p>给表格指定高度即可，如：height="150"，超出高度时会动添加滚动条</p>
+        <p>注：这里表头跟内容是同一个表格，滚动时表头使用css3的translateY，不知为什么导致表头的边框显示不出来了。因此如需显示边框，则需要写到th里的div里即可，即table-cell</p>
+        <dateTable :columns="columns1" :data="data1" height="150px"></dateTable>
+        <h3>6、横向滚动条</h3>
+        <p>这其实是样式问题了，传两个宽进去即可，完全可以通过css来完成的。</p>
+        <p>width:外层div的宽</p>
+        <p>innerWidth:里层table的宽，只要比width大，即出现滚动条</p>
+        <dateTable :columns="columns1" :data="data1" height="150px" width="100%" innerWidth="140%"></dateTable>
         <h2>API</h2>
         <h3>Table</h3>
         <table class="table-1">
@@ -48,19 +57,34 @@
                 <th>说明</th>
             </tr>
             <tr>
-                <td></td>
-                <td>String</td>
-                <td>表格原生的所有属性，如width,class...</td>
-            </tr>
-            <tr>
                 <td>columns</td>
                 <td>Array</td>
-                <td>表格配置</td>
+                <td>表格配置，见下方columns API</td>
             </tr>
             <tr>
                 <td>data</td>
                 <td>Array</td>
                 <td>结构数据</td>
+            </tr>
+            <tr>
+                <td>class</td>
+                <td>String</td>
+                <td>table外层div样式名</td>
+            </tr>
+            <tr>
+                <td>width</td>
+                <td>String</td>
+                <td>table外层div的宽，需要带单位px/%</td>
+            </tr>
+            <tr>
+                <td>innerWidth</td>
+                <td>String</td>
+                <td>里外table的宽，主要是用来显示横向滚动条，除此外一般都不需要设置；需要带单位px/%</td>
+            </tr>
+            <tr>
+                <td>height</td>
+                <td>String</td>
+                <td>table的高，溢出显示滚动条，且表头固定</td>
             </tr>
             <tr>
                 <td>showHeader</td>
@@ -119,6 +143,11 @@
                 <td>ellipsis</td>
                 <td>Boolean | false</td>
                 <td>开启后，文本将不换行，超出部分显示为省略号</td>
+            </tr>
+            <tr>
+                <td>sortable</td>
+                <td>Boolean | false</td>
+                <td>对应列是否可以排序</td>
             </tr>
             <tr>
                 <td>render</td>

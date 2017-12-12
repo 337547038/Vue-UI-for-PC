@@ -1,6 +1,6 @@
 <template>
     <div class="demo">
-        <h1>Carousel </h1>
+        <h1>Carousel Demo</h1>
         <h2>使用</h2>
         <pre>
             import {Carousel, CarouselItem} from '../components/carousel/index'

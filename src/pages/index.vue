@@ -3,7 +3,7 @@
         <h1>{{ msg }}</h1>
         <ul>
             <li v-for="item in link">
-                <router-link :to="item">{{item}}</router-link>
+                <router-link :to="item.link">{{item.title}}</router-link>
             </li>
         </ul>
     </div>
@@ -15,12 +15,114 @@
         path: '/',
         data () {
             return {
-                msg: 'Welcome to Vue.js UI for PC',
-                link: ['layer', 'dialog', 'carousel', 'select','tabs','loading','table']
+                msg: 'Welcome to Vue.js@2.5 UI for PC',
+                link: [
+                    {
+                        title: 'Cascader 级联 X',
+                        link: '/cascader',
+                        intro: ''
+                    },
+                    {
+                        title: 'Carousel 跑马灯',
+                        link: '/carousel',
+                        intro: ''
+                    },
+                    {
+                        title: 'Checkbox 多选框 X',
+                        link: '/checkbox',
+                        intro: ''
+                    },
+                    {
+                        title:'Circle 进度环X',
+                        link:'/circle',
+                        intro:''
+                    },
+                    {
+                        title: 'Collapse 折叠面板 X',
+                        link: '/collapse',
+                        intro: ''
+                    },
+                    {
+                        title: 'DatePicker 日期选择 X',
+                        link: '/datePicker',
+                        intro: ''
+                    },
+                    {
+                        title: 'Dialog 对话框',
+                        link: '/dialog',
+                        intro: ''
+                    },
+                    {
+                        title: 'Form 表单 X',
+                        link: '/form',
+                        intro: ''
+                    },
+                    {
+                        title: 'Input 输入框 X',
+                        link: '/input',
+                        intro: ''
+                    },
+                    {
+                        title: 'InputNumber 数字输入框 X',
+                        link: '/inputNumber',
+                        intro: ''
+                    },
+                    {
+                        title: 'Layer 弹窗层',
+                        link: '/layer',
+                        intro: ''
+                    },
+                    {
+                        title: 'Loading 加载',
+                        link: '/loading',
+                        intro: ''
+                    },
+                    {
+                        title: 'Menu 菜单 X',
+                        link: '/menu',
+                        intro: ''
+                    },
+                    {
+                        title: 'Page 分页 X',
+                        link: '/page',
+                        intro: ''
+                    },
+                    {
+                        title: 'Radio 单选框 X',
+                        link: '/radio',
+                        intro: ''
+                    },
+                    {
+                        title: 'SelectDropDown 仿select',
+                        link: '/select',
+                        intro: ''
+                    },
+                    {
+                        title: 'Switch 开关 X',
+                        link: '/switch',
+                        intro: ''
+                    },
+                    {
+                        title: 'Table 表格',
+                        link: '/table',
+                        intro: ''
+                    },
+                    {
+                        title: 'Tabs 标签页',
+                        link: '/tabs',
+                        intro: ''
+                    },
+                    {
+                        title: 'Tooltip 文字提示 X',
+                        link: '/tooltip',
+                        intro: ''
+                    }
+                ]
+                /* link: ['layer', 'dialog', 'carousel', 'select', 'tabs', 'loading', 'table', 'page', 'menu', 'tooltip', 'collapse', 'input', 'radio', 'checkbox', 'form', 'cascader', 'switch']*/
             }
         },
         mounted(){
-
+            console.log(this.link.length);
             // console.log(this.getHeight(window));
         }
     }
@@ -30,6 +132,6 @@
 <style scoped>
     .hello{ margin: 50px }
     .hello ul{ margin: 30px }
-    .hello li{ list-style: circle; line-height: 30px; }
-    .hello li a{ font-size: 18px; }
+    .hello li{ list-style: circle; line-height: 32px; }
+    .hello li a{ font-size: 16px; }
 </style>
