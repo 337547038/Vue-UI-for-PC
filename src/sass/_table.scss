@@ -2,7 +2,14 @@
 .v-table{ width: 100%; border: 1px solid #ddd;
   th, td{ border-bottom: 1px solid #ddd; text-align: left; line-height: 22px }
   th{ background: #f8f8f9 }
-  .table-cell{ padding: 10px 10px; box-sizing: border-box; }
+  .table-cell{ padding: 10px 10px; box-sizing: border-box;
+    /*排序*/
+    .sort{ display: inline-block; vertical-align: middle; font-style: normal; cursor: pointer;
+      &:before{ content: '↑↓'; width: 20px; height: 20px; }
+      &.asc:before{ content: '↑' }
+      &.desc:before{ content: '↓' }
+    }
+  }
   /*对齐方法，添加在td或th标签*/
   .left{ text-align: left }
   .right{ text-align: right }
@@ -19,6 +26,6 @@
   }
   /*显示竖向边框*/
   &.table-border{
-    th, td{border: 1px solid #ddd; }
+    th, td{ border: 1px solid #ddd; }
   }
 }

@@ -36,6 +36,9 @@
                             });
         </pre>
         <dateTable :columns="columns2" :data="data1"></dateTable>
+        <h3>4、对数据排序</h3>
+        <p>在对应的列里添加sortable="true"</p>
+        <dateTable :columns="columns3" :data="data1" test="a"></dateTable>
         <h2>API</h2>
         <h3>Table</h3>
         <table class="table-1">
@@ -190,6 +193,25 @@
                         width: '100px',//设置单元格宽
                         className: 'col',//为单元格设置样式
                         ellipsis: true//文本不换行
+                    }
+                ],
+                columns3: [
+                    {
+                        title: 'Name',
+                        key: 'name',
+                        sortable:true
+                    },
+                    {
+                        title: 'Age',
+                        key: 'age',
+                        render: (h, v)=> {
+                            return h('div', v + '岁')
+                        },
+                        sortable:true
+                    },
+                    {
+                        title: 'Address',
+                        key: 'address'
                     }
                 ]
             }
