@@ -10,5 +10,6 @@ module.exports = {
     tabs: require('./tabs'),
     loading: require('./loading'),
     table: require('./table'),
+    inputNumber: require('./inputNumber'),
     test: require('./test')
 };

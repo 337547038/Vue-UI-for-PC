@@ -3,12 +3,12 @@
 
 .input-control{ background-color: nth($global-input, 1); border: 1px solid nth($global-input, 2); height: nth($global-input, 6); line-height: 100%; line-height: (nth($global-input, 6)) \9
 ; padding: 0 10px; width: nth($global-input, 5)- 20; overflow: hidden; color: nth($global-input, 3); font-size: nth($global-input, 4); font-family: $global-font-family; transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out 0s; //input输入类
-  //禁止输入类
-  &.disabled{ background-color: nth($global-input-event, 5); cursor: not-allowed }
   //输入错误
   &.error{ border-color: nth($global-input-event, 3); color: nth($global-input-event, 4); }
   //获取焦点
-  &.focus, &:focus{ border-color: nth($global-input-event, 1); color: nth($global-input-event, 2); box-shadow: 2px 2px 5px #ebeaea; }
+  &:focus{ border-color: nth($global-input-event, 1); color: nth($global-input-event, 2); box-shadow: 2px 2px 5px #ebeaea; }
+  //禁止输入类
+  &.disabled{ background-color: nth($global-input-event, 5); cursor: not-allowed;border-color: #ccc}
 }
 div.input-control{line-height: nth($global-input, 6)}
 
