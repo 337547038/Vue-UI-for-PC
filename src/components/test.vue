@@ -1,18 +1,21 @@
+<!--Created by 337547038 on 2017/12/12.-->
 <template>
-    <div>props:{{value}}</div>
+    <div>
+
+    </div>
 </template>
 <script>
     export default {
-        name: 'test',
-        data () {
+        name: '',
+        path: '',
+        data(){
             return {}
         },
-        props: ['value'],
-        components: {},
-        methods: {},
-        computed: {},
+        props: [],
         mounted(){
         },
-        filters: {}
+        components: {},
+        methods: {},
+        computed: {}
     }
 </script>
