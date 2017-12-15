@@ -8,9 +8,9 @@ export default {
         Vue.component(Layer.name, Layer);
         //添加全局API
         Vue.prototype.$dialog = function (options) {
-            var message = Vue.extend(Layer);
+            let message = Vue.extend(Layer);
             const propsData = Object.assign({}, options);
-            var component = new message({
+            let component = new message({
                 propsData
             }).$mount();
             component.open();

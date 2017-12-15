@@ -1,6 +1,7 @@
 <!--Created by 337547038 on 2017/12/7.-->
 <template>
     <div class="demo">
+        <comHeader/>
         <h1>Select Demo</h1>
         <h3>div仿select主要解决的问题：</h3>
         <p>主要因为各种浏览器的外观问题，及placeholder和input一致问题</p>

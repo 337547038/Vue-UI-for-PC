@@ -1,17 +1,16 @@
 <template>
     <div class="demo">
+        <comHeader/>
         <h1>Dialog Demo</h1>
         <p>&nbsp;</p>
         <h3>用法：</h3>
         <p>在main.js中引入</p>
         <pre>
-            import dialog from '../src/components/plugins/dialog'
-            Vue.use(dialog);
-        </pre>
+         import dialog from '../src/components/plugins/dialog'
+         Vue.use(dialog);</pre>
         <p>在script任意位置</p>
         <pre>
-            this.$dialog({title:"this is title"})
-        </pre>
+         this.$dialog({title:"this is title"})</pre>
         <h3>示例：</h3>
         <ul class="list">
             <li><a href="javascript:;" @click="openAlert">1、open alert</a></li>
@@ -76,7 +75,7 @@
                 this.$dialog({
                     title: t ? "success" : "failure",
                     content: 'this is content',
-                    width:'300',
+                    width: '300',
                     animation: '6',
                     confirm: 'confirm',
                     cancel: 'cancel',

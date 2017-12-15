@@ -10,5 +10,9 @@ module.exports = {
     tabs: require('./tabs'),
     loading: require('./loading'),
     table: require('./table'),
+    switch: require('./switch'),
+    page: require('./page'),
+    progress: require('./progress'),
+    collapse: require('./collapse'),
     test: require('./test')
 };

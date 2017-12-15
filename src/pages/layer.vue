@@ -1,5 +1,6 @@
 <template>
     <div class="demo">
+        <comHeader/>
         <h1>Layer Demo</h1>
         <pre>import Layer from '../components/layer/index'</pre>
         <ul class="list">

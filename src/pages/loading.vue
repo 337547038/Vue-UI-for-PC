@@ -1,14 +1,13 @@
 <!--Created by 337547038 on 2017/12/11.-->
 <template>
     <div class="demo">
+        <comHeader/>
         <h1>Dialog Demo</h1>
         <h2>使用</h2>
         <pre>
-           import Loading from '../components/loading/index'
-        </pre>
+           import Loading from '../components/loading/index'</pre>
         <pre>
-           &lt;Loading>&lt;/Loading>
-        </pre>
+           &lt;Loading>&lt;/Loading></pre>
         <h3>示例1</h3>
         <p>在需要展示loading的位置放置一个组件标签，并根据需求添加相关参数；因为loading是通过absolute定位，因此请不要忘记给loading的父元素添加relative</p>
         <div class="demo-1">

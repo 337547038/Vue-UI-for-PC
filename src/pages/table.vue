@@ -1,14 +1,13 @@
 <!--Created by 337547038 on 2017/12/11.-->
 <template>
     <div class="demo">
+        <comHeader/>
         <h1>Table Demo</h1>
         <h2>使用</h2>
         <pre>
-           import dateTable from '../components/table/index'
-        </pre>
+           import dateTable from '../components/table/index'</pre>
         <pre>
-            &lt;dateTable :columns="columns1" :data="data1">&lt;/dateTable>
-        </pre>
+           &lt;dateTable :columns="columns1" :data="data1">&lt;/dateTable></pre>
         <h3>1、基础用法</h3>
         <dateTable :columns="columns1" :data="data1"></dateTable>
         <h3>2、外观样式设置</h3>
@@ -18,23 +17,21 @@
         <dateTable :columns="columns1" :data="data1" :stripe="stripe" :border="border" :hover="hover"></dateTable>
         <h3>3、列设置</h3>
         <pre>
-            //对单元格address设置<br>
-            width:'100px',//设置单元格宽<br>
-            className:'col',//为单元格设置样式<br>
-            ellipsis:true//文本不换行<br>
-            //对age添加单位<br>
-            render: (h, v)=> {<br>
-                            return h('div', v + '岁')//会创建一个div，也可以为创建的div添加一个样式return h('div',{attrs:{className:'aa'}}, v + '岁')<br>
-                        }
-        </pre>
+            //对单元格address设置
+            width:'100px',//设置单元格宽
+            className:'col',//为单元格设置样式
+            ellipsis:true//文本不换行
+            //对age添加单位
+            render: (h, v)=> {
+                  return h('div', v + '岁')//会创建一个div，也可以为创建的div添加一个样式return h('div',{attrs:{className:'aa'}}, v + '岁')
+                        }</pre>
         <p>render其实就是编译后的写法，如果是组件则</p>
         <pre>
-             return h('Icon', {<br>
-                             props: {//props为当前组件的参数<br>
-                             type: 'person'<br>
-                              }<br>
-                            });
-        </pre>
+             return h('Icon', {
+                    props: {//props为当前组件的参数
+                       type: 'person'
+                            }
+                     });</pre>
         <dateTable :columns="columns2" :data="data1"></dateTable>
         <h3>4、对数据排序</h3>
         <p>在对应的列里添加sortable="true"</p>
@@ -228,7 +225,7 @@
                     {
                         title: 'Name',
                         key: 'name',
-                        sortable:true
+                        sortable: true
                     },
                     {
                         title: 'Age',
@@ -236,7 +233,7 @@
                         render: (h, v)=> {
                             return h('div', v + '岁')
                         },
-                        sortable:true
+                        sortable: true
                     },
                     {
                         title: 'Address',

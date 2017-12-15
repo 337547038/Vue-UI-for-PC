@@ -1,0 +1,20 @@
+@charset "utf-8";
+.collapse{ border: 1px solid #dddee1; border-radius: 3px;
+  .collapse-panel{ border-top: 1px solid #dddee1;
+    &:first-child{ border-top: 0; }
+    &.active{
+      .collapse-title:before{ transform: rotate(90deg); }
+    }
+  }
+  .collapse-title{ height: 38px; line-height: 38px; color: #666; cursor: pointer; position: relative; background: #f7f7f7;
+    &:before{ content: ''; display: inline-block; border: 5px solid transparent; border-left-color: #666; margin-left: 10px; transition: all .3s; }
+  }
+  .collapse-content{ display: none; padding: 5px 10px; overflow: hidden; animation: slideDown .5s both;
+    &.active{ display: block; }
+  }
+}
+@keyframes slideDown{
+  0%{ max-height: 0; }
+  100%{ max-height: 500px; /*设置个比较适合的高*/
+  }
+}
