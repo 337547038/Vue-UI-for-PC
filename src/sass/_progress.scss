@@ -1,0 +1,19 @@
+@charset "utf-8";
+.progress-circle{
+  position: relative; border-radius: 50%; box-sizing: border-box;
+  /*progress用作底背景色，*/
+  .circle-circle{ display: block; border-radius: 50%; box-sizing: border-box; position: absolute; overflow: hidden;
+    /*显示右半边，进度大小50%显示全部-*/
+    /*circle-left左半环，裁切显示左半边*/
+    .circle-left{ position: absolute; display: block; box-sizing: border-box; border-radius: 50%; top: 0; left: 0; }
+    /*circle-right右半环，裁切显示右半边，只有进度大于50%才显示*/
+    .circle-right{ position: absolute; right: 0; top: 0; display: block; box-sizing: border-box; border-radius: 50%; }
+  }
+  /*进度文字*/
+  .progress-text{ text-align: center; left: 50%; top: 50%; transform: translate(-50%, -50%); display: block; position: relative; font-size: 30px; }
+}
+/*直线进度*/
+.progress-line{ position: relative; border-radius: 3px;
+  .progress-bar{ position: absolute; width: 0; left: 0; top: 0; border-radius: 3px; }
+  .progress-text{ position: absolute; left: 0; top: -20px; transform: translateX(-15px) }
+}

@@ -1,18 +1,18 @@
+<!--Created by 337547038 on 2017/12/13.-->
 <template>
-    <div>props:{{value}}</div>
+    <div><a href="/">&lt;back index</a><br><br></div>
 </template>
 <script>
     export default {
-        name: 'test',
+        name: '',
         data () {
             return {}
         },
-        props: ['value'],
         components: {},
-        methods: {},
-        computed: {},
         mounted(){
         },
+        methods: {},
+        computed: {},
         filters: {}
     }
 </script>

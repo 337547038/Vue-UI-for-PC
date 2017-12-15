@@ -33,12 +33,7 @@
                         intro: ''
                     },
                     {
-                        title:'Circle 进度环X',
-                        link:'/circle',
-                        intro:''
-                    },
-                    {
-                        title: 'Collapse 折叠面板 X',
+                        title: 'Collapse 折叠面板',
                         link: '/collapse',
                         intro: ''
                     },
@@ -63,7 +58,7 @@
                         intro: ''
                     },
                     {
-                        title: 'InputNumber 数字输入框 X',
+                        title: 'InputNumber 数字输入框',
                         link: '/inputNumber',
                         intro: ''
                     },
@@ -83,9 +78,14 @@
                         intro: ''
                     },
                     {
-                        title: 'Page 分页 X',
+                        title: 'Page 分页',
                         link: '/page',
                         intro: ''
+                    },
+                    {
+                        title:'Progress 进度条',
+                        link:'/progress',
+                        intro:''
                     },
                     {
                         title: 'Radio 单选框 X',
@@ -98,7 +98,7 @@
                         intro: ''
                     },
                     {
-                        title: 'Switch 开关 X',
+                        title: 'Switch 开关',
                         link: '/switch',
                         intro: ''
                     },
@@ -110,6 +110,11 @@
                     {
                         title: 'Tabs 标签页',
                         link: '/tabs',
+                        intro: ''
+                    },
+                    {
+                        title: 'Textarea 文本框 X',
+                        link: '/textarea',
                         intro: ''
                     },
                     {

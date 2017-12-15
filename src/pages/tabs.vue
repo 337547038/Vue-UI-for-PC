@@ -1,20 +1,19 @@
 <!--Created by 337547038 on 2017/12/8.-->
 <template>
     <div class="demo">
+        <comHeader/>
         <h1>Tabs Demo</h1>
         <h2>使用：</h2>
         <p>Tabs里的value对应于TabPane里的name，用于标识当前激活的是哪一项。也可以用v-model实现双向绑定；</p>
         <h3>1.最基本用法</h3>
         <pre>
-            import {Tabs, TabPane} from '../components/tabs/index'
-        </pre>
+            import {Tabs, TabPane} from '../components/tabs/index'</pre>
         <pre>
-            &lt;Tabs value="t2"><br>
-            &lt;TabPane label="tabs 1" name="t1">this is tabs 1 content&lt;/TabPane><br>
-            &lt;TabPane label="tabs 2" name="t2">this is tabs 2 content&lt;/TabPane><br>
-            &lt;TabPane label="tabs 3" name="t3">this is tabs 3 content&lt;/TabPane><br>
-        &lt;/Tabs>
-        </pre>
+            &lt;Tabs value="t2">
+            &lt;TabPane label="tabs 1" name="t1">this is tabs 1 content&lt;/TabPane>
+            &lt;TabPane label="tabs 2" name="t2">this is tabs 2 content&lt;/TabPane>
+            &lt;TabPane label="tabs 3" name="t3">this is tabs 3 content&lt;/TabPane>
+        &lt;/Tabs></pre>
         <Tabs value="t2">
             <TabPane label="tabs 1" name="t1">this is tabs 1 content</TabPane>
             <TabPane label="tabs 2" name="t2">this is tabs 2 content</TabPane>
@@ -36,10 +35,9 @@
                 <p>为tabs添加一个class，然后通过背景或是伪类添加背景图片或是字体图标</p>
                 <p>如添加class="tabs-3"</p>
                 <pre>
-                    .tabs-3 .tabs-tab:before{ content: ''; display: inline-block; vertical-align: middle; width: 15px; height: 15px; background: #f60; }<br>
+     .tabs-3 .tabs-tab:before{ content: ''; display: inline-block; vertical-align: middle; width: 15px; height: 15px; background: #f60; }<br>
     .tabs-3 .tabs-tab:nth-child(2):before{ background: #2d8cf0 }<br>
-    .tabs-3 .tabs-tab:nth-child(3):before{ background: #4ca40b }
-                </pre>
+    .tabs-3 .tabs-tab:nth-child(3):before{ background: #4ca40b }</pre>
             </TabPane>
             <TabPane label="tabs 2" name="2">this is tabs 2 content</TabPane>
             <TabPane label="tabs 3" name="3">this is tabs 3 content</TabPane>

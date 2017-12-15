@@ -1,16 +1,15 @@
 <template>
     <div class="demo">
+        <comHeader></comHeader>
         <h1>Carousel Demo</h1>
         <h2>使用</h2>
         <pre>
-            import {Carousel, CarouselItem} from '../components/carousel/index'
-        </pre>
+            import {Carousel, CarouselItem} from '../components/carousel/index'</pre>
         <pre>
-            &lt;Carousel><br>
-                &lt;CarouselItem>&lt;img src="../assets/images/1.jpg">&lt;/CarouselItem><br>
-            &lt;CarouselItem>&lt;img src="../assets/images/1.jpg">&lt;/CarouselItem><br>
-            &lt;/Carousel>
-        </pre>
+            &lt;Carousel>
+            &lt;CarouselItem>&lt;img src="../assets/images/1.jpg">&lt;/CarouselItem>
+            &lt;CarouselItem>&lt;img src="../assets/images/1.jpg">&lt;/CarouselItem>
+            &lt;/Carousel></pre>
         <h2>淡入淡出效果</h2>
         <Carousel className="class-name" :slideAfter="slideAfter">
             <CarouselItem><img src="../assets/images/1.jpg"></CarouselItem>
