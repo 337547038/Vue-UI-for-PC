@@ -15,5 +15,6 @@ module.exports = {
     progress: require('./progress'),
     collapse: require('./collapse'),
     inputNumber: require('./inputNumber'),
+    menu: require('./menu'),
     test: require('./test')
 };

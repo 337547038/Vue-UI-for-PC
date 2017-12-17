@@ -1,0 +1,27 @@
+@charset "utf-8";
+.nav{
+  > ul{ background: none;
+    > li{ float: left; width: 120px; text-align: center; height: 30px; line-height: 30px; border-bottom: 1px solid #fff; position: relative;
+      > a{ display: block; font-size: 16px; }
+      &.active, &:hover{ border-color: #f60;
+        > a{ color: #f60; }
+      }
+      &.has-child{
+        &:before{
+          border: 5px solid transparent; display: inline-block; content: ''; border-top-color: #666; position: absolute; right: 10px; top: 40%;
+        }
+        &.show{ border-color: #f60;
+          > a{ color: #f60; }
+          &:before{ transform: rotate(180deg); border-top-color: #f60 }
+        }
+      }
+    }
+  }
+  .child{ position: absolute; left: 0; top: 31px; background: #f8f8f8; width: 100%;
+    li{
+      a{ display: block; transition: all .5s;
+        &:hover{ background: #57a3f3; color: #333 }
+      }
+    }
+  }
+}
