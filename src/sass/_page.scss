@@ -1,29 +1,29 @@
 @charset "utf-8";
 .page{
   text-align: center;
-  a{ display: inline-block; vertical-align: middle; height: 32px; min-width: 32px; line-height: 30px; margin-right: 4px; border: 1px solid #dddee1; border-radius: 4px; transition: all .5s;
+  a{ display: inline-block; vertical-align: middle; height: 32px; min-width: 32px; line-height: 30px; margin-right: 4px; border: 1px solid #dddee1; border-radius: 4px; transition: all .5s; font-family: "iconfont";
     &:hover{ border-color: #2d8cf0; color: #2d8cf0; }
     &.active{ border-color: #2d8cf0; color: #fff; background: #2d8cf0 }
     &.disabled{ border-color: #dddee1;; color: #dddee1; cursor: not-allowed }
     //上一页
-    &.prev:before{ content: '<' }
+    &.prev:before{ content: '\e69e'; transform: rotate(180deg); display: inline-block }
     //下一页
-    &.next:before{ content: '>' }
+    &.next:before{ content: '\e69e' }
     //向前页
     &.jump-prev{
-      &:before{ content: '...' }
+      &:before{ content: '\e600' }
       &:hover:before{ content: '<<' }
     }
     //向后
     &.jump-next{
-      &:before{ content: '...' }
+      &:before{ content: '\e600' }
       &:hover:before{ content: '>>' }
     }
   }
   //快速跳转
   .show-elevator{ display: inline-block; vertical-align: middle; margin-left: 5px;
-    .page-input{ border: 1px solid #dddee1; padding: 1px 7px; height: 24px; border-radius: 3px; width: 34px; box-sizing: border-box; text-align: center; margin: 0 4px;transition: all .5s;
-      &:focus{border-color: #2d8cf0; }
+    .page-input{ border: 1px solid #dddee1; padding: 1px 7px; height: 24px; border-radius: 3px; width: 34px; box-sizing: border-box; text-align: center; margin: 0 4px; transition: all .5s;
+      &:focus{ border-color: #2d8cf0; }
     }
   }
 }

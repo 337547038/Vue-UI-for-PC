@@ -73,7 +73,7 @@
                         intro: ''
                     },
                     {
-                        title: 'Menu 菜单 X',
+                        title: 'Menu 菜单',
                         link: '/menu',
                         intro: ''
                     },
@@ -88,7 +88,7 @@
                         intro:''
                     },
                     {
-                        title: 'Radio 单选框 X',
+                        title: 'Radio 单选框',
                         link: '/radio',
                         intro: ''
                     },
@@ -118,7 +118,7 @@
                         intro: ''
                     },
                     {
-                        title: 'Tooltip 文字提示 X',
+                        title: 'Tooltip 文字提示',
                         link: '/tooltip',
                         intro: ''
                     }

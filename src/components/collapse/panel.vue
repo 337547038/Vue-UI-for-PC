@@ -25,7 +25,7 @@
                 if (this.$parent.accordion) {
                     if (this.$parent.active == this.name) {
                         //已经展开时，再点一次关闭，（这里可以直接修改$parent.value）
-                        this.$parent.active = '1=1';
+                        this.$parent.active = '1=1';//随便设置个不存在的值
                     } else {
                         this.$parent.active = this.name;
                         this.$parent.change ? this.$parent.change(this.name) : "";//执行父元素方法

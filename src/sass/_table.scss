@@ -5,10 +5,10 @@
     th{ background: #f8f8f9 }
     .table-cell{ padding: 10px 10px; box-sizing: border-box;
       /*排序*/
-      .sort{ display: inline-block; vertical-align: middle; font-style: normal; cursor: pointer;
-        &:before{ content: '↑↓'; width: 20px; height: 20px; }
-        &.asc:before{ content: '↑' }
-        &.desc:before{ content: '↓' }
+      .sort{ display: inline-block; vertical-align: middle; font-style: normal; cursor: pointer; font-family: "iconfont";
+        &:before{ content: '\e87f'; display: inline-block; font-size: 16px; }
+        &.asc:before{ content: '\e767'; transform: rotate(180deg) }
+        &.desc:before{ content: '\e767' }
       }
     }
     /*对齐方法，添加在td或th标签*/

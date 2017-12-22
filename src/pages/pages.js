@@ -16,5 +16,8 @@ module.exports = {
     collapse: require('./collapse'),
     inputNumber: require('./inputNumber'),
     menu: require('./menu'),
+    tooltip: require('./tooltip'),
+    datePicker: require('./datePicker'),
+    radio: require('./radio'),
     test: require('./test')
 };

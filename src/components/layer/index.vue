@@ -4,7 +4,7 @@
         <div class="layer-position" :style="layerStyle" ref="layer">
             <div class="layer-body" :class="['layer-anim-'+animation]">
                 <div class="auto-close" v-if="autoClose>0"><span v-text="autoTime"></span>秒后自动关闭</div>
-                <a href="javascript:;" class="layer-close" v-if="showClose" @click="_close"></a>
+                <a href="javascript:;" class="layer-close icon-close" v-if="showClose" @click="_close"></a>
                 <div class="layer-header" v-text="title" :style="{cursor: move?'move':''}" ref="head"
                      v-if="title" @mousedown="_mouseDown"></div>
                 <div class="layer-scroll" :style="{height:scrollHeight}">
