@@ -1,7 +1,12 @@
-<!--Created by 337547038 on 2017/12/20.-->
+<!--Created by 337547038 on 2017/12/21.-->
+<!--
+example
+<radio v-model="true"></radio>
+-->
 <template>
     <label class="radio-box" :for="randomId">
-        <input type="radio" @change="_change" :id="randomId" :disabled="disabled" v-model="radioValue" :value="value">
+        <input type="radio" :value="vValue" @change="onChange" :disabled="disabled" :checked="vValue==modelValue" :id="randomId">
+        <span class="radio-inner"></span>
         <span class="radio-text"><slot/></span>
     </label>
 </template>
@@ -10,30 +15,50 @@
         name: 'radio',
         data(){
             return {
-                radioValue: this.value?this.value:'',
-                randomId: Math.random().toString(36).substr(2, 10)
+                radioValue: this.modelValue,
+                vValue: this.value,
+                randomId: 'id' + Math.random().toString(36).substr(2, 3)
             }
         },
+        model: {
+            prop: 'modelValue',
+            event: 'change'
+        },
         props: {
-            value: Boolean,
-            name: String,//对于组合时有用
-            checked: {
-                type: Boolean,
-                default: false
-            },
+            modelValue: {},
             disabled: {
                 type: Boolean,
                 default: false
+            },
+            value: {},
+            change: Function
+        },
+        watch: {},
+        methods: {
+            onChange(){
+                let v;
+                if (this.value) {
+                    v = this.value;
+                } else {
+                    v = this.modelValue ? this.modelValue : true;
+                }
+                this.$emit('change', v);
+                this.vValue = v;
+                this.change ? this.change(v) : ""
+            },
+            _radioValue(){
+                if (this.value) {
+                } else {
+                    if (this.modelValue) {
+                        this.vValue = this.modelValue;
+                    } else {
+                        this.$emit('change', false);
+                    }
+                }
             }
         },
         mounted(){
-        },
-        components: {},
-        methods: {
-            _change(){
-                console.log('radioValue')
-                this.$emit('input', true);
-            }
+            this._radioValue();
         },
         computed: {}
     }

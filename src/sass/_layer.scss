@@ -5,8 +5,7 @@
   .overlay{ position: fixed; background: rgba(55, 55, 55, .6); overflow: hidden; top: 0; height: 100%; right: 0; left: 0; bottom: 0; }
   .layer-position{ left: 50%; top: 50%; transform: translate(-50%, -50%); position: fixed; max-width: 1200px; min-width: 200px; z-index: 1 }
   .layer-body{ box-shadow: 1px 1px 20px rgba(0, 0, 0, .3); border-radius: 5px; background: #fff; overflow: hidden; animation-duration: 0.3s; animation-fill-mode: both; width: 100%; height: 100%; }
-  .layer-close{ display: block; position: absolute; right: 10px; top: 10px; width: 15px; height: 15px; z-index: 10;
-    &:after{ content: '✖'; position: absolute; left: 0; top: 0; display: block; color: #333; width: 100%; height: 15px; line-height: 15px; }
+  .layer-close{ display: block; position: absolute; right: 10px; top: 10px; width: 20px; height: 20px; z-index: 10; color: #333; font-size: 18px; line-height: 20px; text-align: center;
     &:hover{
       @include opacity(60);
     }
@@ -16,8 +15,8 @@
   .layer-content{ padding: 15px;
     &.layer-content-text{ text-align: center;
       .layer-text{ display: inline-block; text-align: left;
-        &.success:before{ content: ''; display: inline-block; vertical-align: middle; width: 20px; height: 20px; background: url(assets/images/success.png); background-size: 100%; margin-right: 10px; }
-        &.failure:before{ content: ''; display: inline-block; vertical-align: middle; width: 20px; height: 20px; background: url(assets/images/failure.png); background-size: 100%; margin-right: 10px; }
+        &.success:before{ content: '\e6d0'; display: inline-block; vertical-align: middle; width: 30px; height: 30px; line-height: 30px; font-size: 26px; color: #1dc116; margin-right: 10px; font-family: "iconfont" !important; }
+        &.failure:before{ content: '\e640'; display: inline-block; vertical-align: middle; width: 30px; height: 30px; line-height: 30px; font-size: 26px; color: #c11920; margin-right: 10px; font-family: "iconfont" !important; }
       }
     }
   }

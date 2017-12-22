@@ -2,12 +2,11 @@
 @import "config";
 //*需要用到input样式*/
 .select-drop-down{
-  $iconwidth: 8px; //下拉图标宽
   display: inline-block;
   position: relative;
   margin-right: 10px;
   .select-control{ position: relative;
-    &:after{ top: 6px; width: 15px; height: 15px; border: 1px solid transparent; content: ''; display: block; position: absolute; right: 10px; border-top-color: #f60; border-right-color: #f60; transition: all .2s; transform: rotate(135deg); cursor: pointer }
+    &:after{ top: 0; content: '\e69e'; display: block; position: absolute; right: 10px; @include height(38px); transition: all .2s; transform: rotate(90deg); cursor: pointer; font-family: "iconfont"; font-size: 18px; }
   }
   .drop-down{
     position: absolute;
@@ -51,7 +50,7 @@
       display: block;
     }
     .select-control{
-      &:after{ transform: rotate(-45deg); top: 18px; }
+      &:after{ transform: rotate(-90deg);}
     }
   }
   &.select-search-box{
@@ -61,18 +60,18 @@
     }
   }
 }
-@keyframes dropDown {
-  0% {
+@keyframes dropDown{
+  0%{
     max-height: 0;
     opacity: .6;
     overflow: hidden;
   }
-  99% {
+  99%{
     max-height: 300px;
     opacity: 1;
     overflow: hidden;
   }
-  100% {
+  100%{
     opacity: 1;
     overflow-x: hidden;
     overflow-y: auto;

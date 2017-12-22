@@ -3,9 +3,9 @@
     <div class="input-number">
         <input type="text" class="input-control" v-model="inputValue" :class="{'disabled':disabled}" :disabled="disabled">
         <span class="number-control" v-if="!disabled">
-            <a href="javascript:;" class="number-add" @click="_numberControl(1)"
+            <a href="javascript:;" class="icon-add" @click="_numberControl(1)"
                :class="{'disabled':inputValue>=max}"></a>
-            <a href="javascript:;" class="number-less" @click="_numberControl(-1)"
+            <a href="javascript:;" class="icon-less" @click="_numberControl(-1)"
                :class="{'disabled':inputValue<=min}"></a>
         </span>
     </div>
