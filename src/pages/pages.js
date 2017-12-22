@@ -16,5 +16,7 @@ module.exports = {
     collapse: require('./collapse'),
     inputNumber: require('./inputNumber'),
     menu: require('./menu'),
+    input: require('./input'),
+    radio: require('./radio'),
     test: require('./test')
 };
