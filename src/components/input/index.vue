@@ -1,17 +1,18 @@
 <!--Created by 337547038 on 2017/12/18.-->
 <template>
     <div class="input-box">
-        <input class="input-control" v-bind="$props" v-model="inputValue" :type="inputType" :class="{'disabled':disabled}"
+        <input class="input-control" v-bind="$props" v-model="inputValue" :type="inputType"
+               :class="{'disabled':disabled}"
                @focus="focus"
                @blur="blur"
                @keyup="keyup"
                @keydown="keydown">
         <span class="icon icon-close" v-if="icon && type=='text'" @click="inputValue=''" v-show="clearBtn"></span>
-        <span :class="['icon',{'icon-eye-open':eyeShow,'icon-eye-close':!eyeShow}]" v-if="icon && type=='password'"
+        <span :class="['icon',{'icon-eye':eyeShow,'icon-eye-close':!eyeShow}]" v-if="icon && type=='password'"
               v-show="clearBtn" @click="eyeShow=!eyeShow"></span>
     </div>
 </template>
-<script>
+<script type="text/ecmascript-6">
     export default {
         name: 'input',
         data(){
@@ -74,7 +75,10 @@
             blur(e){
                 //密码时失去焦点不隐藏，只要有值就不隐藏
                 if (this.type != 'password') {
-                    this.clearBtn = false;
+                    //失去焦点总是要比点清除要先，失焦后便隐藏了实际点不到，因此这里设个延时
+                    setTimeout(()=> {
+                        this.clearBtn = false;
+                    }, 200)
                 }
                 this.$emit('blur', e);
             },

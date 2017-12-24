@@ -17,7 +17,7 @@
       }
     }
   }
-  .child{ position: absolute; left: 0; top: 31px; background: #f8f8f8; width: 100%; animation: navSlideDown .5s;
+  .child{ position: absolute; left: 0; top: 31px; background: #f8f8f8; width: 100%; animation: navSlideDown .5s; transform-origin: center top;
     li{
       a{ display: block; transition: all .5s;
         &:hover{ background: #57a3f3; color: #333 }
@@ -54,6 +54,6 @@
   }
 }
 @keyframes navSlideDown{
-  0%{ transform: translateY(20px) scale(.5); opacity: 0 }
-  100%{ transform: translateY(0px) scale(1); opacity: 1 }
+  0%{ transform: scaleY(0); opacity: 0 }
+  100%{ transform: scale(1); opacity: 1 }
 }

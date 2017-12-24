@@ -15,7 +15,7 @@
             {{value}}
         </div>
         <div class="input">
-            <gInput placeholder="显示清空按钮" :icon="true"></gInput>
+            <gInput placeholder="显示清空按钮" :icon="true" v-model="value2"></gInput>
         </div>
         <div class="input">
             <gInput placeholder="显示清空按钮" :icon="true" value="显示清空按钮(默认有值时)"></gInput>
@@ -126,7 +126,8 @@
         path: '/input',
         data(){
             return {
-                value: 'v-model双向绑定'
+                value: 'v-model双向绑定',
+                value2:'00'
             }
         },
         props: [],

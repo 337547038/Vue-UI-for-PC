@@ -9,12 +9,17 @@
   .collapse-title{ height: 38px; line-height: 38px; color: #666; cursor: pointer; position: relative; background: #f7f7f7;
     &:before{ content: ''; display: inline-block; border: 5px solid transparent; border-left-color: #666; margin-left: 10px; transition: all .3s; }
   }
-  .collapse-content{ display: none; padding: 5px 10px; overflow: hidden; animation: slideDown .5s both;
-    &.active{ display: block; }
+  .collapse-content{ padding: 5px 10px; overflow: hidden; transform-origin: center top;
+    &.active{ }
   }
 }
-@keyframes slideDown{
-  0%{ max-height: 0; }
-  100%{ max-height: 500px; /*设置个比较适合的高*/
-  }
+.collapse-enter-active{ animation: collapseEnter .3s }
+.collapse-leave-active{ animation: collapseLeave .3s }
+@keyframes collapseEnter{
+  0%{ opacity: 0; transform: scaleY(0); }
+  100%{ opacity: 1; transform: scaleY(1); }
+}
+@keyframes collapseLeave{
+  0%{ opacity: 1; transform: scaleY(1); }
+  100%{ opacity: 0; transform: scaleY(0);display: none }
 }

@@ -1,23 +1,25 @@
 <!--Created by 337547038 on 2017/12/7.-->
 <template>
     <div class="select-drop-down" :class="{'open':show}" ref="select">
-        <div class="select-control" @click="_showHide">
+        <div class="select-control">
             <div class="input-control" :class="{'focus':show,'placeholder':placeholder,'disabled':disabled}"
                  v-text="text">
             </div>
         </div>
-        <div class="drop-down" v-show="show">
-            <div class="drop-down-border" :style="showLiNum">
-                <div class="select-search-box" v-if="showSearch" @click="_searchBoxClick">
-                    <input type="text" class="input-control" :placeholder="searchPlaceholder" v-model="keyWord">
+        <transition name="select-drop">
+            <div class="drop-down" v-show="show">
+                <div class="drop-down-border" :style="showLiNum">
+                    <div class="select-search-box" v-if="showSearch" @click="_searchBoxClick">
+                        <input type="text" class="input-control" :placeholder="searchPlaceholder" v-model="keyWord">
+                    </div>
+                    <ul>
+                        <li v-for="item in filterOptionArray" :data-value="item.value" @click="_itemClick(item,$event)"
+                            :class="{'disabled':item.disabled,'active':value==item.value}" ref="li">{{item.text}}
+                        </li>
+                    </ul>
                 </div>
-                <ul>
-                    <li v-for="item in filterOptionArray" :data-value="item.value" @click="_itemClick(item,$event)"
-                        :class="{'disabled':item.disabled,'active':value==item.value}" ref="li">{{item.text}}
-                    </li>
-                </ul>
             </div>
-        </div>
+        </transition>
     </div>
 </template>
 <script type="text/ecmascript-6">
@@ -54,21 +56,26 @@
         components: {},
         mounted(){
             this._setFirstText();
-            //注册body点击事件
-            document.body.addEventListener('click', this._bodyClick, false);
+            /*//注册body点击事件
+             document.body.addEventListener('click', this._bodyClick, false);*/
             //加载数据
             this._ajaxUrl();
+            document.addEventListener('click', this._showHide);
         },
         methods: {
             _showHide(e){
-                this.disabled == false ? this.show = !this.show : "";
-                //e.preventDefault();
-                //e.stopPropagation();
-                //清空已有搜索内容
-                this.keyWord = '';
-                this.$nextTick(()=> {
-                    this.liHeight = this.getHeight(this.$refs.li[0]);
-                });
+                if (this.$el.contains(e.target)) {
+                    this.disabled == false ? this.show = !this.show : "";
+                    //e.preventDefault();
+                    //e.stopPropagation();
+                    //清空已有搜索内容
+                    this.keyWord = '';
+                    this.$nextTick(()=> {
+                        this.liHeight = this.getHeight(this.$refs.li[0]);
+                    });
+                } else {
+                    this.show = false;
+                }
             },
             _itemClick(item, e){
                 if (!item.disabled) {
@@ -99,7 +106,7 @@
                     }
                 }
             },
-            _bodyClick(e){
+           /* _bodyClick(e){
                 //this.show ? this.show = false : "";
                 //有多个的时候点击时也要让另外已下拉的收起来
                 //这里采用判断父元素的方法
@@ -116,7 +123,7 @@
                 } else {
                     return this._findParentNode(el.parentNode, cls);
                 }
-            },
+            },*/
             _searchBoxClick(e){
                 e.stopPropagation();
             },

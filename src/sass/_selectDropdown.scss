@@ -13,7 +13,6 @@
     left: 0;
     top: nth($global-input,6)+1;
     width: 100%;
-    display: none;
     background: #fff;
     overflow-x: hidden;
     overflow-y: auto;
@@ -36,7 +35,7 @@
       border: 1px solid #f60;
       overflow-x: hidden;
       overflow-y: auto;
-      animation: dropDown .6s;
+      /*animation: dropDown .6s;*/
     }
   }
   &.open{
@@ -47,10 +46,10 @@
       color: #666;
     }
     .drop-down{
-      display: block;
+
     }
     .select-control{
-      &:after{ transform: rotate(-90deg);}
+      &:after{ transform: rotate(-90deg); }
     }
   }
   &.select-search-box{
@@ -60,20 +59,13 @@
     }
   }
 }
-@keyframes dropDown{
-  0%{
-    max-height: 0;
-    opacity: .6;
-    overflow: hidden;
-  }
-  99%{
-    max-height: 300px;
-    opacity: 1;
-    overflow: hidden;
-  }
-  100%{
-    opacity: 1;
-    overflow-x: hidden;
-    overflow-y: auto;
-  }
+.select-drop-enter-active{ animation: selectDropDown .3s; transform-origin: center top; }
+.select-drop-leave-active{ transform-origin: center top;animation: selectDropUp .3s;z-index: 99; }
+@keyframes selectDropDown{
+  0%{ opacity: 0; transform: scaleY(0); }
+  100%{ opacity: 1; transform: scaleY(1); }
+}
+@keyframes selectDropUp{
+  0%{ opacity: 1; transform: scaleY(1); }
+  100%{ opacity: 0; transform: scaleY(0); }
 }

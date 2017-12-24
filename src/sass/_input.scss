@@ -11,7 +11,7 @@
 }
 div.input-control{ line-height: nth($global-input, 6) }
 .input-box{ display: inline-block; position: relative;
-  .icon{ position: absolute; right: 10px; top: 50%; width: 20px; height: 20px; transform: translateY(-50%); border-radius: 50%; background: #ddd; display: block; z-index: 2; cursor: pointer; }
+  .icon{ position: absolute; right: 10px; top: 50%; width: 20px; height: 20px; transform: translateY(-50%); display: block; z-index: 2; cursor: pointer; font-size: 18px; line-height: 20px; }
 }
 
 

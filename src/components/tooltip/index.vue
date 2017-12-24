@@ -37,16 +37,17 @@
         components: {},
         methods: {
             _mouseEnter(){
-                //如果存在先移除，避免重复创建
-                if (this.tooltip) {
-                    clearTimeout(this.clearTime);
-                    document.body.removeChild(this.tooltip);
-                    this.tooltip = '';
+                if (!this.always) {
+                    //如果存在先移除，避免重复创建
+                    if (this.tooltip) {
+                        clearTimeout(this.clearTime);
+                        document.body.removeChild(this.tooltip);
+                        this.tooltip = '';
+                    }
+                    this._createElement();
+                    this.tooltip.addEventListener('mouseenter', this._tooltipMouseEnter, false);
+                    this.tooltip.addEventListener('mouseleave', this._tooltipMouseLeave, false);
                 }
-                this._createElement();
-                this.tooltip.addEventListener('mouseenter', this._tooltipMouseEnter, false);
-                this.tooltip.addEventListener('mouseleave', this._tooltipMouseLeave, false);
-
             },
             _createElement(){
                 //创建相关节点
@@ -117,7 +118,9 @@
                 }
             },
             _mouseLeave(){
-                this._removeChild();
+                if (!this.always) {
+                    this._removeChild();
+                }
             },
             _tooltipMouseEnter(){
                 //鼠标移到提示文字上面时，清除延时时间
@@ -129,7 +132,6 @@
             },
             _removeChild(){
                 this.clearTime = setTimeout(()=> {
-                    let el = document.querySelector('.tooltip');
                     if (this.tooltip) {
                         document.body.removeChild(this.tooltip);
                         this.tooltip = '';

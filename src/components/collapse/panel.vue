@@ -4,10 +4,12 @@
         <div class="collapse-title" @click="_control">
             <slot/>
         </div>
-        <div class="collapse-content" v-show="$parent.active==name || visibility==name"
-             :class="{'active':$parent.active==name || visibility==name}">
-            <slot name="content"></slot>
-        </div>
+        <transition name="collapse">
+            <div class="collapse-content" v-show="$parent.active==name || visibility==name"
+                 :class="{'active':$parent.active==name || visibility==name}">
+                <slot name="content"></slot>
+            </div>
+        </transition>
     </div>
 </template>
 <script>

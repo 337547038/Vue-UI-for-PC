@@ -38,7 +38,7 @@
                         intro: ''
                     },
                     {
-                        title: 'DatePicker 日期选择 X',
+                        title: 'DatePicker 日期选择',
                         link: '/datePicker',
                         intro: ''
                     },
@@ -53,7 +53,7 @@
                         intro: ''
                     },
                     {
-                        title: 'Input 输入框 X',
+                        title: 'Input 输入框',
                         link: '/input',
                         intro: ''
                     },
