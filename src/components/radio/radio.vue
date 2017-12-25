@@ -4,8 +4,8 @@ example
 <radio v-model="true"></radio>
 -->
 <template>
-    <label class="radio-box" :for="randomId">
-        <input type="radio" :value="vValue" @change="onChange" :disabled="disabled" :checked="vValue==modelValue" :id="randomId">
+    <label class="radio-box">
+        <input type="radio" :value="vValue" @change="onChange" :disabled="disabled" :checked="vValue==modelValue">
         <span class="radio-inner"></span>
         <span class="radio-text"><slot/></span>
     </label>
@@ -16,8 +16,8 @@ example
         data(){
             return {
                 radioValue: this.modelValue,
-                vValue: this.value,
-                randomId: 'id' + Math.random().toString(36).substr(2, 3)
+                vValue: this.value
+                //randomId: 'id' + Math.random().toString(36).substr(2, 3)
             }
         },
         model: {

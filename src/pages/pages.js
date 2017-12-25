@@ -20,6 +20,7 @@ module.exports = {
     tooltip: require('./tooltip'),
     datePicker: require('./datePicker'),
     radio: require('./radio'),
+    checkbox: require('./checkbox'),
     textarea: require('./textarea'),
     test: require('./test')
 };

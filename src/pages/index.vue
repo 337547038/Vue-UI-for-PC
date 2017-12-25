@@ -113,7 +113,7 @@
                         intro: ''
                     },
                     {
-                        title: 'Textarea 文本框 X',
+                        title: 'Textarea 文本框',
                         link: '/textarea',
                         intro: ''
                     },

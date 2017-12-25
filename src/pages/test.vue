@@ -11,7 +11,6 @@
 </template>
 <script>
     import Test from '../components/test.vue'
-    import t0 from '../components/1.vue'
     export default {
         name: 'test',
         path: '/test',
@@ -23,7 +22,7 @@
         props: {},
         mounted(){
         },
-        components: {Test, t0},
+        components: {Test},
         methods: {},
         computed: {}
     }

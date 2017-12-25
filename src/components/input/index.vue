@@ -3,10 +3,10 @@
     <div class="input-box">
         <input class="input-control" v-bind="$props" v-model="inputValue" :type="inputType"
                :class="{'disabled':disabled}"
-               @focus="focus"
-               @blur="blur"
-               @keyup="keyup"
-               @keydown="keydown">
+               @focus="_focus"
+               @blur="_blur"
+               @keyup="_keyup"
+               @keydown="_keydown">
         <span class="icon icon-close" v-if="icon && type=='text'" @click="inputValue=''" v-show="clearBtn"></span>
         <span :class="['icon',{'icon-eye':eyeShow,'icon-eye-close':!eyeShow}]" v-if="icon && type=='password'"
               v-show="clearBtn" @click="eyeShow=!eyeShow"></span>
@@ -59,20 +59,25 @@
             icon: {
                 type: Boolean,
                 default: false
-            }
-            //onkeyup:Function
+            },
+            focus: Function,
+            change: Function,
+            blur: Function,
+            keyup: Function,
+            keydown: Function
         },
         mounted(){
         },
         components: {},
         methods: {
-            focus(e){
+            _focus(e){
                 if (this.icon && this.inputValue) {
                     this.clearBtn = true;
                 }
                 this.$emit('focus', e);
+                this.focus ? this.focus(e) : "";
             },
-            blur(e){
+            _blur(e){
                 //密码时失去焦点不隐藏，只要有值就不隐藏
                 if (this.type != 'password') {
                     //失去焦点总是要比点清除要先，失焦后便隐藏了实际点不到，因此这里设个延时
@@ -81,12 +86,15 @@
                     }, 200)
                 }
                 this.$emit('blur', e);
+                this.blur ? this.blur(e) : "";
             },
-            keyup(e){
+            _keyup(e){
                 this.$emit('keyup', e);
+                this.keyup ? this.keyup(e) : "";
             },
-            keydown(e){
+            _keydown(e){
                 this.$emit('keydown', e);
+                this.keydown ? this.keydown(e) : "";
             }
         },
         computed: {}
