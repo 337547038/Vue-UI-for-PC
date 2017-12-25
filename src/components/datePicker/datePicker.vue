@@ -134,7 +134,8 @@
             split: {
                 type: String,
                 default: '至'
-            }
+            },
+            innerHTML: Function
         },
         components: {Calendar},
         methods: {
@@ -167,12 +168,24 @@
                 if (dt) {
                     if (dt.indexOf(this.split) != -1) {
                         time = new Date(dt.split(this.split)[0]);
+                        if (time == 'Invalid Date') {
+                            //日期不合法
+                            time = new Date();
+                        }
                         if (this.type == 'range') {
                             //双日历保存右边的初值
                             defaultValue = dt.split(this.split)[1];
+                            if (defaultValue == 'Invalid Date') {
+                                //日期不合法
+                                defaultValue = '';
+                            }
                         }
                     } else {
-                        time = new Date(dt.toString())
+                        time = new Date(dt.toString());
+                        if (time == 'Invalid Date') {
+                            //日期不合法
+                            time = new Date();
+                        }
                     }
                 } else {
                     //空
@@ -315,6 +328,7 @@
             }
         },
         mounted(){
+
         },
         filters: {}
     }

@@ -21,10 +21,9 @@
                 status: false//防止多次挂裁
             }
         },
-        watch: {
-        },
+        watch: {},
         props: {
-            value: [String,Number],
+            value: [String, Number],
             placeholder: String,
             showClear: {//显示清空
                 type: Boolean,
@@ -51,7 +50,8 @@
             split: {
                 type: String,
                 default: '至'
-            }
+            },
+            innerHTML: Function
         },
         components: {DatePicker},
         methods: {
@@ -89,7 +89,10 @@
                     },
                     format: this.format,
                     type: this.type,
-                    split:this.split
+                    split: this.split,
+                    innerHTML: (time)=> {
+                        return this.innerHTML ? this.innerHTML(time) : ""
+                    }
                 }
             }
         },

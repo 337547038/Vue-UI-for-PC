@@ -53,6 +53,17 @@
         <p>暂只支持yMd格式，年或月选择暂不支持</p>
         <DatePicker placeholder="可选2017-11-20至2017-12-20" :disabledDate="disabledDate10" type="range"
                     v-model="value12"></DatePicker>
+        <h3>13、innerHTML</h3>
+        <p>可以将特殊提示的文本插入到指定的日期里，例如假期提示</p>
+        <pre>
+            innerHTML(time){
+                let start = new Date(2017, 11, 30);
+                let end = new Date(2018, 0, 1);
+                if (time >= start && time <= end) {
+                    return '休'
+                }
+            }</pre>
+        <DatePicker placeholder="2018年元旦假期提示" v-model="value13" :innerHTML="innerHTML"></DatePicker>
         <h2>API</h2>
         <table class="table-1">
             <tr>
@@ -78,7 +89,7 @@
             <tr>
                 <td>disabledDate</td>
                 <td>Function</td>
-                <td>禁用的时间</td>
+                <td>禁用的时间，return true时将不能选择</td>
             </tr>
             <tr>
                 <td>format</td>
@@ -99,6 +110,11 @@
                 <td>split</td>
                 <td>String｜至</td>
                 <td>双日历时的分隔符，默认值也要按要求传进去</td>
+            </tr>
+            <tr>
+                <td>innerHTML</td>
+                <td>Function</td>
+                <td>可以将特殊提示的文本插入到指定的日期里</td>
             </tr>
         </table>
     </div>
@@ -123,6 +139,7 @@
                 value10: '',
                 value11: '',
                 value12: '2017-11-23至2017-12-12',
+                value13: ''
             }
         },
         props: {},
@@ -141,6 +158,13 @@
                 let max = new Date(2017, 11, 20);
                 return time < min || time > max
 
+            },
+            innerHTML(time){
+                let start = new Date(2017, 11, 30);
+                let end = new Date(2018, 0, 1);
+                if (time >= start && time <= end) {
+                    return '休'
+                }
             }
         },
         computed: {

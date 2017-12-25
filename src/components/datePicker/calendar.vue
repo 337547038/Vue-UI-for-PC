@@ -12,7 +12,9 @@
                 <a>六</a>
             </div>
             <div class="calendar-list clearfix">
-                <a v-for="item in days" v-text="item.d" :class="[_dayClass(item)]" @click="_selectDay(item,$event)"></a>
+                <a v-for="item in days" :class="[_dayClass(item)]" @click="_selectDay(item,$event)">{{item.d}}
+                    <span v-text="_innerHTML(item)" v-if="_innerHTML(item)"></span>
+                </a>
             </div>
         </div>
         <!--双日历时只需要一个年月面板-->
@@ -191,6 +193,10 @@
             _to2(v){
                 //将一位转为两位
                 return v < 10 ? '0' + parseInt(v) : v;
+            },
+            _innerHTML(item){
+                let time = new Date(item.y, item.m, item.d);
+                return this.$parent.innerHTML ? this.$parent.innerHTML(time) : ""
             }
         },
         computed: {
