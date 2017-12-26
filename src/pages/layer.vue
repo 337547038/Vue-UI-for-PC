@@ -1,6 +1,6 @@
 <template>
     <div class="demo">
-        <comHeader/>
+        <comHeader name="layer"/>
         <h1>Layer Demo</h1>
         <pre>import Layer from '../components/layer/index'</pre>
         <ul class="list">
@@ -28,10 +28,10 @@
             <p>this is content</p>
             <p>this is content</p>
         </Layer>
-        <Layer v-model="showLayer2" class="layer-1" width="500" animation="2" :maskLayer="false"
+        <Layer v-model="showLayer2" class="layer-1" width="500" :animation="2" :maskLayer="false"
                height="300">
             <p>这是一个没标题栏的弹层</p>
-            <pre>&lt;layer title="带有参数弹窗" v-model="showLayer2" class="layer-1" width="500" animation="2" :maskLayer="false" height="300"></pre>
+            <pre>&lt;layer title="带有参数弹窗" v-model="showLayer2" class="layer-1" width="500" :animation="2" :maskLayer="false" height="300"></pre>
             <p>带各种参数的弹窗，如果指定了高度时，内容溢出时则显示滚动条</p>
             <p>参数类型为布尔值时，要通过v-bind的方式绑定，默认的字符，如:maskLayer="false"</p>
             <p>this is content</p>
@@ -238,7 +238,7 @@
             </tr>
             <tr>
                 <td>animation</td>
-                <td>String | 1</td>
+                <td>Number | 1</td>
                 <td>弹层显示的css3动画，定义了8种显示动画</td>
             </tr>
         </table>

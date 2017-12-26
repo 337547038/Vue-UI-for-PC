@@ -1,7 +1,7 @@
 <!--Created by 337547038 on 2017/12/20.-->
 <template>
     <div class="demo">
-        <comHeader/>
+        <comHeader name="datePicker"/>
         <h1>DatePicker Demo</h1>
         <h2>Use</h2>
         <pre>import DatePicker from '../components/datePicker/index'</pre>

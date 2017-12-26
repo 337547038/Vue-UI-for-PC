@@ -1,4 +1,6 @@
 <!--Created by 337547038 on 2017/12/19.-->
+<!--example
+<Tooltip content="这是提示内容"><span>上左</span></Tooltip>-->
 <template>
     <div class="tooltip-box" @mouseenter="_mouseEnter" @mouseleave="_mouseLeave" ref="toolDiv">
         <slot/>

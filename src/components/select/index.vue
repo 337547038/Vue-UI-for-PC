@@ -1,4 +1,7 @@
 <!--Created by 337547038 on 2017/12/7.-->
+<!--example
+<SelectDropDown :option="option" v-model="selectValue">
+</SelectDropDown>-->
 <template>
     <div class="select-drop-down" :class="{'open':show}" ref="select">
         <div class="select-control">
@@ -6,7 +9,7 @@
                  v-text="text">
             </div>
         </div>
-        <transition name="select-drop">
+        <transition name="slide-toggle">
             <div class="drop-down" v-show="show">
                 <div class="drop-down-border" :style="showLiNum">
                     <div class="select-search-box" v-if="showSearch" @click="_searchBoxClick">

@@ -1,15 +1,19 @@
 <!--Created by 337547038 on 2017/12/17.-->
+<!--example
+<MenuNav :data="data" value="a3"></MenuNav>-->
 <template>
     <div class="nav" :class="{'nav-v':type=='v','nav-h':type=='h'}">
         <ul class="clearfix">
             <li v-for="(item,index) in data"
                 :class="{'active':item.name==value || item.name==childActive,'has-child':item.child,'hover':hoverClass==item.name || openNames.indexOf(item.name)!=-1}"
                 @mouseenter="_mouseOver(item)" @mouseleave="_mouseLeave(item)">
-                <a :href="item.href" v-text="item.title" :target="item.target" @click="_onClick(item)"></a>
+                <router-link :to="item.href" :target="item.target" @click="_onClick(item)" v-if="router" v-text="item.title"></router-link>
+                <a :href="item.href" v-text="item.title" :target="item.target" @click="_onClick(item)" v-else></a>
                 <ul class="child" v-if="item.child" v-show="hoverClass==item.name || openNames.indexOf(item.name)!=-1">
                     <li v-for="child in item.child" :class="{'active':child.name==value}">
-                        <a :href="child.href" v-text="child.title" :target="child.target"
-                           @click="_selectBack(child)"></a>
+                        <router-link :to="child.href" :target="child.target" @click="_selectBack(child)" v-if="router" v-text="child.title">
+                        </router-link>
+                        <a :href="child.href" :target="child.target" @click="_selectBack(child)" v-text="child.title" v-else></a>
                     </li>
                 </ul>
             </li>
@@ -42,6 +46,10 @@
             accordion: {
                 type: Boolean,
                 default: false
+            },
+            router: {
+                type: Boolean,
+                default: true
             },
             onSelect: Function
         },

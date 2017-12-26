@@ -1,7 +1,7 @@
 <!--Created by 337547038 on 2017/12/7.-->
 <template>
     <div class="demo">
-        <comHeader/>
+        <comHeader name="select"/>
         <h1>Select Demo</h1>
         <h3>div仿select主要解决的问题：</h3>
         <p>主要因为各种浏览器的外观问题，及placeholder和input一致问题</p>
@@ -9,13 +9,8 @@
         <p>1、页面有两个以上时，A展开时，然后点B，这时A应该要收起来</p>
         <p>&nbsp;</p>
         <h3>使用：</h3>
-        <pre>
-           import SelectDropDown from '../components/select/index'
-        </pre>
-        <pre>
-          &lt;SelectDropDown :option="option" v-model="selectValue">
-            &lt;/SelectDropDown>
-        </pre>
+        <pre>import SelectDropDown from '../components/select/index'</pre>
+        <pre>&lt;SelectDropDown :option="option" v-model="selectValue">&lt;/SelectDropDown></pre>
         <p>1、最基本使用</p>
         <p>选中值：{{selectValue}}</p>
         <div>

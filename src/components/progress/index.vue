@@ -1,4 +1,6 @@
 <!--Created by 337547038 on 2017/12/14.-->
+<!--example
+<ProgressBar :value="30" :radius="400" :border="10" color="#999" borderColor="#f60" type="line"></ProgressBar>-->
 <template>
     <div class="progress">
         <template v-if="type=='line'">

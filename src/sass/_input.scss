@@ -5,13 +5,18 @@
   //输入错误
   &.error{ border-color: nth($global-input-event, 3); color: nth($global-input-event, 4); }
   //获取焦点
-  &:focus{ border-color: nth($global-input-event, 1); color: nth($global-input-event, 2); box-shadow: 2px 2px 5px #ebeaea; }
+  &:focus,&.focus{ border-color: nth($global-input-event, 1); color: nth($global-input-event, 2); box-shadow: 2px 2px 5px #ebeaea; }
   //禁止输入类
   &.disabled{ background-color: nth($global-input-event, 5); cursor: not-allowed; border-color: #ccc }
 }
 div.input-control{ line-height: nth($global-input, 6) }
 .input-box{ display: inline-block; position: relative;
-  .icon{ position: absolute; right: 10px; top: 50%; width: 20px; height: 20px; transform: translateY(-50%); display: block; z-index: 2; cursor: pointer; font-size: 18px; line-height: 20px; }
+  span{ position: absolute; right: 10px; top: 50%; width: 20px; height: 20px; transform: translateY(-50%); display: block; z-index: 2; cursor: pointer; font-size: 18px; line-height: 20px; }
+  .icon-close{ display: none }
+  &:hover{
+    .icon-close{ display: block; }
+  }
+  .eye-icon{ right: 40px; font-size: 22px; }
 }
 
 

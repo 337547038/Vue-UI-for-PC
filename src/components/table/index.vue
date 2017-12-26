@@ -1,4 +1,6 @@
 <!--Created by 337547038 on 2017/12/11.-->
+<!--example
+<dateTable :columns="columns1" :data="data1"></dateTable>-->
 <template>
     <div class="table-container" :style="containerStyle" ref="tableContainer">
         <table class="table" :class="{'table-stripe':stripe,'table-border':border,'table-hover':hover}" :style="{width:innerWidth}">

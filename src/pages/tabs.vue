@@ -1,7 +1,7 @@
 <!--Created by 337547038 on 2017/12/8.-->
 <template>
     <div class="demo">
-        <comHeader/>
+        <comHeader name="tabs"/>
         <h1>Tabs Demo</h1>
         <h2>使用：</h2>
         <p>Tabs里的value对应于TabPane里的name，用于标识当前激活的是哪一项。也可以用v-model实现双向绑定；</p>
@@ -9,11 +9,11 @@
         <pre>
             import {Tabs, TabPane} from '../components/tabs/index'</pre>
         <pre>
-            &lt;Tabs value="t2">
+         &lt;Tabs value="t2">
             &lt;TabPane label="tabs 1" name="t1">this is tabs 1 content&lt;/TabPane>
             &lt;TabPane label="tabs 2" name="t2">this is tabs 2 content&lt;/TabPane>
             &lt;TabPane label="tabs 3" name="t3">this is tabs 3 content&lt;/TabPane>
-        &lt;/Tabs></pre>
+         &lt;/Tabs></pre>
         <Tabs value="t2">
             <TabPane label="tabs 1" name="t1">this is tabs 1 content</TabPane>
             <TabPane label="tabs 2" name="t2">this is tabs 2 content</TabPane>

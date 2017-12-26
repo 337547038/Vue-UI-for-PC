@@ -1,4 +1,10 @@
 <!--Created by 337547038 on 2017/12/8.-->
+<!--example
+<Tabs value="t2">
+    <TabPane label="tabs 1" name="t1">this is tabs 1 content</TabPane>
+    <TabPane label="tabs 2" name="t2">this is tabs 2 content</TabPane>
+    <TabPane label="tabs 3" name="t3">this is tabs 3 content</TabPane>
+</Tabs>-->
 <template>
     <div class="tabs">
         <div class="tabs-nav clearfix">

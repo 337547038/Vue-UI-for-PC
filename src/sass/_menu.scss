@@ -1,12 +1,12 @@
 @charset "utf-8";
 .nav-h{
   > ul{ background: none;
-    > li{ float: left; width: 120px; text-align: center; height: 30px; line-height: 30px; border-bottom: 1px solid #fff; position: relative;
+    > li{ float: left; width: 120px; text-align: center; height: 30px; line-height: 30px; border-bottom: 1px solid #fff; position: relative;z-index: 99;
       > a{ display: block; font-size: 16px; }
       &.active, &:hover{ border-color: #f60;
         > a{ color: #f60; }
       }
-      &.has-child{
+      &.has-child{ z-index: 100;
         &:before{
           display: inline-block; content: '\e69e'; position: absolute; right: 10px; top: 0; transition: all .5s; font-size: 16px; font-family: "iconfont"; transform: rotate(90deg);
         }

@@ -1,3 +1,8 @@
+<!--example
+<Carousel>
+    <CarouselItem><img src="../assets/images/1.jpg"></CarouselItem>
+    <CarouselItem><img src="../assets/images/1.jpg"></CarouselItem>
+</Carousel>-->
 <template>
     <div class="carousel">
         <div class="carousel-wrapper fade" v-if="animation=='fade'" @mouseover="_mouseOver" @mouseleave="_mouseLeave">

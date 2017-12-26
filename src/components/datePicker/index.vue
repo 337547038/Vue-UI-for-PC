@@ -1,4 +1,6 @@
 <!--Created by 337547038 on 2017/12/20.-->
+<!--example
+<DatePicker v-model="value"></DatePicker>-->
 <template>
     <div class="date-picker-input" :class="{'date-picker-clear':value&&showClear}">
         <input type="text" :placeholder="placeholder" class="input-control" :class="{'disabled':disabled}" @click=""

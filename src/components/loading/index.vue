@@ -1,4 +1,10 @@
 <!--Created by 337547038 on 2017/12/11.-->
+<!--example
+<Loading></Loading> or
+this.$loading({
+className: 'abc',
+maskLayer:true
+});-->
 <template>
     <div class="loading" v-if="active" :class="className" :style="{position:position?'fixed':''}">
         <div class="overlay" v-if="maskLayer"></div>

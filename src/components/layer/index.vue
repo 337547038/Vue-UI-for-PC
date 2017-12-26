@@ -92,9 +92,9 @@
                 default: true
             },
             animation: {
-                //弹出层css3动画效果，仅在支持的浏览器，默认为1。动画序号对应animation样式的layer-anim-**
-                type: String,
-                default: "1"
+                //弹出层css3动画效果，默认为1。
+                type: Number,
+                default: 1
             }
         },
         methods: {

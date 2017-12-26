@@ -4,7 +4,7 @@ example
 <radio v-model="true"></radio>
 -->
 <template>
-    <label class="radio-box">
+    <label class="radio-box" :class="{'checked':vValue==modelValue,'disabled':disabled}">
         <input type="radio" :value="vValue" @change="onChange" :disabled="disabled" :checked="vValue==modelValue">
         <span class="radio-inner"></span>
         <span class="radio-text"><slot/></span>

@@ -1,7 +1,7 @@
 <!--Created by 337547038 on 2017/12/24.-->
 <template>
     <div class="demo">
-        <comHeader/>
+        <comHeader name="textarea"/>
         <h1>TextArea Demo</h1>
         <h2>Use</h2>
         <pre>import gTextArea from '../components/textarea/index'</pre>

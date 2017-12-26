@@ -22,5 +22,7 @@ module.exports = {
     radio: require('./radio'),
     checkbox: require('./checkbox'),
     textarea: require('./textarea'),
+    cascader: require('./cascader'),
+    form: require('./form'),
     test: require('./test')
 };

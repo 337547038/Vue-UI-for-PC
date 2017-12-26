@@ -1,6 +1,6 @@
 <template>
     <div class="demo">
-        <comHeader/>
+        <comHeader name="dialog"/>
         <h1>Dialog Demo</h1>
         <p>&nbsp;</p>
         <h3>用法：</h3>
@@ -49,14 +49,14 @@
             openAlert2(){
                 this.$dialog({
                     content: 'this is content',
-                    animation: '5'
+                    animation: 5
                 })
             },
             openAlert3(){
                 this.$dialog({
                     title: "callBack",
                     content: 'this is content',
-                    animation: '6',
+                    animation: 6,
                     confirm: 'confirm',
                     cancel: 'cancel',
                     confirmBack(){
@@ -76,7 +76,7 @@
                     title: t ? "success" : "failure",
                     content: 'this is content',
                     width: '300',
-                    animation: '6',
+                    animation: 6,
                     confirm: 'confirm',
                     cancel: 'cancel',
                     type: t

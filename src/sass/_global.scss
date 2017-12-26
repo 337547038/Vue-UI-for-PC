@@ -32,6 +32,9 @@ table{ border-collapse: collapse; border-spacing: 0; width: 100%; }
 //去掉ie文本框的叉叉和密码输入框的眼睛图标（兼容模式不管用）
 ::-ms-clear, ::-ms-reveal{ display: none; }
 //********************内容主容器*********************************/
+/*transition通用下拉动画*/
+.slide-toggle-enter-active{ animation: slideDown .3s; transform-origin: center top }
+.slide-toggle-leave-active{ animation: slideUp .3s; transform-origin: center top }
 @keyframes slideDown{
   0%{ opacity: 0; transform: scaleY(0); }
   100%{ opacity: 1; transform: scaleY(1); }

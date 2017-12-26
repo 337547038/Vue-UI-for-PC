@@ -1,7 +1,7 @@
 <!--Created by 337547038 on 2017/12/11.-->
 <template>
     <div class="demo">
-        <comHeader/>
+        <comHeader name="loading"/>
         <h1>Dialog Demo</h1>
         <h2>使用</h2>
         <pre>

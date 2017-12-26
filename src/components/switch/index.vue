@@ -1,4 +1,6 @@
 <!--Created by 337547038 on 2017/12/13.-->
+<!--example
+<Switch v-model="checked"></Switch>-->
 <template>
     <span class="switch" @click="_click" :class="{'switch-checked':checked,'disabled':disabled}">
         <i class="switch-inner">

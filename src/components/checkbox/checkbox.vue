@@ -1,7 +1,11 @@
 <!--Created by 337547038 on 2017/12/25.-->
+<!--example
+<Checkbox v-model="value">text</Checkbox> or
+<Checkbox v-model="value" text='text'></Checkbox>
+-->
 <template>
-    <label class="checkbox-box">{{checkboxValue}}
-        <input type="checkbox" :disabled="disabled" v-model="checkboxValue">
+    <label class="checkbox-box" :class="{'checked':checkboxValue,'disabled':disabled}">
+        <input type="checkbox" :disabled="disabled" v-model="checkboxValue" :name="name">
         <span class="checkbox-inner"></span>
         <span class="checkbox-text" v-if="text" v-text="text"></span>
         <span class="checkbox-text" v-else><slot></slot></span>
@@ -17,26 +21,22 @@
         },
         watch: {
             checkboxValue(val){
-                //val只有true和false，
-                //修改为选中时返回value的值，value没值时返回v-model的值
-                //没选中时v-model为布尔值是返回false，为字符中返回空
+                //val=true，有value返回value值，没value返回true
+                //val=false，返回false
                 let newValue;
                 if (val) {
-
+                    newValue = this.value ? this.value : true
                 } else {
-
+                    newValue = this.value ? '' : false
                 }
-                //有值时，选中状态返回设定的值
-                /*if (this.value) {
-                 v = v ? this.value : ''
-                 }*/
-                this.$emit('change', newValue);
-                //this.change ? this.change(v) : "";
+                this.$emit('input', newValue);
+                //回调时同时返回一个value时，不管有没选中，主要用在组里
+                this.change ? this.change(newValue, this.value) : "";
             }
         },
         model: {
             prop: 'modelValue',
-            event: 'change'
+            event: 'input'
         },
         props: {
             disabled: {
@@ -46,6 +46,7 @@
             text: String,
             modelValue: {},
             value: String,
+            name: String,
             change: Function
         },
         components: {},

@@ -1,7 +1,7 @@
 <!--Created by 337547038 on 2017/12/18.-->
 <template>
     <div class="demo">
-        <comHeader/>
+        <comHeader name="input"/>
         <h1>Input Demo</h1>
         <h2>Use</h2>
         <pre>import Input from '../components/input/index'</pre>
@@ -15,10 +15,10 @@
             {{value}}
         </div>
         <div class="input">
-            <gInput placeholder="显示清空按钮" :icon="true" v-model="value2"></gInput>
+            <gInput placeholder="显示清空按钮" :clearIcon="true" v-model="value2"></gInput>
         </div>
         <div class="input">
-            <gInput placeholder="显示清空按钮" :icon="true" value="显示清空按钮(默认有值时)"></gInput>
+            <gInput placeholder="显示清空按钮" :clearIcon="true" value="显示清空按钮(默认有值时)"></gInput>
         </div>
         <div class="input">
             <gInput placeholder="disabled" :disabled="true"></gInput>
@@ -27,10 +27,10 @@
             <gInput placeholder="readonly" :readonly="true"></gInput>
         </div>
         <div class="input">
-            <gInput placeholder="请输入密码" :icon="true" value="请输入密码" type="password"></gInput>
+            <gInput placeholder="请输入密码" :clearIcon="true" :showEye="true" value="请输入密码" type="password"></gInput>
         </div>
         <div class="input">
-            <gInput placeholder="请输入密码" :icon="true" type="password"></gInput>
+            <gInput placeholder="请输入密码" :clearIcon="true" :showEye="true" type="password"></gInput>
         </div>
         <div class="input">
             <gInput placeholder="获得焦点事件(控制台输出)" @focus="_focus"></gInput>
@@ -87,9 +87,14 @@
                 <td>最大长度</td>
             </tr>
             <tr>
-                <td>icon</td>
+                <td>clearIcon</td>
                 <td>Boolean｜false</td>
-                <td>text显示清除按钮，密码框时显示眼睛，点击可显示密码</td>
+                <td>显示清空按钮</td>
+            </tr>
+            <tr>
+                <td>showEye</td>
+                <td>Boolean｜true</td>
+                <td>密码框显示眼睛，可切换为明文密码</td>
             </tr>
             <tr>
                 <td>input</td>

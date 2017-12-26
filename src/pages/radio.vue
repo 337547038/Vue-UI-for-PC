@@ -1,7 +1,7 @@
 <!--Created by 337547038 on 2017/12/21.-->
 <template>
     <div class="demo">
-        <comHeader/>
+        <comHeader name="radio"/>
         <h1>Radio Demo</h1>
         <h2>Use</h2>
         <pre>import {Radio,RadioGroup} from '../components/radio/index'</pre>

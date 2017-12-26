@@ -1,7 +1,7 @@
 <!--Created by 337547038 on 2017/12/13.-->
 <template>
     <div class="demo">
-        <comHeader/>
+        <comHeader name="page"/>
         <h1>Page Demo</h1>
         <h2>使用</h2>
         <pre>import Page from '../components/page/index'</pre>

@@ -1,6 +1,7 @@
 <!--Created by 337547038 on 2017/12/14.-->
 <template>
     <div class="demo">
+        <comHeader name="inputNumber"/>
         <h1>InputNumber Demo</h1>
         <h2>使用</h2>
         <pre>import InputNumber from '../components/inputNumber/index'</pre>

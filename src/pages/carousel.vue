@@ -1,6 +1,6 @@
 <template>
     <div class="demo">
-        <comHeader></comHeader>
+        <comHeader name="carousel"/>
         <h1>Carousel Demo</h1>
         <h2>使用</h2>
         <pre>

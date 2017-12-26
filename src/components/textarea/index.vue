@@ -1,4 +1,6 @@
 <!--Created by 337547038 on 2017/12/24.-->
+<!--example
+<gTextArea placeholder="placeholder" v-model="value"></gTextArea>-->
 <template>
     <textarea class="textarea-control" v-model="textValue" ref="text" @focus="_focus" @input="_change" @blur="_blur"
               @keyup="_keyup" @keydown="_keydown" :style="style"></textarea>

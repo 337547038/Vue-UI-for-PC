@@ -18,17 +18,17 @@
                 msg: 'Welcome to Vue.js@2.5 UI for PC',
                 link: [
                     {
-                        title: 'Cascader 级联 X',
-                        link: '/cascader',
-                        intro: ''
-                    },
-                    {
                         title: 'Carousel 跑马灯',
                         link: '/carousel',
                         intro: ''
                     },
                     {
-                        title: 'Checkbox 多选框 X',
+                        title: 'Cascader 级联 X',
+                        link: '/cascader',
+                        intro: ''
+                    },
+                    {
+                        title: 'Checkbox 多选框',
                         link: '/checkbox',
                         intro: ''
                     },

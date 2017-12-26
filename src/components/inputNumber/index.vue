@@ -1,4 +1,6 @@
 <!--Created by 337547038 on 2017/12/14.-->
+<!--example
+<InputNumber v-model="value" :max="10"></InputNumber>-->
 <template>
     <div class="input-number">
         <input type="text" class="input-control" v-model="inputValue" :class="{'disabled':disabled}" :disabled="disabled">

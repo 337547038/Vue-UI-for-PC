@@ -1,7 +1,7 @@
 <!--Created by 337547038 on 2017/12/15.-->
 <template>
     <div class="demo">
-        <comHeader/>
+        <comHeader name="collapse"/>
         <h1>Collapse Demo</h1>
         <h2>使用</h2>
         <pre>import {Collapse, Panel} from '../components/collapse/'</pre>

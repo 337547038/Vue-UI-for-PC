@@ -1,7 +1,7 @@
 <!--Created by 337547038 on 2017/12/17.-->
 <template>
     <div class="demo">
-        <comHeader/>
+        <comHeader name="menu"/>
         <h1>Menu Demo</h1>
         <h2>使用</h2>
         <pre>import MenuNav from '../components/menu/index'</pre>
@@ -61,6 +61,11 @@
                 <td>Function</td>
                 <td>点击回调，有跳转地址时没有回调，因点击后是跳到对应页面去了</td>
             </tr>
+            <tr>
+                <td>router</td>
+                <td>Boolean｜true</td>
+                <td>使用路由地址</td>
+            </tr>
         </table>
         <h3>data</h3>
         <table class="table-1">
@@ -87,7 +92,7 @@
             <tr>
                 <td>name</td>
                 <td>String</td>
-                <td>菜单项的唯一标识，不填写为当前数组序号</td>
+                <td>菜单项的唯一标识</td>
             </tr>
             <tr>
                 <td>child</td>
@@ -107,13 +112,16 @@
                 data: [
                     {title: '首页', href: '/', name: 'a1'},
                     {title: '产品中心', href: 'test/product.html', name: 'a2'},
-                    {title: '关于我们', href: '', name: 'a3'},
+                    {title: '关于我们', href: 'javascript:;', name: 'a3'},
                     {title: '联系我们', href: 'javascript:;', name: 'a4'}
                 ],
                 data2: [
                     {title: '首页', href: '/', name: 'a1'},
                     {
-                        title: '产品中心', href: 'test/product.html', name: 'a2', child: [{title: '子菜单'}, {title: '子菜单2'}]
+                        title: '产品中心',
+                        href: 'test/product.html',
+                        name: 'a2',
+                        child: [{title: '子菜单', href: 'javascript:;'}, {title: '子菜单2', href: 'javascript:;'}]
                     },
                     {title: '关于我们', href: 'javascript:;', name: 'a3'},
                     {
@@ -127,12 +135,15 @@
                 data3: [
                     {title: '首页', href: '/', name: 'a1'},
                     {
-                        title: '产品中心', name: 'a2', child: [{title: '子菜单',name:'a21'}, {title: '子菜单2',name:'a23'}]
+                        title: '产品中心', name: 'a2', href: 'javascript:;', child: [
+                        {title: '子菜单', href: 'javascript:;', name: 'a21'},
+                        {title: '子菜单2', name: 'a23', href: 'javascript:;'}
+                    ]
                     },
                     {title: '关于我们', href: 'javascript:;', name: 'a3'},
                     {
                         title: '联系我们', href: 'javascript:;', name: 'a4', child: [
-                        {title: '联系地址1', href: 'javascript:;',name:'a41'},
+                        {title: '联系地址1', href: 'javascript:;', name: 'a41'},
                         {title: '联系地址2', href: 'javascript:;', name: 'a6'},
                         {title: '联系地址2', href: 'javascript:;', name: 'a7'}
                     ]

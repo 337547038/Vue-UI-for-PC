@@ -1,4 +1,6 @@
 <!--Created by 337547038 on 2017/12/13.-->
+<!--example
+<Page :total="100"></Page>-->
 <template>
     <div class="page">
         <slot/>
