@@ -2,18 +2,26 @@
 <template>
     <div class="demo">
         <comHeader name="form"/>
-        <p>开发中</p>
+        <FormItem label="名称" labelClass="icon-user" class="auto-height">
+            <gInput v-model="v1"></gInput>
+        </FormItem>
+
     </div>
 </template>
 <script>
+    import gForm from '../components/form/form'
+    import FormItem from '../components/form/formItem'
+    import gInput from '../components/input/index'
     export default {
         name: 'form',
-        path:"/form",
+        path: "/form",
         data () {
-            return {}
+            return {
+                v1: ""
+            }
         },
         props: {},
-        components: {},
+        components: {gForm, FormItem, gInput},
         methods: {},
         computed: {},
         mounted(){
