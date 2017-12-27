@@ -3,7 +3,8 @@
     <div class="demo">
         <comHeader name="cascader"/>
         <h1>Cascader Demo</h1>
-        <Cascader></Cascader>
+        <Cascader tipsText="请选择新地址" v-model="value" :split="split"></Cascader>
+        {{value}}
     </div>
 </template>
 <script>
@@ -12,7 +13,11 @@
         name: 'cascader',
         path: '/cascader',
         data () {
-            return {}
+            return {
+                value: ['广东', '广州市', '天河区'],
+                selectText: ['请选择1', '请选择2', '请选择3'],
+                split: ['省', '', '']
+            }
         },
         props: {},
         components: {Cascader},

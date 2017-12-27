@@ -15,7 +15,7 @@
     width: 100%;
     background: #fff;
     overflow-x: hidden;
-    overflow-y: auto;
+    overflow-y: auto; z-index: 100;
     li{
       line-height: 30px;
       padding-left: 10px;
