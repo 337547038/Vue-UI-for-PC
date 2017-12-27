@@ -21,8 +21,9 @@
   h2{ font-size: 18px; margin: 10px 0; font-weight: 700 }
   h3{ font-size: 16px; margin: 10px 0; font-weight: 700 }
   .comm-header{ position: absolute; right: 30px; top: 0;
-    .nav-h > ul > li{ width: 200px; text-align: left;
+    .nav-h > ul > li{ width: 220px; text-align: left;
       a{padding-left: 20px; }
     }
+    .nav-h .child{height: 500px;overflow-y: auto}
   }
 }

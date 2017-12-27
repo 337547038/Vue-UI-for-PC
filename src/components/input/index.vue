@@ -58,7 +58,7 @@
             },
             showEye: {
                 type: Boolean,
-                default: true
+                default: false
             },
             name: String,
             focus: Function,

@@ -16,9 +16,14 @@
       }
     }
     .cascader-area{ clear: both; padding: 10px 5px 5px; overflow: hidden;
-      li{ float: left; width: 85px; overflow: hidden;
-        a{ font-size: 12px; color: #666; }
+      li{ float: left; width: 85px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; padding-right: 3px; box-sizing: border-box;
+        a{ cursor: pointer; font-size: 12px; color: #666;
+          &:hover{ color: #f60 }
+        }
       }
     }
   }
 }
+
+.abc{font-size: 12px}
+[data-dpr="3"] .abc{font-size: 36px}

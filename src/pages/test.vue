@@ -12,10 +12,16 @@
                 </transition>
             </div>
         </transition>
+
+        <formItem>
+            <vInput></vInput>
+        </formItem>
     </div>
 
 </template>
 <script>
+    import vInput from '../components/input/index'
+    import formItem from '../components/form/formItem'
     import Test from '../components/test.vue'
     export default {
         name: 'test',
@@ -28,7 +34,7 @@
         props: {},
         mounted(){
         },
-        components: {Test},
+        components: {Test,vInput, formItem},
         methods: {},
         computed: {}
     }

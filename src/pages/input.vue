@@ -93,7 +93,7 @@
             </tr>
             <tr>
                 <td>showEye</td>
-                <td>Boolean｜true</td>
+                <td>Boolean｜false</td>
                 <td>密码框显示眼睛，可切换为明文密码</td>
             </tr>
             <tr>
