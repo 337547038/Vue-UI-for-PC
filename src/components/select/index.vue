@@ -5,7 +5,7 @@
 <template>
     <div class="select-drop-down" :class="{'open':show}" ref="select">
         <div class="select-control">
-            <div class="input-control" :class="{'focus':show,'placeholder':placeholder,'disabled':disabled}"
+            <div class="input-control" :class="{'focus':show,'placeholder':showPlaceholder,'disabled':disabled}"
                  v-text="text">
             </div>
         </div>
@@ -33,15 +33,15 @@
             return {
                 show: false,
                 optionArray: this.option,//下拉数据列表
-                placeholder: true,
-                text: this.defaultText,//默认显示的项
+                showPlaceholder: this.placeholder ? true : false,
+                text: this.placeholder,//默认显示的项
                 keyWord: '',
                 liHeight: ''//li高度
             }
         },
         props: {
             value: String,//通过v-model传进来
-            defaultText: String,//默认显示的文本
+            placeholder: String,//默认显示的文本
             showNum: String,//显示下拉个数，超出显示滚动条
             option: Array,//下拉选顶
             optionUrl: String,//请求数据地址，同时传了option，请求成功后会更新option
@@ -87,6 +87,7 @@
                     this.text = item.text;
                     this.show = false;
                     this.onChange ? this.onChange(item) : "";
+                    this.showPlaceholder = false;
                 }
                 e.stopPropagation();
             },
@@ -97,36 +98,36 @@
                         if (this.optionArray[i].value == this.value) {
                             this.text = this.optionArray[i].text;
                             //有值时去掉placeholder样式
-                            this.placeholder = false;
+                            this.showPlaceholder = false;
                             break;
                         }
                     }
                 } else {
-                    if (!this.defaultText) {
+                    if (!this.placeholder) {
                         this.text = this.optionArray[0].text;
                         //有值时去掉placeholder样式
-                        this.placeholder = false;
+                        this.showPlaceholder = false;
                     }
                 }
             },
-           /* _bodyClick(e){
-                //this.show ? this.show = false : "";
-                //有多个的时候点击时也要让另外已下拉的收起来
-                //这里采用判断父元素的方法
-                var a = this._findParentNode(e.target, 'select-drop-down');
-                if (a !== this.$refs.select) {
-                    this.show = false;
-                }
-            },
-            _findParentNode(el, cls){
-                if (el.nodeName.toUpperCase() === "BODY") {
-                    return false
-                } else if (el.className.search(cls) > -1) {
-                    return el
-                } else {
-                    return this._findParentNode(el.parentNode, cls);
-                }
-            },*/
+            /* _bodyClick(e){
+             //this.show ? this.show = false : "";
+             //有多个的时候点击时也要让另外已下拉的收起来
+             //这里采用判断父元素的方法
+             var a = this._findParentNode(e.target, 'select-drop-down');
+             if (a !== this.$refs.select) {
+             this.show = false;
+             }
+             },
+             _findParentNode(el, cls){
+             if (el.nodeName.toUpperCase() === "BODY") {
+             return false
+             } else if (el.className.search(cls) > -1) {
+             return el
+             } else {
+             return this._findParentNode(el.parentNode, cls);
+             }
+             },*/
             _searchBoxClick(e){
                 e.stopPropagation();
             },

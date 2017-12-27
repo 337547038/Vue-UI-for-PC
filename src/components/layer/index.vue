@@ -164,6 +164,7 @@
                 this.afterBack ? this.afterBack() : "";
             },
             _fontsBlurred(){
+                //字体模糊处理
                 this.$nextTick(()=> {
                     let el = this.$refs.layer;
                     let width = this.getWidth(el);

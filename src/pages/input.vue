@@ -147,7 +147,6 @@
                 console.log(e)
             },
             _input(e){
-                //todo 这input与其它的不太一致，直接就可以用？
                 console.log(e)
             },
             _keyup(e){

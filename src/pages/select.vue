@@ -19,7 +19,7 @@
         </div>
         <p>2、带有默认首选项时</p>
         <div>
-            <SelectDropDown :option="option" defaultText="请选择">
+            <SelectDropDown :option="option" placeholder="请选择">
             </SelectDropDown>
         </div>
         <p>3、带搜索选项</p>
@@ -62,9 +62,9 @@
                 <td>选中值，通过v-model=""传参</td>
             </tr>
             <tr>
-                <td>defaultText</td>
+                <td>placeholder</td>
                 <td>String | null</td>
-                <td>默认显示的文本值，当v-model为空时，否则显示value对应的选项；v-model和defaultText都为空时显示列表的第一项</td>
+                <td>相当于input的placeholder，当value为空时显示；value不为空时显示对应的选项；value和placeholder都为空时显示列表的第一项</td>
             </tr>
             <tr>
                 <td>class</td>
@@ -126,7 +126,7 @@
                     {text: '选项8', value: '8'},
                     {text: '选项9', value: '9'}
                 ],
-                selectValue: '',
+                selectValue: '8',
                 onChangeText: ''
             }
         },

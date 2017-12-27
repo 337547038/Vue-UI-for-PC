@@ -1,7 +1,7 @@
 <!--Created by 337547038 on 2017/12/26.-->
 <template>
     <div class="cascader-box">
-        <div class="input-control" :class="{'focus':show,'placeholder':placeholder,'disabled':disabled}"
+        <div class="input-control" :class="{'focus':show,'placeholder':showPlaceholder,'disabled':disabled}"
              v-text="showValue">
         </div>
         <span class="mask" v-show="show"></span>
@@ -32,10 +32,11 @@
         name: 'cascader',
         data () {
             return {
-                show: true,
-                selectValue: [],//暂存的值，加工后的数组
+                show: false,
+                selectValue: [],//暂存的值，加工后的数组，同时保存了当前值所在数组的位置
                 activeLayer: 0,//当前第几级
-                showValue: ''//用于展示的值，格式化后的
+                showValue: this.placeholder,//用于展示的值，格式化后显示于输入框的值
+                showPlaceholder: this.placeholder ? true : false
             }
         },
         watch: {
@@ -77,11 +78,12 @@
                 }
             },
             __init(){
-                //value为空时，选项数据的第一项
-                if (this.value && this.value.length <= 3) {
+                let length = this.value.length;
+                //有值
+                if (this.value && length > 0 && length <= 3) {
                     //有值时要默认在最后一级，根据当前和取当前位置拼成数组
                     let data;
-                    for (let i = 0; i < this.value.length; i++) {
+                    for (let i = 0; i < length; i++) {
                         if (i == 0) {
                             data = this.data;
                         } else if (i == 1) {
@@ -95,7 +97,7 @@
                         }
                         this._setDefaultValue(data, i);
                     }
-                    this.activeLayer = this.value.length - 1;
+                    this.activeLayer = length - 1;
                     this.showValue = this._formatValue();
                 } else {
                     this.selectValue.push({
@@ -149,13 +151,18 @@
                     }
                     this.activeLayer++;//跳到下一级
                 } else {
-                    //关闭下拉，将值给输入框
-                    this.selectValue[2] = {
+                    //关闭下拉，将值给输入框，这里有可能是第二级
+                    this.selectValue[this.activeLayer] = {
                         name: item.name,
                         i: item.i
                     };
+                    //如果只有二级时，这里清除下第三级，保证不出错
+                    if (this.activeLayer == 1) {
+                        this.selectValue.splice(2, 1);
+                    }
                     this.showValue = this._formatValue();
                     this.show = false;
+                    this.showPlaceholder = false;
                 }
             },
             _formatValue(type){
