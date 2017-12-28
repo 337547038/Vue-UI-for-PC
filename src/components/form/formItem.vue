@@ -1,11 +1,11 @@
 <!--Created by 337547038 on 2017/12/26.-->
 <template>
-    <div class="form-group">
+    <div class="form-group" @input="_input">
         <label class="label" :class="labelClass" v-text="label"></label>
         <div class="form-box">
             <slot></slot>
         </div>
-        <div class="form-explain" :class="tipType" v-if="showTip"></div>
+        <div class="form-explain" :class="tipType" v-if="showTip" v-text="tipText"></div>
     </div>
 </template>
 <script>
@@ -25,10 +25,15 @@
             tipText: String//提示语
         },
         mounted(){
-            console.log(this.$children)
+            //console.log(this.$children)
         },
         components: {},
-        methods: {},
+        methods: {
+            _input(v){
+               /* console.log('++++++++++');
+                console.log(v);*/
+            }
+        },
         computed: {}
     }
 </script>

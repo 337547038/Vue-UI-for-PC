@@ -1,1 +1,15 @@
 @charset "utf-8";
+.form-group{ position: relative; @include height(40px); margin-bottom: 15px;
+  .label{ float: left; display: block; width: 140px; text-align: right; margin-right: 5px; font-size: 14px; }
+  .form-box{ float: left; }
+  &:after{ @include clear() }
+  .form-explain{ float: left; margin-left: 5px;
+    &:before{ font-family: "iconfont"; font-size: 22px; display: inline-block; vertical-align: middle; margin-right: 5px; }
+    &.success{ color: #1dc116;
+      &:before{ content: '\e6d0' }
+    }
+    &.failure{ color: #c11920;
+      &:before{ content: '\e640' }
+    }
+  }
+}

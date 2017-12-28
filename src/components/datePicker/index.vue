@@ -3,10 +3,10 @@
 <DatePicker v-model="value"></DatePicker>-->
 <template>
     <div class="date-picker-input" :class="{'date-picker-clear':value&&showClear}">
-        <input type="text" :placeholder="placeholder" class="input-control" :class="{'disabled':disabled}" @click=""
+        <input type="text" :placeholder="placeholder" class="input-control" :class="{'disabled':disabled}"
                ref="input" :value="value"
                readonly="readonly" :disabled="disabled">
-        <i class="icon-date" @click="_open" v-if="!disabled"></i>
+        <i class="icon-date" v-if="!disabled"></i>
         <i class="icon-close" @click="_close" v-if="showClear&&!disabled"></i>
     </div>
 </template>
@@ -75,7 +75,7 @@
             _close(e){
                 //清空并关闭
                 this.$emit('input', '');
-                this.component.close();
+                this.component ? this.component.close() : "";
             },
             _propsData(){
                 //参数

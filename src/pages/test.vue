@@ -8,7 +8,7 @@
             <div v-if="show" v-show="show">
                 <p>12131312</p>
                 <transition name="fade">
-                    <div class="abc" v-show="show">00</div>
+                    <div class="" v-show="show">00</div>
                 </transition>
             </div>
         </transition>
@@ -40,7 +40,7 @@
     }
 </script>
 <style>
-    .abc{ width: 400px; height: 500px; background: #000; margin: 0 auto; }
+
     .fade-enter{ opacity: 0 }
     .fade-enter-active{
         animation-name: fold-in;
