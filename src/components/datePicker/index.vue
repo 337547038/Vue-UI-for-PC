@@ -4,7 +4,7 @@
 <template>
     <div class="date-picker-input" :class="{'date-picker-clear':value&&showClear}">
         <input type="text" :placeholder="placeholder" class="input-control" :class="{'disabled':disabled}"
-               ref="input" :value="value"
+               ref="input" :value="showValue"
                readonly="readonly" :disabled="disabled">
         <i class="icon-date" v-if="!disabled"></i>
         <i class="icon-close" @click="_close" v-if="showClear&&!disabled"></i>
@@ -20,7 +20,8 @@
             return {
                 component: '',//挂载的组件
                 offset: {},//当前input位置坐标
-                status: false//防止多次挂裁
+                status: false,//防止多次挂裁
+                showValue: this.value
             }
         },
         watch: {},
@@ -84,7 +85,9 @@
                     value: this.value,
                     input: (time)=> {
                         this.$emit('input', time);//返回父组件更新
-                        this.status = false
+                        this.status = false;
+                        //这里更新下value
+                        this.showValue = time;
                     },
                     disabledDate: (time)=> {//不能选的日期
                         return this.disabledDate ? this.disabledDate(time) : ""

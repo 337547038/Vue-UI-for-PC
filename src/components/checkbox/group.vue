@@ -53,7 +53,7 @@
                     this.groupValue.splice(index, 1);
                 }
                 //这里不用emit也可以，同一个数组
-                //this.$emit('input', this.groupValue);
+                this.$emit('input', this.groupValue);
                 this.change ? this.change(this.groupValue) : ""
             }
         },

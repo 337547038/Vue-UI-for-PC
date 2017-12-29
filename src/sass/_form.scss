@@ -12,4 +12,10 @@
       &:before{ content: '\e640' }
     }
   }
+  .form-other{ display: inline-block; vertical-align: middle; }
+  &.auto-height{ height: auto }
+  /*验证码输入框长度*/
+  .input-code .input-control{ width: 220px; }
+  /*图片验证码*/
+  .img-code{ display: inline-block; vertical-align: middle; }
 }
