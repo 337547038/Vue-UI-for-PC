@@ -399,7 +399,7 @@
                             value: '',
                             item: {label: "imgCode："},
                             control: {placeholder: '请输入验证码'},
-                            code: {src: '../static/images/code.jpg', class: 'btn-class', click: this._imgCodeClick}
+                            code: {src: 'static/images/code.jpg', class: 'btn-class', click: this._imgCodeClick}
                         }
                     ],
                     [
