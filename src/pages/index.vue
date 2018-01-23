@@ -48,7 +48,7 @@
                         intro: ''
                     },
                     {
-                        title: 'Form 表单 X',
+                        title: 'Form 表单',
                         link: '/form',
                         intro: ''
                     },

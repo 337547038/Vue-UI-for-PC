@@ -17,5 +17,9 @@
   /*验证码输入框长度*/
   .input-code .input-control{ width: 220px; }
   /*图片验证码*/
-  .img-code{ display: inline-block; vertical-align: middle; }
+  .img-code{ display: inline-block; vertical-align: middle; cursor: pointer }
+  /*验证码按钮*/
+  .btn-code{ background: #108ee9; height: 40px; line-height: 40px; display: inline-block; vertical-align: middle; color: #fff; width: 85px; text-align: center; cursor: pointer;
+    &.disabled{background: #ccc;cursor: not-allowed }
+  }
 }

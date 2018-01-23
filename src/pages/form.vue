@@ -16,14 +16,36 @@
         }
         </pre>
         <h3>1、常见各种类型演示</h3>
-        <gForm :data="_formData()" @input="_input">
+        <gForm :data="_formData()" @input="_input" ref="form" @getValue="_getValue">
             <div slot="slotName" class="con">这里是纯文本slot</div>
             <div slot="slotForm">
+                <p>测试个是通过slot进来的，验证方法需要单独处理，处理完将相关参数传给formItem显示即可</p>
+                <p>通过slot引用表单元素时需要引入formItem和对应的表单控件，如input</p>
+                <pre>import FormItem from '../components/form/formItem'
+    import gInput from '../components/input/index'
+     &lt;FormItem label="测试：" labelClass="icon-user">
+        &lt;gInput v-model="v1" placeholder="这是通过slot加载进来的，不能像其它那些一样添加验证方法">&lt;/gInput>
+     &lt;/FormItem></pre>
                 <FormItem label="测试：" labelClass="icon-user">
                     <gInput v-model="v1" placeholder="这是通过slot加载进来的，不能像其它那些一样添加验证方法"></gInput>
                 </FormItem>
             </div>
         </gForm>
+        <button @click="_buttonClick" class="btn-confirm btn" >button</button>
+        <pre>
+         表单：
+         &lt;gForm :data="_formData()" @input="_input" ref="form" @getValue="_getValue">&lt;/gForm>
+         按钮：
+         &lt;button @click="_buttonClick" class="btn-confirm btn" >button&lt;/button>
+         事件：
+         _buttonClick(){
+                //触发表单提交事件
+                this.$refs.form.submit();
+            },
+         _getValue(valueArray, tipArray){
+                console.log(valueArray);
+                console.log(tipArray);
+            }</pre>
         <h2>API</h2>
         <h3>Form</h3>
         <table class="table-1">
@@ -43,9 +65,31 @@
                 <td>表单数据</td>
             </tr>
             <tr>
+                <td>input</td>
+                <td>Function</td>
+                <td>表单事件，返回当前控件的name和value值</td>
+            </tr>
+            <tr>
+                <td>inputBlur</td>
+                <td>Boolean|true</td>
+                <td>input失焦时触发验证，仅对type='input'</td>
+            </tr>
+            <tr>
+                <td>verification</td>
+                <td>Boolean|true</td>
+                <td>是否对表单数据验证，方便调试</td>
+            </tr>
+            <tr>
+                <td>submit</td>
                 <td></td>
-                <td></td>
-                <td></td>
+                <td>表单提交事件，通过this.$refs.form.submit()，在getValue处返回结果</td>
+            </tr>
+            <tr>
+                <td>getValue</td>
+                <td>Function</td>
+                <td>
+                    表单事件，返回两个值，表单数据和验证结果；表单数组为name和value对应的数组，验证结果包含了所有验证错误提示，验证结果为空时表示所有通过验证。getValue通过给表单添加ref来触发验证返回结果，如this.$refs.form.submit()
+                </td>
             </tr>
         </table>
         <h3>data</h3>
@@ -58,17 +102,19 @@
             <tr>
                 <td>type</td>
                 <td>String</td>
-                <td>有以下类型：input、radio、checkbox、select、textarea、datePicker、cascader、text、slot(slot的name，此时仅有name属性，对应页面中的slot='name')</td>
+                <td>
+                    有以下类型：input、radio、checkbox、select、textarea、datePicker、cascader、text、slot(slot的name，此时仅有name属性，对应页面中的slot='name')、btnCode、imgCode
+                </td>
             </tr>
             <tr>
                 <td>name</td>
                 <td>String</td>
-                <td>item项的标识，表单元素改变后回调name和value</td>
+                <td>item项的标识，表单元素改变后回调name和value，用于更新当前value的值</td>
             </tr>
             <tr>
                 <td>value</td>
                 <td></td>
-                <td>当前项的表单青元素值。type="text"，value为所要显示的文本；type="slot"时没value值</td>
+                <td>当前项的表单元素值。type="text"，value为所要显示的文本；type="slot"时没value值</td>
             </tr>
             <tr>
                 <td>item</td>
@@ -84,6 +130,18 @@
                 <td>validate</td>
                 <td>Array</td>
                 <td>验证规则，详见validate验证规则</td>
+            </tr>
+            <tr>
+                <td>other</td>
+                <td>null</td>
+                <td>在控件的后面添加一些说明提示文字</td>
+            </tr>
+            <tr>
+                <td>code</td>
+                <td>Array</td>
+                <td>验证码相关，class和click两个参数，type='btnCode'时：text：默认显示的文本,text2:
+                    点击后显示的倒计时文本，字母x会替换成剩余时间,text3:倒计时完成后显示的文本,time:倒计时间；type='imgCode'时：src为图片路径
+                </td>
             </tr>
         </table>
         <h3>validate</h3>
@@ -159,23 +217,25 @@
         data () {
             return {
                 v1: "",
-                validate: [
-                    {type: "required", msg: "用户名不能为空"},
-                    {type: "maxLength", msg: "用户名不能超过10位", maxLength: 10},
-                    {type: "minLength", msg: "用户名不能小于3个字符", minLength: 3}
-                ],
-                userName: 'userName'
+                /*validate: [
+                 {type: "required", msg: "用户名不能为空"},
+                 {type: "maxLength", msg: "用户名不能超过10位", maxLength: 10},
+                 {type: "minLength", msg: "用户名不能小于3个字符", minLength: 3}
+                 ],*/
+                userName: 'userName0',
+                password: ''
             }
         },
         props: {},
         components: {gForm, FormItem, gInput},
         methods: {
             _formData(){
+                let th = this;
                 return [
                     [
                         {
                             type: 'input',
-                            name: 'userName',
+                            name: 'userName',//这个name值要等于value在data中的值，更新时是更新data中的name的值
                             value: this.userName,
                             item: {label: "userName："},
                             control: {placeholder: 'please enter your name'}
@@ -190,6 +250,35 @@
                                 {type: "required", msg: "用户名不能为空"},
                                 {type: "maxLength", msg: "用户名不能超过10位", maxLength: 10},
                                 {type: "minLength", msg: "用户名不能小于3个字符", minLength: 3}
+                            ]
+                        },
+                        {
+                            type: 'input',
+                            name: 'password',
+                            value: this.password,
+                            item: {label: 'password：'},
+                            control: {type: 'password', placeholder: '请输入密码', showEye: true, clearIcon: true},
+                            validate: [
+                                {type: "required", msg: "密码不能为空"}
+                            ]
+                        },
+                        {
+                            type: 'input',
+                            name: 'password2',
+                            value: '',
+                            item: {label: 'password2：'},
+                            control: {type: 'password', placeholder: '请再次输入密码'},
+                            validate: [
+                                {type: "required", msg: "密码不能为空"},
+                                {
+                                    type: 'fn', msg: '两次输入密码不一致', validator(v) {
+                                    if (v == th.password) {
+                                        return true
+                                    } else {
+                                        return false
+                                    }
+                                }
+                                }
                             ]
                         },
                         {
@@ -295,7 +384,14 @@
                             value: '',
                             item: {label: "inputCode："},
                             control: {placeholder: '请输入验证码'},
-                            code: {text: '获取验证码', class: 'btn-class', click: this._inputCodeClick}
+                            code: {
+                                text: '获取验证码',
+                                text2: 'x秒后重新获取',
+                                text3: '重新获取',
+                                time: '30',
+                                class: 'btn-class',
+                                click: this._inputCodeClick
+                            }
                         },
                         {
                             type: 'imgCode',
@@ -448,16 +544,21 @@
                 ]
             },
             _input(k, v){
-                this[k] = v;
+                // this[k] = v;
             },
-            _inputCodeClick(e){
-                console.log('code');
-                /* console.log(e);
-                 e.target.innerHTML = '1211313'*/
-                // data.target.style.className='ABC'
+            _inputCodeClick(){
+                console.log('_inputCodeClick');
             },
             _imgCodeClick(){
                 console.log('_imgCodeClick');
+            },
+            _buttonClick(){
+                //触发表单提交事件
+                this.$refs.form.submit();
+            },
+            _getValue(valueArray, tipArray){
+                console.log(valueArray);
+                console.log(tipArray);
             }
         },
         computed: {},
