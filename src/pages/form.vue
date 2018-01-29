@@ -31,7 +31,7 @@
                 </FormItem>
             </div>
         </gForm>
-        <button @click="_buttonClick" class="btn-confirm btn" >button</button>
+        <button @click="_buttonClick" class="btn-confirm btn">button</button>
         <pre>
          表单：
          &lt;gForm :data="_formData()" @input="_input" ref="form" @getValue="_getValue">&lt;/gForm>
@@ -103,7 +103,7 @@
                 <td>type</td>
                 <td>String</td>
                 <td>
-                    有以下类型：input、radio、checkbox、select、textarea、datePicker、cascader、text、slot(slot的name，此时仅有name属性，对应页面中的slot='name')、btnCode、imgCode
+                    有以下类型：input、radio、checkbox、select、textarea、datePicker、cascader、text、slot(slot的name，此时仅有name属性，对应页面中的slot='name')、btnCode、imgCode、switch
                 </td>
             </tr>
             <tr>
@@ -208,7 +208,7 @@
     </div>
 </template>
 <script>
-    import gForm from '../components/form/form'
+    import gForm from '../components/form/index'
     import FormItem from '../components/form/formItem'
     import gInput from '../components/input/index'
     export default {
@@ -540,6 +540,13 @@
                         name: 'datePicker',
                         item: {label: 'datePicker：'},
                         control: {placeholder: '请选择日期'}
+                    },
+                    {
+                        type: 'switch',
+                        value: false,
+                        name: 'switch',
+                        item: {label: 'switch：'},
+                        control: {}
                     }
                 ]
             },

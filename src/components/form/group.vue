@@ -16,6 +16,7 @@
         <div class="form-text" v-else-if="data.type=='text'" v-text="data.value" v-bind="data.control"></div>
         <DatePicker v-model="data.value" v-bind="data.control" v-else-if="data.type=='datePicker'"
                     @input="_input(data,$event)"></DatePicker>
+        <gSwitch v-model="data.value" v-else-if="data.type=='switch'" v-bind="data.control"></gSwitch>
         <a v-if="data.type=='btnCode'" v-text="countdown||data.code.text" @click="_inputCodeClick(data,$event)"
            class="btn-code" :class="[data.code.class,{'disabled':codeDisabled}]"></a>
         <img v-if="data.type=='imgCode'" @click="_imgCodeClick(data,$event)"
@@ -31,6 +32,7 @@
     import gTextArea from '../textarea/index'
     import FormItem from './formItem'
     import DatePicker from '../datePicker/index'
+    import gSwitch from '../switch/index'
     import ValidateRules from './validateRules'
     export default {
         name: 'formGroup',
@@ -62,7 +64,8 @@
             FormItem,
             ValidateRules,
             gTextArea,
-            DatePicker
+            DatePicker,
+            gSwitch
         },
         methods: {
             _input(data, value){

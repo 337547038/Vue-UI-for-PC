@@ -19,6 +19,7 @@
     </div>
 </template>
 <script>
+
     import Group from './group'
     export default {
         name: 'form',
@@ -49,7 +50,8 @@
         methods: {
             _input(k, v){
                 //表单控件改变回调，当前的name和value
-                //更新页面data的值，表单数据中的name要等于value值在data中的值
+                //更新页面data的值(初始值)，表单数据中的name要等于value值在data中的值
+                //因为是v-model绑定，表单控件改变后，会改变传入数组里对应的value值，这里只是更新data中的值
                 this.$parent[k] ? this.$parent[k] = v : '';
                 this.$emit('input', k, v);
             },

@@ -15,6 +15,11 @@
                         title: '快速跳转', name: 'a', href: '/',
                         child: [
                             {
+                                title: 'backTop 返回顶部',
+                                href: '/backTop',
+                                name: 'backTop'
+                            },
+                            {
                                 title: 'Carousel 跑马灯',
                                 href: '/carousel',
                                 name: 'carousel'
@@ -118,6 +123,11 @@
                                 title: 'Tooltip 文字提示',
                                 href: '/tooltip',
                                 name: 'tooltip'
+                            },
+                            {
+                                title: 'Tree 树形',
+                                href: '/tree',
+                                name: 'tree'
                             }
                         ]
                     }

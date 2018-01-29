@@ -24,5 +24,7 @@ module.exports = {
     textarea: require('./textarea'),
     cascader: require('./cascader'),
     form: require('./form'),
+    tree: require('./tree'),
+    backTop: require('./backTop'),
     test: require('./test')
 };

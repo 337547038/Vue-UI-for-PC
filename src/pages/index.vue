@@ -18,6 +18,11 @@
                 msg: 'Welcome to Vue.js@2.5 UI for PC',
                 link: [
                     {
+                        title: 'BackTop 返回顶部',
+                        link: '/backTop',
+                        intro: ''
+                    },
+                    {
                         title: 'Carousel 跑马灯',
                         link: '/carousel',
                         intro: ''
@@ -83,9 +88,9 @@
                         intro: ''
                     },
                     {
-                        title:'Progress 进度条',
-                        link:'/progress',
-                        intro:''
+                        title: 'Progress 进度条',
+                        link: '/progress',
+                        intro: ''
                     },
                     {
                         title: 'Radio 单选框',
@@ -120,6 +125,11 @@
                     {
                         title: 'Tooltip 文字提示',
                         link: '/tooltip',
+                        intro: ''
+                    },
+                    {
+                        title: 'Tree 树形',
+                        link: '/tree',
                         intro: ''
                     }
                 ]
