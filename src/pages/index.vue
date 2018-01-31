@@ -108,7 +108,7 @@
                         intro: ''
                     },
                     {
-                        title: 'steps 步骤条',
+                        title: 'Steps 步骤条',
                         link: '/steps',
                         intro: ''
                     },
