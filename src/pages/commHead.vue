@@ -20,6 +20,11 @@
                                 name: 'backTop'
                             },
                             {
+                                title:'Breadcrumb 面包屑',
+                                href:'/breadcrumb',
+                                name: 'breadcrumb'
+                            },
+                            {
                                 title: 'Carousel 跑马灯',
                                 href: '/carousel',
                                 name: 'carousel'
@@ -100,6 +105,11 @@
                                 name: 'select'
                             },
                             {
+                                title: 'Steps 步骤条',
+                                href: '/steps',
+                                name: 'steps'
+                            },
+                            {
                                 title: 'Switch 开关',
                                 href: '/switch',
                                 name: 'switch'
@@ -123,6 +133,11 @@
                                 title: 'Tooltip 文字提示',
                                 href: '/tooltip',
                                 name: 'tooltip'
+                            },
+                            {
+                                title: 'Transfer 穿梭框',
+                                href: '/transfer',
+                                name: 'transfer'
                             },
                             {
                                 title: 'Tree 树形',

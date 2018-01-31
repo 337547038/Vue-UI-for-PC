@@ -23,6 +23,11 @@
                         intro: ''
                     },
                     {
+                        title:'Breadcrumb 面包屑',
+                        link:'/breadcrumb',
+                        intro:''
+                    },
+                    {
                         title: 'Carousel 跑马灯',
                         link: '/carousel',
                         intro: ''
@@ -103,6 +108,11 @@
                         intro: ''
                     },
                     {
+                        title: 'steps 步骤条',
+                        link: '/steps',
+                        intro: ''
+                    },
+                    {
                         title: 'Switch 开关',
                         link: '/switch',
                         intro: ''
@@ -125,6 +135,11 @@
                     {
                         title: 'Tooltip 文字提示',
                         link: '/tooltip',
+                        intro: ''
+                    },
+                    {
+                        title: 'Transfer 穿梭框',
+                        link: '/transfer',
                         intro: ''
                     },
                     {

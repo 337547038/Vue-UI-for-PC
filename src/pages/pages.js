@@ -26,5 +26,8 @@ module.exports = {
     form: require('./form'),
     tree: require('./tree'),
     backTop: require('./backTop'),
+    steps: require('./steps'),
+    breadcrumb: require('./breadcrumb'),
+    transfer: require('./transfer'),
     test: require('./test')
 };
