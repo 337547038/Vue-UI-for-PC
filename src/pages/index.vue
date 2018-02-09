@@ -146,6 +146,11 @@
                         title: 'Tree 树形',
                         link: '/tree',
                         intro: ''
+                    },
+                    {
+                        title: 'Upload 上传',
+                        link: '/upload',
+                        intro: ''
                     }
                 ]
                 /* link: ['layer', 'dialog', 'carousel', 'select', 'tabs', 'loading', 'table', 'page', 'menu', 'tooltip', 'collapse', 'input', 'radio', 'checkbox', 'form', 'cascader', 'switch']*/

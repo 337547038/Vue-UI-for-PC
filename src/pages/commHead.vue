@@ -143,6 +143,11 @@
                                 title: 'Tree 树形',
                                 href: '/tree',
                                 name: 'tree'
+                            },
+                            {
+                                title: 'Upload 上传',
+                                href: '/upload',
+                                name: 'upload'
                             }
                         ]
                     }

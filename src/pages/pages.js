@@ -29,5 +29,6 @@ module.exports = {
     steps: require('./steps'),
     breadcrumb: require('./breadcrumb'),
     transfer: require('./transfer'),
+    upload: require('./upload'),
     test: require('./test')
 };
