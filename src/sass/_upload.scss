@@ -1,6 +1,15 @@
 @charset "utf-8";
-.upload{
+.upload{ display: inline-block; vertical-align: middle; position: relative;
   .file{ display: inline-block; padding: 0 10px; @include height(30px); background: #2d8cf0; border-radius: 3px; position: relative; color: #fff; cursor: pointer;
-    input{ opacity: 0; position: absolute; left: 0; top: 0; cursor: pointer; }
+    input{ display: none }
+  }
+  .progress{ height: 5px; background: #666; border-radius: 2px; position: relative;
+    span{ left: 0; top: 0; position: absolute; display: block; height: 5px; background: #2d8cf0 }
+  }
+  .upload-list{ border: 1px solid #ddd;
+    li{ float: left; width: 120px; height: 90px; overflow: hidden; position: relative;margin: 5px; background: #f8f8f8;
+      img{ width: 100%; }
+      span{ left: 0; bottom: 0; position: absolute; height: 4px; background: #2d8cf0;z-index: 5 }
+    }
   }
 }
