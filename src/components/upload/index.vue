@@ -3,8 +3,9 @@
     <div class="upload">
         <div class="upload-list" v-if="uploadList.length>0&&showList">
             <ul class="clearfix">
-                <li v-for="item in uploadList"><img :src="item.src">
+                <li v-for="(item,index) in uploadList"><img :src="item.src">
                     <span :style="{width:item.progress}" v-if="showProgress"></span>
+                    <a href="javascript:;" class="del icon-close" @click="_delImg(index,item.src)"></a>
                 </li>
             </ul>
         </div>
@@ -58,9 +59,9 @@
                     //这次采用多次提交的方式，一次提交只能显示一个进度条。每个文件不能单独显示
                     //一次提交时表单名为数组形式，服务接收端要遍历接收，遍历完再提示即可
                     /*for(){
-                        param.append('file[]', file[i]);
-                    }
-                    this._axios(param, '');*/
+                     param.append('file[]', file[i]);
+                     }
+                     this._axios(param, '');*/
                     for (let i = 0; i < file.length; i++) {
                         let check = this._check(file[i]);
                         if (check) {
@@ -134,6 +135,11 @@
                 if (this.maxSize && file.size > this.maxSize * 1024) {
                     return `文件${name}超出最大${this.maxSize}kb上传限制`
                 }
+            },
+            _delImg(index,src){
+                //删除已上传图片
+                this.uploadList.splice(index,1);
+                this.$emit('delImg',src);
             }
         },
         computed: {},

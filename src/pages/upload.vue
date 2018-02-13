@@ -50,7 +50,7 @@
         </Upload>
         <h3>5、多文件上传</h3>
         <p>多文件上传时会自动跳转没有通过验证的</p>
-        <Upload :multiple="true" :action="action" @success="_success" :format="['jpg']" :maxSize="200" @checkFail="_checkFail5">
+        <Upload :multiple="true" :action="action" @success="_success" :format="['jpg']" :maxSize="200" @checkFail="_checkFail5" @delImg="_delImg5">
             多图片片上传
         </Upload>
         <h3>6、不带上传列表</h3>
@@ -120,6 +120,11 @@
                 <td>上传失败，返回错误提示</td>
             </tr>
             <tr>
+                <td>delImg</td>
+                <td>Function</td>
+                <td>删除列表图片，返回图片路径。多文件上传且显示列表时</td>
+            </tr>
+            <tr>
                 <td>showList</td>
                 <td>Boolean｜true</td>
                 <td>显示上传列表，仅在multiple=true时有效</td>
@@ -171,6 +176,11 @@
             _checkFail5(txt){
                 //上传文件不合法，超出大小或文件格式不对
                 console.log(txt);
+            },
+            _delImg5(src){
+                //删除已上传列表图片
+                console.log('删除图片');
+                console.log(src);
             }
         },
         computed: {},
