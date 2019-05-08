@@ -1,0 +1,19 @@
+@charset "utf-8";
+//1px solid #ebeef5
+@include ns(collapse){
+  .collapse-panel{border-bottom: 1px solid #ebeef5;overflow: hidden;}
+  /*title*/
+  .collapse-title{height: 50px;line-height: 50px;cursor: pointer;user-select: none}
+  /*content*/
+  .collapse-content{padding: 10px;overflow: hidden;transition: all .3s;
+  }
+}
+/*.collapse-enter-active{ animation: collapseDown .5s;}
+.collapse-leave-active{ !*animation: collapseUp .5s;*!
+}
+@keyframes collapseDown{
+  from{transform: translateY(100%);opacity: 0;}
+}
+@keyframes collapseUp{
+  to{transform: scaleY(0); transform-origin: top center}
+}*/

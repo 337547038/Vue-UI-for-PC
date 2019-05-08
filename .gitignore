@@ -4,9 +4,11 @@ node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+/ak-demo--docs/
 
 # Editor directories and files
 .idea
+.svn
 .vscode
 *.suo
 *.ntvs*

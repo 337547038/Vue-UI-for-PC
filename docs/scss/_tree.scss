@@ -1,0 +1,38 @@
+@charset "utf-8";
+@include ns(tree){
+  li{ line-height: 24px; position: relative;padding: 0;margin: 0;list-style: none;transition: all .3s;max-height: 24px;
+
+    i{ display: inline-block; vertical-align: middle; background: url(assets/images/tree.png) no-repeat 4px -11px; width: 18px; height: 18px; cursor: pointer;
+      &.last-child{ background-position: 4px -29px }
+      &.has-child{ background-position: -13px 2px }
+      &.open-child{ background-position: -13px -16px }
+    }
+    a{ display: inline-block; vertical-align: middle; cursor: pointer;
+      &.active{ color: #f00 }
+    }
+    ul{ padding-left: 18px; background: url(assets/images/tree.png) repeat-y -39px top;max-height: 24px;transition: all .3s; }
+    &.active{max-height: 500px;
+      ul{max-height: 500px;}
+    }
+  }
+  .tree-loading{
+    // 异步加载时等待动画
+    height: 24px;
+    &:after{content: '';width: 15px;height: 15px;border: 1px solid #666;border-right: 1px solid transparent;display: block;border-radius: 50%;animation: treeLoad 1s infinite linear both;}
+  }
+}
+@keyframes treeLoad{
+  0%{transform: rotate(0)}
+  100%{transform: rotate(360deg)}
+}
+// 展开收起ul动画
+.tree-toggle-enter-active{ animation: tree-toggle-down .3s; transform-origin: center top }
+.tree-toggle-leave-active{ animation: tree-toggle-up .3s; transform-origin: center top }
+@keyframes tree-toggle-down{
+  0%{ opacity: 0; transform: scaleY(0); }
+  100%{ opacity: 1; transform: scaleY(1); }
+}
+@keyframes tree-toggle-up{
+  0%{ opacity: 1; transform: scaleY(1); }
+  100%{ opacity: 0; transform: scaleY(0); }
+}

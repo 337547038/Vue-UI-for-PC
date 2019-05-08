@@ -1,0 +1,57 @@
+@charset "utf-8";
+@include ns(page){
+  text-align: center;
+  @include ns(page-align){
+    display: inline-block;
+    > div{float: left}
+    ul{
+      li{padding: 0;display: inline-block; vertical-align: middle; height: 32px; min-width: 32px; line-height: 30px; margin: 0 4px 0 0;
+        a{display: block;border: 1px solid #dddee1; border-radius: 4px; transition: all .5s;
+          &:hover{ border-color: #2d8cf0; color: #2d8cf0; }
+          &.active{ border-color: #2d8cf0; color: #fff; background: #2d8cf0 }
+          &.disabled{ border-color: #dddee1;; color: #dddee1; cursor: not-allowed }
+          // 向前页
+          &.jump-prev{font-size: 10px;
+            &:before{content: '•••';}
+            &:hover:before{ content: '<<' }
+          }
+          // 向后
+          &.jump-next{font-size: 10px;
+            &:before{content: '•••';}
+            &:hover{
+              &:before{ content: '>>' }
+            }
+          }
+        }
+      }
+    }
+  }
+  .page-list{margin: 0 20px;}
+
+  .show-jumper{display: inline-block;}
+  @include ns(input-control){text-align: center;width: 50px;height: 32px;line-height: 32px;box-sizing: border-box}
+  @include ns(select){
+    ul{}
+    @include ns(input-control){width: 120px;}
+  }
+  .total{line-height: 32px;margin-right: 20px;
+    span{color: red}
+  }
+}
+.page{
+  text-align: center;
+  a{
+
+    //上一页
+    &.prev:before{ content: '<'; transform: rotate(180deg); display: inline-block }
+    //下一页
+    &.next:before{ content: '>' }
+
+  }
+  //快速跳转
+  .show-elevator{ display: inline-block; vertical-align: middle; margin-left: 5px;
+    .page-input{ border: 1px solid #dddee1; padding: 1px 7px; height: 24px; border-radius: 3px; width: 34px; box-sizing: border-box; text-align: center; margin: 0 4px; transition: all .5s;
+      &:focus{ border-color: #2d8cf0; }
+    }
+  }
+}

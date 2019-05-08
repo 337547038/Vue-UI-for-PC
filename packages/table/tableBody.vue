@@ -1,0 +1,68 @@
+<template>
+  <tbody>
+  <template v-for="(row,rowIndex) in data">
+    <tr :key="rowIndex" :class="{'warning':$parent.selectedRows.indexOf(row) !== -1}">
+      <TableTd
+        v-for="(column,indexTd) in cols"
+        :column="column"
+        :row="row"
+        :index="rowIndex"
+        :title="$parent.title"
+        :key="indexTd"
+        v-if="column.type!=='extend'">
+      </TableTd>
+    </tr>
+    <tr :key="'tr' + rowIndex" v-if="isExtend" class="extend" :class="`extend-tr-${rowIndex+1}`" >
+      <TableTd
+        v-for="(column,indexTd) in cols"
+        :column="column"
+        :row="row"
+        :index="rowIndex"
+        :title="$parent.title"
+        :key="indexTd"
+        v-if="column.type==='extend'"
+        :colspan="colsFilter.length">
+      </TableTd>
+      <!-- <td :colspan=" colsFilter.length">12</td> -->
+    </tr>
+  </template>
+  </tbody>
+</template>
+<script>
+import TableTd from './td'
+
+export default {
+  name: 'TableBody',
+  props: {
+    data: Array
+  },
+  components: {TableTd},
+  data () {
+    return {}
+  },
+  computed: {
+    cols () {
+      return this.$parent.columns
+    },
+    colsFilter () {
+      return this.$parent.columnsFilter
+    },
+    isExtend () {
+      // 返回有没存在type=extend的列
+      let extend = false
+      this.cols.forEach(item => {
+        if (item.type === 'extend') {
+          extend = true
+        }
+      })
+      return extend
+    }
+  },
+  watch: {},
+  methods: {},
+  created () {
+  },
+  mounted () {
+  }
+}
+</script>

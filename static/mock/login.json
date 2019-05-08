@@ -1,0 +1,24 @@
+{
+  "code": "user",
+  "msg": "message",
+  "timestamp": 1516086632624,
+  "data": {
+    "token": "eyJhbGciOiJIUzUx",
+    "user": {
+      "id": "fafsfd",
+      "userName": "admin"
+    },
+    "menu": [
+      {
+        "href": "/page2",
+        "name": "个人中心",
+        "status": "1"
+      },
+      {
+        "href": "/page3",
+        "name": "管理中心",
+        "status": "1"
+      }
+    ]
+  }
+}

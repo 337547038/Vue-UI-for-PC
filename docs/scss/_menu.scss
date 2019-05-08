@@ -1,0 +1,32 @@
+@charset "UTF-8";
+@include ns(nav){
+  > ul{
+    > li{float: left; width: 120px; text-align: center; height: 30px; line-height: 30px; border-bottom: 1px solid #fff; position: relative;z-index: 99;
+      a{ display: inline-block; font-size: 16px;}
+      &.active, &:hover{
+        a{color: #41a259;}
+      }
+      /*有子菜单时，添加下拉标识*/
+      &.has-child{
+        i{display: inline-block; vertical-align: middle;border-top: 5px solid #666;border-left: 5px solid transparent;border-right: 5px solid transparent}
+      }
+    }
+  }
+  .child{background: #fff;position: absolute;left: 0;top: 30px;width: 100%;animation: navSlideDown .5s; transform-origin: center top;
+    a{font-size: 14px;}
+    .active{
+      a{color: #41a259;}
+    }
+  }
+  /*垂直方向*/
+  &.nav-v{width: 180px;
+    > ul{
+      > li{width: 100%;float: none;text-align: left;height: auto}
+    }
+    .child{position: static}
+  }
+}
+@keyframes navSlideDown{
+  0%{transform: scaleY(0)}
+  100%{transform: scaleY(1)}
+}

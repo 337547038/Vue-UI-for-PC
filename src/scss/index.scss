@@ -1,0 +1,27 @@
+@charset "UTF-8";
+//reset
+html, body, div, table, td, th, tr, input, button, h1, h2, h3, h4, pre{margin: 0;padding: 0;}
+body{font-size: 14px;color: #333;}
+i{font-style: normal}
+ul, li{list-style: none}
+a{text-decoration: none;color: #333}
+a:link{
+  text-decoration: none; }
+a:visited{
+  text-decoration: none;
+  color: #333; }
+a:hover{
+  text-decoration: none;
+  color: #f00; }
+a:active{
+  text-decoration: none;
+  color: #333; }
+// 公共部分
+.clearfix{
+  &:after{content: '';clear: both;height: 0;line-height: 0;visibility: hidden;display: inline-block}
+}
+/*fa 字体*/
+[class*="ak-icon-"]{font-family: FontAwesome;display: inline-block;}
+// 基础组件样式
+@import "../../docs/scss/components";
+// 其它样式
