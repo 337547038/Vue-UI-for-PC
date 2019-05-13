@@ -1,7 +1,7 @@
 <template>
   <tbody>
   <template v-for="(row,rowIndex) in data">
-    <tr :key="rowIndex" :class="{'warning':$parent.selectedRows.indexOf(row) !== -1}">
+    <tr :key="rowIndex" :class="{'warning':$parent.selectedRows.indexOf(row) !== -1,[`parent-tr-${rowIndex+1}`]:isExtend,[row.trClass]:row.trClass}">
       <TableTd
         v-for="(column,indexTd) in cols"
         :column="column"
@@ -12,7 +12,7 @@
         v-if="column.type!=='extend'">
       </TableTd>
     </tr>
-    <tr :key="'tr' + rowIndex" v-if="isExtend" class="extend" :class="`extend-tr-${rowIndex+1}`" >
+    <tr :key="'tr' + rowIndex" v-if="isExtend" class="extend" :class="{'warning':$parent.selectedRows.indexOf(row) !== -1,[`extend-tr-${rowIndex+1}`]:true}">
       <TableTd
         v-for="(column,indexTd) in cols"
         :column="column"
@@ -23,7 +23,6 @@
         v-if="column.type==='extend'"
         :colspan="colsFilter.length">
       </TableTd>
-      <!-- <td :colspan=" colsFilter.length">12</td> -->
     </tr>
   </template>
   </tbody>

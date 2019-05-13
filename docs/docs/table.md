@@ -11,7 +11,8 @@ export default {
           province: '上海',
           city: '普陀区',
           address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200330
+          zip: 200330,
+          trClass:'trClass' // 特殊参数为当前tr添加指定样式
         },
         {
           date: '2016-05-02',
@@ -131,11 +132,6 @@ export default {
           <a href="javascript:;">删除</a>
       </template>
    </akColumn>
-   <akColumn type="extend">
-      <template slot-scope="scope">
-         00000
-      </template>
-   </akColumn>
   </akTable>
 <template>
 <script>
@@ -150,7 +146,8 @@ export default {
           province: '上海',
           city: '普陀区',
           address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200330
+          zip: 200330,
+          trClass:'trClass' // 特殊参数为当前tr添加指定样式
         },
         {
           date: '2016-05-02',

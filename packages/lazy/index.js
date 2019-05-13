@@ -56,12 +56,12 @@ LazyLoad.prototype = {
   // 加载图片资源
   loadImg (url, callback) {
     const img = new Image()
-    if (img.complete) {
+    /* if (img.complete) {
       // 如果图片已经存在于浏览器缓存,直接调用回调函数
       // console.log('complete')
       callback(url)
       return // 直接返回,不再处理onload事件
-    }
+    } */
     img.onload = function () {
       // console.log('onload')
       callback(img.src)
