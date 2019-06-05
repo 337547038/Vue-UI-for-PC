@@ -469,8 +469,8 @@ export default {
 <akTable :data="tableData" :drag="true">
   <akColumn label="日期" prop="date" width="223px"></akColumn>
   <akColumn label="姓名" prop="name" width="223px"></akColumn>
-  <akColumn label="地址" prop="address" width="223px"></akColumn>
-  <akColumn label="操作" width="223px">
+  <akColumn label="地址" prop="address" width="220px"></akColumn>
+  <akColumn label="操作" width="220px">
     <template slot-scope="scope">
       <a href="javascript:;">删除</a>
     </template>
@@ -542,5 +542,5 @@ export default {
 |-|-|
 |-             | 自定义列的内容，参数为 { row, index }|
 
-
+[[Toc]]
 

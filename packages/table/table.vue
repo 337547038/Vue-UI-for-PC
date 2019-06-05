@@ -339,6 +339,7 @@ export default {
     this.$nextTick(() => {
       this._fixedHead()
       if (this.drag) {
+        this.$refs.tableContainer.style.overflowX = 'auto'
         document.addEventListener('mouseup', this._headMouseUp)
       }
     })
