@@ -7,14 +7,19 @@
       'table-border':border,
       'table-hover':hover,
       'table-ellipsis':ellipsis,
-      [className]:className}">
+      [className]:className}" ref="table">
       <colgroup>
-        <col v-for="(col,index) in columnsFilter" :width="col.width" :key="index">
+        <col v-for="(col,index) in colWidth" :width="col" :key="index">
       </colgroup>
       <thead v-if="showHeader" ref="tableHead">
       <tr>
-        <th v-for="(thead,index) in columnsFilter" :class="[thead.fixed,thead.className]" :key="index"
-            :style="{textAlign:thead.align}" :title="title||thead.title?thead.label:null">
+        <th v-for="(thead,index) in columnsFilter"
+            :class="[thead.fixed,thead.className]"
+            :key="index"
+            :style="{textAlign:thead.align}"
+            :title="title||thead.title?thead.label:null"
+            @mousedown="_headMouseDown($event,index)"
+            @mousemove="_headMouseMove($event,index)">
           <label @click="_handleSelectAll" :class="[selectChecked,prefixCls+'-checkbox']"
                  v-if="thead.type==='selection'">
             <span :class="`${prefixCls}-checkbox-inner`"></span>
@@ -52,9 +57,11 @@ export default {
       prefixCls: prefixCls,
       columns: [], // 表头
       columnsFilter: [], // 表头，过滤掉扩展列的
+      colWidth: [], // 所有列宽
       selectChecked: 'un-select', // 全选状态 un-select为全不选，some-select选择了部分，checked全选
       selectedRows: [], // 已选择的行
-      sortBy: {} // 存放所有排序信息
+      sortBy: {}, // 存放所有排序信息
+      dragHead: {} // 临时存放表头拖动信息
     }
   },
   watch: {
@@ -72,6 +79,7 @@ export default {
   },
   components: {TableBody},
   props: {
+    drag: Boolean,
     updateChild: String,
     data: {
       type: Array,
@@ -201,6 +209,45 @@ export default {
         }
       }
     },
+    _headMouseDown (event, index) {
+      if (!this.drag) {
+        return
+      }
+      if (event.offsetX > event.target.offsetWidth - 10) {
+        this.dragHead = {
+          mouseDown: true,
+          oldX: event.x,
+          oldWidth: event.target.offsetWidth,
+          index: index
+        }
+      }
+      // 不让选择
+      event.preventDefault()
+    },
+    _headMouseMove (event, index) {
+      if (!this.drag) {
+        return
+      }
+      // 当鼠标移至当前单元格10px位置处，显示可拖动手形状
+      if (event.offsetX > event.target.offsetWidth - 10) {
+        event.target.style.cursor = 'col-resize'
+      } else {
+        event.target.style.cursor = 'default'
+      }
+      if (this.dragHead.mouseDown) {
+        let newWidth = this.dragHead.oldWidth + (event.x - this.dragHead.oldX)
+        this.$set(this.colWidth, this.dragHead.index, newWidth + 'px')
+      }
+    },
+    _headMouseUp () {
+      console.log('_headMouseUp')
+      this.dragHead = {
+        mouseDown: false,
+        oldX: '',
+        oldWidth: '',
+        index: ''
+      }
+    },
     handleChange (row) {
       // 提供给column引用 ，单选行时
       // 单选checkbox，选中时将当前行信息存入selectedRows，没勾选时删除
@@ -269,12 +316,21 @@ export default {
       this.$nextTick(() => {
         let child = this.$children
         // 遍历子组件，只返回column组件
-        this.columns = child.filter(item => {
+        /* this.columns = child.filter(item => {
           return item.$options.componentName === 'Column'
-        })
+        }) */
         // 返回过滤掉扩展列的
-        this.columnsFilter = child.filter(item => {
+        /* this.columnsFilter = child.filter(item => {
           return item.$options.componentName === 'Column' && item.type !== 'extend'
+        }) */
+        child.forEach(item => {
+          if (item.$options.componentName === 'Column' && item.type !== 'extend') {
+            this.columnsFilter.push(item)
+            this.colWidth.push(item.width)
+          }
+          if (item.$options.componentName === 'Column') {
+            this.columns.push(item)
+          }
         })
       })
     }
@@ -282,6 +338,9 @@ export default {
   mounted () {
     this.$nextTick(() => {
       this._fixedHead()
+      if (this.drag) {
+        document.addEventListener('mouseup', this._headMouseUp)
+      }
     })
     // console.log('mounted')
     // console.log(this.columns)
@@ -293,6 +352,9 @@ export default {
   destroyed () {
     // console.log('destroyed')
     // this.columns = []
+    if (this.drag) {
+      document.removeEventListener('onmouseup', this._headMouseUp)
+    }
   },
   computed: {}
 }

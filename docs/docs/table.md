@@ -463,6 +463,36 @@ export default {
 ```
 :::
 
+### 10、拖动改变列宽
+:::demo 拖动改变列宽，拖动表头可改变当前单元格的宽
+```html
+<akTable :data="tableData" :drag="true">
+  <akColumn label="日期" prop="date" width="223px"></akColumn>
+  <akColumn label="姓名" prop="name" width="223px"></akColumn>
+  <akColumn label="地址" prop="address" width="223px"></akColumn>
+  <akColumn label="操作" width="223px">
+    <template slot-scope="scope">
+      <a href="javascript:;">删除</a>
+    </template>
+  </akColumn>
+</akTable>
+
+<script>
+export default {
+  data () {
+    return {
+      showHeader: true,
+      hover: false,
+      border: false,
+      stripe: false,
+      ellipsis: true
+    }
+  }
+}
+</script>
+```
+:::
+
 ## API
 ### Table
 
@@ -481,7 +511,8 @@ export default {
 | sortChange    | function      |排序点击事件|
 | selectAllClick| function      |全选或返选事件|
 | emptyText     | String        |无数据时显示的文本|
-|title          | Boolean/true  |鼠标滑过单元格时显示title提示|
+| title         | Boolean/true  |鼠标滑过单元格时显示title提示|
+| drag          | boolean/false |允许拖动表头改变当前单元格宽度|
 
 ### Table Methods
 |参数|类型|说明|
@@ -511,6 +542,5 @@ export default {
 |-|-|
 |-             | 自定义列的内容，参数为 { row, index }|
 
-[[toc]]
 
 
