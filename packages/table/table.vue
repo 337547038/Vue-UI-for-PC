@@ -316,21 +316,22 @@ export default {
       this.$nextTick(() => {
         let child = this.$children
         // 遍历子组件，只返回column组件
-        /* this.columns = child.filter(item => {
+        this.columns = child.filter(item => {
           return item.$options.componentName === 'Column'
-        }) */
+        })
         // 返回过滤掉扩展列的
-        /* this.columnsFilter = child.filter(item => {
+        this.columnsFilter = child.filter(item => {
           return item.$options.componentName === 'Column' && item.type !== 'extend'
-        }) */
+        })
+        this.colWidth = []
         child.forEach(item => {
           if (item.$options.componentName === 'Column' && item.type !== 'extend') {
-            this.columnsFilter.push(item)
+            // this.columnsFilter.push(item)
             this.colWidth.push(item.width)
           }
-          if (item.$options.componentName === 'Column') {
+          /* if (item.$options.componentName === 'Column') {
             this.columns.push(item)
-          }
+          } */
         })
       })
     }
