@@ -33,14 +33,6 @@ export default {
     },
     event: Function,
     area: String // 地图，仅在type=map时
-    /* area: {
-      // 地图，仅在type=map时
-      // default: 'city',
-      // validator: function (value) {
-      //   return ['world', 'china', 'province', 'city'].indexOf(value) !== -1
-      // }
-    }, */
-    // areaCode: String // 省或城市的地图名，仅在area=province/city时
   },
   components: {},
   watch: {
@@ -68,33 +60,26 @@ export default {
   },
   methods: {
     __init () {
-      if (this.myChart) {
-        this.myChart.clear()
-        this.myChart.dispose()
-      }
-      this.myChart = echarts.init(this.$el)
       // 参数传值
-      let getType = {}
-      let xAxis = {}
       switch (this.type) {
         case 'line':
-          getType = this._line()
-          xAxis = this._getXAxis() // 自动添加x轴数据
+          this._line()
           break
         case 'bar':
-          getType = this._bar()
-          xAxis = this._getXAxis()
+          this._bar()
           break
         case 'pie':
-          getType = this._pie()
+          this._pie()
           break
         case 'map':
-          getType = this.map(this.area, this._setOptionMap)
+          this.map(this.area, this._map)
           break
-      }
-      if (this.type !== 'map') {
-        // 地图要加载json，另外处理
-        this._setOption(getType, xAxis)
+        case 'scatter':
+        case 'effectScatter':
+          this._scatter(this.type)
+          break
+        default:
+          this._setOption(this.option)
       }
     },
     _line () {
@@ -103,8 +88,8 @@ export default {
         type: 'line',
         smooth: true
       }
-      const series = this._getSeries(seriesDefault)
-      return {
+      const xAxis = this._getXAxis()
+      const defaultOption = {
         legend: {
           bottom: 0
           /* formatter: function (name) {
@@ -126,22 +111,21 @@ export default {
           containLabel: true
         },
         tooltip: {
-          // formatter方法不会被option的替换
-          formatter: '{a} <br/>{b} : {c}'
-          /* formatter: params => {
+          // formatter: '{a} <br/>{b} : {c}'
+          formatter: params => {
             return params.seriesName + '<br>' + params.marker + params.name + ' : ' + params.value
-          } */
-        },
-        series: series
+          }
+        }
       }
+      this._mergeOption(defaultOption, xAxis, seriesDefault)
     },
     _bar () {
       // 折线图基础配置
       const seriesDefault = {
         type: 'bar'
       }
-      const series = this._getSeries(seriesDefault)
-      return {
+      const xAxis = this._getXAxis()
+      const defaultOption = {
         legend: {
           bottom: 0
           /* formatter: function (name) {
@@ -167,13 +151,13 @@ export default {
           containLabel: true
         },
         tooltip: {
-          trigger: 'axis',
+          // trigger: 'axis',
           axisPointer: { // 坐标轴指示器，坐标轴触发有效
             type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
           }
-        },
-        series: series
+        }
       }
+      this._mergeOption(defaultOption, xAxis, seriesDefault)
     },
     _pie () {
       // 基础配置
@@ -189,8 +173,8 @@ export default {
           }
         }
       }
-      const series = this._getSeries(seriesDefault)
-      return {
+      const xAxis = {}
+      const defaultOption = {
         legend: {
           bottom: 0
           /* formatter: function (name) {
@@ -210,34 +194,187 @@ export default {
         tooltip: {
           trigger: 'item',
           formatter: '{a} <br/>{b} : {c} ({d}%)'
-        },
-        series: series
+        }
       }
+      this._mergeOption(defaultOption, xAxis, seriesDefault)
     },
-    _scatter () {
+    _map (defaultOption, seriesDefault) {
+      const xAxis = {}
+      this._mergeOption(defaultOption, xAxis, seriesDefault)
+    },
+    _scatter (type) {
       const seriesDefault = {
-        type: 'scatter'
+        type: type,
+        symbolSize: function (data) {
+          return Math.log(data) * 5
+        }
       }
-      const series = this._getSeries(seriesDefault)
-      return {
-        series: series
+      const xAxis = this._getXAxis()
+      const defaultOption = {
+        legend: {
+          bottom: 0
+          /* formatter: function (name) {
+            return echarts.format.truncateText(name, 100, '14px Microsoft Yahei', '…')
+          },
+          tooltip: {
+            show: true
+          } */
+        },
+        xAxis: {},
+        yAxis: {
+          type: 'value'
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          top: '10%',
+          bottom: '10%',
+          containLabel: true
+        },
+        tooltip: {
+          // formatter: '{a} <br/>{b} : {c}'
+          formatter: params => {
+            return params.seriesName + '<br>' + params.marker + params.name + ' : ' + params.value
+          }
+        }
       }
+      this._mergeOption(defaultOption, xAxis, seriesDefault)
+    },
+    _mergeOption (defaultOption, xAxis, seriesDefault) {
+      let newOption = {}
+      if (this.type) {
+        let data = [] // 传入的数据
+        let dataLen = 0
+        if (this.data) {
+          data = this._deepClone(this.data)
+          dataLen = data.length
+        }
+        let option = {} // 传入的option
+        let seriesLen = 0
+        if (this.option) {
+          option = this._deepClone(this.option)
+          if (option.series) {
+            seriesLen = option.series.length
+          }
+        }
+        if (data && dataLen === seriesLen) {
+          // 当通用data和option.series.data同时传了data时，则以data为准，去掉option里传的data，否则两个data会叠加
+          if (option && option.series) {
+            let i = 0
+            option.series.forEach(item => {
+              if (data[i] && data[i].data) {
+                item.data = []
+              }
+              i++
+            })
+          }
+        }
+        // 存在两个y轴时，option.yAxis为数组，合并会报错。这里直接将初始的设置为空
+        if (option.yAxis && option.yAxis.length > 0) {
+          defaultOption.yAxis = []
+        }
+        // 当在不同的图表类型这间切换时，option带有坐标轴信息时应该去掉
+        if (this.type === 'pie') {
+          if (option.yAxis) {
+            option.yAxis = []
+          }
+          if (option.xAxis) {
+            option.xAxis = []
+          }
+        }
+        if (this.type === 'map') {
+          // 地图时只需将组件内的series插入到type=map项即可，其它项不需要。先合并，再将seriesDefault插入到对应的项
+          newOption = this._objectAssign({}, defaultOption, option, {series: data})
+          let i = 0
+          if (newOption.series.length === 0) {
+            newOption.series = [seriesDefault]
+          } else {
+            newOption.series.forEach(item => {
+              let newItem = {}
+              if (!item.type || item.type === 'map') {
+                newItem = this._objectAssign({}, seriesDefault, item)
+                newOption.series[i] = newItem
+              }
+              i++
+            })
+          }
+        } else {
+          // 最两个中最大的
+          const max = Math.max.apply(null, [dataLen, seriesLen])
+          // 将默认的series扩展，添加到每个item
+          let defaultSeries = []
+          for (let i = 0; i < max; i++) {
+            defaultSeries.push(seriesDefault)
+          }
+          const series = this._deepClone({series: defaultSeries})
+          newOption = this._objectAssign({}, series, defaultOption, xAxis, option, {series: data})
+        }
+        newOption = this._tryFormatData(newOption)
+      } else {
+        // 不合并直接使用传进的option
+        newOption = this._deepClone(this.option)
+      }
+      this._setOption(newOption)
+    },
+    _tryFormatData (option) {
+      // 尝试转换数据
+      // 为不同数据类型在不同图表间切换，type=pie时，如果data=[0,0,0,0]，并且xAxis.data为[0,0,0,0]，尝试转为[{name:'',value:''}]这种格式
+      // 为适合不同图表类型间切换，并且data的数据格式为[0,0,0,0]时，尝试转为[{name:'',value:''}]格式，并且xAxis.data为[0,0,0,0]这种格式时
+      if (this.data && this.type === 'pie' && this.option.xAxis && this.option.xAxis.data) {
+        if (typeof this.data[0].data[0] !== 'object' && typeof this.option.xAxis.data[0] !== 'object') {
+          option.series.forEach(item => {
+            let newData = []
+            let i = 0
+            item.data.forEach(d => {
+              if (typeof d !== 'object') {
+                newData.push({
+                  name: this.option.xAxis.data[i],
+                  value: d
+                })
+              } else {
+                newData.push(d)
+              }
+              i++
+            })
+            item.data = newData
+          })
+        }
+      }
+      // 图表类型为地图时，数据类型为effectScatter和scatter时，尝试将[{name:'0',value:'0'}]转换为[{name:'0',value:[0,0,0]}]格式
+      if (this.type === 'map') {
+        option.series.forEach(item => {
+          if (item.type === 'effectScatter' || item.type === 'scatter') {
+            let res = []
+            for (let i = 0; i < item.data.length; i++) {
+              const geoCoord = this.geoCoordMap[item.data[i].name]
+              if (geoCoord) {
+                if (typeof item.data[i].value !== 'object') {
+                  res.push({
+                    name: item.data[i].name,
+                    value: geoCoord.concat(item.data[i].value)
+                  })
+                } else {
+                  res.push(item.data[i])
+                }
+              }
+            }
+            item.data = res
+          }
+        })
+      }
+      return option
     },
     _getLegend () {
       // 提取图例，this.data传值时，且数据大于1维或以上时
     },
-    _setOptionMap (getType) {
-      if (this.data) {
-        // 直接将data放在series[0]下
-        getType.series[0].data = this.data[0].data
-        getType.series[0].name = this.data[0].name
-      }
-      this._setOption(getType, {})
-    },
-    _setOption (getType, xAxis) {
-      const option = this._objectAssign({}, getType, xAxis, this.option)
+    _setOption (option) {
       console.log('option')
       console.log(option)
+      if (this.myChart) {
+        this.myChart.clear()
+        this.myChart.dispose()
+      }
+      this.myChart = echarts.init(this.$el)
       this.myChart.setOption(option)
       window.onresize = this.myChart.resize
       this.$emit('event', this.myChart)
@@ -260,7 +397,7 @@ export default {
         // 存在多维数据时，以第一组为标准提取
         const xData = this.data[0].data
         xData.forEach(item => {
-          xAxis.push(item.name)
+          xAxis.push(item.name || '')
         })
       }
       // 返回option里对应的xAxis格式
@@ -270,29 +407,7 @@ export default {
       }
       return {xAxis: rData}
     },
-    _getSeries (seriesDefault) {
-      // 通过data传参时
-      let series = []
-      if (this.data) {
-        // 将default的合并到data里去
-        this.data.forEach(item => {
-          series.push(this._objectAssign({}, seriesDefault, item))
-        })
-      } else {
-        // 通过option传时，存在多维数据，这里将默认的分别添加到各维数据里去
-        if (this.option && this.option.series) {
-          this.option.series.forEach(item => {
-            series.push(this._objectAssign({}, seriesDefault, item))
-          })
-        } else {
-          series = [seriesDefault]
-        }
-      }
-      return series
-    },
     _objectAssign (target) {
-      // object相同时取后面的，array会覆盖，如
-      // a=[1,2,3,4] b=[a,b] => [a,b,3,4]
       function isObj (x) {
         const type = typeof x
         return x !== null && (type === 'object' || type === 'function')
@@ -355,6 +470,24 @@ export default {
       }
       return target
       // }
+    },
+    _deepClone (source) {
+      // 深度克隆
+      if (!source && typeof source !== 'object') {
+        throw new Error('error arguments', 'shallowClone')
+      }
+      const targetObj = source.constructor === Array ? [] : {}
+      for (let keys in source) {
+        if (source.hasOwnProperty(keys)) {
+          if (source[keys] && typeof source[keys] === 'object') {
+            targetObj[keys] = source[keys].constructor === Array ? [] : {}
+            targetObj[keys] = this._deepClone(source[keys])
+          } else {
+            targetObj[keys] = source[keys]
+          }
+        }
+      }
+      return targetObj
     }
   },
   computed: {

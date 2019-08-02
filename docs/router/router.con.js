@@ -124,23 +124,23 @@ const router = [
     name: 'swiper',
     component: () => import('../docs/swiper.md')
   },
-  /*{
+  {
     path: '/echarts',
     name: 'echarts',
     component: () => import('../docs/echarts.md')
-  },*/
+  },
   {
     path: '/lazy',
     name: 'lazy',
     component: () => import('../docs/lazy.md')
   },
-  /*{
+  {
     path: '/test',
     name: 'test',
     meta: {
       // keepAlive: true // 需要被缓存
     },
     component: () => import('../docs/test.md')
-  }*/
+  }
 ]
 export default router

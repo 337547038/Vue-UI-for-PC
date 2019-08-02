@@ -3,6 +3,7 @@ import axios from 'axios'
 export default {
   data () {
     return {
+      geoCoordMap: {},
       url: './static/plugins/echarts/map/'
     }
   },
@@ -23,42 +24,39 @@ export default {
       axios.get(this.url + 'world.json')
         .then(res => {
           echarts.registerMap('world', res.data)
+          this._geoCoordMap('world')
           const option = {
             tooltip: {
               trigger: 'item'
-            },
-            dataRange: {
-              show: false,
-              calculable: true,
-              color: ['orangered', 'yellow', 'lightskyblue']
             },
             geo: {
               map: 'world',
               label: {
                 emphasis: {
-                  show: false
+                  show: true
                 }
               },
-              roam: false,
-              silent: true,
-              itemStyle: {
-                normal: {
-                  areaColor: '#37376e',
-                  borderColor: '#000'
-                },
-                emphasis: {
-                  areaColor: '#2a333d'
-                }
-              }
+              roam: true
             },
-            series: [
-              {
-                type: 'map',
-                mapType: 'world'
+            visualMap: {
+              show: false,
+              type: 'continuous',
+              left: 'left',
+              top: 'bottom',
+              text: ['高', '低'],
+              calculable: true,
+              inRange: {
+                color: ['#FFFFFF', '#0099FF']
               }
-            ]
+            }
           }
-          callback(option)
+          const series = {
+            type: 'map',
+            mapType: 'world',
+            roam: true,
+            geoIndex: 0
+          }
+          callback(option, series)
         })
         .catch(res => {
           console.log(res)
@@ -68,27 +66,35 @@ export default {
       axios.get(this.url + 'china.json')
         .then(res => {
           echarts.registerMap('china', res.data)
+          this._geoCoordMap('china')
           const option = {
             tooltip: {
               trigger: 'item'
             },
-            series: [
-              {
-                type: 'map',
-                mapType: 'china',
-                roam: true,
-                label: {
-                  normal: {
-                    show: true // 省份名称
-                  },
-                  emphasis: {
-                    show: false
-                  }
-                }
+            visualMap: {
+              show: false,
+              type: 'continuous',
+              left: 'left',
+              top: 'bottom',
+              text: ['高', '低'],
+              calculable: true,
+              inRange: {
+                color: ['#FFFFFF', '#0099FF']
               }
-            ]
+            }
           }
-          callback(option)
+          // series可能有多维数据，只需将默认的合并到地图一列即可
+          const series = {
+            type: 'map',
+            mapType: 'china',
+            roam: true,
+            label: {
+              normal: {
+                show: true // 地图名称
+              }
+            }
+          }
+          callback(option, series)
         })
         .catch(res => {
           console.log(res)
@@ -98,54 +104,50 @@ export default {
       axios.get(`${this.url}province/${areaCode}.json`)
         .then(res => {
           echarts.registerMap(areaCode, res.data)
+          this._geoCoordMap(areaCode)
           const option = {
             tooltip: {
-              trigger: 'item',
-              formatter: function (params) {
-                if (params.name) {
-                  return params.name + ' : ' + params.value || ''
-                }
-              }
-            },
-            visualMap: {
-              type: 'continuous',
-              show: false,
-              calculable: true,
-              // seriesIndex: [1],
-              inRange: {
-                color: ['#FFFFFF', '#0099FF']
-              }
+              trigger: 'item'
             },
             geo: {
               map: areaCode,
-              roam: false
-            },
-            series: [
-              {
-                type: 'map',
-                mapType: areaCode,
-                roam: true,
-                label: {
-                  normal: {
-                    show: true,
-                    position: 'inside',
-                    textStyle: {
-                      color: '#000000'
-                    }
-                  },
-                  emphasis: {
-                    show: true
-                  }
+              label: {
+                normal: {
+                  show: true
                 },
-                itemStyle: {
-                  normal: {
-                    borderColor: 'transparent'
-                  }
+                emphasis: {
+                  show: true
                 }
+              },
+              roam: true
+            },
+            visualMap: {
+              show: false,
+              type: 'continuous',
+              left: 'left',
+              top: 'bottom',
+              text: ['高', '低'],
+              calculable: true,
+              inRange: {
+                color: ['#FFFFFF', '#0099FF']
               }
-            ]
+            }
           }
-          callback(option)
+          const series = {
+            type: 'map',
+            mapType: areaCode,
+            roam: true,
+            geoIndex: 0,
+            label: {
+              normal: {
+                show: true
+              },
+              emphasis: {
+                show: true
+              }
+            }
+          }
+          callback(option, series)
         })
         .catch(res => {
           console.log(res)
@@ -155,58 +157,68 @@ export default {
       axios.get(`${this.url}city/${areaCode}.json`)
         .then(res => {
           echarts.registerMap(areaCode, res.data)
+          this._geoCoordMap(areaCode)
           const option = {
             tooltip: {
-              trigger: 'item',
-              formatter: function (params) {
-                if (params.name) {
-                  return params.name + ' : ' + params.value || ''
-                }
-              }
-            },
-            visualMap: {
-              type: 'continuous',
-              show: false,
-              calculable: true,
-              // seriesIndex: [1],
-              inRange: {
-                color: ['#FFFFFF', '#0099FF']
-              }
+              trigger: 'item'
             },
             geo: {
               map: areaCode,
-              roam: false
-            },
-            series: [
-              {
-                type: 'map',
-                mapType: areaCode,
-                roam: true,
-                label: {
-                  normal: {
-                    show: true,
-                    position: 'inside',
-                    textStyle: {
-                      color: '#000000'
-                    }
-                  },
-                  emphasis: {
-                    show: true
-                  }
+              label: {
+                normal: {
+                  show: true
                 },
-                itemStyle: {
-                  normal: {
-                    borderColor: 'transparent'
-                  }
+                emphasis: {
+                  show: true
                 }
+              },
+              roam: true
+            },
+            visualMap: {
+              show: false,
+              type: 'continuous',
+              left: 'left',
+              top: 'bottom',
+              text: ['高', '低'],
+              calculable: true,
+              inRange: {
+                color: ['#FFFFFF', '#0099FF']
               }
-            ]
+            }
           }
-          callback(option)
+          const series = {
+            type: 'map',
+            mapType: areaCode,
+            roam: true,
+            geoIndex: 0,
+            label: {
+              normal: {
+                show: true
+              },
+              emphasis: {
+                show: true
+              }
+            }
+          }
+          callback(option, series)
         })
         .catch(res => {
           console.log(res)
         })
+    },
+    _geoCoordMap (mapName) {
+      // 返回地图经纬度，为地图上其它散点图提供坐标
+      console.log('_geoCoordMap')
+      let geoMap = {}
+      const mapFeatures = echarts.getMap(mapName).geoJson.features
+      mapFeatures.forEach(function (v) {
+        // 地区名称
+        const name = v.properties.name
+        // 地区经纬度
+        geoMap[name] = v.properties.cp
+      })
+      console.log(geoMap)
+      this.geoCoordMap = geoMap
     }
   }
 }

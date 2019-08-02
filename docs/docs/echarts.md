@@ -16,7 +16,7 @@ function random () {
 
 const data1 = [
   {
-    name: '名称',
+    name: '数据格式1',
     data: [
       {name: 'Mon', value: random()},
       {name: 'Tue', value: random()},
@@ -30,7 +30,7 @@ const data1 = [
 ]
 const data2 = [
   {
-    name: '名称1',
+    name: '数据格式2-1',
     data: [
       {name: 'Mon', value: random()},
       {name: 'Tue', value: random()},
@@ -42,7 +42,7 @@ const data2 = [
     ]
   },
   {
-    name: '名称2',
+    name: '数据格式2-2',
     data: [
       {name: 'Mon', value: random()},
       {name: 'Tue', value: random()},
@@ -54,34 +54,139 @@ const data2 = [
     ]
   }
 ]
+const data3 = [
+  {
+    name: '数据格式3',
+    data: [random(), random(), random(), random(), random(), random(), random()]
+  }
+]
+const data4 = [
+  {
+    name: '数据格式4-1',
+    data: [random(), random(), random(), random(), random(), random(), random()]
+  },
+  {
+    name: '数据格式4-2',
+    data: [random(), random(), random(), random(), random(), random(), random()]
+  }
+]
+const data5 = [
+  {
+    name: 'name0',
+    data: [0.0, 54.7, 26.38, 23.32, 8.88, -17.92, -11.48, -15.1, -4.83, -30.99, -88.84]
+    // type:'line' // 这个设为折线，也可写在series里
+    // yAxisIndex:1 使用右边y轴，也可写在series里
+  },
+  {
+    name: 'name1',
+    data: [691, 1069, 1351, 1666, 1814, 1489, 1318, 1119, 1065, 735, 82],
+    barMaxWidth: '6'
+  },
+  {
+    name: 'name2',
+    data: [385, 598, 699, 918, 1051, 940, 906, 798, 843, 597, 73],
+    barMaxWidth: '30%', // 也可写在series里
+    stack: 'stack' // 也可写在series里
+  },
+  {
+    name: 'name3',
+    data: [208, 327, 430, 511, 596, 408, 251, 105, 21, 2, 0],
+    barMaxWidth: '30%',
+    stack: 'stack'
+  },
+  {
+    name: 'name4',
+    data: [87, 124, 206, 215, 162, 123, 142, 198, 162, 124, 0],
+    barMaxWidth: '30%',
+    stack: 'stack'
+  },
+  {
+    name: 'name5',
+    data: [11, 20, 16, 22, 5, 14, 16, 15, 21, 6, 0],
+    barMaxWidth: '30%',
+    stack: 'stack'
+  }
+]
 export default {
   data () {
     return {
+      option: {
+        xAxis: {
+          type: 'category',
+          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        }
+      },
       option2: {
-      color:['blue'],
-      legend:{show:false},
+        color: ['blue'],
         yAxis: {
           name: '统计图表',
           axisTick: {
             show: false
           }
         },
-        xAxis: {}
+        xAxis: {
+          type: 'category',
+          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        },
+        series: [{
+          type: 'line',
+          data: [820, 932, 901, 934, 1290, 1330, 1320]
+        }],
+        tooltip: {
+          formatter: '{a} <br/>{b} : {c}'
+        }
       },
       data1: data1,
       data2: data2,
-      option3:{
-      color:['orange'],
-      xAxis:{
-       data:['Mon','Tue','Web','Thu','Fri','Sta','Sun']
+      data3: data3,
+      data4: data4,
+      data5: data5,
+      option5: {
+        xAxis: {
+          data: ['2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019']
+        },
+        yAxis: [
+          {type: 'value'},
+          {
+            type: 'value',
+            name: '增长率',
+            axisLabel: {
+              formatter: '{value} %'
+            }
+          }
+        ],
+        series: [
+          {type: 'line', yAxisIndex: 1}
+        ]
       },
-      yAxis:{name:'统计图表option'},
-      series:[{
-         data: [820, 932, 901, 934, 1290, 1330, 1320]
-      }]
-      },
-      type:'bar',
-      area:'world'
+      dataMap: [],
+      optionMap: {},
+      type: 'line',
+      dataType: 'data1',
+      area: 'world',
+      scatter: [
+        {
+          data: ['663', '1013', '1284', '1585', '1694', '1384', '1217', '992', '947', '656', '74'],
+          name: '名称1'
+        },
+        {
+          data: ['479', '754', '968', '1149', '1334', '1064', '932', '692', '650', '427', '39'],
+          name: '名称2'
+        },
+        {
+          data: ['464', '736', '920', '1085', '1279', '1003', '854', '646', '625', '407', '38'],
+          name: '名称3'
+        },
+        {
+          data: [random(), random(), random(), random(), random(), random(), random(), random(), random(), random(), random()],
+          name: '数量随机'
+        }
+      ],
+      optionScatter: {
+        xAxis: {
+          data: ['2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019']
+        }
+      }
     }
   },
   methods: {
@@ -91,57 +196,162 @@ export default {
         console.log(params)
       })
     },
-    changeData(){
-    console.log('changeData')
-    this.data1=[
-    {
-        name: '名称change',
-        data: [
-          {name: 'Mon1', value: random()},
-          {name: 'Tue2', value: random()},
-          {name: 'Wed3', value: random()},
-          {name: 'Thu4', value: random()},
-          {name: 'Fri5', value: random()},
-          {name: 'Sat6', value: random()},
-          {name: 'Sun7', value: random()}
+    changeData (num) {
+      this.data1 = eval('data' + num)
+      this.dataType = 'data' + num
+    },
+    changeMap (city) {
+      this.area = city
+      if (city === 'world') {
+        this.dataMap = [
+          {
+            name: 'world map',
+            data: [
+              {name: 'China', value: 100}
+            ]
+          }
         ]
+        this.optionMap = {}
+      } else if (city === 'china') {
+        // 中国地图演示数据
+        this.dataMap = [
+          {
+            name: '地图散点',
+            data: [
+              {name: '广东', value: 10}
+            ]
+          },
+          {
+            name: 'china map',
+            data: [
+              {name: '新疆', value: '100'},
+              {name: '黑龙江', value: '50'},
+              {name: '广东', value: '30'},
+              {name: '四川', value: '80'}
+            ]
+          }
+        ]
+        this.optionMap = {
+          visualMap: {
+            show: true,
+            seriesIndex: 1
+          },
+          geo: {
+            map: 'china',
+            roam: true,
+            label: {
+              normal: {
+                show: true // 地图名称
+              }
+            }
+          },
+          series: [
+            {
+              type: 'effectScatter',
+              coordinateSystem: 'geo',
+              rippleEffect: {
+                period: 5,
+                scale: 6,
+                brushType: 'fill'
+              },
+              symbolSize: 5
+            },
+            {
+              type: 'map',
+              geoIndex: 0
+            }
+          ]
+        }
+      } else if (city === 'guangdong') {
+        // 广东
+        this.dataMap = [
+          {
+            name: '广东地图',
+            data: [
+              {name: '广州市', value: 100},
+              {name: '湛江市', value: 50}
+            ]
+          }
+        ]
+        this.optionMap = {}
+      } else if (city === '440100') {
+        // 广州
+        this.dataMap = [
+          {
+            name: '广州市地图',
+            data: [
+              {name: '天河区', value: 100},
+              {name: '白云区', value: 50}
+            ]
+          }
+        ]
+        this.optionMap = {}
       }
-    ]
     }
   }
 }
 </script>
+
+
+
 <style>
 .ak-echarts{width:100%;height:350px;}
 </style>
+
 ## 基础用法
 :::demo 传图表类型type和数据data即可
 ```html
 <template>
   <div>
-    <div><ak-button @click="changeData">change data</ak-button></div>
-    <ak-echarts :data="data1" type="line"></ak-echarts>
+    <div>
+      <p>数据切换时要注意数据格式，救命数据data3,data4没传x坐标轴，显示为空，转为饼图时数据格式也不正确</p>
+      <p>&nbsp;</p>
+      <p>切换数据格式：{{dataType}}</p>
+      <ak-button @click="changeData(1)">data1</ak-button>
+      <ak-button @click="changeData(2)">data2</ak-button>
+      <ak-button @click="changeData(3)">data3</ak-button>
+      <ak-button @click="changeData(4)">data4</ak-button>
+    </div>
+    <p>&nbsp;</p>
+    <p>切换图表类型：{{type}}</p>
+    <ak-button @click="type='line'">line</ak-button>
+    <ak-button @click="type='bar'">bar</ak-button>
+    <ak-button @click="type='pie'">pie</ak-button>
+    <ak-echarts :data="data1" :type="type" :event="event"></ak-echarts>
   </div>
 </template>
 <script>
 export default {
   data () {
     return {
-     data1: data1
+      data1: data1,
+      type: 'line',
+      dataType: 'data1',
+    }
+  },
+  methods: {
+    event (charts) {
+      charts.on('click', params => {
+        console.log('click')
+        console.log(params)
+      })
+    },
+    changeData (num) {
+      this.data1 = eval('data' + num)
+      this.dataType = 'data' + num
     }
   }
 }
 </script>
-
 ```
 :::
 
-## 修改个性配置
-:::demo 配合option传配置
+## 使用option
+:::demo 使用option，data和type可不传
 ```html
 <template>
   <div>
-    <ak-echarts :data="data1" type="line" :option="option2"></ak-echarts>
+    <ak-echarts :option="option2" :event="event"></ak-echarts>
   </div>
 </template>
 <script>
@@ -149,18 +359,25 @@ export default {
   data () {
     return {
       option2: {
-            color:['blue'],
-            legend:{show:false},
-              yAxis: {
-                name: '统计图表',
-                axisTick: {
-                  show: false
-                }
-              },
-              xAxis: {},
-              grid: {left: '50px'}
-            },
-     data1: data1
+        color: ['blue'],
+        yAxis: {
+          name: '统计图表',
+          axisTick: {
+            show: false
+          }
+        },
+        xAxis: {
+          type: 'category',
+          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        },
+        series: [{
+          type: 'line',
+          data: [820, 932, 901, 934, 1290, 1330, 1320]
+        }],
+        tooltip: {
+          formatter: '{a} <br/>{b} : {c}'
+        }
+      }
     }
   }
 }
@@ -169,105 +386,191 @@ export default {
 ```
 :::
 
-## 通过option传data
-:::demo 只传option时，图表数据格式是echarts支持即可，不一定要是data的格式，如这里的`data: [820, 932, 901, 934, 1290, 1330, 1320]`
+## 折线柱状图混合使用
+:::demo 
 ```html
 <template>
   <div>
-    <ak-echarts type="line" :option="option3"></ak-echarts>
+    <ak-echarts type="bar" :data="data5" :option="option5"  :event="event"></ak-echarts>
   </div>
 </template>
 <script>
 export default {
   data () {
     return {
-      option3:{
-            color:['orange'],
-            xAxis:{
-             data:['Mon','Tue','Web','Thu','Fri','Sta','Sun']
-            },
-            yAxis:{name:'统计图表option'},
-            series:[{
-               data: [820, 932, 901, 934, 1290, 1330, 1320]
-            }]
+      data5: [
+        {
+          name: 'name0',
+          data: [0.0, 54.7, 26.38, 23.32, 8.88, -17.92, -11.48, -15.1, -4.83, -30.99, -88.84]
+          // type:'line' // 这个设为折线，也可写在series里
+          // yAxisIndex:1 使用右边y轴，也可写在series里
+        },
+        {
+          name: 'name1',
+          data: [691, 1069, 1351, 1666, 1814, 1489, 1318, 1119, 1065, 735, 82],
+          barMaxWidth: '6'
+        },
+        {
+          name: 'name2',
+          data: [385, 598, 699, 918, 1051, 940, 906, 798, 843, 597, 73],
+          barMaxWidth: '30%', // 也可写在series里
+          stack: 'stack' // 也可写在series里
+        },
+        {
+          name: 'name3',
+          data: [208, 327, 430, 511, 596, 408, 251, 105, 21, 2, 0],
+          barMaxWidth: '30%',
+          stack: 'stack'
+        },
+        {
+          name: 'name4',
+          data: [87, 124, 206, 215, 162, 123, 142, 198, 162, 124, 0],
+          barMaxWidth: '30%',
+          stack: 'stack'
+        },
+        {
+          name: 'name5',
+          data: [11, 20, 16, 22, 5, 14, 16, 15, 21, 6, 0],
+          barMaxWidth: '30%',
+          stack: 'stack'
+        }
+      ],
+      option5: {
+        xAxis: {
+          data: ['2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019']
+        },
+        yAxis: [
+          {type: 'value'},
+          {
+            type: 'value',
+            name: '增长率',
+            axisLabel: {
+              formatter: '{value} %'
             }
+          }
+        ],
+        series: [
+          {type: 'line', yAxisIndex: 1}
+        ]
+      }
     }
   }
 }
 </script>
-
 ```
 :::
 
-## 多维数据
-:::demo 
-```html
-<template>
-  <div>
-    <ak-echarts type="line" :data="data2"></ak-echarts>
-  </div>
-</template>
-<script>
-export default {
-  data () {
-    return {
-      data2:data2
-    }
-  }
-}
-</script>
-
-```
-:::
-
-## 其它
-:::demo 
-```html
-<template>
-  <div>
-  <div>
-  <ak-button @click="type='line'">line</ak-button>
-  <ak-button @click="type='bar'">bar</ak-button>
-  <ak-button @click="type='pie'">pie</ak-button>
-  {{type}}
-  </div>
-    <ak-echarts :type="type" :data="data1"></ak-echarts>
-  </div>
-</template>
-<script>
-export default {
-  data () {
-    return {
-      type:'bar',
-      data2:data1
-    }
-  }
-}
-</script>
-
-```
-:::
 
 ## 地图
 :::demo 
 ```html
 <template>
   <div>
-  <div>
-  <ak-button @click="area='world'">世界</ak-button>
-  <ak-button @click="area='china'">中国</ak-button>
-  <ak-button @click="area='guangdong'">广东</ak-button>
-  <ak-button @click="area='440100'">广州</ak-button>
-  </div>
-    <ak-echarts type="map" :area="area"></ak-echarts>
+    <p>地图：{{area}}</p>
+    <ak-button @click="changeMap('world')">世界</ak-button>
+    <ak-button @click="changeMap('china')">中国</ak-button>
+    <ak-button @click="changeMap('guangdong')">广东</ak-button>
+    <ak-button @click="changeMap('440100')">广州</ak-button>
+    <ak-echarts type="map" :data="dataMap" :option="optionMap" :area="area" :event="event"></ak-echarts>
   </div>
 </template>
 <script>
 export default {
   data () {
     return {
-      type:'bar',
-      data2:data1
+      dataMap: [],
+      optionMap: {},
+      area: 'world'
+    }
+  },
+  methods: {
+    changeMap (city) {
+      this.area = city
+      if (city === 'world') {
+        this.dataMap = [
+          {
+            name: 'world map',
+            data: [
+              {name: 'China', value: 100}
+            ]
+          }
+        ]
+        this.optionMap = {}
+      } else if (city === 'china') {
+        // 中国地图演示数据
+        this.dataMap = [
+          {
+            name: '地图散点',
+            data: [
+              {name: '广东', value: 10}
+            ]
+          },
+          {
+            name: 'china map',
+            data: [
+              {name: '新疆', value: '100'},
+              {name: '黑龙江', value: '50'},
+              {name: '广东', value: '30'},
+              {name: '四川', value: '80'}
+            ]
+          }
+        ]
+        this.optionMap = {
+          visualMap: {
+            show: true,
+            seriesIndex: 1
+          },
+          geo: {
+            map: 'china',
+            roam: true,
+            label: {
+              normal: {
+                show: true // 地图名称
+              }
+            }
+          },
+          series: [
+            {
+              type: 'effectScatter',
+              coordinateSystem: 'geo',
+              rippleEffect: {
+                period: 5,
+                scale: 6,
+                brushType: 'fill'
+              },
+              symbolSize: 5
+            },
+            {
+              type: 'map',
+              geoIndex: 0
+            }
+          ]
+        }
+      } else if (city === 'guangdong') {
+        // 广东
+        this.dataMap = [
+          {
+            name: '广东地图',
+            data: [
+              {name: '广州市', value: 100},
+              {name: '湛江市', value: 50}
+            ]
+          }
+        ]
+        this.optionMap = {}
+      } else if (city === '440100') {
+        // 广州
+        this.dataMap = [
+          {
+            name: '广州市地图',
+            data: [
+              {name: '天河区', value: 100},
+              {name: '白云区', value: 50}
+            ]
+          }
+        ]
+        this.optionMap = {}
+      }
     }
   }
 }
@@ -276,15 +579,59 @@ export default {
 ```
 :::
 
+## 散点图
+:::demo 
+```html
+<template>
+  <div>
+    <ak-echarts type="scatter" :data="scatter" :option="optionScatter" :event="event"></ak-echarts>
+  </div>
+</template>
+<script>
+export default {
+  data () {
+    return {
+      scatter: [
+        {
+          data: ['663', '1013', '1284', '1585', '1694', '1384', '1217', '992', '947', '656', '74'],
+          name: '名称1'
+        },
+        {
+          data: ['479', '754', '968', '1149', '1334', '1064', '932', '692', '650', '427', '39'],
+          name: '名称2'
+        },
+        {
+          data: ['464', '736', '920', '1085', '1279', '1003', '854', '646', '625', '407', '38'],
+          name: '名称3'
+        },
+        {
+          data: [random(), random(), random(), random(), random(), random(), random(), random(), random(), random(), random()],
+          name: '数量随机'
+        }
+      ],
+      optionScatter: {
+        xAxis: {
+          data: ['2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019']
+        }
+      }
+    }
+  },
+  methods: {}
+}
+</script>
+
+
+```
+:::
 
 ## API
 ### ECharts
 |参数|类型|说明|
 |-|-|-|
-|type           | String         |图表类型|
+|type           | String         |图表类型，合并组件内部对应的option。不需合并不传即可，使用option参数的。暂支持line,bar,pie,map,scatter,effectScatter，其它类型可直接使用option|
 |width          | String         |图表显示的宽，一般可通过样式设置|
 |height         | String         |图表显示的高，一般可通过样式设置|
-|data           | Array          |图表数据，格式请查看下面的演示数据|
+|data           | Array          |图表数据，格式请查看下面的演示数据。相当于series，同时可以有其它参数，也可结合option一起传值，仅type不为空时有效|
 |option         | Object         |图表配置，图表数据也可通过option传，跟data选其中一种方式即可|
 |xAxisAuto      | Boolean/true   |是否自动提取x轴字段，且data为真时|
 |event          | Function       |返回实例|
@@ -299,43 +646,61 @@ function random () {
 // 一维数据
 const data1 = [
   {
-    name: '名称',
+    name: '数据格式1',
     data: [
-      {name: 'Mon', value: '80'},
-      {name: 'Tue', value: '932'},
-      {name: 'Wed', value: '901'},
-      {name: 'Thu', value: '934'},
-      {name: 'Fri', value: '1290'},
-      {name: 'Sat', value: '1330'},
-      {name: 'Sun', value: '990'}
+      {name: 'Mon', value: random()},
+      {name: 'Tue', value: random()},
+      {name: 'Wed', value: random()},
+      {name: 'Thu', value: random()},
+      {name: 'Fri', value: random()},
+      {name: 'Sat', value: random()},
+      {name: 'Sun', value: random()}
     ]
   }
 ]
-// 多维数据
+
 const data2 = [
   {
-    name: '名称1',
+    name: '数据格式2-1',
     data: [
-      {name: 'Mon', value: '80'},
-      {name: 'Tue', value: '932'},
-      {name: 'Wed', value: '901'},
-      {name: 'Thu', value: '934'},
-      {name: 'Fri', value: '1290'},
-      {name: 'Sat', value: '1330'},
-      {name: 'Sun', value: '990'}
+      {name: 'Mon', value: random()},
+      {name: 'Tue', value: random()},
+      {name: 'Wed', value: random()},
+      {name: 'Thu', value: random()},
+      {name: 'Fri', value: random()},
+      {name: 'Sat', value: random()},
+      {name: 'Sun', value: random()}
     ]
   },
   {
-    name: '名称2',
+    name: '数据格式2-2',
     data: [
-      {name: 'Mon', value: '80'},
-      {name: 'Tue', value: '932'},
-      {name: 'Wed', value: '901'},
-      {name: 'Thu', value: '934'},
-      {name: 'Fri', value: '1290'},
-      {name: 'Sat', value: '1330'},
-      {name: 'Sun', value: '990'}
+      {name: 'Mon', value: random()},
+      {name: 'Tue', value: random()},
+      {name: 'Wed', value: random()},
+      {name: 'Thu', value: random()},
+      {name: 'Fri', value: random()},
+      {name: 'Sat', value: random()},
+      {name: 'Sun', value: random()}
     ]
+  }
+]
+
+const data3 = [
+  {
+    name: '数据格式3',
+    data: [random(), random(), random(), random(), random(), random(), random()]
+  }
+]
+
+const data4 = [
+  {
+    name: '数据格式4-1',
+    data: [random(), random(), random(), random(), random(), random(), random()]
+  },
+  {
+    name: '数据格式4-2',
+    data: [random(), random(), random(), random(), random(), random(), random()]
   }
 ]
 </script>
