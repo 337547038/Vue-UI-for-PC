@@ -10,9 +10,9 @@ export default {
   methods: {
     map (area, callback) {
       if (area === 'world') {
-        this._world(callback)
+        this._world(callback, area)
       } else if (area === 'china') {
-        this._china(callback)
+        this._china(callback, area)
       } else if (Number(area)) {
         // 城市名全为数字.json格式，因此用作判断依据
         this._city(callback, area)
@@ -20,17 +20,17 @@ export default {
         this._province(callback, area)
       }
     },
-    _world (callback) {
-      axios.get(this.url + 'world.json')
+    _world (callback, area) {
+      axios.get(this.url + area + '.json')
         .then(res => {
-          echarts.registerMap('world', res.data)
-          this._geoCoordMap('world')
+          echarts.registerMap(area, res.data)
+          this._geoCoordMap(area)
           const option = {
             tooltip: {
               trigger: 'item'
             },
             geo: {
-              map: 'world',
+              map: area,
               label: {
                 emphasis: {
                   show: true
@@ -52,7 +52,7 @@ export default {
           }
           const series = {
             type: 'map',
-            mapType: 'world',
+            mapType: area,
             roam: true,
             geoIndex: 0
           }
@@ -62,11 +62,11 @@ export default {
           console.log(res)
         })
     },
-    _china (callback) {
-      axios.get(this.url + 'china.json')
+    _china (callback, area) {
+      axios.get(this.url + area + '.json')
         .then(res => {
-          echarts.registerMap('china', res.data)
-          this._geoCoordMap('china')
+          echarts.registerMap(area, res.data)
+          this._geoCoordMap(area)
           const option = {
             tooltip: {
               trigger: 'item'
@@ -86,7 +86,7 @@ export default {
           // series可能有多维数据，只需将默认的合并到地图一列即可
           const series = {
             type: 'map',
-            mapType: 'china',
+            mapType: area,
             roam: true,
             label: {
               normal: {

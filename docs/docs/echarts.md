@@ -166,12 +166,24 @@ export default {
       area: 'world',
       scatter: [
         {
-          data: ['663', '1013', '1284', '1585', '1694', '1384', '1217', '992', '947', '656', '74'],
-          name: '名称1'
+          data: [
+            {name: '2009', value: 163},
+            {name: '2010', value: 1013},
+            {name: '2011', value: 1284},
+            {name: '2012', value: 1585},
+            {name: '2013', value: 1694},
+            {name: '2014', value: 1384},
+            {name: '2015', value: 1217},
+            {name: '2016', value: 992},
+            {name: '2017', value: 947},
+            {name: '2018', value: 656},
+            {name: '2019', value: 74}
+          ],
+          name: '数据格式1'
         },
         {
           data: ['479', '754', '968', '1149', '1334', '1064', '932', '692', '650', '427', '39'],
-          name: '名称2'
+          name: '数据格式2'
         },
         {
           data: ['464', '736', '920', '1085', '1279', '1003', '854', '646', '625', '407', '38'],
@@ -292,8 +304,6 @@ export default {
 }
 </script>
 
-
-
 <style>
 .ak-echarts{width:100%;height:350px;}
 </style>
@@ -304,19 +314,20 @@ export default {
 <template>
   <div>
     <div>
-      <p>数据切换时要注意数据格式，救命数据data3,data4没传x坐标轴，显示为空，转为饼图时数据格式也不正确</p>
+      <p>数据切换时要注意数据格式，示例数据data3,data4没传x坐标轴，显示为空，转为饼图时数据格式也不正确</p>
       <p>&nbsp;</p>
       <p>切换数据格式：{{dataType}}</p>
-      <ak-button @click="changeData(1)">data1</ak-button>
-      <ak-button @click="changeData(2)">data2</ak-button>
-      <ak-button @click="changeData(3)">data3</ak-button>
-      <ak-button @click="changeData(4)">data4</ak-button>
+      <ak-button @click="changeData(1)" :type="dataType==='data1'?'primary':''">data1</ak-button>
+      <ak-button @click="changeData(2)" :type="dataType==='data2'?'primary':''">data2</ak-button>
+      <ak-button @click="changeData(3)" :type="dataType==='data3'?'primary':''">data3</ak-button>
+      <ak-button @click="changeData(4)" :type="dataType==='data4'?'primary':''">data4</ak-button>
     </div>
     <p>&nbsp;</p>
     <p>切换图表类型：{{type}}</p>
-    <ak-button @click="type='line'">line</ak-button>
-    <ak-button @click="type='bar'">bar</ak-button>
-    <ak-button @click="type='pie'">pie</ak-button>
+    <ak-button @click="type='line'" :type="type==='line'?'primary':''">line</ak-button>
+    <ak-button @click="type='bar'" :type="type==='bar'?'primary':''">bar</ak-button>
+    <ak-button @click="type='pie'" :type="type==='pie'?'primary':''">pie</ak-button>
+    <ak-button @click="type='scatter'" :type="type==='scatter'?'primary':''">scatter</ak-button>
     <ak-echarts :data="data1" :type="type" :event="event"></ak-echarts>
   </div>
 </template>
@@ -467,10 +478,10 @@ export default {
 <template>
   <div>
     <p>地图：{{area}}</p>
-    <ak-button @click="changeMap('world')">世界</ak-button>
-    <ak-button @click="changeMap('china')">中国</ak-button>
-    <ak-button @click="changeMap('guangdong')">广东</ak-button>
-    <ak-button @click="changeMap('440100')">广州</ak-button>
+    <ak-button @click="changeMap('world')" :type="area==='world'?'primary':''">世界</ak-button>
+    <ak-button @click="changeMap('china')" :type="area==='china'?'primary':''">中国</ak-button>
+    <ak-button @click="changeMap('guangdong')" :type="area==='guangdong'?'primary':''">广东</ak-button>
+    <ak-button @click="changeMap('440100')" :type="area==='440100'?'primary':''">广州</ak-button>
     <ak-echarts type="map" :data="dataMap" :option="optionMap" :area="area" :event="event"></ak-echarts>
   </div>
 </template>
@@ -593,12 +604,24 @@ export default {
     return {
       scatter: [
         {
-          data: ['663', '1013', '1284', '1585', '1694', '1384', '1217', '992', '947', '656', '74'],
-          name: '名称1'
+          data: [
+            {name: '2009', value: 163},
+            {name: '2010', value: 1013},
+            {name: '2011', value: 1284},
+            {name: '2012', value: 1585},
+            {name: '2013', value: 1694},
+            {name: '2014', value: 1384},
+            {name: '2015', value: 1217},
+            {name: '2016', value: 992},
+            {name: '2017', value: 947},
+            {name: '2018', value: 656},
+            {name: '2019', value: 74}
+          ]
+          name: '数据格式1'
         },
         {
           data: ['479', '754', '968', '1149', '1334', '1064', '932', '692', '650', '427', '39'],
-          name: '名称2'
+          name: '数据格式2'
         },
         {
           data: ['464', '736', '920', '1085', '1279', '1003', '854', '646', '625', '407', '38'],
@@ -633,9 +656,9 @@ export default {
 |height         | String         |图表显示的高，一般可通过样式设置|
 |data           | Array          |图表数据，格式请查看下面的演示数据。相当于series，同时可以有其它参数，也可结合option一起传值，仅type不为空时有效|
 |option         | Object         |图表配置，图表数据也可通过option传，跟data选其中一种方式即可|
-|xAxisAuto      | Boolean/true   |是否自动提取x轴字段，且data为真时|
+|xAxisAuto      | Boolean/true   |是否自动提取x轴字段，仅data为真时|
 |event          | Function       |返回实例|
-|area           | String         |地图区域。仅当type=map时有效，世界(world)，中国(china)，省市时对应json的名称，即对应地图文件名|
+|area           | String         |地图区域。仅当type=map时有效，世界(world)，中国(china)，省市时对应json的名称，即对应地图文件名，详见/static/plugins/echarts/map/|
 
 ## 演示数据
 ```html

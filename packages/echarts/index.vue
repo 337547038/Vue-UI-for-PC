@@ -12,7 +12,7 @@ export default {
   data () {
     return {
       prefixCls: prefixCls,
-      myChart: ''
+      myChart: '' // echarts实例
     }
   },
   mixins: [map],
@@ -76,7 +76,7 @@ export default {
           break
         case 'scatter':
         case 'effectScatter':
-          this._scatter(this.type)
+          this._scatter()
           break
         default:
           this._setOption(this.option)
@@ -202,9 +202,9 @@ export default {
       const xAxis = {}
       this._mergeOption(defaultOption, xAxis, seriesDefault)
     },
-    _scatter (type) {
+    _scatter () {
       const seriesDefault = {
-        type: type,
+        type: this.type,
         symbolSize: function (data) {
           return Math.log(data) * 5
         }
@@ -282,32 +282,22 @@ export default {
             option.xAxis = []
           }
         }
-        if (this.type === 'map') {
-          // 地图时只需将组件内的series插入到type=map项即可，其它项不需要。先合并，再将seriesDefault插入到对应的项
-          newOption = this._objectAssign({}, defaultOption, option, {series: data})
-          let i = 0
-          if (newOption.series.length === 0) {
-            newOption.series = [seriesDefault]
-          } else {
-            newOption.series.forEach(item => {
-              let newItem = {}
-              if (!item.type || item.type === 'map') {
-                newItem = this._objectAssign({}, seriesDefault, item)
-                newOption.series[i] = newItem
-              }
-              i++
-            })
-          }
+        // 先合并内置option和传参data,传参option，及xAxis
+        newOption = this._objectAssign({}, defaultOption, xAxis, option, {series: data})
+        // 再将内置的series插入到对应的series项里
+        // 即当同时显示两种图形时，即折线+柱状，type=bar时,只会将内置的bar series合并到type=bar或type为空的项时，不会合并到type=line项
+        let i = 0
+        if (newOption.series.length === 0) {
+          newOption.series = [seriesDefault]
         } else {
-          // 最两个中最大的
-          const max = Math.max.apply(null, [dataLen, seriesLen])
-          // 将默认的series扩展，添加到每个item
-          let defaultSeries = []
-          for (let i = 0; i < max; i++) {
-            defaultSeries.push(seriesDefault)
-          }
-          const series = this._deepClone({series: defaultSeries})
-          newOption = this._objectAssign({}, series, defaultOption, xAxis, option, {series: data})
+          newOption.series.forEach(item => {
+            let newItem = {}
+            if (!item.type || item.type === this.type) {
+              newItem = this._objectAssign({}, seriesDefault, item)
+              newOption.series[i] = newItem
+            }
+            i++
+          })
         }
         newOption = this._tryFormatData(newOption)
       } else {
