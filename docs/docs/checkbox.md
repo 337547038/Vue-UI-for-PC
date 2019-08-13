@@ -13,6 +13,7 @@ export default {
       checkbox8: ['a1', 'a6'],
       checkbox9: ['a2', 'a5'],
       checkbox10: [],
+      checkbox11: ['a2','a6'],
       groupData: [
         {label: '选项1', value: 'a1'},
         {label: '选项2', value: 'a2'},
@@ -38,11 +39,11 @@ export default {
 ```html
 <template>
   <div>  
-    <p><ak-checkbox v-model="checkbox1">选项1</ak-checkbox> {{checkbox1}}</p>
+    <p><ak-checkbox v-model="checkbox1">选项1</ak-checkbox> {{checkbox1}} </p>
     <p><ak-checkbox v-model="checkbox2">选项2</ak-checkbox> {{checkbox2}}</p>
-    <p><ak-checkbox v-model="checkbox3">选项3</ak-checkbox> {{checkbox3}}</p>
+    <p><ak-checkbox v-model="checkbox3">选项3</ak-checkbox> {{checkbox3}}（v-model的值只要为true都会是勾选状态）</p>
     <p>&nbsp;</p>
-    <p>选中时返回指定值</p>
+    <p>选中时返回指定值（v-model=value或是value存在于v-model数组中，即选中状态）</p>
     <p><ak-checkbox v-model="checkbox4" value="4">选项4</ak-checkbox> {{checkbox4}}</p>
     <p><ak-checkbox v-model="checkbox5" value="5">选项5</ak-checkbox> {{checkbox5}}</p>
   </div>
@@ -148,6 +149,39 @@ export default {
 ```
 :::
 
+### 组全选或全不选方法
+
+:::demo 
+```html
+<template>
+  <div>
+    <p>已选值：{{checkbox11}}</p>
+    <p><ak-checkbox-group v-model="checkbox11" :data="groupData" ref="checkGroup">选项1</ak-checkbox-group></p>
+    <p><ak-button @click="$refs.checkGroup.select()">全选</ak-button> 
+    <ak-button @click="$refs.checkGroup.clear()">全不选</ak-button></p>
+  </div>
+</template>
+<script>
+export default {
+  data () {
+    return {
+      checkbox11: [],
+      groupData: [
+        {label: '选项1', value: 'a1'},
+        {label: '选项2', value: 'a2'},
+        {label: '选项3', value: 'a3'},
+        {value: 'a4'},
+        {label: '禁用', value: 'a5', disabled: true},
+        {label: '勾选禁用', value: 'a6', disabled: true}
+      ]
+    }
+  }
+}
+</script>
+
+```
+:::
+
 
 ### 多个单一组成的组
 :::demo 组group有一定的局限性，组内的`checkbox`是紧密相连的。由多个单一`checkbox`自由组成可实现灵活布局。同时也很方便的实现全选或全不选
@@ -200,3 +234,9 @@ export default {
 |change         |                 |改变事件|
 |max            | number          |可被勾选的 checkbox 的最大数量|
 |min            | number          |可被勾选的 checkbox 的最小数量|
+
+### CheckboxGroup Methods
+|参数|类型|
+|-|-|-|
+|select         | 全选当前组所有选项 |
+|clear          | 取消选择当前组所有选项 |

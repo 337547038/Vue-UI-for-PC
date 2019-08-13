@@ -135,12 +135,37 @@ const router = [
     component: () => import('../docs/lazy.md')
   },
   {
+    path: '/backTop',
+    name: 'backTop',
+    component: () => import('../docs/backTop.md')
+  },
+  {
+    path: '/breadcrumb',
+    name: 'breadcrumb',
+    component: () => import('../docs/breadcrumb.md')
+  },
+  {
+    path: '/cascader',
+    name: 'cascader',
+    component: () => import('../docs/cascader.md')
+  },
+  {
+    path: '/progress',
+    name: 'progress',
+    component: () => import('../docs/progress.md')
+  },
+  {
+    path: '/transfer',
+    name: 'transfer',
+    component: () => import('../docs/transfer.md')
+  }
+  /* {
     path: '/test',
     name: 'test',
     meta: {
       // keepAlive: true // 需要被缓存
     },
     component: () => import('../docs/test.md')
-  }
+  } */
 ]
 export default router

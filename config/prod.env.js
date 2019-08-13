@@ -8,8 +8,6 @@ if (process.env.npm_config_argv) {
 let prodEnv = {
   NODE_ENV: '"production"',
   BASE_URL: '""', // API基础地址
-  LOGO_URL: '""', // logo url，默认为'"~/img/logo.png"'
-  MS_PATH: '""', // MS_PATH
   PROJECT_ID:'""'
 }
 module.exports = prodEnv

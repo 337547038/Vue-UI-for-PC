@@ -1,0 +1,18 @@
+@charset "utf-8";
+@include ns(transfer){overflow: hidden;position: relative;display: inline-block;
+  .transfer-panel{ width: 200px; border: 1px solid #ebeef5; border-radius: 3px; float: left;
+    @include ns(checkbox){display: block;margin: 5px 0}
+    .transfer-head{ height: 40px;line-height: 40px; background: #f5f7fa; padding: 0 15px; position: relative;
+      label{margin: 0}
+      .num{ position: absolute; right: 15px; top: 0; color: #999; font-size: 12px; }
+    }
+    .transfer-content{height: 200px;padding: 0 15px;overflow-y: auto;
+    }
+    &:first-child{margin-right: 60px}
+  }
+  .transfer-control{height: 86px;position: absolute;left: 50%; top: 50%; transform: translate(-50%, -50%);
+    a{ display: block; margin: 0 auto 10px; border-radius: 50%; color: #dcdfe6; background: #f5f7fa; border: 1px solid #dcdfe6; width: 36px; height: 36px; text-align: center; line-height: 36px; cursor: not-allowed;
+      &.control-move{ background-color: #409eff;cursor: pointer;color: #fff }
+    }
+  }
+}

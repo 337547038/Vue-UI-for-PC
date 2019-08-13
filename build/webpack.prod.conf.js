@@ -10,7 +10,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-const PrerenderSpaPlugin = require('prerender-spa-plugin') // 预渲染
+// const PrerenderSpaPlugin = require('prerender-spa-plugin') // 预渲染
 
 const env = require('../config/prod.env')
 

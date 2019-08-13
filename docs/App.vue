@@ -22,7 +22,9 @@
         </ul>
       </div>
       <div class="main-right">
-        <router-view class="markdown"></router-view>
+        <transition name="left-fade">
+          <router-view class="markdown"></router-view>
+        </transition>
       </div>
     </div>
     <div class="fixed-bottom" @click="showNav=!showNav"></div>
@@ -46,6 +48,7 @@ export default {
     var value2 = 'A'
     console.log(value1 > value2) */
   },
+  watch: {},
   methods: {
     _sortBy (sortValue) {
       // 添加排序
@@ -376,4 +379,16 @@ export default {
 </style>
 <style lang="scss">
   @import "scss/index";
+</style>
+<style>
+  .left-fade-enter-active{
+    transition: all 1.2s ease;
+  }
+  .left-fade-leave-active{
+    transition: all .1s cubic-bezier(2.0, 0.5, 0.8, 1.0);
+  }
+  .left-fade-enter, .left-fade-leave-to{
+    transform: translateX(10px);
+    opacity: 0;
+  }
 </style>

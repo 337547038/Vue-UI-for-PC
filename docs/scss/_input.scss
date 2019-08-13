@@ -17,11 +17,12 @@
 }
 @include ns(input-control){
   $border: #ddd;
-  $focus: orange;
+  $focus: #f60;
   $error: red;
   height: 38px;line-height: 38px;border: 1px solid #ddd;border-radius: 3px;background: none;outline: none;padding: 0 10px;font-size: 14px;overflow: hidden;box-sizing: border-box;width: 300px;
   &:hover{border-color: #ccc}
-  &:focus{border-color: $focus}
+  &:focus,&.focus{border-color: $focus}
+  &.placeholder{color: #999}
   /*禁用状态*/
   &.disabled{background: #eee;cursor: not-allowed;}
   @at-root{

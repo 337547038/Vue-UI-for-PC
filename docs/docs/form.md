@@ -15,6 +15,7 @@ export default {
         tel: '',
         city: '',
         area: '',
+        cascader: [],
         select: '',
         checkbox: false,
         checkboxGroup: [],
@@ -53,6 +54,9 @@ export default {
         ],
         area: [
           {type: 'required', msg: '地区不能为空'}
+        ],
+        cascader: [
+          {type: 'required', msg: '联动选择不能为空'}
         ],
         select: [
           {type: 'required', msg: '下拉不能为空'}
@@ -229,6 +233,9 @@ export default{
           <ak-input v-model="ruleForm.area" class="width"></ak-input>
         </ak-form-item>
       </ak-form-item>
+      <ak-form-item label="联动选择" prop="cascader">
+          <ak-cascader v-model="ruleForm.cascader" placeholder="请选择"></cascader>
+      </ak-form-item>
       <ak-form-item label="radio" prop="radio">
          <ak-radio-group v-model="ruleForm.radio" :data="radioData"></ak-radio-group>
       </ak-form-item>
@@ -272,6 +279,7 @@ export default {
         tel: '',
         city: '',
         area: '',
+        cascader: [],
         select: '',
         checkbox: false,
         checkboxGroup: [],

@@ -4,7 +4,7 @@
 <Checkbox v-model="value" text='text'></Checkbox>
 -->
 <template>
-  <label :class="{[prefixCls+'-checkbox']:true,'checked':checked,'disabled':disabled}">
+  <label :class="{[prefixCls+'-checkbox']:true,'checked':checkedCls,'disabled':disabled}">
     <input type="checkbox" :disabled="disabled" v-model="checked" :value="value" @change="_change">
     <span :class="`${prefixCls}-checkbox-inner`"></span>
     <span :class="`${prefixCls}-checkbox-text`" v-if="label" v-text="label"></span>
@@ -40,7 +40,7 @@ export default {
     },
     label: String,
     modelValue: {},
-    value: String,
+    value: null,
     validateEvent: {
       type: Boolean,
       default: true
@@ -55,7 +55,17 @@ export default {
       }
     }
   },
-  computed: {},
+  computed: {
+    checkedCls () {
+      // 当value=v-model或v-model中包含了value值时为true
+      if (typeof this.modelValue === 'object') {
+        return this.modelValue.indexOf(this.value) !== -1
+      } else {
+        // modelValue值为true为勾选状态
+        return !!this.modelValue
+      }
+    }
+  },
   mounted () {
   },
   filters: {}

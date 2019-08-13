@@ -22,6 +22,12 @@ import Tree from './tree/index'
 import Upload from './upload/index'
 import Menu from './menu/index'
 import ECharts from './echarts/index'
+import BackTop from './backTop/index'
+import Breadcrumb from './breadcrumb/index'
+import Cascader from './cascader/index'
+import Progress from './progress/index'
+import Transfer from './transfer/index'
+import Steps from './steps/index'
 
 const component = [
   Button,
@@ -44,7 +50,13 @@ const component = [
   Tree,
   Upload,
   Menu,
-  ECharts
+  ECharts,
+  BackTop,
+  Breadcrumb,
+  Cascader,
+  Progress,
+  Transfer,
+  Steps
 ]
 const install = function (Vue, options) {
   component.forEach(item => {
