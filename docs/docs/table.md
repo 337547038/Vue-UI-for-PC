@@ -555,7 +555,7 @@ export default {
 | emptyText     | String        |无数据时显示的文本|
 | title         | Boolean/true  |鼠标滑过单元格时显示title提示|
 | drag          | boolean/false |允许拖动表头改变当前单元格宽度|
-| rowColSpan    | function |允许拖动表头改变当前单元格宽度|
+| rowColSpan    | function      |合并行或列方法。通过给传入rowColSpan方法可以实现合并行或列，方法的参数(当前行号rowIndex,当前列号columnIndex,当前行row,当前列column)四个属性。该函数返回一个包含两个数字的数组，第一个rowspan，第二个colspan，即向纵向和横向合并多少个单元格|
 
 ### Table Methods
 |参数|类型|说明|
