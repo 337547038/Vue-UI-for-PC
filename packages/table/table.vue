@@ -41,7 +41,7 @@
         </td>
       </tr>
       </tbody>
-      <table-body :data="data" v-else></table-body>
+      <table-body :data="data" v-else :rowColSpan="rowColSpan"></table-body>
     </table>
   </div>
 </template>
@@ -129,7 +129,8 @@ export default {
     },
     selectClick: Function, // 勾选单列事件
     sortChange: Function, // 排序点击时{prop, order }
-    selectAllClick: Function// 全选/返选
+    selectAllClick: Function, // 全选/返选
+    rowColSpan: Function
   },
   methods: {
     _fixedHead () {
@@ -355,7 +356,7 @@ export default {
     // console.log('destroyed')
     // this.columns = []
     if (this.drag) {
-      document.removeEventListener('onmouseup', this._headMouseUp)
+      document.removeEventListener('mouseup', this._headMouseUp)
     }
   },
   computed: {}

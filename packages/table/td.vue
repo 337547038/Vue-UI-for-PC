@@ -4,7 +4,9 @@ export default {
   data () {
     return {}
   },
-  props: ['column', 'row', 'index', 'title'],
+  // columnIndex当前列号
+  // index当前行号
+  props: ['column', 'row', 'index', 'title', 'columnIndex'],
   components: {},
   methods: {},
   computed: {},
@@ -21,15 +23,57 @@ export default {
     } else if (column.className) {
       classNameTd = column.className
     }
-    return (<td class={classNameTd} style={'text-align:' + column.align} title={title || column.title ? row[column.prop] : null}>
-      {
-        this.column.renderCell.call(this, h, {
-          row,
-          column,
-          $index
-        })
+    let display = false
+    let rowspan = ''
+    let colspan = ''
+    if (this.$parent.rowColSpan) {
+      // 有合并方法
+      const merge = this.$parent.rowColSpan(this.index, this.columnIndex, this.row, this.column)
+      if (merge) {
+        // 合并方法有返回值的单元格
+        // 大于1时
+        colspan = merge[1] > 1 ? merge[1] : 1
+        rowspan = merge[0] > 1 ? merge[0] : 1
+        // 计算出合并后不显示的单元格，如1和2合并=>显示1不显示2
+        let displayArr = []
+        // 这里处理同一行
+        for (let i = 1; i < colspan; i++) {
+          const col = this.columnIndex + i
+          displayArr.push(`${this.index}:${col}`)
+        }
+        // 这里处理不同行时，即纵向合并
+        for (let j = 1; j < rowspan; j++) {
+          for (let i = 0; i < colspan; i++) {
+            const col = this.columnIndex + i
+            const rol = this.index + j
+            displayArr.push(`${rol}:${col}`)
+          }
+        }
+        // 这里存store会好些，单为这组件这里先不引入
+        window.sessionStorage.setItem(this.$parent.rowspanColspan, JSON.stringify(displayArr))
       }
-    </td>)
+      const activeRowCol = `${this.index}:${this.columnIndex}`
+      let displayArr = window.sessionStorage.getItem(this.$parent.rowspanColspan)
+      if (displayArr) {
+        displayArr = JSON.parse(displayArr)
+        if (displayArr.indexOf(activeRowCol) !== -1) {
+          display = true
+        }
+      }
+    }
+    if (display) {
+      return ''
+    } else {
+      return (<td class={classNameTd} rowspan={rowspan > 1 ? rowspan : null} colspan={colspan > 1 ? colspan : null} style={'text-align:' + column.align} title={title || column.title ? row[column.prop] : null}>
+        {
+          this.column.renderCell.call(this, h, {
+            row,
+            column,
+            $index
+          })
+        }
+      </td>)
+    }
   }
 }
 </script>

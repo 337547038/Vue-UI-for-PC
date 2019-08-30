@@ -103,6 +103,12 @@ export default {
     sortChange (prop, order) {
       console.log('sortChange')
       console.log(prop, order)
+    },
+    rowColSpan (rowIndex, columnIndex) {
+      console.log('arraySpanMethod')
+         if (rowIndex === 0 && columnIndex === 1) {
+           return [2, 3]
+         }
     }
   }
 }
@@ -133,7 +139,7 @@ export default {
       </template>
    </akColumn>
   </akTable>
-<template>
+</template>
 <script>
 export default {
   name: 'Table',
@@ -493,6 +499,42 @@ export default {
 ```
 :::
 
+### 11、合并行或列
+:::demo 多行或多列共用一个数据时，可以合并行或列。通过给传入`rowColSpan`方法可以实现合并行或列，方法的参数(当前行号`rowIndex`,当前列号`columnIndex`,当前行`row`,当前列`column`)四个属性。该函数返回一个包含两个数字的数组，第一个`rowspan`，第二个`colspan`，即向纵向和横向合并多少个单元格。
+```html
+<akTable :data="tableData" :rowColSpan="rowColSpan">
+   <akColumn label="日期" prop="date"></akColumn>
+   <akColumn label="姓名" prop="name"></akColumn>
+   <akColumn label="省份" prop="province"></akColumn>
+   <akColumn label="城市" prop="city"></akColumn>
+   <akColumn label="地址" prop="address"></akColumn>
+   <akColumn label="邮编" prop="zip"></akColumn>
+   <akColumn label="操作">
+     <template slot-scope="scope">
+       <a href="javascript:;">删除</a>
+   </template>
+   </akColumn>
+</akTable>   
+
+<script>
+export default {
+  data () {
+    return {
+    }
+  },
+  methods: {
+      rowColSpan (rowIndex, columnIndex) {
+        console.log('arraySpanMethod')
+        if (rowIndex === 0 && columnIndex === 1) {
+          return [2, 3] // 表示在rowIndex=0行，columnIndex = 1列位置，向下合并两个和向右合并3个单元格
+        }
+      }
+    }
+}
+</script>
+```
+:::
+
 ## API
 ### Table
 
@@ -513,6 +555,7 @@ export default {
 | emptyText     | String        |无数据时显示的文本|
 | title         | Boolean/true  |鼠标滑过单元格时显示title提示|
 | drag          | boolean/false |允许拖动表头改变当前单元格宽度|
+| rowColSpan    | function |允许拖动表头改变当前单元格宽度|
 
 ### Table Methods
 |参数|类型|说明|
