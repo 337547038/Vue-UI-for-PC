@@ -77,7 +77,7 @@ const router = [
   {
     path: '/collapse',
     name: 'collapse',
-    component: () => import('../docs/collapse .md')
+    component: () => import('../docs/collapse.md')
   },
   {
     path: '/steps',
@@ -158,14 +158,14 @@ const router = [
     path: '/transfer',
     name: 'transfer',
     component: () => import('../docs/transfer.md')
-  }
-  /* {
+  },
+  {
     path: '/test',
     name: 'test',
     meta: {
       // keepAlive: true // 需要被缓存
     },
-    component: () => import('../docs/test.md')
-  } */
+    component: () => import('../docs/test.vue')
+  }
 ]
 export default router

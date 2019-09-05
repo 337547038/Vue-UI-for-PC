@@ -4,8 +4,6 @@
   </div>
 </template>
 <script>
-import '@/scss/index.scss'
-
 import {getToken} from '@/utils/utils'
 import addRoutes from '@/router/permission'
 
@@ -23,3 +21,6 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+  @import "assets/scss/index.scss";
+</style>

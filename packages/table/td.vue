@@ -49,13 +49,15 @@ export default {
             displayArr.push(`${rol}:${col}`)
           }
         }
-        // 这里存store会好些，单为这组件这里先不引入
-        window.sessionStorage.setItem(this.$parent.rowspanColspan, JSON.stringify(displayArr))
+        // 这里存store会好些，单为这组件这里先不引入，先使用全局变量代替
+        window.rowspanColspan = displayArr
+        // window.sessionStorage.setItem(this.$parent.rowspanColspan, JSON.stringify(displayArr))
       }
       const activeRowCol = `${this.index}:${this.columnIndex}`
-      let displayArr = window.sessionStorage.getItem(this.$parent.rowspanColspan)
+      // let displayArr = window.sessionStorage.getItem(this.$parent.rowspanColspan)
+      let displayArr = window.rowspanColspan
       if (displayArr) {
-        displayArr = JSON.parse(displayArr)
+        // displayArr = JSON.parse(displayArr)
         if (displayArr.indexOf(activeRowCol) !== -1) {
           display = true
         }
