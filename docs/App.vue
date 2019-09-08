@@ -2,7 +2,7 @@
   <div id="app">
     <div class="main-header">
       <div class="main-header-logo">
-        <a href="/"><img src="./assets/logo1.jpg" alt="logo"></a>
+        <a href="/"><img src="./logo1.jpg" alt="logo"></a>
       </div>
       <div class="main-header-title"><a href="/">AK-UI-Docs</a></div>
       <ul class="main-header-nav">
@@ -13,7 +13,7 @@
       <div class="main-left" :style="{display:showNav?'block':'none'}">
         <ul>
           <!--过滤index，首字母大写-->
-          <li v-for="(item,index) in navigator" :key="index" v-if="item.name!=='index'">
+          <li v-for="(item,index) in navigator" :key="index">
             <router-link :to="item.path">{{item.name.substring(0,1).toUpperCase()+item.name.substring(1)}}</router-link>
           </li>
           <!-- <li>
@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import './scss/index.scss'
 import router from './router/router.con'
 
 export default {
@@ -53,8 +54,8 @@ export default {
     _sortBy (sortValue) {
       // 添加排序
       return function (a, b) {
-        var val1 = a[sortValue]
-        var val2 = b[sortValue]
+        let val1 = a[sortValue]
+        let val2 = b[sortValue]
         if (!isNaN(Number(val1)) && !isNaN(Number(val2))) {
           val1 = Number(val1)
           val2 = Number(val2)
@@ -76,14 +77,69 @@ export default {
   },
   computed: {
     navigator () {
-      return router.sort(this._sortBy('name'))
+      return router.sort(this._sortBy('name')).filter(item => {
+        return item.name !== 'index'
+      })
     }
   }
 }
 </script>
 
 <style>
-  @import 'highlight.js/styles/color-brewer.css';
+
+  .hljs{
+    display: block;
+    overflow-x: auto;
+    padding: 0.5em;
+    background: #fff;
+  }
+  .hljs,
+  .hljs-subst{
+    color: #000;
+  }
+  .hljs-string,
+  .hljs-meta,
+  .hljs-symbol,
+  .hljs-template-tag,
+  .hljs-template-variable,
+  .hljs-addition{
+    color: #756bb1;
+  }
+  .hljs-comment,
+  .hljs-quote{
+    color: #636363;
+  }
+  .hljs-number,
+  .hljs-regexp,
+  .hljs-literal,
+  .hljs-bullet,
+  .hljs-link{
+    color: #31a354;
+  }
+  .hljs-deletion,
+  .hljs-variable{
+    color: #88f;
+  }
+  .hljs-keyword,
+  .hljs-selector-tag,
+  .hljs-title,
+  .hljs-section,
+  .hljs-built_in,
+  .hljs-doctag,
+  .hljs-type,
+  .hljs-tag,
+  .hljs-name,
+  .hljs-selector-id,
+  .hljs-selector-class,
+  .hljs-strong{
+    color: #3182bd;
+  }
+  .hljs-emphasis{
+    font-style: italic;
+  }
+  .hljs-attribute{
+    color: #e6550d;
+  }
   body{
     margin: 0;
     padding: 0;
@@ -376,9 +432,6 @@ export default {
   .close-nav:after{content: '';display: block;width: 100%;height: 2px;background: #41a259;position: relative;left: 0;top: -9px;transform: rotate(45deg)}
   .green{color: #41a259}
   .green:hover{text-decoration: underline;cursor: pointer}
-</style>
-<style lang="scss">
-  @import "scss/index";
 </style>
 <style>
   .left-fade-enter-active{

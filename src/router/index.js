@@ -1,21 +1,15 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-const Page1 = () => import('@/views/page1')
-const Page2 = () => import('@/views/page2')
-const PageNotFound = () => import('@/views/pageNotFound')
-const HelloWorld = () => import('@/views/index')
-const signOut = () => import('@/views/signOut')
-
 Vue.use(Router)
-console.log('router')
+// console.log('router')
 
 // 默认初始化的路由
 export const defaultRouterMap = [
   {
     path: '/',
     name: 'HelloWorld',
-    component: HelloWorld,
+    component: () => import('@/views/Index'),
     meta: {
       title: 'HelloWorld'
     }
@@ -23,21 +17,23 @@ export const defaultRouterMap = [
   {
     path: '/signOut',
     name: 'signOut',
-    component: signOut
+    component: () => import('@/views/SignOut')
   },
   {
     path: '/page1',
     name: 'Page1',
-    component: Page1
+    component: import('@/views/Page1')
   },
   {
     path: '/404',
     name: '404',
-    component: PageNotFound
+    component: () => import('@/views/PageNotFound')
   }
 ]
 
 export default new Router({
+  mode: 'history',
+  base: process.env.BASE_URL,
   routes: defaultRouterMap
 })
 // 异步获取的路由
@@ -45,7 +41,7 @@ export const asyncRoutes = [
   {
     path: '/page2',
     name: 'Page2',
-    component: Page2,
+    component: () => import('@/views/Page2'),
     meta: {
       permission: true
     }
@@ -53,7 +49,7 @@ export const asyncRoutes = [
   {
     path: '/page3',
     name: 'Page3',
-    component: Page2,
+    component: () => import('@/views/Page2'),
     meta: {
       permission: true
     }
@@ -61,7 +57,7 @@ export const asyncRoutes = [
   {
     path: '/page4',
     name: 'Page4',
-    component: Page2,
+    component: () => import('@/views/Page2'),
     meta: {
       permission: true
     }

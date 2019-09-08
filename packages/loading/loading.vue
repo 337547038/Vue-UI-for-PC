@@ -4,7 +4,10 @@
     <div v-show="visible" :style="{ backgroundColor: background || '' }"
          :class="{[prefixCls+'-loading-full']:body,[prefixCls+'-loading']:true}">
       <div :class="`${prefixCls}-loading-spinner`">
-        <i :class="[spinner,[prefixCls+'-icon-rotate']]"></i>
+        <i :class="[spinner,[prefixCls+'-icon-rotate']]" v-if="spinner"></i>
+        <svg viewBox="0 0 50 50" class="loading-svg" v-else>
+          <circle class="svg-path" cx="25" cy="25" r="20" fill="none"></circle>
+        </svg>
         <p v-if="text" :class="`${prefixCls}-loading-text`">{{ text }}</p>
       </div>
     </div>

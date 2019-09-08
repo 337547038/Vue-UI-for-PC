@@ -4,7 +4,7 @@ import {getToken} from '@/utils/utils'
 // import router from '@/router'
 
 // const baseURL = window.APP_CONFIG.BASE_URL || process.env.BASE_URL
-const baseURL = process.env.BASE_URL
+const baseURL = process.env.VUE_APP_BASE_URL
 /* const codeMessage = {
   200: '服务器成功返回请求的数据',
   201: '新建或修改数据成功。',
@@ -51,7 +51,6 @@ service.interceptors.response.use(
     console.log('err' + error) // for debug
     if (error.response && error.response.status) {
       let status = error.response.status
-
       if (status === 401) {
         console.log('需要登出系统')
         // 这样写貌似还是存在一些问题，返回前一页的时候有问题
@@ -59,22 +58,6 @@ service.interceptors.response.use(
         removeRefreshToken()
         router.push('/login') */
       }
-      /* if (status === 500) {
-        console.log('账号在其它终端登录')
-        removeToken()
-        removeRefreshToken()
-        // router.push('/login')
-        router.push({path: '/login', query: {quit: 'other'}})
-      } */
-      /* let hasCustomErrorMsg = error.response.data && error.response.data.message
-      // 后台自定义错误信息存在大量英文, 暂时统一处理报错信息
-      if (!hasCustomErrorMsg && codeMessage[status]) {
-        Message({
-          message: codeMessage[status],
-          type: 'error',
-          duration: 5 * 1000
-        })
-      } */
     }
     return Promise.reject(error)
   }

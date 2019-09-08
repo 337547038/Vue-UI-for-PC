@@ -1,8 +1,27 @@
 /**
  * Created by 337547038 on 2018/8/16 0016.
  */
-
-const router = [
+/*const router = [
+  {
+    path: '/button',
+    name: 'button',
+    component: () => import('../docs/button.md')
+    // group: 'form'
+  },
+  {
+    path: '/cascader',
+    name: 'cascader',
+    component: () => import('../docs/cascader.md')
+    // group: 'form'
+  },
+  {
+    path: '/',
+    name: 'index',
+    component: () => import('../docs/index.md')
+    // group: 'form'
+  }
+]*/
+ const router = [
   {
     path: '/form',
     name: 'form',
@@ -77,7 +96,7 @@ const router = [
   {
     path: '/collapse',
     name: 'collapse',
-    component: () => import('../docs/collapse .md')
+    component: () => import('../docs/collapse.md')
   },
   {
     path: '/steps',
@@ -158,14 +177,14 @@ const router = [
     path: '/transfer',
     name: 'transfer',
     component: () => import('../docs/transfer.md')
-  }
-  /* {
+  },
+  {
     path: '/test',
     name: 'test',
     meta: {
       // keepAlive: true // 需要被缓存
     },
-    component: () => import('../docs/test.md')
-  } */
+    component: () => import('../docs/test.vue')
+  }
 ]
 export default router

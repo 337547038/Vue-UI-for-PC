@@ -1,7 +1,7 @@
 <script>
 export default {
   name: 'tableTd',
-  data () {
+  data() {
     return {}
   },
   // columnIndex当前列号
@@ -10,9 +10,9 @@ export default {
   components: {},
   methods: {},
   computed: {},
-  mounted () {
+  mounted() {
   },
-  render (h) {
+  render(h) {
     const row = this.row // 传进来的表格行数数据
     const column = this.column // column组件数据
     const $index = this.index
@@ -49,13 +49,15 @@ export default {
             displayArr.push(`${rol}:${col}`)
           }
         }
-        // 这里存store会好些，单为这组件这里先不引入
-        window.sessionStorage.setItem(this.$parent.rowspanColspan, JSON.stringify(displayArr))
+        // 这里存store会好些，单为这组件这里先不引入，先使用全局变量代替
+        window.rowspanColspan = displayArr
+        // window.sessionStorage.setItem(this.$parent.rowspanColspan, JSON.stringify(displayArr))
       }
       const activeRowCol = `${this.index}:${this.columnIndex}`
-      let displayArr = window.sessionStorage.getItem(this.$parent.rowspanColspan)
+      // let displayArr = window.sessionStorage.getItem(this.$parent.rowspanColspan)
+      let displayArr = window.rowspanColspan
       if (displayArr) {
-        displayArr = JSON.parse(displayArr)
+        // displayArr = JSON.parse(displayArr)
         if (displayArr.indexOf(activeRowCol) !== -1) {
           display = true
         }
@@ -64,7 +66,7 @@ export default {
     if (display) {
       return ''
     } else {
-      return (<td class={classNameTd} rowspan={rowspan > 1 ? rowspan : null} colspan={colspan > 1 ? colspan : null} style={'text-align:' + column.align} title={title || column.title ? row[column.prop] : null}>
+      return (<td class = {classNameTd} rowspan = {rowspan > 1 ? rowspan : null} colspan = {colspan > 1 ? colspan : null} style = {'text-align:' + column.align} title = {title || column.title ? row[column.prop] : null}>
         {
           this.column.renderCell.call(this, h, {
             row,

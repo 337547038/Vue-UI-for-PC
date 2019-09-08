@@ -23,5 +23,5 @@ a:active{
 /*fa 字体*/
 [class*="ak-icon-"]{font-family: FontAwesome;display: inline-block;}
 // 基础组件样式
-@import "../../docs/scss/components";
+@import "../../../docs/scss/components","sprites";
 // 其它样式
