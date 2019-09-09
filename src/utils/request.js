@@ -4,7 +4,7 @@ import {getToken} from '@/utils/utils'
 // import router from '@/router'
 
 // const baseURL = window.APP_CONFIG.BASE_URL || process.env.BASE_URL
-const baseURL = process.env.BASE_URL
+const baseURL = process.env.VUE_APP_BASE_URL
 /* const codeMessage = {
   200: '服务器成功返回请求的数据',
   201: '新建或修改数据成功。',

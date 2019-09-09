@@ -11,14 +11,14 @@ docs下为示例演示页面，同时为了方便样式维护，全部独立为s
 ###- √ 配置多环境变量
  通过修改`VUE_APP_BASE_URL`来选择不同的环境API接口
  
-###- √ 自动生成雪碧图 
+### - √ 自动生成雪碧图 
  `src/assets/icons`中存放需要生成雪碧图的`png`文件。每次运行`npm run serve/build`会生成雪碧图。生成的图片存放位置`src/assets/images/sprites.png`；样式生成位置`src/assets/scss/sprites.scss`
  
-###- √ 利用splitChunks单独打包第三方模块
+### - √ 利用splitChunks单独打包第三方模块
 
-###- √ 配置externals引入cdn资源
+### - √ 配置externals引入cdn资源
 
-###- √ 添加 IE 兼容
+### - √ 添加 IE 兼容
 
 ## 组件使用
 ``` bash

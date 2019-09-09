@@ -51,13 +51,13 @@ fs.readdir('src/assets/icons', (err, paths) => {
     })
   }
 })
-let publicPath = '/'
+let publicPath = './'
 // 打包组件示例时使用相对路径
 if (original === 'buildDocs') {
   publicPath = './'
 }
 module.exports = {
-  publicPath: '/',
+  publicPath: publicPath,
   assetsDir: 'static',
   outputDir: 'dist-' + original,
   productionSourceMap: false,
@@ -84,31 +84,37 @@ module.exports = {
       }])
     ) */
     // 不需要重新打包集成的node_modules
-    /* config.externals = {
-      'echarts': 'echarts'
-    } */
+    // https://blog.csdn.net/zlingyun/article/details/81382323
+    // externals中的key是后面需要require的名字，value是第三方库暴露出来的方法名
+    config.externals = {
+      // import Router from 'vue-router'
+      //  'vue-router': 'Router'
+      // 'cityData1': 'cityData'
+      // 'vue': 'Vue',
+      'serverConfig': 'serverConfigA'
+    }
     if (NODE_ENV) {
       config.optimization = {
-        splitChunks: {
+        /*splitChunks: {
           cacheGroups: {
-            /* vendor: {
+             /!*vendor: {
               // 抽取来自 node_modules 文件夹下的第三方代码，优先级权重为10
               name: 'vendor',
               test: /[\\/]node_modules[\\/]/,
               chunks: 'all',
               priority: 10 // 优先级
-            }, */
+            },*!/
             common: {
               // 抽取来自 packages 文件夹下的代码，优先级权重为5
               name: 'ak',
               // test: /[\\/]src[\\/]components[\\/]/,
               test: /[\\/]packages[\\/]/,
-              minSize: 1024,
+             // minSize: 1024,
               chunks: 'all',
               priority: 5
             }
           }
-        }
+        }*/
       }
       plugins.push(
         new UglifyJsPlugin({
@@ -134,6 +140,9 @@ module.exports = {
     ]
   },
   chainWebpack: config => {
+    if (NODE_ENV) {
+      // config.optimization.delete('splitChunks')
+    }
     // 配置【vue-markdown-loader】解析md格式的文件
     config.module
       .rule('md')

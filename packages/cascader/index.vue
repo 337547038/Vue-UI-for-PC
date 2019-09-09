@@ -35,7 +35,7 @@
   </div>
 </template>
 <script>
-import jsAddress from './jsAddress'
+import cityData from './cityData'
 import {prefixCls} from '../prefix'
 import emitter from '../mixins/emitter'
 
@@ -52,9 +52,7 @@ export default {
     }
   },
   mixins: [emitter],
-  components: {
-    jsAddress
-  },
+  components: {},
   props: {
     value: Array,
     placeholder:
@@ -80,9 +78,8 @@ export default {
       {// 下拉选项数据
         type: Array,
         default:
-
           function () {
-            return jsAddress
+            return cityData || []
           }
       },
     clear: { // 显示清空按钮

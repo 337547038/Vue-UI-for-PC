@@ -1,8 +1,27 @@
 /**
  * Created by 337547038 on 2018/8/16 0016.
  */
-
 const router = [
+  {
+    path: '/button',
+    name: 'button',
+    component: () => import('../docs/button.md')
+    // group: 'form'
+  },
+  {
+    path: '/cascader',
+    name: 'cascader',
+    component: () => import('../docs/cascader.md')
+    // group: 'form'
+  },
+  {
+    path: '/',
+    name: 'index',
+    component: () => import('../docs/index.md')
+    // group: 'form'
+  }
+]
+/* const router1 = [
   {
     path: '/form',
     name: 'form',
@@ -167,5 +186,5 @@ const router = [
     },
     component: () => import('../docs/test.vue')
   }
-]
+] */
 export default router
