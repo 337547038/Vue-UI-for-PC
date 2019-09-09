@@ -8,6 +8,7 @@ https://337547038.github.io/akvue/
 docs下为示例演示页面，同时为了方便样式维护，全部独立为scss文件；
 
 ## vue-cli3配置说明
+
 ###- √ 配置多环境变量
  通过修改`VUE_APP_BASE_URL`来选择不同的环境API接口
  
@@ -19,6 +20,12 @@ docs下为示例演示页面，同时为了方便样式维护，全部独立为s
 ### - √ 配置externals引入cdn资源
 
 ### - √ 添加 IE 兼容
+
+### - √ 复制静态资源
+
+### - √ 组件单独打包
+
+### - √ 将script插入html
 
 ## 组件使用
 ``` bash
@@ -36,6 +43,9 @@ npm run serve
 
 # build for production with minification
 npm run build
+
+# build for all components
+npm run buildComponents
 
 # build for production and view the bundle analyzer report
 npm run build --report

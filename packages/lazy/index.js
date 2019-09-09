@@ -101,8 +101,8 @@ LazyLoad.prototype = {
 export default {
   install: function (Vue, options) {
     const defaultOptions = {
-      error: '/static/image/lazy-error.png', // 加载错误显示的图片
-      default: '/static/image/lazy-default.gif', // 默认显示的图片
+      error: '/static/img/lazy-error.png', // 加载错误显示的图片
+      default: '/static/img/lazy-default.gif', // 默认显示的图片
       fadeIn: true, // 是否谈入
       threshold: 0 // 图片离可视区域的距离。负值表示提前进入，正值表示延迟进入
     }

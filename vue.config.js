@@ -64,7 +64,8 @@ module.exports = {
   lintOnSave: !NODE_ENV,
   pages: {
     index: {
-      entry: entry
+      entry: entry,
+      chunks: ["vendors", "ak", "index"]
     }
   },
   configureWebpack: (config) => {
@@ -84,37 +85,34 @@ module.exports = {
       }])
     ) */
     // 不需要重新打包集成的node_modules
-    // https://blog.csdn.net/zlingyun/article/details/81382323
     // externals中的key是后面需要require的名字，value是第三方库暴露出来的方法名
     config.externals = {
-      // import Router from 'vue-router'
       //  'vue-router': 'Router'
-      // 'cityData1': 'cityData'
       // 'vue': 'Vue',
-      'serverConfig': 'serverConfigA'
+      // './cityData': 'cityData' // 联动城市数据，这里可以不打包而直接在html页面引入
     }
     if (NODE_ENV) {
       config.optimization = {
-        /*splitChunks: {
+        splitChunks: {
           cacheGroups: {
-             /!*vendor: {
+            vendors: {
               // 抽取来自 node_modules 文件夹下的第三方代码，优先级权重为10
-              name: 'vendor',
+              name: 'vendors',
               test: /[\\/]node_modules[\\/]/,
               chunks: 'all',
               priority: 10 // 优先级
-            },*!/
+            },
             common: {
               // 抽取来自 packages 文件夹下的代码，优先级权重为5
+              // 提取公共组件，这里name要对应pages里的chunks，否则打包的脚本不会插入到html中
               name: 'ak',
               // test: /[\\/]src[\\/]components[\\/]/,
               test: /[\\/]packages[\\/]/,
-             // minSize: 1024,
               chunks: 'all',
               priority: 5
             }
           }
-        }*/
+        }
       }
       plugins.push(
         new UglifyJsPlugin({
@@ -132,14 +130,25 @@ module.exports = {
       )
     } else {
       // 为开发环境修改配置...
-      // config.mode = 'development'
     }
+    // 在html插入script
+    /* plugins.push(new AddAssetHtmlPlugin({
+      // dll文件位置
+      filepath: path.resolve(__dirname, './src/assets/1.js'),
+      // dll 引用路径
+      publicPath: './vendor',
+      // dll最终输出的目录
+      outputPath: './vendor'
+    })) */
     config.plugins = [
       ...config.plugins,
       ...plugins
     ]
   },
   chainWebpack: config => {
+    // 移除 preload 插件 预加载
+    /* config.plugins.delete('prefetch-index')
+    config.plugins.delete('preload-index') */
     if (NODE_ENV) {
       // config.optimization.delete('splitChunks')
     }
@@ -164,10 +173,10 @@ module.exports = {
                 // return params.trim().match(/^demo\s+(.*)$/)
                 return params.match(/^demo\s+(.*)$/)
               },
-              render (tokens, idx) {
+              render(tokens, idx) {
                 if (tokens[idx].nesting === 1) {
                   // 1.获取第一行的内容使用markdown渲染html作为组件的描述
-                  var markdownRender = require('markdown-it')()
+                  const markdownRender = require('markdown-it')()
                   let demoInfo = tokens[idx].info.trim().match(/^demo\s+(.*)$/)
                   let description = (demoInfo && demoInfo.length > 1) ? demoInfo[1] : ''
                   let descriptionHTML = description ? markdownRender.render(description) : ''

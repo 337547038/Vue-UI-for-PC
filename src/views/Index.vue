@@ -1,7 +1,6 @@
 <!-- Created by 337547038 on 2018/8/10 0010. -->
 <template>
   <div>
-    <div>00:{{abc}}</div>
     <h1 style="text-align: center;margin: 50px auto">示例演示请运行 npm run docs</h1>
     <p>登录原理：1.首次登录时保存相关信息；2.添加动态路由；3.页面刷新时在App处添加动态路由</p>
     <p @click="userLogIn" class="login">login</p>
@@ -23,12 +22,10 @@ import {logIn} from '../api/user'
 import addRoutes from '../router/permission'
 import md5 from 'js-md5'
 
-import serverConfig from './server.config'
-
 export default {
   data () {
     return {
-      abc: 'abcd'
+      abc: ''
     }
   },
   methods: {
@@ -61,11 +58,6 @@ export default {
     }
   },
   mounted () {
-    console.log('mouted')
-    console.log(md5('abc'))
-    console.log('-----------------')
-    console.log(serverConfig)
-    this.abc = serverConfig.VIDEO_PORT
   }
 }
 </script>

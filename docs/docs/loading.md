@@ -68,9 +68,6 @@ export default {
   }
 }
 </script>
-<style>
-  .ak-icon-loading:before{content:'\f1ce'!important;color:#fff}
-</style>
 
 ```
 :::

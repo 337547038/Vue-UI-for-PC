@@ -1,7 +1,7 @@
 /**
  * Created by 337547038 on 2018/8/16 0016.
  */
-const router = [
+/*const router = [
   {
     path: '/button',
     name: 'button',
@@ -20,8 +20,8 @@ const router = [
     component: () => import('../docs/index.md')
     // group: 'form'
   }
-]
-/* const router1 = [
+]*/
+ const router = [
   {
     path: '/form',
     name: 'form',
@@ -186,5 +186,5 @@ const router = [
     },
     component: () => import('../docs/test.vue')
   }
-] */
+]
 export default router

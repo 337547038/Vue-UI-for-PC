@@ -9,8 +9,8 @@
 1.在main.js引入 import Lazy from '../packages/lazy'
 2.以下各参数均可不设置，如 Vue.use(Lazy)
 Vue.use(Lazy, {
-    default: '/static/image/lazy-default.gif', // 初始默认显示的图片
-    error: '/static/image/lazy-error.png', // 加载错误时显示的图片
+    default: '/static/img/lazy-default.gif', // 初始默认显示的图片
+    error: '/static/img/lazy-error.png', // 加载错误时显示的图片
     fadeIn: true, // 加载完成时图片淡入
     threshold: 0 // 图片离可视区域的距离。负值表示提前进入，正值表示延迟进入
   })
@@ -19,7 +19,7 @@ Vue.use(Lazy, {
 export default {
   data () {
     return {
-      defaultLazy: '/static/image/lazy1.jpg',
+      defaultLazy: '/static/img/lazy1.jpg',
       imgList: [
         'http://www.33lc.com/article/UploadPic/2012-8/2012831493534705.jpg',
         'http://www.33lc.com/article/UploadPic/2012-8/2012831495398936.jpg',
@@ -42,14 +42,14 @@ export default {
   <div class="demo">
     <p><img v-lazy="defaultLazy"></p>
     或者
-    <p><img data-src="/static/image/lazy1.jpg" v-lazy></p>
+    <p><img data-src="/static/img/lazy1.jpg" v-lazy></p>
   </div>
 </template>
 <script>
 export default {
   data () {
     return {
-      defaultLazy: '/static/image/lazy1.jpg'
+      defaultLazy: '/static/img/lazy1.jpg'
     }
   }
 }
@@ -130,8 +130,8 @@ export default {
 ### Lazy
 |参数|类型|说明|
 |-|-|-|
-|default        | String         |初始默认显示的图片，默认/static/image/lazy-default.gif|
-|error          | String         |加载错误时显示的图片，默认/static/image/lazy-error.png|
+|default        | String         |初始默认显示的图片，默认/static/img/lazy-default.gif|
+|error          | String         |加载错误时显示的图片，默认/static/img/lazy-error.png|
 |fadeIn         | boolean/true   |加载完成时图片淡入|
 |threshold      | number         |图片离可视区域的距离。负值表示提前进入，正值表示延迟进入|
 |src            | String         |同default，仅对单图|

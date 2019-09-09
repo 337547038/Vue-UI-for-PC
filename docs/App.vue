@@ -78,7 +78,7 @@ export default {
   computed: {
     navigator () {
       return router.sort(this._sortBy('name')).filter(item => {
-        return item !== 'index'
+        return item.name !== 'index'
       })
     }
   }

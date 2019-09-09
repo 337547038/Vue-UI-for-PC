@@ -1,4 +1,4 @@
-const cityData1 = [
+const cityData = [
   {
     name: '北京',
     children: [
@@ -740,4 +740,4 @@ const cityData1 = [
     name: '澳门', children: []
   }
 ]
-export default cityData1
+export default cityData

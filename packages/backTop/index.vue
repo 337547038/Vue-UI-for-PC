@@ -76,6 +76,9 @@ export default {
   },
   destroyed () {
     window.removeEventListener('scroll', this._windowScroll)
+    if (this.$el && this.$el.parentNode) {
+      this.$el.parentNode.removeChild(this.$el)
+    }
   },
   filters: {}
 }

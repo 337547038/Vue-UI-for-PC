@@ -1,6 +1,6 @@
 <template>
   <div>
-    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <!--<table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
         <td rowspan="3">日期</td>
         <td colspan="4">配送信息</td>
@@ -14,8 +14,8 @@
         <td>电话</td>
         <td>街道</td>
       </tr>
-    </table>
-    <!--<akTable :data="tableData" :rowColSpan="arraySpanMethod">
+    </table>-->
+    <akTable :data="tableData">
       <akColumn label="日期" prop="date"></akColumn>
       <akColumn label="姓名" prop="name"></akColumn>
       <akColumn label="省份" prop="province"></akColumn>
@@ -27,8 +27,13 @@
           <a href="javascript:;">删除</a>
         </template>
       </akColumn>
-    </akTable>-->
-    <ak-table
+      <akColumn type="extend">
+        <template slot-scope="scope">
+          返回当前行所有信息：{{scope}}
+        </template>
+      </akColumn>
+    </akTable>
+    <!--<ak-table
       :data="tableData"
       style="width: 100%">
       <ak-column
@@ -65,7 +70,7 @@
           </ak-column>
         </ak-column>
       </ak-column>
-    </ak-table>
+    </ak-table>-->
   </div>
 </template>
 

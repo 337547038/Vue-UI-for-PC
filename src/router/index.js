@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 Vue.use(Router)
-console.log('router')
+// console.log('router')
 
 // 默认初始化的路由
 export const defaultRouterMap = [
@@ -32,6 +32,8 @@ export const defaultRouterMap = [
 ]
 
 export default new Router({
+  mode: 'history',
+  base: process.env.BASE_URL,
   routes: defaultRouterMap
 })
 // 异步获取的路由

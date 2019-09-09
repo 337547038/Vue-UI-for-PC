@@ -39,30 +39,30 @@ export default {
     rowColSpan: Function
   },
   components: {TableTd},
-  data () {
+  data() {
     return {}
   },
   computed: {
-    colsExtend () {
+    colsExtend() {
       return this.$parent.columns.filter(item => {
         return item.type === 'extend'
       })
     },
-    colsNoExtend () {
+    colsNoExtend() {
       // 不带扩展的
       return this.$parent.columns.filter(item => {
         return item.type !== 'extend'
       })
     },
-    colsFilter () {
+    colsFilter() {
       return this.$parent.columnsFilter
     }
   },
   watch: {},
   methods: {},
-  created () {
+  created() {
   },
-  mounted () {
+  mounted() {
   }
 }
 </script>

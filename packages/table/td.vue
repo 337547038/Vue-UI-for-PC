@@ -1,7 +1,7 @@
 <script>
 export default {
   name: 'tableTd',
-  data () {
+  data() {
     return {}
   },
   // columnIndex当前列号
@@ -10,9 +10,9 @@ export default {
   components: {},
   methods: {},
   computed: {},
-  mounted () {
+  mounted() {
   },
-  render (h) {
+  render(h) {
     const row = this.row // 传进来的表格行数数据
     const column = this.column // column组件数据
     const $index = this.index
@@ -66,7 +66,7 @@ export default {
     if (display) {
       return ''
     } else {
-      return (<td class={classNameTd} rowspan={rowspan > 1 ? rowspan : null} colspan={colspan > 1 ? colspan : null} style={'text-align:' + column.align} title={title || column.title ? row[column.prop] : null}>
+      return (<td class = {classNameTd} rowspan = {rowspan > 1 ? rowspan : null} colspan = {colspan > 1 ? colspan : null} style = {'text-align:' + column.align} title = {title || column.title ? row[column.prop] : null}>
         {
           this.column.renderCell.call(this, h, {
             row,
