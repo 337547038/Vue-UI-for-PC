@@ -29,6 +29,7 @@ import Year from './year'
 import Month from './month'
 import Day from './day'
 import {prefixCls} from '../prefix'
+
 export default {
   name: 'datePicker',
   data () {
@@ -178,6 +179,8 @@ export default {
           left: this.offset.left + 'px',
           top: this.offset.top + this.offset.height + 'px'
         }
+      } else {
+        return null
       }
     },
     showMonthControl () {

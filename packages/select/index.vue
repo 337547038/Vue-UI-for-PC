@@ -296,6 +296,8 @@ export default {
           height: this.liHeight * this.showNum + 'px',
           overflowY: 'auto'
         }
+      } else {
+        return null
       }
     }
   },

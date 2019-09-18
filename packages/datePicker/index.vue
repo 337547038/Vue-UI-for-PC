@@ -15,12 +15,12 @@
   </div>
 </template>
 <script>
-import DatePicker from './datePicker'
 import vInput from '../input'
 import Vue from 'vue'
 import dom from '../mixins/dom'
 import {prefixCls} from '../prefix'
 import emitter from '../mixins/emitter'
+import DatePicker from './datePicker'
 
 const Picker = Vue.extend(DatePicker)
 export default {
@@ -63,7 +63,7 @@ export default {
     change: Function,
     innerHTML: Function
   },
-  components: {DatePicker, vInput},
+  components: {vInput},
   methods: {
     _open (e) {
       // 判断当前点击元素在组件里即展开，即属于组件子节点，不在关闭

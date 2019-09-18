@@ -65,7 +65,7 @@ module.exports = {
   pages: {
     index: {
       entry: entry,
-      chunks: ["vendors", "ak", "index"]
+      chunks: ['vendors', 'ak', 'index']
     }
   },
   configureWebpack: (config) => {
@@ -92,24 +92,27 @@ module.exports = {
       // './cityData': 'cityData' // 联动城市数据，这里可以不打包而直接在html页面引入
     }
     if (NODE_ENV) {
-      config.optimization = {
-        splitChunks: {
-          cacheGroups: {
-            vendors: {
-              // 抽取来自 node_modules 文件夹下的第三方代码，优先级权重为10
-              name: 'vendors',
-              test: /[\\/]node_modules[\\/]/,
-              chunks: 'all',
-              priority: 10 // 优先级
-            },
-            common: {
-              // 抽取来自 packages 文件夹下的代码，优先级权重为5
-              // 提取公共组件，这里name要对应pages里的chunks，否则打包的脚本不会插入到html中
-              name: 'ak',
-              // test: /[\\/]src[\\/]components[\\/]/,
-              test: /[\\/]packages[\\/]/,
-              chunks: 'all',
-              priority: 5
+      if (original !== 'buildComponents') {
+        // 打包组件时不要拆分
+        config.optimization = {
+          splitChunks: {
+            cacheGroups: {
+              vendors: {
+                // 抽取来自 node_modules 文件夹下的第三方代码，优先级权重为10
+                name: 'vendors',
+                test: /[\\/]node_modules[\\/]/,
+                chunks: 'all',
+                priority: 10 // 优先级
+              },
+              common: {
+                // 抽取来自 packages 文件夹下的代码，优先级权重为5
+                // 提取公共组件，这里name要对应pages里的chunks，否则打包的脚本不会插入到html中
+                name: 'ak',
+                // test: /[\\/]src[\\/]components[\\/]/,
+                test: /[\\/]packages[\\/]/,
+                chunks: 'all',
+                priority: 5
+              }
             }
           }
         }
@@ -151,13 +154,14 @@ module.exports = {
     config.plugins.delete('preload-index') */
     // 添加html模板参数到htmlWebpackPlugin配置中，使用详见public/index.html
     // 通过htmlWebpackPlugin.options.xxx引用
-    config
-      .plugin('html-index') // pages多页面时要在html后面带上当前入口-index
-      .tap(args => {
-        args[0].publicDate = new Date().toLocaleString()
-        return args
-      })
-
+    if (original !== 'buildComponents') {
+      config
+        .plugin('html-index') // pages多页面时要在html后面带上当前入口-index
+        .tap(args => {
+          args[0].publicDate = new Date().toLocaleString()
+          return args
+        })
+    }
     if (NODE_ENV) {
       // config.optimization.delete('splitChunks')
     }
@@ -182,7 +186,7 @@ module.exports = {
                 // return params.trim().match(/^demo\s+(.*)$/)
                 return params.match(/^demo\s+(.*)$/)
               },
-              render(tokens, idx) {
+              render (tokens, idx) {
                 if (tokens[idx].nesting === 1) {
                   // 1.获取第一行的内容使用markdown渲染html作为组件的描述
                   const markdownRender = require('markdown-it')()
