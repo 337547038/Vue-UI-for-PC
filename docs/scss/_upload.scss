@@ -1,7 +1,7 @@
 @charset "utf-8";
 @include ns(upload){ display: inline-block; vertical-align: middle; position: relative;
   .file{ display: inline-block; padding: 0 10px; height: 30px;line-height: 30px; background: #2d8cf0; border-radius: 3px; position: relative; color: #fff; cursor: pointer;
-    input{display: none }
+    input{opacity: 0;position: absolute}
   }
   .progress{ height: 5px; border-radius: 2px;left: 0; top: 0; position: absolute; display: block; background: #2d8cf0;z-index: 5;
   }
@@ -13,4 +13,147 @@
     }
   }
   /*.del{ right: 0; top: 0; position: absolute; }*/
+}
+@include ns(upload-crop){display: inline-block;
+  .main-crop{
+    border: 1px solid #999;
+    position: relative;
+  }
+  .select-img{
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    display: block;
+    z-index: 10;
+    text-align: center;
+  }
+  .canvas-crop-img{
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  .canvas-crop{
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 2;
+  }
+  .control-box{
+    z-index: 4;
+    cursor: move;
+    position: absolute;
+    border: 1px dashed #409eff;
+    user-select: none;
+    /*ie样式兼容问题，使用1个像素的透明png*/
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABBJREFUeNpi+P//PwNAgAEACPwC/tuiTRYAAAAASUVORK5CYII=);
+    .select-area-tips{
+      position: absolute;
+      left: 0;
+      top: -20px;
+      color: #fff;
+      font-size: 12px;
+      width: 100%;
+      text-align: center;
+      user-select: none;
+      white-space: nowrap;
+    }
+    .control-btn{
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      box-sizing: border-box;
+      width: 10px;
+      height: 10px;
+      background: #409eff;
+      position: absolute;
+      border-radius: 50%;
+    }
+    .leftUp{
+      top: 0;
+      left: 0;
+      margin-left: -5px;
+      margin-top: -5px;
+      cursor: se-resize;
+    }
+    .topCenter{
+      top: 0;
+      right: 50%;
+      margin-right: -5px;
+      margin-top: -5px;
+      cursor: s-resize;
+    }
+    .rightUp{
+      top: 0;
+      right: 0;
+      margin-right: -5px;
+      margin-top: -5px;
+      cursor: sw-resize;
+    }
+    .leftCenter{
+      top: 50%;
+      left: 0;
+      margin-left: -5px;
+      margin-top: -5px;
+      cursor: e-resize;
+    }
+    .rightCenter{
+      top: 50%;
+      right: 0;
+      margin-right: -5px;
+      margin-top: -5px;
+      cursor: e-resize;
+    }
+    .leftDown{
+      bottom: 0;
+      left: 0;
+      margin-left: -5px;
+      margin-bottom: -5px;
+      cursor: sw-resize;
+    }
+    .downCenter{
+      bottom: 0;
+      right: 50%;
+      margin-right: -5px;
+      margin-bottom: -5px;
+      cursor: s-resize;
+    }
+    .rightDown{
+      bottom: 0;
+      right: 0;
+      margin-right: -5px;
+      margin-bottom: -5px;
+      cursor: se-resize;
+    }
+    .box-line{
+      border-right: 1px dashed #409eff;
+      box-sizing: border-box;
+      position: absolute;
+    }
+    .box-line-1{
+      left: 33%;
+      height: 100%;
+      width: 1px;
+    }
+    .box-line-2{
+      left: 66%;
+      height: 100%;
+      width: 1px;
+    }
+    .box-line-3{
+      top: 33%;
+      width: 100%;
+      height: 1px;
+      border-bottom: 1px dashed #409eff;
+    }
+    .box-line-4{
+      top: 66%;
+      width: 100%;
+      height: 1px;
+      border-bottom: 1px dashed #409eff;
+    }
+  }
+  .crop-btn{position: relative;
+    .crop-upload{position: absolute;right: 0}
+  }
+  .image-file{opacity: 0;position: absolute;}
 }

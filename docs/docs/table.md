@@ -434,7 +434,7 @@ export default {
 :::
 
 ### 9、扩展列
-:::demo 扩展列tr会生成样式名extend和唯一的样式，可通过此设置展开或收起效果
+:::demo 使用scope.extend()方法可展开或收起扩展行列，同时返回布尔值
 ```html
 <akTable :data="tableData">
   <akColumn label="日期" prop="date"></akColumn>
@@ -442,7 +442,8 @@ export default {
   <akColumn label="地址" prop="address" width="20%"></akColumn>
   <akColumn label="操作">
     <template slot-scope="scope">
-      <a href="javascript:;">删除</a>
+      <!--<a href="javascript:;">删除</a> -->
+      <span @click="scope.extend()">展开/收起</span>
     </template>
   </akColumn>
   <akColumn type="extend">
@@ -535,6 +536,49 @@ export default {
 ```
 :::
 
+### 12、多级表头
+:::demo 
+```html
+<akTable :data="tableData">
+   <akColumn label="日期">
+     <akColumn label="年" width="80">
+      <template slot-scope="scope">
+         {{(scope.row.date).substr(0,4)}}  
+      </template>
+     </akColumn>
+     <akColumn label="月" width="80">
+        <template slot-scope="scope">
+           {{(scope.row.date).substr(5)}}  
+        </template>   
+     </akColumn>
+   </akColumn>
+   <akColumn label="姓名" prop="name"></akColumn>
+   <akColumn label="收货地址">
+     <akColumn label="省份" prop="province"></akColumn>
+     <akColumn label="城市" prop="city"></akColumn>
+     <akColumn label="地址" prop="address" width="250"></akColumn>
+     <akColumn label="邮编" prop="zip"></akColumn>
+   </akColumn>
+   <akColumn label="操作">
+     <template slot-scope="scope">
+       <a href="javascript:;">删除</a>
+   </template>
+   </akColumn>
+</akTable>   
+
+<script>
+export default {
+  data () {
+    return {
+    }
+  },
+  methods: {
+    }
+}
+</script>
+```
+:::
+
 ## API
 ### Table
 
@@ -555,6 +599,7 @@ export default {
 | emptyText     | String        |无数据时显示的文本|
 | title         | Boolean/true  |鼠标滑过单元格时显示title提示|
 | drag          | boolean/false |允许拖动表头改变当前单元格宽度|
+| extendToggle  | boolean/true  |扩展行初始显示或隐藏|
 | rowColSpan    | function      |合并行或列方法。通过给传入rowColSpan方法可以实现合并行或列，方法的参数(当前行号rowIndex,当前列号columnIndex,当前行row,当前列column)四个属性。该函数返回一个包含两个数字的数组，第一个rowspan，第二个colspan，即向纵向和横向合并多少个单元格|
 
 ### Table Methods
@@ -583,7 +628,7 @@ export default {
 ### Table-column Scoped Slot
 |参数|说明|
 |-|-|
-|-             | 自定义列的内容，参数为 { row, index }|
+|slot-scope             | 自定义列的内容，参数为 { row, index, extend }|
 
 [[Toc]]
 

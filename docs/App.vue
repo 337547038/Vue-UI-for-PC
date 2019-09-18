@@ -2,11 +2,11 @@
   <div id="app">
     <div class="main-header">
       <div class="main-header-logo">
-        <a href="/"><img src="./logo.png" alt="logo"></a>
+        <a href="/"><img src="./logo1.jpg" alt="logo"></a>
       </div>
       <div class="main-header-title"><a href="/">AK-UI-Docs</a></div>
       <ul class="main-header-nav">
-        <li class="active"><a href="svn://192.168.0.2/code/项目开发/Java本地库/本地库前端新框架/akui-demos" target="_blank">资源</a></li>
+        <li class="active"><a href="https://github.com/337547038/Vue-UI-for-PC" target="_blank">资源</a></li>
       </ul>
     </div>
     <div class="main-">
@@ -78,7 +78,7 @@ export default {
   computed: {
     navigator () {
       return router.sort(this._sortBy('name')).filter(item => {
-        return item.name !== 'index'
+        return item.name !== 'index' && item.name !== 'test'
       })
     }
   }

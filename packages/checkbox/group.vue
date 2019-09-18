@@ -18,6 +18,7 @@
               :value="item.value"
               :label="item.label||item.value"
               :disabled="item.disabled"
+              :class="item.class"
               v-model="groupValue"
               @change="_change">
     </Checkbox>

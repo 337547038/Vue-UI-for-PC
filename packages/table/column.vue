@@ -52,9 +52,9 @@ export default {
     }
   },
   created () {
-    this.renderCell = (h, {row, column, $index}) => {
+    this.renderCell = (h, {row, column, $index, extendToggle}) => {
       if (this.$scopedSlots.default) {
-        const data = {row: row, index: $index + 1}
+        const data = {row: row, index: $index + 1, extend: extendToggle}
         // return h('div', style, [this.$scopedSlots.default(data)])
         return this.$scopedSlots.default(data)
       }
@@ -96,9 +96,24 @@ export default {
   },
   mounted () {
   },
+  computed: {
+    parent () {
+      // 查找父组件
+      let parent = this.$parent
+      let parentName = parent.$options.componentName
+      if (parent) {
+        while (parentName !== 'table' && parent.$parent) {
+          parent = parent.$parent
+          parentName = parent.$options.componentName
+        }
+      }
+      return parent
+    }
+  },
   watch: {},
   render (h) {
-    return null
+    // return null
+    return h('div', this.$slots.default)
   }
 }
 </script>

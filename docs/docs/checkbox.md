@@ -16,7 +16,7 @@ export default {
       checkbox11: ['a2','a6'],
       groupData: [
         {label: '选项1', value: 'a1'},
-        {label: '选项2', value: 'a2'},
+        {label: '选项2', value: 'a2' , class: 'cla'},
         {label: '选项3', value: 'a3'},
         {value: 'a4'},
         {label: '禁用', value: 'a5', disabled: true},

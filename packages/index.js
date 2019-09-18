@@ -19,7 +19,7 @@ import Textarea from './textarea/index'
 import Pagination from './pagination/index'
 import {Swiper, SwiperItem} from './swiper/index'
 import Tree from './tree/index'
-import Upload from './upload/index'
+import {Upload, ImgCrop} from './upload/index'
 import Menu from './menu/index'
 import ECharts from './echarts/index'
 import BackTop from './backTop/index'
@@ -49,6 +49,7 @@ const component = [
   SwiperItem,
   Tree,
   Upload,
+  ImgCrop,
   Menu,
   ECharts,
   BackTop,

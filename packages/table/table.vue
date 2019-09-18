@@ -1,7 +1,9 @@
 <template>
   <div :class="[prefixCls+'-table']"
        :style="{overflow: (width||height)?'auto':'',height:height,width:width}" ref="tableContainer">
-    <slot/>
+    <div style="display: none">
+      <slot/>
+    </div>
     <table
       :class="{'table-stripe':stripe,
       'table-border':border,
@@ -11,32 +13,14 @@
       <colgroup>
         <col v-for="(col,index) in colWidth" :width="col" :key="index">
       </colgroup>
-      <thead v-if="showHeader" ref="tableHead">
-      <tr>
-        <th v-for="(thead,index) in columnsFilter"
-            :class="[thead.fixed,thead.className]"
-            :key="index"
-            :style="{textAlign:thead.align}"
-            :title="title||thead.title?thead.label:null"
-            @mousedown="_headMouseDown($event,index)"
-            @mousemove="_headMouseMove($event,index)">
-          <label @click="_handleSelectAll" :class="[selectChecked,prefixCls+'-checkbox']"
-                 v-if="thead.type==='selection'">
-            <span :class="`${prefixCls}-checkbox-inner`"></span>
-          </label>
-          <template v-else-if="thead.type==='index'">{{thead.label}}</template>
-          <template v-else>{{thead.label}}
-            <span class="caret-wrapper" v-if="thead.sortBy">
-              <i class="sort-caret asc" @click="sortClick(thead.prop,'asc',$event)"></i>
-              <i class="sort-caret desc" @click="sortClick(thead.prop,'desc',$event)"></i>
-            </span>
-          </template>
-        </th>
-      </tr>
-      </thead>
+      <table-head
+        :thead="thead"
+        :showHeader="showHeader"
+        :selectChecked="selectChecked">
+      </table-head>
       <tbody v-if="data.length===0">
       <tr>
-        <td :colspan="columnsFilter.length" class="empty">
+        <td :colspan="columns.length" class="empty">
           {{emptyText}}
         </td>
       </tr>
@@ -49,14 +33,16 @@
 <script>
 import {prefixCls} from '../prefix'
 import TableBody from './tableBody'
+import TableHead from './head'
 
 export default {
   name: `${prefixCls}Table`,
+  componentName: 'table',
   data () {
     return {
       prefixCls: prefixCls,
-      columns: [], // 表头
-      columnsFilter: [], // 表头，过滤掉扩展列的
+      thead: [], // 表头信息及包含关系
+      columns: [], // 表头，tableBody使用
       colWidth: [], // 所有列宽
       selectChecked: 'un-select', // 全选状态 un-select为全不选，some-select选择了部分，checked全选
       selectedRows: [], // 已选择的行
@@ -64,23 +50,18 @@ export default {
       dragHead: {} // 临时存放表头拖动信息
     }
   },
+  created () {
+    console.time('timer')
+  },
   watch: {
     data (oldData, newData) {
       // 当表格数据发生变化时，清空选择
       this.clearSelection()
-    },
-    updateChild () {
-      /* console.log('updateChild watch')
-      const that = this
-      this.$nextTick(function () {
-        that.getColumn()
-      }) */
     }
   },
-  components: {TableBody},
+  components: {TableBody, TableHead},
   props: {
     drag: Boolean,
-    updateChild: String,
     data: {
       type: Array,
       default: () => {
@@ -130,30 +111,30 @@ export default {
     selectClick: Function, // 勾选单列事件
     sortChange: Function, // 排序点击时{prop, order }
     selectAllClick: Function, // 全选/返选
-    rowColSpan: Function
+    rowColSpan: Function,
+    extendToggle: { // 默认展开扩展
+      type: Boolean,
+      default: true
+    }
   },
   methods: {
     _fixedHead () {
       // 如果有高和表头，则固定表头
       // if (this.height && this.showHeader) {
       let tableContainer = this.$refs.tableContainer
-      tableContainer.addEventListener(
-        'scroll',
-        this._scrollHandle.bind(this, tableContainer),
-        false
-      )
+      tableContainer.addEventListener('scroll', this._scrollHandle.bind(this, tableContainer), false)
       // }
       this._fixedRight(tableContainer, 0)// 初始化时横向滚动条在0位置
     },
     _scrollHandle (el) {
       const scrollTop = el.scrollTop
-      let head = this.$refs.tableHead
-      if (scrollTop > 0) {
+      let head = this.$el.querySelector('thead')
+      if (scrollTop > 0 && head) {
         head.className = 'transform'
         head.style.transform = `translateY(${scrollTop}px) translateZ(100px)`
         head.style.webkitTransform = `translateY(${scrollTop}px) translateZ(100px)`
       }
-      if (scrollTop === 0) {
+      if (scrollTop === 0 && head) {
         head.style = ''
         head.className = ''
       }
@@ -271,7 +252,7 @@ export default {
       } */
       this.selectClick && this.selectClick(row)
     },
-    sortClick (prop, order, e) {
+    _sortClick (prop, order, e) {
       const parentNode = e.target.parentNode
       parentNode.className = 'caret-wrapper ' + order
       // 将当前排序信息添加到sortBy
@@ -310,30 +291,47 @@ export default {
       // 用于清空排序条件
       this.sortBy = {}
     },
+    // 获取表头信息
+    _getAllHead (thead, child, tid, layer) {
+      // tid父级id,layer为当前层级
+      if (!tid) {
+        tid = 0
+      }
+      if (!layer) {
+        layer = 0
+      }
+      child.forEach(item => {
+        let item2 = item
+        if (item.child) {
+          item2 = item.child
+        }
+        if (item2.$options.componentName === 'Column') {
+          const children = Object.assign({}, item2._props, {_id: item2._uid, _tid: tid, _layer: layer})
+          if (item2.$slots.default) {
+            layer++
+            if (item2.type !== 'extend') {
+              thead.push(Object.assign(children, {_child: true}))
+              // this.colWidth.push(item2.width)
+            }
+            this._getAllHead(thead, item2.$slots.default, item2._uid, layer)
+            layer = 0
+          } else {
+            if (item2.type !== 'extend') {
+              thead.push(children)
+              this.colWidth.push(item2.width)
+            }
+            this.columns.push(item2)
+          }
+        }
+      })
+    },
     resetColumn () {
       // 1.表格加载完成时用于获取table子组件，生成表头
       // 2.当存在动态切换Column时，用于重置表头
       // console.log('getColumn')
       this.$nextTick(() => {
         let child = this.$children
-        // 遍历子组件，只返回column组件
-        this.columns = child.filter(item => {
-          return item.$options.componentName === 'Column'
-        })
-        // 返回过滤掉扩展列的
-        this.columnsFilter = child.filter(item => {
-          return item.$options.componentName === 'Column' && item.type !== 'extend'
-        })
-        this.colWidth = []
-        child.forEach(item => {
-          if (item.$options.componentName === 'Column' && item.type !== 'extend') {
-            // this.columnsFilter.push(item)
-            this.colWidth.push(item.width)
-          }
-          /* if (item.$options.componentName === 'Column') {
-            this.columns.push(item)
-          } */
-        })
+        this._getAllHead(this.thead, child)
       })
     }
   },
@@ -344,17 +342,11 @@ export default {
         this.$refs.tableContainer.style.overflowX = 'auto'
         document.addEventListener('mouseup', this._headMouseUp)
       }
+      console.timeEnd('timer')
     })
-    // console.log('mounted')
-    // console.log(this.columns)
     this.resetColumn()
   },
-  updated () {
-    // console.log('updated')
-  },
   destroyed () {
-    // console.log('destroyed')
-    // this.columns = []
     if (this.drag) {
       document.removeEventListener('mouseup', this._headMouseUp)
     }

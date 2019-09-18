@@ -6,7 +6,7 @@ import router from './router'
 import DemoBlock from './components/demo-block.vue'
 import Component from '../packages/index'
 import Lazy from '../packages/lazy'
-
+import '@babel/polyfill' // 兼容ie
 Vue.component('demo-block', DemoBlock)
 Vue.config.productionTip = false
 // 全局注册组件

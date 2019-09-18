@@ -51,7 +51,7 @@ fs.readdir('src/assets/icons', (err, paths) => {
     })
   }
 })
-let publicPath = './'
+let publicPath = '/'
 // 打包组件示例时使用相对路径
 if (original === 'buildDocs') {
   publicPath = './'
@@ -149,6 +149,15 @@ module.exports = {
     // 移除 preload 插件 预加载
     /* config.plugins.delete('prefetch-index')
     config.plugins.delete('preload-index') */
+    // 添加html模板参数到htmlWebpackPlugin配置中，使用详见public/index.html
+    // 通过htmlWebpackPlugin.options.xxx引用
+    config
+      .plugin('html-index') // pages多页面时要在html后面带上当前入口-index
+      .tap(args => {
+        args[0].publicDate = new Date().toLocaleString()
+        return args
+      })
+
     if (NODE_ENV) {
       // config.optimization.delete('splitChunks')
     }
@@ -209,3 +218,4 @@ module.exports = {
       })
   }
 }
+
