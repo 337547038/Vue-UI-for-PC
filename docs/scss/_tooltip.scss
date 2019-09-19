@@ -1,0 +1,33 @@
+@charset "utf-8";
+@include ns(tooltip){ position: absolute; z-index: 100; background: #666; color: #fff; padding: 8px 12px; line-height: 20px; border-radius: 5px; animation: tooltip 1s;box-sizing: border-box;
+  &:before{ content: ''; display: inline-block; border: 5px solid transparent; position: absolute; }
+  /*处理下箭头方向*/
+  &.top-left{
+    &:before{ left: 15px; bottom: -10px; border-top-color: #666; }
+  }
+  &.top{
+    &:before{ left: 50%; bottom: -10px; border-top-color: #666; margin-left: -5px; }
+  }
+  &.top-right{
+    &:before{ right: 15px; bottom: -10px; border-top-color: #666; }
+  }
+  &.left{
+    &:before{ right: -10px; top: 50%; border-left-color: #666; margin-top: -5px; }
+  }
+  &.right{
+    &:before{ left: -10px; top: 50%; border-right-color: #666; margin-top: -5px; }
+  }
+  &.bottom-left{
+    &:before{ left: 15px; top: -10px; border-bottom-color: #666; }
+  }
+  &.bottom{
+    &:before{ left: 50%; top: -10px; border-bottom-color: #666; margin-left: -5px; }
+  }
+  &.bottom-right{
+    &:before{ right: 15px; top: -10px; border-bottom-color: #666; }
+  }
+}
+@keyframes tooltip{
+  0%{ opacity: 0 }
+  100%{ opacity: 1 }
+}
