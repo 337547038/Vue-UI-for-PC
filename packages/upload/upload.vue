@@ -1,16 +1,16 @@
 <!--Created by 337547038 on 2019/2.-->
 <template>
   <div :class="`${prefixCls}-upload`">
-    <label :for="randomId" class="file">
+    <label :for="randomId" class="upload-file" :class="{'drag-file':drag}" @dragover="_fileDragOver" @drop="_fileDrop">
       <slot></slot>
-      <input type="file"
-             ref="inputFile"
-             @change="_onFileChange"
-             :multiple="multiple"
-             :id="randomId"
-             :accept="accept"
-             :name="name">
     </label>
+    <input type="file"
+           ref="inputFile"
+           @change="_onFileChange"
+           :multiple="multiple"
+           :id="randomId"
+           :accept="accept"
+           :name="name">
   </div>
 </template>
 <script>
@@ -24,12 +24,14 @@ export default {
       prefixCls: prefixCls,
       axiosUpload: true, // 使用哪种方式上传
       randomId: Math.random().toString(36).substr(2, 10),
-      tempFiles: []
+      tempFiles: [],
+      tempUpload: [], // 存储待上传文件，用于手动上传
+      index: 0 // 批量上传时记录当前第几个，用于更新当前进度
     }
   },
   mixins: [comm],
   props: {
-    value: [Array],
+    value: [Array, Object],
     name: { // input标签的 name 属性
       type: String,
       default: 'file'
@@ -54,13 +56,30 @@ export default {
       // `timeout` 指定请求超时的毫秒数(0 表示无超时时间)
       type: Number,
       default: 0
+    },
+    auto: { // 是否需要点击按钮上传
+      type: Boolean,
+      default: true
+    },
+    drag: { // 允许拖动上传
+      type: Boolean,
+      default: false
     }
   },
   components: {},
   methods: {
-    _onFileChange (e) {
-      this.tempFiles = []
-      let file = e.target.files
+    _onFileChange (e, type) {
+      if (!this.multiple) { // 多个时上传后再清除
+        this.tempFiles = []
+        this.tempUpload = []
+        console.log('multiple')
+      }
+      let file = ''
+      if (type === 'drag') {
+        file = e
+      } else {
+        file = e.target.files
+      }
       if (file) {
         for (let i = 0; i < file.length; i++) {
           let src = ''
@@ -76,7 +95,8 @@ export default {
             status: 0, // 上传状态，0上传时，1成功，-1失败
             verify: '' // 验证结果，批量上传时
           })
-          this._check(file[i], i)
+          this._check(file[i], this.index)
+          this.index++
         }
         this.axiosUpload = true
       } else {
@@ -99,16 +119,26 @@ export default {
             src: dataURL2 // 预览用的src
           })
         }
-        const data = {
+        if (this.auto) {
+          this._axios(fileObj, 0)
+        } else {
+          // 手动上传时保存
+          this.tempUpload.push({file: fileObj, index: 0})
+        }
+        /* const data = {
           name: this.name, // 文件域的name值
           action: this.action,
           headers: this.headers,
           data: this.data,
           timeout: this.timeout
         }
-        this.upload(fileObj, data, this.axiosUpload, this._uploadStatus)
+        this.getUpload(fileObj, data, this.axiosUpload, this._uploadStatus) */
       }
-      this.$emit('input', this.tempFiles)
+      if (this.multiple) { // 多个时返回数组
+        this.$emit('input', this.tempFiles)
+      } else { // 单个时返回object
+        this.$emit('input', this.tempFiles[0])
+      }
     },
     // 单位换算
     _unitFormat (size) {
@@ -149,11 +179,16 @@ export default {
           return false
         }
       }
-      if (!error.code) {
-        this._axios(file, index)
+      if (!error.code) { // 通过验证
+        if (this.auto) {
+          this._axios(file, index)
+        } else {
+          // 手动上传时保存
+          this.tempUpload.push({file: file, index: index})
+        }
       }
     },
-    _axios (file, index) {
+    async _axios (file, index) {
       const data = {
         name: this.name, // 文件域的name值
         action: this.action,
@@ -161,7 +196,7 @@ export default {
         data: this.data,
         timeout: this.timeout
       }
-      this.upload(file, data, this.axiosUpload, this._uploadStatus.bind(this, index)) // 将图片上传
+      await this.getUpload(file, data, this.axiosUpload, this._uploadStatus.bind(this, index)) // 将图片上传
     },
     // 上传回调事件
     _uploadStatus (index, res, type) {
@@ -175,14 +210,34 @@ export default {
           this.$emit('success', res, index)
           this.success && this.success(res)
           this.tempFiles[index].status = 1
+          this.tempUpload = []
           // this.reset()
           break
         case 'catch':
           this._emit('error', res, index)
           this.tempFiles[index].status = -1
+          this.tempUpload = []
           // this.reset()
           break
       }
+    },
+    upload () {
+      // 手动上传入口
+      if (!this.auto) {
+        this.tempUpload.forEach(async item => {
+          await this._axios(item.file, item.index)
+        })
+      }
+    },
+    _fileDragOver (e) {
+      e.preventDefault()
+    },
+    _fileDrop (e) {
+      e.preventDefault()
+      // const file = e.dataTransfer.files[0] // 获取到第一个上传的文件对象
+      this._onFileChange(e.dataTransfer.files, 'drag')
+      console.log(e.dataTransfer.files)
+      console.log('e.dataTransfer')
     }
   },
   computed: {},

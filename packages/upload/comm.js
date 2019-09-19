@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export default {
   methods: {
-    upload (file, data, type, callback) {
+    getUpload (file, data, type, callback) {
       if (type) {
         this.axios(file, data, callback)
       } else {
