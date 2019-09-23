@@ -1,19 +1,21 @@
 <!-- Created by 337547038 on 2019/9/23 0023. -->
 <template>
-  <div @click="_showClick">
+  <div>
     <slot></slot>
-    <div :class="`${prefixCls}-color-picker`" v-show="visible">
-      <div class="color-picker-content">
-        <Sidebar ref="siderbar" v-model="bgColor"></Sidebar>
-        <Panel :bgColor="bgColor" :showColor="showColor" ref="panel"></Panel>
-      </div>
-      <div class="color-picker-control">
-        <div class="color-input">
-          <input type="text" :class="`${prefixCls}-input-control`" :value="colorToRgba" @change="_onChange">
+    <transition name="slide-toggle">
+      <div :class="`${prefixCls}-color-picker`" v-show="visible" @click="_stopPropagation">
+        <div class="color-picker-content">
+          <Sidebar ref="siderbar" v-model="bgColor"></Sidebar>
+          <Panel :bgColor="bgColor" :showColor="showColor" ref="panel"></Panel>
         </div>
-        <div class="color-confirm" @click="_confirm" v-html="text"></div>
+        <div class="color-picker-control">
+          <div class="color-input">
+            <input type="text" :class="`${prefixCls}-input-control`" :value="colorToRgba" @change="_onChange">
+          </div>
+          <div class="color-confirm" @click="_confirm" v-html="text"></div>
+        </div>
       </div>
-    </div>
+    </transition>
   </div>
 </template>
 
@@ -58,6 +60,9 @@ export default {
   },
   components: {Sidebar, Panel},
   methods: {
+    _stopPropagation (e) {
+      e.stopPropagation()
+    },
     _onChange (e) {
       let value = e ? e.target.value : this.value
       // 过滤所有空格

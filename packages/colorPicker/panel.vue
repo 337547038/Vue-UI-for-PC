@@ -1,9 +1,9 @@
 <!-- Created by 337547038 on $. -->
 <template>
-  <div class="color-panel" :style="{background: background}" @mousedown.stop="_bgClick">
+  <div class="color-panel" :style="{background: background}" @mousedown="_bgClick">
     <div class="color-white-panel"></div>
     <div class="color-block-panel"></div>
-    <div class="color-cursor" :style="style" @mousedown.stop="_onMouseDown"></div>
+    <div class="color-cursor" :style="{left:style.left+'px',top:style.top+'px'}" @mousedown.stop="_onMouseDown"></div>
   </div>
 </template>
 
@@ -25,8 +25,8 @@ export default {
   data () {
     return {
       style: {
-        left: '0px',
-        top: '0px'
+        left: 0,
+        top: 0
       },
       panelBgInfo: {} // 颜色面板的信息left,top,width,height
     }
@@ -45,13 +45,14 @@ export default {
 
   mounted () {
     this.$nextTick(() => {
-      this.calcXY()
+      // this.calcXY()
     })
   },
 
   methods: {
     _bgClick (e) {
       // 防止滑块触发背景点击事件
+      console.log('0000')
       if (e.target.className === 'color-cursor') return
 
       const {offsetX, offsetY} = e
@@ -59,8 +60,8 @@ export default {
 
       // 基于点击的位置给滑块定位
       this.style = {
-        left: offsetX + 'px',
-        top: offsetY + 'px'
+        left: offsetX,
+        top: offsetY
       }
 
       // 因为是基于右上角给推断颜色，所以将颜色的原点设在右上角
@@ -71,7 +72,8 @@ export default {
       this._calcWidthColor(x, y)
 
       // 点击背景后，滑块移动到指针处，在未松开鼠标时依然可拖动
-      this._onMouseDown()
+      this._onMouseDown(e)
+      e.stopPropagation()
     },
     _calcWidthColor (x, y) {
       const {w, h} = this.panelBgInfo
@@ -99,27 +101,26 @@ export default {
       }
     },
     // 滑块被点击时
-    _onMouseDown () {
-      const {l, t, w, h} = this.panelBgInfo
+    _onMouseDown (e) {
+      console.log('_onMouseDown')
+      const {w, h} = this.panelBgInfo
+      const l = e.pageX - this.style.left
+      const t = e.pageY - this.style.top
 
       document.onmousemove = res => {
         const {pageX, pageY} = res
         let left = pageX - l
         let top = pageY - t
-
         if (left <= 0) left = 0
         if (left >= w) left = w
         if (top <= 0) top = 0
         if (top >= h) top = h
-
         this.style = {
-          left: left + 'px',
-          top: top + 'px'
+          left: left,
+          top: top
         }
-
         const x = w - left
         const y = top
-
         this._calcWidthColor(x, y)
       }
 
@@ -127,39 +128,33 @@ export default {
         document.onmousemove = null
         document.onmouseup = null
       }
+      e.stopPropagation()
     },
     // 根据当前显示的颜色定位滑块位置
     calcXY () {
-      const {
-        left: l,
-        top: t,
-        width: w,
-        height: h
-      } = this.$el.getBoundingClientRect()
-      this.panelBgInfo = {l, t, w, h}
+      const w = this.$el.offsetWidth
+      const h = this.$el.offsetHeight
+      this.panelBgInfo = {w, h}
 
       const {r, g, b} = this.showColor
       const max = Math.max(r, g, b)
       const min = Math.min(r, g, b)
       let x = (min / max) * w
-      if (max === 0) { // 0不能作除数
+      if (max === 0) {
+        // 0不能作除数
         x = 0
       }
       const y = h - (max / 255) * h
-      this.style.left = w - x + 'px'
-      this.style.top = y + 'px'
+      this.style.left = w - x
+      this.style.top = y
     },
     // 背景颜色修改时，需基于当前滑块重新计算当前选中的颜色
     _changeShowColor () {
       const {w, h} = this.panelBgInfo
       let {left, top} = this.style
-
-      left = parseInt(left.substr(0, left.length - 2))
-      top = parseInt(top.substr(0, top.length - 2))
-
-      const x = w - left
-      const y = top
-      this._calcWidthColor(x, y, w, h)
+      // const x = w - left
+      // const y = top
+      this._calcWidthColor(w - left, top, w, h)
     }
   }
 }

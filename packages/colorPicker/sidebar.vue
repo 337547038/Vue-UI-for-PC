@@ -28,9 +28,11 @@ export default {
   },
   methods: {
     _mouseDown (e) {
-      let {top: t, height: h} = this.$el.getBoundingClientRect()
-      document.onmousemove = e => {
-        let top = e.pageY - t
+      // let {top: t, height: h} = this.$el.getBoundingClientRect()
+      const h = this.sideBarHeight
+      const t = e.pageY - this.top
+      document.onmousemove = ev => {
+        let top = ev.pageY - t
         if (top >= h) top = h
         if (top <= 0) top = 0
         this._changeBg(top, h)
@@ -39,8 +41,7 @@ export default {
         document.onmousemove = null
         document.onmouseup = null
       }
-      e && e.stopPropagation()
-
+      e.stopPropagation()
     },
     // 修改背景图
     _changeBg (top, h) {
@@ -82,7 +83,7 @@ export default {
       this._changeBg(top, height)
 
       // 点击背景后，滑块移动到指针处，在未松开鼠标时依然可拖动
-      this._mouseDown()
+      this._mouseDown(e)
     },
     _getValue (top, total, index) {
       const value = ((top - total * index) / total) * 255
