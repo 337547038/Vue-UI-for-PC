@@ -11,7 +11,7 @@ https://337547038.github.io/akvue/
 
 或
 
-http://q337547038.gitee.com.io/ak-vue/
+https://q337547038.gitee.io/ak-vue
 
 ## 组件说明
 docs下为示例演示页面，同时为了方便样式维护，全部独立为scss文件；
