@@ -34,7 +34,7 @@
         </template>
       </akColumn>
     </akTable>-->
-    <ak-table
+    <!--<ak-table
       :data="tableData"
       style="width: 100%">
       <ak-column
@@ -82,14 +82,16 @@
         </ak-column>
       </ak-column>
       <ak-column label="操作"></ak-column>
-    </ak-table>
+    </ak-table>-->
+    <p @click="click">click</p>
+    <li v-for="(item,index) in array" :key="index">{{index}}.{{item.name}}</li>
   </div>
 </template>
 
 <script>
 export default {
   name: 'Table',
-  data () {
+  data() {
     return {
       tableData: [
         {
@@ -157,12 +159,26 @@ export default {
          address: '广东市天河区无名路8888号高大尚大厦',
          zip: 200337
        } */
+      ],
+      array: [
+        {name: 'a1', value: ''},
+        {name: 'b2', value: ''},
+        {name: 'c3', value: ''},
+        {name: 'd4', value: ''},
+        {name: 'e5', value: ''}
       ]
     }
   },
   components: {},
   methods: {
-    arraySpanMethod (rowIndex, columnIndex) {
+    click() {
+      // this.$set(this.array, 0, 'bb')
+      const i = 4
+      const index = 1
+      this.array.splice(i + 1, 0, this.array[index])
+      this.array.splice(index, 1)
+    },
+    arraySpanMethod(rowIndex, columnIndex) {
       console.log('arraySpanMethod')
       if (rowIndex === 0 && columnIndex === 1) {
         return [2, 2]

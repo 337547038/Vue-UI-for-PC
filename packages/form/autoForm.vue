@@ -45,7 +45,7 @@
         v-bind="item.control"
         v-if="item.type==='txt'"
         v-html="item.control.value"></div>
-      <div class="item-tips" v-if="item.other" v-html="item.other"></div>
+      <div class="item-tips" v-if="item.other" v-html="item.other.value" @click="item.other.click(item)"></div>
     </FormItem>
   </vForm>
 </template>

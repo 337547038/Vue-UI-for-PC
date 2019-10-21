@@ -39,7 +39,12 @@ export default {
             {type: 'maxLength', maxLength: 6, msg: '最大6个字符'},
             {type: 'minLength', minLength: 3, msg: '不能小于3'}
           ],
-          other: ''
+          other: {
+            value:'可带点击事件的提示',
+            click(item){
+              console.log('click')
+            }
+          }
         },
         {
           type: 'password',
@@ -53,8 +58,7 @@ export default {
             {type: 'required', msg: '请输入用户名'},
             {type: 'maxLength', maxLength: 6, msg: '最大6个字符'},
             {type: 'minLength', minLength: 3, msg: '不能小于3'}
-          ],
-          other: ''
+          ]
         },
         {
           type: 'radio',
@@ -69,7 +73,9 @@ export default {
           rules: [
             {type: 'required', msg: '请勾选'}
           ],
-          other: '单选使用单选组形式'
+          other: {
+            value:'单选使用单选组形式'
+          }
         },
         {
           type: 'checkbox',
