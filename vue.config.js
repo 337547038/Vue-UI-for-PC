@@ -20,36 +20,42 @@ if (original === 'docs' || original === 'buildDocs') {
 }
 // 合并图片，暂不作判断，每次重新生成
 let sprites = []
-fs.readdir('src/assets/icons', (err, paths) => {
-  // 遍历目录找到所有png图片
-  if (err) {
-    throw err
+const iconsPath = 'src/assets/icons'
+fs.access(iconsPath, (err) => {
+  if (err) { // 不存在目录
+    return
   }
-  paths.forEach(item => {
-    if (item.indexOf('.png') !== -1) {
-      sprites.push('src/assets/icons/' + item)
+  fs.readdir(iconsPath, (err, paths) => {
+    // 遍历目录找到所有png图片
+    if (err) {
+      throw err
+    }
+    paths.forEach(item => {
+      if (item.indexOf('.png') !== -1) {
+        sprites.push(iconsPath + item)
+      }
+    })
+    if (sprites.length > 0) {
+      /* eslint-disable */
+      Spritesmith.run({src: sprites, padding: 5}, handleResult = (err, result) => {
+        if (err) {
+          throw err
+        }
+        // 保存图片
+        fs.writeFile(path.resolve(__dirname + '/src/assets/images/sprites.png'), result.image, err => {
+        })
+        // 保存样式
+        let style = `[class*='sprites-']{display: inline-block;background: url(../images/sprites.png) no-repeat let top / ${result.properties.width}px ${result.properties.height}px}\r`
+        for (let key in result.coordinates) {
+          const name = key.replace('src/assets/icons/', '').replace('.png', '')
+          let obj = result.coordinates[key]
+          style += `.sprites-${name}{width: ${obj.width}px;height: ${obj.height}px;background-position: ${obj.x}px ${obj.y}px}\r`
+        }
+        fs.writeFile(path.resolve(__dirname + '/src/assets/scss/sprites.scss'), style, err => {
+        })
+      })
     }
   })
-  if (sprites.length > 0) {
-    /* eslint-disable */
-    Spritesmith.run({src: sprites, padding: 5}, handleResult = (err, result) => {
-      if (err) {
-        throw err
-      }
-      // 保存图片
-      fs.writeFile(path.resolve(__dirname + '/src/assets/images/sprites.png'), result.image, err => {
-      })
-      // 保存样式
-      let style = `[class*='sprites-']{display: inline-block;background: url(../images/sprites.png) no-repeat let top / ${result.properties.width}px ${result.properties.height}px}\r`
-      for (let key in result.coordinates) {
-        const name = key.replace('src/assets/icons/', '').replace('.png', '')
-        let obj = result.coordinates[key]
-        style += `.sprites-${name}{width: ${obj.width}px;height: ${obj.height}px;background-position: ${obj.x}px ${obj.y}px}\r`
-      }
-      fs.writeFile(path.resolve(__dirname + '/src/assets/scss/sprites.scss'), style, err => {
-      })
-    })
-  }
 })
 let publicPath = '/'
 // 打包组件示例时使用相对路径
@@ -117,20 +123,23 @@ module.exports = {
           }
         }
       }
-      plugins.push(
-        new UglifyJsPlugin({
-          uglifyOptions: {
-            warnings: false,
-            compress: {
-              drop_console: true, // console
-              drop_debugger: false,
-              pure_funcs: ['console.log'] // 移除console
-            }
-          },
-          sourceMap: false,
-          parallel: true
-        })
-      )
+      if (original !== 'buildDocs') {
+        // 打包示例组件时不移除
+        plugins.push(
+          new UglifyJsPlugin({
+            uglifyOptions: {
+              warnings: false,
+              compress: {
+                drop_console: true, // console
+                drop_debugger: false,
+                pure_funcs: ['console.log'] // 移除console
+              }
+            },
+            sourceMap: false,
+            parallel: true
+          })
+        )
+      }
     } else {
       // 为开发环境修改配置...
     }
@@ -186,7 +195,7 @@ module.exports = {
                 // return params.trim().match(/^demo\s+(.*)$/)
                 return params.match(/^demo\s+(.*)$/)
               },
-              render (tokens, idx) {
+              render(tokens, idx) {
                 if (tokens[idx].nesting === 1) {
                   // 1.获取第一行的内容使用markdown渲染html作为组件的描述
                   const markdownRender = require('markdown-it')()
