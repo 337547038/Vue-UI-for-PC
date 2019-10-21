@@ -12,6 +12,8 @@ export default {
     return {
       imgCrop:[],
       files: [],
+      files2: [],
+      files3: [],
       url: 'http://192.168.0.126:8099/vueTest/upload.php'
     }
   },
@@ -30,6 +32,9 @@ export default {
     _error (data, index) {
       console.log('_error')
       console.log(data)
+    },
+    upload () {
+      this.$refs.uploadFiles.upload()
     }
   }
 }
@@ -54,7 +59,7 @@ export default {
       @success="_success" 
       :multiple="true" 
       :maxSize="1024" 
-      @error="_error">确认</ak-upload>
+      @error="_error">上传图片</ak-upload>
   </div>
 </template>
 
@@ -83,6 +88,75 @@ export default {
       console.log('_error')
       console.log(data)
     }
+  }
+}
+</script>
+
+```
+:::
+
+### 点击按钮上传
+:::demo 
+```html
+<template>
+  <div>
+    <p>{{files2}}</p>
+    <ak-upload 
+      v-model="files2" 
+      :action="url" 
+      :multiple="true"
+      :auto="false"
+      ref="uploadFiles">选择文件</ak-upload>
+      <ak-button style="margin-left: 10px" @click="upload">确认上传</ak-button>
+  </div>
+</template>
+
+<script>
+
+export default {
+  data () {
+    return {
+      files2: [],
+      url: 'http://192.168.0.126:8099/vueTest/upload.php'
+    }
+  },
+  components: {},
+  methods: {
+    upload () {
+      this.$refs.uploadFiles.upload()
+    }
+  }
+}
+</script>
+
+```
+:::
+
+### 拖拽上传
+:::demo 
+```html
+<template>
+  <div>
+    <p>{{files3}}</p>
+    <ak-upload 
+      v-model="files3" 
+      :action="url"
+      :drag="true">选择文件</ak-upload>
+  </div>
+</template>
+
+<script>
+
+export default {
+  data () {
+    return {
+      files3: [],
+      url: 'http://192.168.0.126:8099/vueTest/upload.php'
+    }
+  },
+  components: {},
+  methods: {
+   
   }
 }
 </script>
@@ -142,6 +216,8 @@ export default {
 |data           | Object         |附加请求的参数|
 |maxSize        | Number         |文件大小限制，单位 kb，ie10+|
 |timeout        | Number         |指定请求超时的毫秒数(0 表示无超时时间)，ie10+|
+|auto           | Boolean/true   |选择文件后自动上传，无需再点击上传按钮|
+|drag           | Boolean/false  |允许拖拽上传，ie10+|
 |boxWidth       | Number         |裁切上传显示宽|
 |boxHeight      | Number         |裁切上传显示高|
 |imgWidth       | Number         |裁切上传，裁切图片的宽|

@@ -179,6 +179,16 @@ const router = [
     component: () => import('../docs/transfer.md')
   },
   {
+    path: '/tooltip',
+    name: 'tooltip',
+    component: () => import('../docs/tooltip.md')
+  },
+  {
+    path: '/colorPicker',
+    name: 'colorPicker',
+    component: () => import('../docs/colorPicker.md')
+  },
+  {
     path: '/test',
     name: 'test',
     meta: {

@@ -463,7 +463,7 @@ export default {
         }
         // this.imgsrc = newCanv.toDataURL()
         const img1 = this._dataURLtoBlobToFile(newCanv.toDataURL('image/png', 1))
-        this.upload(img1, data, this.axiosUpload, this._uploadStatus) // 将图片上传
+        this.getUpload(img1, data, this.axiosUpload, this._uploadStatus) // 将图片上传
       }
       tempImg.src = canvas.toDataURL()
     },

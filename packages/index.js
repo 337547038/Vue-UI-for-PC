@@ -28,6 +28,8 @@ import Cascader from './cascader/index'
 import Progress from './progress/index'
 import Transfer from './transfer/index'
 import Steps from './steps/index'
+import Tooltip from './tooltip/index'
+import ColorPicker from './colorPicker'
 
 const component = [
   Button,
@@ -57,7 +59,9 @@ const component = [
   Cascader,
   Progress,
   Transfer,
-  Steps
+  Steps,
+  Tooltip,
+  ColorPicker
 ]
 const install = function (Vue, options) {
   component.forEach(item => {

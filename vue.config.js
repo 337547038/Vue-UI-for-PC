@@ -168,6 +168,7 @@ module.exports = {
         .plugin('html-index') // pages多页面时要在html后面带上当前入口-index
         .tap(args => {
           args[0].publicDate = new Date().toLocaleString()
+          args[0].hash = true
           return args
         })
     }
