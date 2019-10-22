@@ -11,7 +11,7 @@ import {prefixCls} from '../prefix'
 export default {
   name: `${prefixCls}Form`,
   componentName: `${prefixCls}Form`,
-  data () {
+  data() {
     return {
       fields: [], // 需要验证的字段
       defaultModel: {} // 用于保存所有表单元素初始值
@@ -28,7 +28,7 @@ export default {
       type: Boolean,
       default: true
     },
-    model: {
+    value: {
       type: Object,
       default: () => {
         return {}
@@ -43,7 +43,7 @@ export default {
     }
   },
   components: {},
-  created () {
+  created() {
     // 接收formItem发送过来需要验证的集合
     /* this.$on('ak.form.addField', (field) => {
       if (field) {
@@ -52,10 +52,10 @@ export default {
     }) */
   },
   methods: {
-    validate (callback) {
+    validate(callback) {
       this._validateComm(this.fields, callback)
     },
-    validateField (props, cb) {
+    validateField(props, cb) {
       // 对指定字段验证props=['a','b']
       if (props.length > 0) {
         let fields = this.fields.filter((field) => {
@@ -64,7 +64,7 @@ export default {
         this._validateComm(fields, cb)
       }
     },
-    _validateComm (fields, callback) {
+    _validateComm(fields, callback) {
       let valid = true
       let count = 0
       let errorTips = []
@@ -73,6 +73,7 @@ export default {
       if (fields.length > 0) {
         fields.forEach(field => {
           // 引用formItem的validate验证方法
+          console.log(field)
           field.validate((result, field) => {
             if (result !== true) {
               // 错误结果
@@ -80,15 +81,18 @@ export default {
               errorTips.push(result)
             }
             if (++count === fields.length && callback) {
+              if (valid) {
+                errorTips = this.value
+              } // 验证通过时返回当前表单值，相当于value
               callback(valid, errorTips)
             }
           })
         })
       }
     },
-    resetFields () {
+    resetFields() {
       // 重置表单元素值
-      this.$emit('update:model', Object.assign({}, this.defaultModel))
+      this.$emit('input', Object.assign({}, this.defaultModel))
       // 清空错误提示
       this.fields.forEach(field => {
         field.resetField()
@@ -96,13 +100,13 @@ export default {
     }
   },
   computed: {
-    cls () {
+    cls() {
       return `${prefixCls}-form`
     }
   },
-  mounted () {
+  mounted() {
     // 保存表单所有元素初始值，用于重置表单
-    this.defaultModel = Object.assign({}, this.model)
+    this.defaultModel = Object.assign({}, this.value)
   }
 }
 </script>

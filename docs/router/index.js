@@ -6,6 +6,7 @@ import routerCon from './router.con'
 Vue.use(Router)
 
 export default new Router({
+  scrollBehavior: () => ({ y: 0 }),
   routes: routerCon
   /* routes: [
     /*

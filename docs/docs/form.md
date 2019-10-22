@@ -1,8 +1,6 @@
 <!-- Created by 337547038 on 2018/8/15 0015. -->
 <script>
 export default {
-  name: 'AKForm',
-  path: '/form',
   data () {
     return {
       ruleForm: {
@@ -139,11 +137,14 @@ export default {
     }
   },
   components: {},
+  mounted () {
+  },
   methods: {
     submitForm () {
       this.$refs.ruleForm.validate((result, object) => {
         console.log(result)
         console.log(object)
+        console.log(this.ruleForm)
       })
     },
     submitForm2 () {
@@ -202,7 +203,7 @@ export default{
 ```html
 <template>
   <div>
-    <ak-form :rules="rules" ref="ruleForm" :model.sync="ruleForm">
+    <ak-form :rules="rules" ref="ruleForm" v-model="ruleForm">
       <ak-form-item label="用户名" prop="name">
         <ak-input v-model="ruleForm.name" placeholder="请输入用户名"></ak-input>
       </ak-form-item>
@@ -265,8 +266,6 @@ export default{
 </template>
 <script>
 export default {
-  name: 'AKForm',
-  path: '/form',
   data () {
     return {
       ruleForm: {
@@ -357,6 +356,7 @@ export default {
       this.$refs.ruleForm.validate((result, object) => {
         console.log(result)
         console.log(object)
+        console.log(this.ruleForm)
       })
     },
     submitForm2 () {
@@ -384,7 +384,7 @@ export default {
 ```html
 <template>
   <div>
-    <ak-form :rules="backRules" :model="backForm" ref="backForm">
+    <ak-form :rules="backRules" v-model="backForm" ref="backForm">
       <ak-form-item prop="password1" label="密码">
         <ak-input v-model="backForm.password1"></ak-input>
       </ak-form-item>
@@ -444,7 +444,7 @@ export default {
 ```html
 <template>
   <div>
-    <ak-form :rules="rules4" :model="form4" ref="form4">
+    <ak-form :rules="rules4" v-model="form4" ref="form4">
       <ak-form-item prop="age" label="年龄">
         <ak-input v-model="form4.age"></ak-input>
       </ak-form-item>
@@ -498,14 +498,14 @@ export default {
 |参数|类型|说明|
 |-|-|-|
 |rules          | object         |表单验证规则|
-|model          | object         |表单数据对象，即所有表单的值。重置表单时需要添加.sync修饰符。不需要验证表单时可不填|
+|value          | object         |表单数据对象，即所有表单的值。不需要验证表单时可不填|
 |showMessage    | boolean/true   |是否显示校验错误信息|
 |trigger        | String         |触发验证类型，change和blur两种，默认change，仅对input|
 
 ### Form Methods
 |参数|类型|说明|
 |-|-|-|
-|validate       | Function       |对表单进行校验的方法，参数为一个回调函数，并回传两个参数：是否检验通过和未通过检验的错误提示|
+|validate       | Function       |对表单进行校验的方法，参数为一个回调函数，并回传两个参数（是否通过验证，未通过时为所有未通过检验的错误提；通过时返回value值）|
 |validateField  | Function       |对部分表单字段进行校验的方法，参数为一个要校验的prop和一个回调函数|
 |resetFields    | Function       |对整个表单进行重置，将所有字段值重置为初始值并移除校验结果|
 ### FormItem

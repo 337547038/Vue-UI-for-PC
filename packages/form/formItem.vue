@@ -68,7 +68,7 @@ export default {
       // 验证
       let value2 = value
       if (value === 'undefined' || value === undefined) {
-        value2 = this.form.model[this.prop]
+        value2 = this.form.value[this.prop]
       }
       let rule = this.form.rules[this.prop]
       if (rule) {

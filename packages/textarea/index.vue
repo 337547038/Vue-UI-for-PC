@@ -18,6 +18,9 @@ export default {
     }
   },
   watch: {
+    value (val) {
+      this.textValue = val
+    },
     textValue (v) {
       this.$emit('input', v)
       if (this.autoHeight) {

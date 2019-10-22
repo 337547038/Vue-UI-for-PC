@@ -4,13 +4,13 @@
       <div class="main-header-logo">
         <a href="/"><img src="./logo1.jpg" alt="logo"></a>
       </div>
-      <div class="main-header-title"><a href="/">AK-UI-Docs</a></div>
+      <div class="main-header-title"><a href="/">AK-Docs</a></div>
       <ul class="main-header-nav">
         <li class="active"><a href="https://github.com/337547038/Vue-UI-for-PC" target="_blank">资源</a></li>
       </ul>
     </div>
     <div class="main-">
-      <div class="main-left" :style="{display:showNav?'block':'none'}">
+      <div class="main-left" :style="{display:showNav?'block':'none',height:leftHeight}">
         <ul>
           <!--过滤index，首字母大写-->
           <li v-for="(item,index) in navigator" :key="index">
@@ -40,7 +40,8 @@ export default {
   name: 'App',
   data () {
     return {
-      showNav: true
+      showNav: true,
+      leftHeight: 0
     }
   },
   mounted () {
@@ -48,6 +49,14 @@ export default {
     /* var value1 = 'B'
     var value2 = 'A'
     console.log(value1 > value2) */
+    //
+    window.addEventListener('resize', this._resize, false)
+    this.$nextTick(() => {
+      this._resize()
+    })
+  },
+  destroyed () {
+    window.removeEventListener('resize', this._resize, false)
   },
   watch: {},
   methods: {
@@ -73,6 +82,10 @@ export default {
       // 关闭右则导航
       document.querySelector('.container-nav').style.display = 'none'
       e.target.style.display = 'none'
+    },
+    _resize () {
+      const height = document.documentElement.clientHeight || document.body.clientHeight
+      this.leftHeight = height - 85 + 'px'
     }
   },
   computed: {
@@ -161,10 +174,10 @@ export default {
     transition: all 0.3s;
     -webkit-box-shadow: 0 2px 8px #f0f1f2;
     box-shadow: 0 2px 8px #f0f1f2;
-    position: relative;
-    z-index: 10;
+    position: fixed;width: 100%;z-index: 10;
     height: 65px;
     color: #444;
+    background: #fff;
   }
   #app .main-header .main-header-logo{
     height: 100%;
@@ -224,7 +237,7 @@ export default {
   }
   #app .main-{
     position: relative;
-    padding: 20px 0 0;
+    padding: 85px 0 0 180px;
     margin-left: 0;
     margin-right: 0;
     height: auto;
@@ -236,10 +249,13 @@ export default {
     overflow: hidden;
   }
   #app .main- .main-left{
-    float: left;
     -webkit-box-flex: 0;
     -ms-flex: 0 0 auto;
     flex: 0 0 auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: fixed;
+    width: 180px;left: 0;top:85px;
   }
   #app .main- .main-left ul{
     width: 180px;

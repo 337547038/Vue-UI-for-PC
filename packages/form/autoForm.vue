@@ -2,7 +2,7 @@
 <template>
   <vForm
     :rules="rules"
-    :model.sync="model"
+    v-model="model"
     ref="form"
     :showMessage="showMessage"
     :trigger="trigger">
@@ -64,7 +64,7 @@ import vTextarea from '../textarea'
 
 export default {
   name: `${prefixCls}AutoForm`,
-  data () {
+  data() {
     return {
       prefixCls: prefixCls,
       rules: {}, // form组件rules参数
@@ -78,6 +78,12 @@ export default {
       type: Array,
       default: () => {
         return []
+      }
+    },
+    value: {
+      type: Object,
+      default: () => {
+        return {}
       }
     },
     showMessage: {
@@ -95,46 +101,59 @@ export default {
   watch: {
     data: {
       handler: function (newVal) {
-        this._getRulesModel(true)
+        this._getRulesModel()
       },
       deep: true
     },
-    defaultValue (v) {
-      // console.log('defaultValue')
-      //  console.log(v)
+    value(v) {
+      this._changeValue(v)
     }
   },
-  created () {
+  created() {
     this.defaultValue = []
     this._getRulesModel()
   },
   methods: {
-    _getRulesModel (type) {
+    _changeValue(val) {
+      console.log('0000000000000000')
+      console.log(val)
+      const v = Object.assign({}, this.model, val)
+      console.log(v)
+      this.model = v
+      console.log(this.model)
+      // this.model = Object.assign({}, this.model, val)
+    },
+    _getRulesModel() {
+      console.log('_getRulesModel')
       // 根据传进来的data提取form所需的rules，model两个参数
       let index = 0 // 系统指定顺序名称，如果不存在name值
       this.data.forEach(item => {
         let name = item.name || 'name' + index
         this.model[name] = item.control.value
-        if (!type) {
-          // type 表示监听data的值，这里不需要重复更新验证规则
-          this.rules[name] = item.rules
-          this.defaultValue.push(item.control.value)
-        }
+        this.rules[name] = item.rules
+        this.defaultValue.push(item.control.value)
         index++
       })
+      this.$emit('input', this.model)
     },
-    validate (callback) {
+    validate(callback) {
       // 调用组件form的验证方法
       this.$refs.form.validate((result, object) => {
+        if (result) {
+          object = this.model
+        }
         callback(result, object)
       })
     },
-    validateField (props, callback) {
+    validateField(props, callback) {
       this.$refs.form.validateField(props, (result, object) => {
+        if (result) {
+          object = this.model
+        }
         callback(result, object)
       })
     },
-    resetFields () {
+    resetFields() {
       let i = 0
       this.data.forEach(item => {
         item.control.value = this.defaultValue[i]
@@ -146,7 +165,7 @@ export default {
     }
   },
   computed: {},
-  mounted () {
+  mounted() {
   }
 }
 </script>

@@ -20,19 +20,19 @@ if (original === 'docs' || original === 'buildDocs') {
 }
 // 合并图片，暂不作判断，每次重新生成
 let sprites = []
-const iconsPath = 'src/assets/icons'
-fs.access(iconsPath, (err) => {
-  if (err) { // 不存在目录
+const pathIcons = 'src/assets/icons'
+fs.access(pathIcons, (err) => {
+  if (err) {
     return
   }
-  fs.readdir(iconsPath, (err, paths) => {
+  fs.readdir(pathIcons, (err, paths) => {
     // 遍历目录找到所有png图片
     if (err) {
       throw err
     }
     paths.forEach(item => {
       if (item.indexOf('.png') !== -1) {
-        sprites.push(iconsPath + item)
+        sprites.push(pathIcons + '/' + item)
       }
     })
     if (sprites.length > 0) {
@@ -57,6 +57,7 @@ fs.access(iconsPath, (err) => {
     }
   })
 })
+
 let publicPath = '/'
 // 打包组件示例时使用相对路径
 if (original === 'buildDocs') {
@@ -124,7 +125,7 @@ module.exports = {
         }
       }
       if (original !== 'buildDocs') {
-        // 打包示例组件时不移除
+        // 打包示例时不移除console.log
         plugins.push(
           new UglifyJsPlugin({
             uglifyOptions: {
@@ -196,7 +197,7 @@ module.exports = {
                 // return params.trim().match(/^demo\s+(.*)$/)
                 return params.match(/^demo\s+(.*)$/)
               },
-              render(tokens, idx) {
+              render (tokens, idx) {
                 if (tokens[idx].nesting === 1) {
                   // 1.获取第一行的内容使用markdown渲染html作为组件的描述
                   const markdownRender = require('markdown-it')()
