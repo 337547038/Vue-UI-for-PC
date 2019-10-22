@@ -13,7 +13,8 @@ export default {
       value6: '2019-1-8',
       value7: '',
       value8: '2019-10',
-      value9: ''
+      value9: '',
+      value10:''
     }
   },
   methods: {
@@ -187,6 +188,35 @@ export default {
     disabledDate7 (time) {
       const day = time.getDay()
       return day === 0 || day === 6
+    }
+  }
+}
+</script>
+```
+:::
+
+### 年月日时分秒选择
+:::demo 
+```html
+<template>
+  <div>
+    <div>
+      <ak-date-picker v-model="value10" type="ymdHms"/>
+    </div>
+  </div>
+</template>
+<script>
+export default {
+  data () {
+    return {
+      value10: '',
+    }
+  },
+  methods: {
+    disabledDate4 (time) {
+      const min = new Date(2019, 2)
+      const max = new Date(2019, 10)
+      return time < min || time > max
     }
   }
 }

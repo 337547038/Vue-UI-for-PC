@@ -20,37 +20,44 @@ if (original === 'docs' || original === 'buildDocs') {
 }
 // 合并图片，暂不作判断，每次重新生成
 let sprites = []
-fs.readdir('src/assets/icons', (err, paths) => {
-  // 遍历目录找到所有png图片
+const pathIcons = 'src/assets/icons'
+fs.access(pathIcons, (err) => {
   if (err) {
-    throw err
+    return
   }
-  paths.forEach(item => {
-    if (item.indexOf('.png') !== -1) {
-      sprites.push('src/assets/icons/' + item)
+  fs.readdir(pathIcons, (err, paths) => {
+    // 遍历目录找到所有png图片
+    if (err) {
+      throw err
+    }
+    paths.forEach(item => {
+      if (item.indexOf('.png') !== -1) {
+        sprites.push(pathIcons + '/' + item)
+      }
+    })
+    if (sprites.length > 0) {
+      /* eslint-disable */
+      Spritesmith.run({src: sprites, padding: 5}, handleResult = (err, result) => {
+        if (err) {
+          throw err
+        }
+        // 保存图片
+        fs.writeFile(path.resolve(__dirname + '/src/assets/images/sprites.png'), result.image, err => {
+        })
+        // 保存样式
+        let style = `[class*='sprites-']{display: inline-block;background: url(../images/sprites.png) no-repeat let top / ${result.properties.width}px ${result.properties.height}px}\r`
+        for (let key in result.coordinates) {
+          const name = key.replace('src/assets/icons/', '').replace('.png', '')
+          let obj = result.coordinates[key]
+          style += `.sprites-${name}{width: ${obj.width}px;height: ${obj.height}px;background-position: ${obj.x}px ${obj.y}px}\r`
+        }
+        fs.writeFile(path.resolve(__dirname + '/src/assets/scss/sprites.scss'), style, err => {
+        })
+      })
     }
   })
-  if (sprites.length > 0) {
-    /* eslint-disable */
-    Spritesmith.run({src: sprites, padding: 5}, handleResult = (err, result) => {
-      if (err) {
-        throw err
-      }
-      // 保存图片
-      fs.writeFile(path.resolve(__dirname + '/src/assets/images/sprites.png'), result.image, err => {
-      })
-      // 保存样式
-      let style = `[class*='sprites-']{display: inline-block;background: url(../images/sprites.png) no-repeat let top / ${result.properties.width}px ${result.properties.height}px}\r`
-      for (let key in result.coordinates) {
-        const name = key.replace('src/assets/icons/', '').replace('.png', '')
-        let obj = result.coordinates[key]
-        style += `.sprites-${name}{width: ${obj.width}px;height: ${obj.height}px;background-position: ${obj.x}px ${obj.y}px}\r`
-      }
-      fs.writeFile(path.resolve(__dirname + '/src/assets/scss/sprites.scss'), style, err => {
-      })
-    })
-  }
 })
+
 let publicPath = '/'
 // 打包组件示例时使用相对路径
 if (original === 'buildDocs') {
@@ -117,20 +124,23 @@ module.exports = {
           }
         }
       }
-      plugins.push(
-        new UglifyJsPlugin({
-          uglifyOptions: {
-            warnings: false,
-            compress: {
-              drop_console: true, // console
-              drop_debugger: false,
-              pure_funcs: ['console.log'] // 移除console
-            }
-          },
-          sourceMap: false,
-          parallel: true
-        })
-      )
+      if (original !== 'buildDocs') {
+        // 打包示例时不移除console.log
+        plugins.push(
+          new UglifyJsPlugin({
+            uglifyOptions: {
+              warnings: false,
+              compress: {
+                drop_console: true, // console
+                drop_debugger: false,
+                pure_funcs: ['console.log'] // 移除console
+              }
+            },
+            sourceMap: false,
+            parallel: true
+          })
+        )
+      }
     } else {
       // 为开发环境修改配置...
     }

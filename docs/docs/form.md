@@ -144,6 +144,7 @@ export default {
       this.$refs.ruleForm.validate((result, object) => {
         console.log(result)
         console.log(object)
+        console.log(this.ruleForm)
       })
     },
     submitForm2 () {
@@ -265,8 +266,6 @@ export default{
 </template>
 <script>
 export default {
-  name: 'AKForm',
-  path: '/form',
   data () {
     return {
       ruleForm: {
@@ -357,6 +356,7 @@ export default {
       this.$refs.ruleForm.validate((result, object) => {
         console.log(result)
         console.log(object)
+        console.log(this.ruleForm)
       })
     },
     submitForm2 () {

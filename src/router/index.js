@@ -34,6 +34,7 @@ export const defaultRouterMap = [
 export default new Router({
   mode: 'history',
   base: process.env.BASE_URL,
+  scrollBehavior: () => ({ y: 0 }),
   routes: defaultRouterMap
 })
 // 异步获取的路由
