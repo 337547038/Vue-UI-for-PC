@@ -6,7 +6,7 @@
 ```html
 <template>
   <div>
-    <ak-auto-form :data="formData" ref="ruleForm" v-model="model"></ak-auto-form>
+    <ak-auto-form :data="formData" ref="ruleForm"></ak-auto-form>
     <ak-button @click="submitForm" type="primary">提交</ak-button>
     <ak-button @click="submitForm2" type="primary">对用户名验证</ak-button>
     <ak-button @click="submitForm3" type="primary">重置</ak-button>
@@ -174,7 +174,8 @@ export default {
   mounted () {
     setTimeout(()=>{
     console.log('--------------')
-    this.model = {userName:'1235'}
+    // 模拟初始化后再对输入框进行设值
+    this.$refs.ruleForm.setValue({userName:'userName'})
     },2000)
   }
 }
@@ -195,7 +196,10 @@ export default {
 |data           | object         |表单数据|
 
 ### Form Methods
-> 同Form Methods ，见[formItem(点击查看)](/#/form)
+|参数|说明|
+|-|-|
+|setValue       |用于初始化后对表单设值|
+> 其他同Form Methods ，见[formItem(点击查看)](/#/form)
 ### AutoForm Data
 |参数|类型|说明|
 |-|-|-|

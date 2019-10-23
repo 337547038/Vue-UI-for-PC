@@ -64,7 +64,7 @@ import vTextarea from '../textarea'
 
 export default {
   name: `${prefixCls}AutoForm`,
-  data() {
+  data () {
     return {
       prefixCls: prefixCls,
       rules: {}, // form组件rules参数
@@ -78,12 +78,6 @@ export default {
       type: Array,
       default: () => {
         return []
-      }
-    },
-    value: {
-      type: Object,
-      default: () => {
-        return {}
       }
     },
     showMessage: {
@@ -105,25 +99,25 @@ export default {
       },
       deep: true
     },
-    value(v) {
+    value (v) {
       this._changeValue(v)
     }
   },
-  created() {
+  created () {
     this.defaultValue = []
     this._getRulesModel()
   },
   methods: {
-    _changeValue(val) {
+    _changeValue (val) {
       console.log('0000000000000000')
       console.log(val)
-      const v = Object.assign({}, this.model, val)
-      console.log(v)
-      this.model = v
+      // const v = Object.assign({}, this.model, val)
+      // console.log(v)
+      this.model = val
       console.log(this.model)
       // this.model = Object.assign({}, this.model, val)
     },
-    _getRulesModel() {
+    _getRulesModel () {
       console.log('_getRulesModel')
       // 根据传进来的data提取form所需的rules，model两个参数
       let index = 0 // 系统指定顺序名称，如果不存在name值
@@ -136,7 +130,7 @@ export default {
       })
       this.$emit('input', this.model)
     },
-    validate(callback) {
+    validate (callback) {
       // 调用组件form的验证方法
       this.$refs.form.validate((result, object) => {
         if (result) {
@@ -145,7 +139,7 @@ export default {
         callback(result, object)
       })
     },
-    validateField(props, callback) {
+    validateField (props, callback) {
       this.$refs.form.validateField(props, (result, object) => {
         if (result) {
           object = this.model
@@ -153,7 +147,7 @@ export default {
         callback(result, object)
       })
     },
-    resetFields() {
+    resetFields () {
       let i = 0
       this.data.forEach(item => {
         item.control.value = this.defaultValue[i]
@@ -162,10 +156,20 @@ export default {
       console.log(this.data)
       // 清空提示信息
       this.$refs.form.resetFields()
+    },
+    // 初始化后重新设值
+    setValue (obj) {
+      for (let key in obj) {
+        this.data.forEach(item => {
+          if (key === item.name) {
+            item.control.value = obj[key]
+          }
+        })
+      }
     }
   },
   computed: {},
-  mounted() {
+  mounted () {
   }
 }
 </script>
