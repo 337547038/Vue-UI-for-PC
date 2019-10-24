@@ -60,6 +60,14 @@ export default {
         return ['y', 'ym', 'ymd', 'ymdHms'].indexOf(value) !== -1
       }
     },
+    format: {
+      type: String,
+      default: 'ymd',
+      validator: function (value) {
+        // 四种类型，年/年月/年月日/年月日时分秒
+        return ['y', 'ym', 'ymd', 'ymdHms', 'Hms'].indexOf(value) !== -1
+      }
+    },
     change: Function,
     innerHTML: Function
   },
@@ -114,7 +122,8 @@ export default {
       const day = this._set0(date.getDate())
       const timer = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
       let time = ''
-      switch (this.type) {
+      let formatType = this.format ? this.format : this.type
+      switch (formatType) {
         case 'y':
           time = year
           break
@@ -126,6 +135,9 @@ export default {
           break
         case 'ymdHms':
           time = year + '-' + month + '-' + day + ' ' + timer
+          break
+        case 'Hms':
+          time = timer
           break
       }
       return time

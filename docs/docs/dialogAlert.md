@@ -5,10 +5,11 @@ export default {
     return {}
   },
   methods: {
-    alertOpen () {
+    alertOpen (type) {
       this.$alert('这是内容', {
         title: '警告',
-        confirm: '确定'
+        confirm: '确定',
+        type: type
       })
       // 等价于下面代码
       /* this.$dialog({
@@ -47,9 +48,10 @@ export default {
         closeModal: false // 点击遮罩层不关闭
       }) */
     },
-    alertOpen3 () {
-      this.$msg('删除成功', {
-        type: 1
+    alertOpen3 (type) {
+      this.$msg('删除成功/失败/警告提示', {
+        type: type,
+        animation:'slideDown'
       })
       // 等价于
       /* this.$dialog({
@@ -77,7 +79,9 @@ export default {
 ```html
 <template>
   <div>
-  <p>模拟Alert <span class="green" @click="alertOpen">试一试</span></p>
+  <p>模拟Alert 成功 <span class="green" @click="alertOpen(1)">试一试</span></p>
+  <p>模拟Alert 失败 <span class="green" @click="alertOpen(2)">试一试</span></p>
+  <p>模拟Alert 警告 <span class="green" @click="alertOpen(3)">试一试</span></p>
   <!--<p>清空 <span class="green" @click="alertOpen4">试一试</span></p>-->
   </div>
 </template>
@@ -87,10 +91,11 @@ export default {
     return {}
   },
   methods: {
-    alertOpen () {
+    alertOpen (type) {
       this.$alert('这是内容', {
         title: '警告',
-        confirm: '确定'
+        confirm: '确定',
+        type:type
       })
       // 等价于下面代码
       /* this.$dialog({
@@ -162,7 +167,9 @@ export default {
 ```html
 <template>
   <div>
-  <p>消息提示 <span class="green" @click="alertOpen3">试一试</span></p>
+  <p>消息提示 成功 <span class="green" @click="alertOpen3(1)">试一试</span></p>
+  <p>消息提示 失败 <span class="green" @click="alertOpen3(2)">试一试</span></p>
+  <p>消息提示 警告 <span class="green" @click="alertOpen3(3)">试一试</span></p>
   </div>
 </template>
 <script>
@@ -171,9 +178,9 @@ export default {
     return {}
   },
   methods: {
-    alertOpen3 () {
+    alertOpen3 (type) {
       this.$msg('删除成功', {
-        type: 1
+        type: type
       })
       // 等价于
       /* this.$dialog({
