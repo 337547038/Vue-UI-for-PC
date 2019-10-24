@@ -14,8 +14,8 @@ export default {
       value7: '',
       value8: '2019-10',
       value9: '',
-      value11:'',
-      value12:''
+      value10:'',
+      value11:''
     }
   },
   methods: {

@@ -62,10 +62,10 @@ export default {
     },
     format: {
       type: String,
-      default: 'ymd',
+      default: '',
       validator: function (value) {
         // 四种类型，年/年月/年月日/年月日时分秒
-        return ['y', 'ym', 'ymd', 'ymdHms', 'Hms'].indexOf(value) !== -1
+        return ['', 'y', 'ym', 'ymd', 'ymdHms', 'Hms'].indexOf(value) !== -1
       }
     },
     change: Function,
