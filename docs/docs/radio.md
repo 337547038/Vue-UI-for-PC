@@ -11,6 +11,7 @@ export default {
       radio6: true,
       radio7: 'a2',
       radio8: '',
+      radio9: '',
       data1: [
         {label: '选项1', value: 'a1'},
         {label: '选项2', value: 'a2'},
@@ -70,6 +71,8 @@ export default {
       <p>当前值：{{radio8}}</p>
       <ak-radio-group :data="data1" v-model="radio8"></ak-radio-group>
     </div>
+    <div><p>整个组不可选</p>
+    <ak-radio-group :data="data1" v-model="radio9" :disabled="true"></ak-radio-group></div>
   </div>
 </template>
 
@@ -79,6 +82,7 @@ export default {
     return {
       radio7: 'a2',
       radio8: '',
+      radio9: '',
       data1: [
         {label: '选项1', value: 'a1'},
         {label: '选项2', value: 'a2'},
@@ -110,6 +114,7 @@ export default {
 |change          | function       |事件|
 |data            | array          |组数据|
 |class           | String         |原生 class|
+|disabled        | Boolean/false   |禁用组|
 
 ### Radio Group Data
 |参数|类型|说明|

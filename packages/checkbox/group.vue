@@ -17,7 +17,7 @@
               :key="index"
               :value="item.value"
               :label="item.label||item.value"
-              :disabled="item.disabled"
+              :disabled="disabled||item.disabled"
               :class="item.class"
               v-model="groupValue"
               @change="_change">
@@ -49,7 +49,11 @@ export default {
     name: String,
     max: Number,
     min: Number,
-    change: Function
+    change: Function,
+    disabled: {
+      type: Boolean,
+      default: false
+    }
   },
   components: {Checkbox},
   methods: {

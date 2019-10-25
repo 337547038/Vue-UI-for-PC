@@ -82,6 +82,7 @@ export default {
           type: 'checkbox',
           item: {label: '多选'},
           control: {
+            disabled: true,
             value: ['0'],
             data: [
               {label: '男', value: '0'},

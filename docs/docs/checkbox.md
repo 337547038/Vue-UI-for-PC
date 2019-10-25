@@ -234,6 +234,7 @@ export default {
 |change         |                 |改变事件|
 |max            | number          |可被勾选的 checkbox 的最大数量|
 |min            | number          |可被勾选的 checkbox 的最小数量|
+|disabled       | Boolean/false   |禁用组|
 
 ### CheckboxGroup Methods
 |参数|类型|
