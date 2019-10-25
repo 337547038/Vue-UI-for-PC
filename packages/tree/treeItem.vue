@@ -40,7 +40,6 @@ export default {
     },
     _click (item) {
       // console.log('item')
-      // console.log(item)
       this.$emit('click', item)
       // this.$parent.click && this.$parent.click(item)
     }
