@@ -6,6 +6,7 @@ export default {
       data: [
         {
           name: '广东',
+          value:'',
           children: [
             {
               name: '广州市',
