@@ -34,6 +34,14 @@
     &:after{color: $disabledFontColor;}
   }
   &.disabled{cursor: not-allowed}
+  /*部分选择状态*/
+  &.some-select{
+    @include ns(checkbox-inner){
+      border: 1px solid $checkedBorder;
+      background-color: $checkedBackground;
+      &:after{height: 5px;background: $background;opacity: 1;position: absolute;left: -2px; top: 3px; width: 15px;display: block;visibility: visible;content: '';}
+    }
+  }
 }
 @include ns(checkbox-group){
   @include ns(checkbox){margin-right: 10px}

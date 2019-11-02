@@ -4,7 +4,7 @@
 export default {
   data () {
     return {
-      value: '',
+      value: '2019-10-5 12:10:13',
       value1: '',
       value2: '2019',
       value3: '',
@@ -14,7 +14,8 @@ export default {
       value7: '',
       value8: '2019-10',
       value9: '',
-      value10:''
+      value10:'',
+      value11:''
     }
   },
   methods: {
@@ -256,6 +257,7 @@ export default {
 </script>
 ```
 :::
+
 ### 事件
 :::demo 在指定的日期里，插入自定义文本，如假期提示
 ```html
@@ -281,6 +283,29 @@ export default {
 ```
 :::
 
+
+### 对返回值再进行格式化
+:::demo 格式化为时间
+```html
+<template>
+ <div>
+ <ak-date-picker v-model="value11" placeholder="请选择" type="ymdHms" format="Hms"/>
+ </div>
+</template>
+<script>
+export default {
+  data () {
+    return {
+      value11: ''
+    }
+  },
+  methods: {
+  }
+}
+</script>
+```
+:::
+
 ## API
 |参数|类型|说明|
 |-|-|-|
@@ -289,6 +314,7 @@ export default {
 |showClear      | Boolean｜true   |显示清空|
 |disabledDate   | Function       |禁用的时间，return true时将不能选择|
 |disabled       | Boolean｜true  |是否禁用|
-|type           | String         |日期类型，年/年月/年月日/年月日时分秒。可选y, ym, ymd, ymdHms|
+|type           | String         |面板日期类型，选择后将按此格式返回，年/年月/年月日/年月日时分秒。可选y, ym, ymd, ymdHms|
+|format         | String         |对返回的日期格式进行格式化，即对type返回再格式化|
 |innerHTML      | Function        |可以将特殊提示的文本插入到指定的日期里|
 |change         | Function        |改变回调事件|

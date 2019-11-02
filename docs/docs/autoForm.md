@@ -82,6 +82,7 @@ export default {
           type: 'checkbox',
           item: {label: '多选'},
           control: {
+            disabled: true,
             value: ['0'],
             data: [
               {label: '男', value: '0'},
@@ -172,6 +173,11 @@ export default {
     }
   },
   mounted () {
+    setTimeout(()=>{
+    console.log('--------------')
+    // 模拟初始化后再对输入框进行设值
+    this.$refs.ruleForm.setValue({userName:'userName'})
+    },2000)
   }
 }
 </script>
@@ -191,7 +197,10 @@ export default {
 |data           | object         |表单数据|
 
 ### Form Methods
-> 同Form Methods ，见[formItem(点击查看)](/#/form)
+|参数|说明|
+|-|-|
+|setValue       |用于初始化后对表单设值|
+> 其他同Form Methods ，见[formItem(点击查看)](/#/form)
 ### AutoForm Data
 |参数|类型|说明|
 |-|-|-|

@@ -4,7 +4,7 @@
     <Radio v-for="(item,index) in data"
            :key="index" v-model="groupValue"
            :checked="item.value"
-           :disabled="item.disabled" @input="_change">{{item.label}}
+           :disabled="disabled||item.disabled" @input="_change">{{item.label}}
     </Radio>
   </div>
 </template>
@@ -27,6 +27,10 @@ export default {
   props: {
     value: {},
     data: Array,
+    disabled: { // 控制整个组
+      type: Boolean,
+      default: false
+    },
     change: Function
   },
   components: {Radio},
