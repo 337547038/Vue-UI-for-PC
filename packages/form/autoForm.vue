@@ -104,9 +104,6 @@ export default {
         this._getRulesModel()
       },
       deep: true
-    },
-    value(v) {
-      this._changeValue(v)
     }
   },
   created() {
@@ -114,15 +111,6 @@ export default {
     this._getRulesModel()
   },
   methods: {
-    _changeValue(val) {
-      console.log('0000000000000000')
-      console.log(val)
-      const v = Object.assign({}, this.model, val)
-      console.log(v)
-      this.model = v
-      console.log(this.model)
-      // this.model = Object.assign({}, this.model, val)
-    },
     _getRulesModel() {
       console.log('_getRulesModel')
       // 根据传进来的data提取form所需的rules，model两个参数
@@ -162,6 +150,15 @@ export default {
       console.log(this.data)
       // 清空提示信息
       this.$refs.form.resetFields()
+    },
+    setValue(obj) {
+      for (const key in obj) {
+        this.data.forEach(item => {
+          if (key === item.name) {
+            item.control.value = obj[key]
+          }
+        })
+      }
     }
   },
   computed: {},
