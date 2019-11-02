@@ -98,17 +98,17 @@ export default {
         this._getRulesModel()
       },
       deep: true
-    },
+    }/*,
     value (v) {
       this._changeValue(v)
-    }
+    } */
   },
   created () {
     this.defaultValue = []
     this._getRulesModel()
   },
   methods: {
-    _changeValue (val) {
+    /* _changeValue (val) {
       console.log('0000000000000000')
       console.log(val)
       // const v = Object.assign({}, this.model, val)
@@ -116,7 +116,7 @@ export default {
       this.model = val
       console.log(this.model)
       // this.model = Object.assign({}, this.model, val)
-    },
+    }, */
     _getRulesModel () {
       console.log('_getRulesModel')
       // 根据传进来的data提取form所需的rules，model两个参数

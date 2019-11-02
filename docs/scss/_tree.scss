@@ -11,6 +11,7 @@
     a{ display: inline-block; vertical-align: middle; cursor: pointer;
       &.active{ color: #f00 }
     }
+    label{margin-right: 3px;}
     ul{ padding-left: 18px; background: url($pngBase) repeat-y -39px top;max-height: 24px;transition: all .3s; }
     &.active{max-height: 500px;
       ul{max-height: 500px;}

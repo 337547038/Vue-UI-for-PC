@@ -4,12 +4,13 @@
     <i :class="{'has-child':data.children,'open-child':data.show}"
        @click.stop="_slideToggle(data)"></i>
     <Checkbox
+      v-if="showCheckbox"
       v-model="data.checked"
       :disabled="data.disabled"
       @change="_checkboxChange(data,$event)"
       :class="{'some-select':data.someSelect&&!data.checked}">
     </Checkbox>
-    <a>{{data.name||data}}<span v-if="showValue">({{data.value}})</span></a>
+    <a>{{data.name}}<span v-if="showValue">({{data.value}})</span></a>
     <transition name="tree-toggle">
       <ul v-show="data.show" v-if="data.children">
         <p class="tree-loading" v-if="data.children.length===0&&$parent.lazy"></p>
@@ -17,6 +18,8 @@
           v-for="(item,index) in data.children"
           :data="item"
           :key="index"
+          :showCheckbox="showCheckbox"
+          :showValue="showValue"
           @toggle="_slideToggleChild"
           @checkboxChange="_checkboxChangeChild"></treeLi>
       </ul>
@@ -32,7 +35,7 @@ export default {
     return {
     }
   },
-  props: ['data', 'showValue'],
+  props: ['data', 'showValue', 'showCheckbox'],
   components: {Checkbox},
   methods: {
     _slideToggle (data) {

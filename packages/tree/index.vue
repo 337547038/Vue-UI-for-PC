@@ -6,6 +6,8 @@
         v-for="(item,index) in data"
         :data="item"
         :key="index"
+        :showCheckbox="showCheckbox"
+        :showValue="showValue"
         @toggle="_toggle"
         @checkboxChange="_checkboxChange"
       ></treeItem>
@@ -14,7 +16,7 @@
 </template>
 <script>
 import {prefixCls} from '../prefix'
-import treeItem from './treeItem2'
+import treeItem from './treeItem'
 
 export default {
   name: `${prefixCls}Tree`,
