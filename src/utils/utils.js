@@ -1,6 +1,6 @@
 // import Cookies from 'js-cookie'
 const TokenKey = 'token'
-const TokenPrefix = 'Bearer_' // token 前缀
+const TokenPrefix = '' // token 前缀
 const TokenExpires = 0.5 / 24 //
 
 // 设置 localStorage 添加对时间的控制，date单位为天
