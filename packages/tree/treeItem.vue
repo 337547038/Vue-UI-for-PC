@@ -1,6 +1,6 @@
 <!--Created by 337547038 on 2018/1/26.-->
 <template>
-  <li :class="{'active':data.show}">
+  <li :class="{'active':data.show,selected:data.name===selected}">
     <i :class="{'has-child':data.children,'open-child':data.show}"
        @click.stop="_slideToggle(data)"></i>
     <Checkbox
@@ -10,7 +10,7 @@
       @change="_checkboxChange(data,$event)"
       :class="{'some-select':data.someSelect&&!data.checked}">
     </Checkbox>
-    <a>{{data.name}}<span v-if="showValue">({{data.value}})</span></a>
+    <a @click="_click(data)">{{data.name}}<span v-if="showValue">({{data.value}})</span></a>
     <transition name="tree-toggle">
       <ul v-show="data.show" v-if="data.children">
         <p class="tree-loading" v-if="data.children.length===0&&$parent.lazy"></p>
@@ -20,6 +20,7 @@
           :key="index"
           :showCheckbox="showCheckbox"
           :showValue="showValue"
+          @click="_click"
           @toggle="_slideToggleChild"
           @checkboxChange="_checkboxChangeChild"></treeLi>
       </ul>
@@ -31,14 +32,19 @@ import {Checkbox} from '../checkbox'
 
 export default {
   name: 'treeLi',
-  data () {
+  data() {
     return {
+      selected: '' // 当前点击项的值
     }
   },
   props: ['data', 'showValue', 'showCheckbox'],
   components: {Checkbox},
   methods: {
-    _slideToggle (data) {
+    _click(item) {
+      this.selected = item.name
+      this.$emit('click', item)
+    },
+    _slideToggle(data) {
       if (data.children) {
         if (typeof data.show === 'undefined') {
           this.$set(data, 'show', true)
@@ -48,18 +54,18 @@ export default {
         this.$emit('toggle', data)
       }
     },
-    _slideToggleChild (item) {
+    _slideToggleChild(item) {
       this.$emit('toggle', item)
     },
-    _checkboxChangeChild (data) {
+    _checkboxChangeChild(data) {
       this.$emit('checkboxChange', data) // 父级处理
     },
-    _checkboxChange (data, Boolean) {
+    _checkboxChange(data, Boolean) {
       // 将所有子级勾选或取消
       this._checkedChild(data, Boolean)
       this._checkboxChangeChild(data)// 父级处理
     },
-    _checkedChild (data, Boolean) {
+    _checkedChild(data, Boolean) {
       if (data.children) {
         data.children.forEach(item => {
           if (!item.disabled) {
@@ -79,7 +85,7 @@ export default {
     }
   },
   computed: {},
-  mounted () {
+  mounted() {
   },
   filters: {}
 }
