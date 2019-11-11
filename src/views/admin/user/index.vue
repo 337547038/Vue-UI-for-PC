@@ -1,11 +1,11 @@
-<!-- Created by 337547038 on 2018/10/31 0031. -->
+<!-- Created by 337547038 on 2019/11/8 0008. -->
 <template>
-  <div>page2</div>
+  <div>user</div>
 </template>
 
 <script>
 export default {
-  name: 'page1',
+  name: 'user',
   data () {
     return {}
   },

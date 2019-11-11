@@ -5,54 +5,78 @@ export default {
     return {
       menuData: [
         {title: '首页', href: '/'},
-        {title: '产品中心'},
-        {title: '关于我们', href: ''},
-        {title: '联系我们', href: '/contact'}
+        {
+          title: '产品中心'
+        },
+        {title: '关于我们'},
+        {title: '联系我们'}
       ],
       menuData2: [
-        {title: '首页', href: '/', name: 'a1'},
-        {title: '产品中心',
+        {title: '首页', href: '/'},
+        {
+          title: '产品中心',
           href: '/product',
-          name: 'a2',
-          children: [
-            {title: '下拉1', name: 'a22'},
-            {title: '下拉2'},
-            {title: '下拉3'},
-            {title: '下拉4'}
-          ]},
-        {title: '关于我们',
-          href: '',
-          name: 'a3',
           children: [
             {title: '下拉1'},
             {title: '下拉2'},
             {title: '下拉3'},
             {title: '下拉4'}
-          ]},
-        {title: '联系我们', href: '/contact', name: 'a4'}
+          ]
+        },
+        {
+          title: '关于我们',
+          href: '',
+          children: [
+            {title: '下拉1'},
+            {title: '下拉2'},
+            {title: '下拉3'},
+            {title: '下拉4'}
+          ]
+        },
+        {title: '联系我们', href: '/contact'}
       ],
       menuData3: [
-        {title: '首页', href: '/', name: 'a1'},
-        {title: '产品中心',
-          href: '/product',
-          name: 'a2',
-          open: true,
+        {title: '首页', href: '/', key: 'a', target: '_blank', icon: 'fa fa-home'},
+        {
+          title: '关于我们',
+          key: 'b',
           children: [
-            {title: '下拉1', name: 'a22'},
-            {title: '下拉2'},
-            {title: '下拉3'},
-            {title: '下拉4'}
-          ]},
-        {title: '关于我们',
-          href: '',
-          name: 'a3',
+            {title: '关于01', key: 'b1'}
+          ]
+        },
+        {
+          title: '产品中心',
+          key: 'active',
           children: [
-            {title: '下拉1'},
-            {title: '下拉2'},
-            {title: '下拉3'},
-            {title: '下拉4'}
-          ]},
-        {title: '联系我们', href: '/contact', name: 'a4'}
+            {
+              title: '产品1',
+              href: '/',
+              key: 'd'
+            },
+            {
+              title: '产品2',
+              key: 'e',
+              children: [
+                {
+                  title: '产品2-1', key: 'f'
+                },
+                {
+                  title: '产品2-2', key: 'g'
+                },
+                {
+                  title: '产品2-3', key: 'h'
+                }
+              ]
+            },
+            {
+              title: '产品3', key: 'i'
+            },
+            {
+              title: '产品4', key: 'j'
+            }
+          ]
+        },
+        {title: '联系我们', key: 'c'}
       ]
     }
   },
@@ -68,7 +92,7 @@ export default {
 ```html
 <template>
   <div>
-    <ak-menu :data="menuData" value="a2"></ak-menu>
+    <ak-menu :data="menuData"></ak-menu>
   </div>
 </template>
 <script>
@@ -78,8 +102,8 @@ export default {
       menuData: [
         {title: '首页', href: '/'},
         {title: '产品中心'},
-        {title: '关于我们', href: ''},
-        {title: '联系我们', href: '/contact'}
+        {title: '关于我们'},
+        {title: '联系我们'}
       ]
     }
   }
@@ -95,7 +119,7 @@ export default {
 ```html
 <template>
   <div>
-    <ak-menu :data="menuData2" value="a22"></ak-menu>
+    <ak-menu :data="menuData2" value="关于我们"></ak-menu>
   </div>
 </template>
 <script>
@@ -103,26 +127,24 @@ export default {
   data () {
     return {
       menuData2: [
-        {title: '首页', href: '/', name: 'a1'},
+        {title: '首页', href: '/'},
         {title: '产品中心',
           href: '/product',
-          name: 'a2',
-          children: [
-            {title: '下拉1', name: 'a22'},
-            {title: '下拉2'},
-            {title: '下拉3'},
-            {title: '下拉4'}
-          ]},
-        {title: '关于我们',
-          href: '',
-          name: 'a3',
           children: [
             {title: '下拉1'},
             {title: '下拉2'},
             {title: '下拉3'},
             {title: '下拉4'}
           ]},
-        {title: '联系我们', href: '/contact', name: 'a4'}
+        {title: '关于我们',
+          href: '',
+          children: [
+            {title: '下拉1'},
+            {title: '下拉2'},
+            {title: '下拉3'},
+            {title: '下拉4'}
+          ]},
+        {title: '联系我们', href: '/contact'}
       ]
     }
   }
@@ -138,7 +160,7 @@ export default {
 ```html
 <template>
   <div>
-    <ak-menu :data="menuData3" value="a22" type="v" @click="_click"></ak-menu>
+    <ak-menu :data="menuData3" value="g" type="v" @click="_click"></ak-menu>
   </div>
 </template>
 <script>
@@ -146,27 +168,47 @@ export default {
   data () {
     return {
       menuData3: [
-        {title: '首页', href: '/', name: 'a1'},
-        {title: '产品中心',
-          href: '/product',
-          name: 'a2',
-          open: true,
+        {title: '首页', href: '/', key: 'a', target: '_blank', icon: 'fa fa-home'},
+        {
+          title: '关于我们',
+          key: 'b',
           children: [
-            {title: '下拉1', name: 'a22'},
-            {title: '下拉2'},
-            {title: '下拉3'},
-            {title: '下拉4'}
-          ]},
-        {title: '关于我们',
-          href: '',
-          name: 'a3',
+            {title: '关于01', key: 'b1'}
+          ]
+        },
+        {
+          title: '产品中心',
+          key: 'active',
           children: [
-            {title: '下拉1'},
-            {title: '下拉2'},
-            {title: '下拉3'},
-            {title: '下拉4'}
-          ]},
-        {title: '联系我们', href: '/contact', name: 'a4'}
+            {
+              title: '产品1',
+              href: '/',
+              key: 'd'
+            },
+            {
+              title: '产品2',
+              key: 'e',
+              children: [
+                {
+                  title: '产品2-1', key: 'f'
+                },
+                {
+                  title: '产品2-2', key: 'g'
+                },
+                {
+                  title: '产品2-3', key: 'h'
+                }
+              ]
+            },
+            {
+              title: '产品3', key: 'i'
+            },
+            {
+              title: '产品4', key: 'j'
+            }
+          ]
+        },
+        {title: '联系我们', key: 'c'}
       ]
     }
   },
@@ -187,24 +229,24 @@ export default {
 |-|-|-|
 |data           | Array          |菜单数组|
 |type           | String/h       |菜单类型，可选值为 h（horizontal水平，默认） 和 v（vertical垂直）|
-|value          | String         |用于表示当前菜单位置，对应data中的name|
-|router         | Boolean/true   |使用路由地址|
+|value          | String         |用于表示当前菜单key的值，对应data中的key|
 |accordion      | Boolean/false  |是否开启手风琴模式，开启后每次至多展开一个子菜单，type=v有效|
 |showTitle      | Boolean/false  |鼠标滑过时显示title提示|
-|liHeight       | Number         |二级菜单li的高度，用来计算设置父元素的高度，方便设置css动画。点击展开收起时|
+|isOpen         | Boolean/true   |将当前激活菜单展开，仅在type=v时有效|
+|click          | Function       |点击事件|
 
 ### Menu Data
 |参数|类型|说明|
 |-|-|-|
 |title          | String         |菜单名称|
-|href           | String         |url地址，为空时会添加javascript:;空链接|
+|href           | String         |url地址|
 |target         | String         |打开类型|
-|name           | String         |菜单项的唯一标识|
+|key            | String         |菜单项的唯一标识，不存在时会使用title的值|
 |open           | Boolean/false  |展开子菜单|
+|icon           | String         |icon图标类名|
 |children       | Array          |子菜单数据|
 
 ### Menu Event
 |参数|类型|说明|
 |-|-|-|
-|toggle         | Function       |点击时用于控制展开或收缩，一级菜单的控制标签|
 |click          | Function       |菜单点击事件，href为空时有效，否则发生页面跳转|

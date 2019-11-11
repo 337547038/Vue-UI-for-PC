@@ -189,6 +189,11 @@ const router = [
     component: () => import('../docs/colorPicker.md')
   },
   {
+    path: '/collapseTransition',
+    name: 'collapseTransition',
+    component: () => import('../docs/collapseTransition.md')
+  },
+  {
     path: '/test',
     name: 'test',
     meta: {
