@@ -8,6 +8,7 @@
         :key="index"
         :showCheckbox="showCheckbox"
         :showValue="showValue"
+        @click="_click"
         @toggle="_toggle"
         @checkboxChange="_checkboxChange"
       ></treeItem>
@@ -32,6 +33,8 @@ export default {
       default: false
     },
     toggle: Function,
+    click: Function,
+    change: Function, // 多选框选择事件
     showValue: {
       // 在名称后面显示值
       type: Boolean,
@@ -48,9 +51,9 @@ export default {
     _click(item) {
       // console.log('index')
       // console.log(item)
-      /* this.active = item.name
+      // this.active = item.name
       this.$emit('click', item)
-      this.click && this.click(item) */
+      this.click && this.click(item)
     },
     _toggle(item) {
       console.log('index')
@@ -65,7 +68,6 @@ export default {
       console.log(data)
       data.someSelect = false
       const obj = this._findAllParent(this.data, data.key, []) // 查找所有父元素
-      console.log(obj)
       obj.forEach(item => {
         if (item.children) {
           // 没有时先添加属性
@@ -105,6 +107,9 @@ export default {
           }
         }
       })
+      // 多选框改变事件
+      this.$emit('change', data)
+      this.change && this.change(data)
     },
     // 查找当前节点的父元素
     _findParent(data, nodeId, allParent, parentNodes) {

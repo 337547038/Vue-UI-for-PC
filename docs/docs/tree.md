@@ -138,6 +138,9 @@ export default {
     setValue() {
       const key = ['t1', 't2', 't7', 't12']
       this.$refs.checkboxTree.setValue(key)
+    },
+    click(item) {
+      console.log(item)
     }
   }
 }
@@ -202,7 +205,7 @@ export default {
 ```html
 <template>
   <div>
-    <ak-tree :data="data2"></ak-tree>
+    <ak-tree :data="data2" @click="click"></ak-tree>
 </div>
 </template>
 <script>
@@ -223,6 +226,11 @@ export default {
         {name: '福建'},
         {name: '湖南'}
       ]
+    }
+  },
+  methods: {
+    click(item) {
+      console.log(item)
     }
   }
 }
@@ -391,6 +399,8 @@ export default {
 |showValue      | Boolean/false  |是否在名称后面显示对应的value值|
 |showCheckbox   | Boolean/false  |显示勾选|
 |toggle         | Function       |展开或收起点击事件，回调两个参数。当前项和当事点击事件（展开/收起）|
+|click          | Function       |点击事件|
+|change 　　　　　| Function       |checkbox改变事件|
 |lazy           | Boolean/false  |表单数据|
 
 ### Tree Data
