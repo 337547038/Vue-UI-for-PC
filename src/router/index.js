@@ -15,54 +15,109 @@ export const defaultRouterMap = [
     }
   },
   {
-    path: '/signOut',
-    name: 'signOut',
-    component: () => import('@/views/SignOut')
-  },
-  {
-    path: '/page1',
-    name: 'Page1',
-    component: import('@/views/Page1')
-  },
-  {
     path: '/404',
     name: '404',
-    component: () => import('@/views/PageNotFound')
+    component: () => import('@/views/404')
+  },
+  {
+    path: '/signOut',
+    name: 'signOut',
+    component: () => import('@/views/admin/login/signOut')
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('@/views/admin/login')
   }
 ]
 
 export default new Router({
   mode: 'history',
   base: process.env.BASE_URL,
-  scrollBehavior: () => ({ y: 0 }),
+  scrollBehavior: () => ({y: 0}),
   routes: defaultRouterMap
 })
-// 异步获取的路由
+// 异步获取的路由，permission: true需根据菜单权限筛选加载
+// 不需要缓存时keepAlive:false
 export const asyncRoutes = [
   {
-    path: '/page2',
-    name: 'Page2',
-    component: () => import('@/views/Page2'),
+    path: '/admin',
+    name: 'admin',
+    component: () => import('@/views/admin/layout'),
+    redirect: '/admin/main',
     meta: {
-      permission: true
-    }
+      title: '主页'
+    },
+    children: [
+      {
+        path: '/admin/main',
+        name: 'main',
+        component: () => import('@/views/admin/main'),
+        meta: {
+          title: '后台首页'
+        }
+      }
+    ]
   },
   {
-    path: '/page3',
-    name: 'Page3',
-    component: () => import('@/views/Page2'),
+    path: '/admin/components',
+    name: 'components',
+    component: () => import('@/views/admin/layout'),
+    redirect: '/admin/table',
     meta: {
-      permission: true
-    }
+      title: '组件'
+    },
+    children: [
+      {
+        path: '/admin/table',
+        name: 'table',
+        component: () => import('@/views/admin/table'),
+        meta: {
+          title: '表格'
+        }
+      },
+      {
+        path: '/admin/echarts',
+        name: 'echarts',
+        component: () => import('@/views/admin/echarts'),
+        meta: {
+          title: '图形图表'
+        }
+      }
+    ]
   },
   {
-    path: '/page4',
-    name: 'Page4',
-    component: () => import('@/views/Page2'),
+    path: '/admin/userCenter',
+    name: 'components',
+    component: () => import('@/views/admin/layout'),
+    redirect: '/admin/user',
     meta: {
+      title: '用户',
       permission: true
-    }
-  },
+    },
+    children: [
+      {
+        path: '/admin/user',
+        name: 'user',
+        component: () => import('@/views/admin/user'),
+        meta: {
+          title: '用户列表',
+          permission: true
+        }
+      },
+      {
+        path: '/admin/addUser',
+        name: 'addUser',
+        component: () => import('@/views/admin/user/add'),
+        meta: {
+          title: '新增用户',
+          permission: true
+        }
+      }
+    ]
+  }
+]
+export const asyncRoutesOther = [
   {
     path: '*',
     redirect: '/404'

@@ -30,6 +30,7 @@ import Transfer from './transfer/index'
 import Steps from './steps/index'
 import Tooltip from './tooltip/index'
 import ColorPicker from './colorPicker'
+import Transition from './transition'
 
 const component = [
   Button,
@@ -61,7 +62,8 @@ const component = [
   Transfer,
   Steps,
   Tooltip,
-  ColorPicker
+  ColorPicker,
+  Transition
 ]
 const install = function (Vue, options) {
   component.forEach(item => {

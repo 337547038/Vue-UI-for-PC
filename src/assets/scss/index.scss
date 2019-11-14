@@ -1,6 +1,6 @@
 @charset "UTF-8";
 //reset
-html, body, div, table, td, th, tr, input, button, h1, h2, h3, h4, pre{margin: 0;padding: 0;}
+html, body, div, table, td, th, tr, input, button, h1, h2, h3, h4, pre, p, label, ul, li, label, b, span, dl, dd, dt, i{margin: 0;padding: 0;}
 body{font-size: 14px;color: #333;}
 i{font-style: normal}
 ul, li{list-style: none}
@@ -23,5 +23,5 @@ a:active{
 /*fa 字体*/
 [class*="ak-icon-"]{font-family: FontAwesome;display: inline-block;}
 // 基础组件样式
-@import "../../../docs/scss/components","sprites";
+@import "../../../docs/scss/components", "sprites", "admin";
 // 其它样式

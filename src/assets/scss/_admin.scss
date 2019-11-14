@@ -1,0 +1,72 @@
+// login
+.login-box{margin: 50px auto;box-shadow: 0 0 5px #dcdfe6;width: 400px;border-radius: 5px;padding: 20px;
+  .button-group{text-align: center}
+  .ak-form-tips{position: absolute;top: 28px}
+}
+// layout
+.app-container{padding-left: 220px;transition: all .3s;
+  .sidebar{position: fixed;left: 0;top: 0;width: 220px;bottom: 0;background: #304156;z-index: 80;color: #fff;transition: all .3s;
+    .side-logo{text-align: center;height: 50px; line-height: 50px; padding: 0 15px;color: #fff;background: #20222A;font-size: 16px}
+    .side-content{height: calc(100vh - 50px);overflow-y: auto;
+      a{color: #fff}
+    }
+    // 滚动条设置
+    /*滚动条的宽度*/
+    ::-webkit-scrollbar{
+      width: 9px;
+      height: 9px;
+    }
+    /*外层轨道。可以用display:none让其不显示，也可以添加背景图片，颜色改变显示效果*/
+    ::-webkit-scrollbar-track{
+      width: 6px;
+      background-color: #0d1b20;
+    }
+    /*滚动条的设置*/
+    ::-webkit-scrollbar-thumb{
+      background-color: #606d71;
+      background-clip: padding-box;
+      min-height: 28px;
+      border-radius: 2em;
+    }
+    /*滚动条移上去的背景*/
+    ::-webkit-scrollbar-thumb:hover{
+      opacity: .8;
+    }
+  }
+  .header{border-bottom: 1px solid #f6f6f6;box-sizing: border-box;background-color: #fff;padding: 0 10px;height: 40px;line-height: 40px;
+    .left{float: left;}
+    .right{float: right;}
+    .control-collapse{font-size: 16px;display: block;line-height: 40px}
+  }
+  .tabs-view{height: 30px;line-height: 30px;position: relative;padding: 0 60px 0 30px;background-color: #fff;box-sizing: border-box;overflow: hidden;
+    > a{display: block;width: 30px;height: 30px;font-size: 18px;position: absolute;top: 0;text-align: center;line-height: 30px;z-index: 2;background: #fff}
+    .prev{left: 0;border-right: 1px solid #f6f6f6}
+    .next{right: 30px;border-right: 1px solid #f6f6f6;border-left: 1px solid #f6f6f6}
+    .close{right: 0;border-left: 1px solid #f6f6f6;font-size: 14px}
+    ul{position: relative;white-space: nowrap;height: 30px;transition: all .3s}
+    li{display: inline-block;border-right: 1px solid #f6f6f6;padding: 0 30px 0 15px;max-width: 160px;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;position: relative;
+      a{color: #666}
+      i{position: absolute;right: 10px;top: 0;display: block;line-height: 30px;font-size: 10px;color: #999;cursor: pointer;
+        &:hover{color: #666;}
+      }
+      &:after{width: 0;height: 2px;background: transparent;position: absolute;left: 0;content: '';transition: all .3s}
+      &.active{background: #f6f6f6;
+        &:after{width: 100%;background: #292B34}
+      }
+      &.home{padding: 0 15px;
+        i{}
+      }
+    }
+  }
+  .fixed-header{ box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .1);height: 70px;
+    .fixed{
+      position: fixed;width: calc(100vw - 220px);box-sizing: border-box;transition: all .3s
+    }
+  }
+  // 控制侧栏目收起或展开状态
+  &.collapse{
+    padding-left: 60px;
+    .sidebar{width: 60px;}
+    .fixed-header{width: calc(100vw - 60px)}
+  }
+}

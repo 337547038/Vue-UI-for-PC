@@ -3,7 +3,7 @@
  * data=0时，使用localStorage，即永不过期
  * data>0时添加时间控制，即指定过期时间，类似于cookies
  * */
-export function setStorage(key, value, hour) {
+export function setStorage (key, value, hour) {
   if (hour === 0) {
     window.localStorage.setItem(key, JSON.stringify(value))
   } else if (hour === undefined) {
@@ -22,9 +22,13 @@ export function setStorage(key, value, hour) {
  * 一个参数key默认为sessionStorage
  * 两个参数key,any任意值为localStorage
  * */
-export function getStorage(key, any) {
+export function getStorage (key, any) {
   if (any === undefined) {
-    return window.sessionStorage.getItem(key)
+    const val = window.sessionStorage.getItem(key)
+    if (val) {
+      return JSON.parse(val)
+    }
+    return val
   } else {
     const now = new Date()
     const local = window.localStorage.getItem(key)
@@ -53,7 +57,7 @@ export function getStorage(key, any) {
  * 一个参数key默认为sessionStorage
  * 两个参数key,any任意值为localStorage
  * */
-export function removeStorage(key, any) {
+export function removeStorage (key, any) {
   if (any === undefined) {
     window.sessionStorage.removeItem(key)
   } else {

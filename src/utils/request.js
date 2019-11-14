@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {getToken} from '@/utils/utils'
+import {getStorage} from '@/utils/utils'
 
 // import router from '@/router'
 
@@ -16,8 +16,8 @@ const service = axios.create({
 service.interceptors.request.use(
   config => {
     // Do something before request is sent
-    if (getToken()) {
-      config.headers['X-Authorization'] = getToken()
+    if (getStorage('token', 1)) {
+      config.headers['X-Authorization'] = getStorage('token', 1)
     }
     return config
   },

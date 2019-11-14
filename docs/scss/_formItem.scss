@@ -7,7 +7,7 @@
       &:before{content: '*';color: #f00;display: inline-block;vertical-align: middle;}
     }
   }
-  @include ns(form-box){float: left;
+  @include ns(form-box){float: left;position: relative;
     div{float: left}
     @include ns(checkbox){float: left}
     @include ns(switch){float: left}
