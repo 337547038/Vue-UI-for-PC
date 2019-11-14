@@ -1,7 +1,7 @@
 import router from './router'
 import {getToken} from './utils/utils'
 // 配置白名单
-const whiteList = ['/login', '/page1', '/signOut', '/']
+const whiteList = ['/login', '/test01', '/signOut', '/']
 router.beforeEach((to, from, next) => {
   // 设置不同的标题
   if (to.meta.title) {
