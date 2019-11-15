@@ -31,6 +31,7 @@ import Steps from './steps/index'
 import Tooltip from './tooltip/index'
 import ColorPicker from './colorPicker'
 import Transition from './transition'
+import Slider from './slider'
 
 const component = [
   Button,
@@ -63,7 +64,8 @@ const component = [
   Steps,
   Tooltip,
   ColorPicker,
-  Transition
+  Transition,
+  Slider
 ]
 const install = function (Vue, options) {
   component.forEach(item => {
