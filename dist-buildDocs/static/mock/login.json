@@ -1,24 +1,26 @@
 {
-  "code": "user",
+  "code": 0,
   "msg": "message",
-  "timestamp": 1516086632624,
+  "timestamp": 123456468797,
   "data": {
     "token": "eyJhbGciOiJIUzUx",
     "user": {
-      "id": "fafsfd",
-      "userName": "admin"
+      "id": "xxxxxxx"
     },
-    "menu": [
+    "menuAdmin": [
       {
-        "href": "/page2",
-        "name": "个人中心",
-        "status": "1"
+        "href": "/admin/userCenter",
+        "name": "用户中心"
       },
       {
-        "href": "/page3",
-        "name": "管理中心",
-        "status": "1"
+        "href": "/admin/user",
+        "name": "用户列表"
+      },
+      {
+        "href": "/admin/addUser",
+        "name": "新增用户"
       }
-    ]
+    ],
+    "menuUser": []
   }
 }
