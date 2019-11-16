@@ -8,6 +8,7 @@ export default {
       switch3: false,
       switch4: true,
       switch5: false,
+      switch6: false
     }
   }
 }
@@ -83,6 +84,26 @@ export default {
 ```
 :::
 
+### 设置开关状态时的颜色
+:::demo `closeColor`设置关闭状态颜色，`activeColor`设置打开状态颜色
+```html
+<template>
+  <div>
+     <p><ak-switch v-model="switch6" closeColor="#999" activeColor="red"></sk-switch></p>
+  </div>
+</template>
+<script>
+export default {
+  data () {
+    return {
+      switch6: false
+    }
+  }
+}
+</script>
+```
+:::
+
 ## API
 ### Switch
 |参数|类型|说明|
@@ -91,6 +112,8 @@ export default {
 |disabled       | boolean/false  |是否禁用状态|
 |change         | function       |触发事件|
 |class          | String         |原生 class|
+|closeColor     | String         |设置关闭时颜色，默认通过css设置|
+|activeColor    | String         |设置打开时颜色，默认通过css设置|
 
 ### Switch Slot
 |参数|说明|

@@ -174,7 +174,7 @@ export default {
     transition: all 0.3s;
     -webkit-box-shadow: 0 2px 8px #f0f1f2;
     box-shadow: 0 2px 8px #f0f1f2;
-    position: fixed;width: 100%;z-index: 10;
+    position: fixed;width: 100%;z-index: 50;
     height: 65px;
     color: #444;
     background: #fff;

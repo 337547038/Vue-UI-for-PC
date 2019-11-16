@@ -194,6 +194,11 @@ const router = [
     component: () => import('../docs/collapseTransition.md')
   },
   {
+    path: '/slider',
+    name: 'slider',
+    component: () => import('../docs/slider.md')
+  },
+  {
     path: '/test',
     name: 'test',
     meta: {

@@ -2,16 +2,16 @@
   <div>
     <p><br><br><br><br></p>
     <p>{{value}}</p>
-    <Slider v-model="value" :min="0" :max="100" :marks="marks"></Slider>
+    <Slider v-model="value"></Slider>
   </div>
 </template>
 <script>
 import Slider from '../../packages/slider'
 
 export default {
-  data () {
+  data() {
     return {
-      value: [25, 80],
+      value: 0,
       marks: {
         0: 'start',
         25: '25%',
@@ -22,6 +22,9 @@ export default {
     }
   },
   components: {Slider},
-  methods: {}
+  methods: {},
+  mounted() {
+    // this.value = [30, 60]
+  }
 }
 </script>

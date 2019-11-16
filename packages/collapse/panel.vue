@@ -4,38 +4,36 @@
     <div class="collapse-title" @click="_slideToggle">
       <slot/>
     </div>
-    <!--<transition :name="collapse">
-      <div class="collapse-content" v-show="visible" :class="{'active':visible}" ref="content">
-        <slot name="content"></slot>
-      </div>
-    </transition>-->
-    <transition
+    <!--<transition
       v-on:before-enter="beforeEnter"
       v-on:enter="enter"
       v-on:after-leave="afterLeave"
-      v-on:before-leave="beforeLeave">
-      <div class="collapse-content" v-show="visible" :class="{'active':visible}" ref="content">
-        <slot name="content"></slot>
-      </div>
-    </transition>
+      v-on:before-leave="beforeLeave">-->
+      <collapse-transition>
+        <div class="collapse-content" v-show="visible" :class="{'active':visible}" ref="content">
+          <slot name="content"></slot>
+        </div>
+      </collapse-transition>
+   <!-- </transition>-->
   </div>
 </template>
 
 <script>
 import {prefixCls} from '../prefix'
+import CollapseTransition from '../transition'
 
 export default {
   name: `${prefixCls}CollapsePanel`,
-  data () {
+  data() {
     return {
       randomName: this.name || Math.random().toString(36).substr(2, 8),
       padding: []
     }
   },
   props: ['name'],
-  components: {},
+  components: {CollapseTransition},
   methods: {
-    _slideToggle () {
+    _slideToggle() {
       const index = this.active.indexOf(this.randomName)
       if (this.parent.accordion) {
         if (index !== -1) {
@@ -53,45 +51,45 @@ export default {
       }
       this.parent._change(this.randomName)
     },
-    getStyle (dom, attr) {
+    getStyle(dom, attr) {
       return dom.currentStyle ? dom.currentStyle[attr] : getComputedStyle(dom, false)[attr]
-    },
-    beforeEnter (el) {
+    }
+    /* beforeEnter(el) {
       this.padding = [this.getStyle(el, 'paddingTop'), this.getStyle(el, 'paddingBottom')]
       el.style.height = 0
       el.style.paddingTop = 0
       el.style.paddingBottom = 0
     },
-    enter (el) {
+    enter(el) {
       el.style.height = el.scrollHeight + 'px'
       el.style.paddingTop = this.padding[0]
       el.style.paddingBottom = this.padding[1]
     },
-    beforeLeave (el) {
+    beforeLeave(el) {
       el.style.height = 0
       el.style.paddingTop = 0
       el.style.paddingBottom = 0
     },
-    afterLeave (el) {
+    afterLeave(el) {
       el.style.paddingTop = ''
       el.style.paddingBottom = ''
-    }
+    } */
   },
   computed: {
-    visible () {
+    visible() {
       return this.active.indexOf(this.randomName) !== -1
     },
-    parent () {
+    parent() {
       return this.$parent
     },
-    active () {
+    active() {
       return this.parent.active
     },
-    collapse () {
+    collapse() {
       return this.parent.transition
     }
   },
-  mounted () {
+  mounted() {
     this.parent.panelName.push(this.randomName)
   }
 }
