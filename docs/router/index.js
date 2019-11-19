@@ -6,14 +6,9 @@ import routerCon from './router.con'
 Vue.use(Router)
 
 export default new Router({
-  scrollBehavior: () => ({ y: 0 }),
+  scrollBehavior: () => ({y: 0}),
   routes: routerCon
   /* routes: [
-    /*
-      path: '/test',
-      name: 'test',
-      component: test
-    },
     {
       path: '/button',
       name: 'button',
@@ -23,6 +18,6 @@ export default new Router({
       path: '/table',
       name: 'table',
       component: r => require.ensure([], () => r(require('../docs/table.md')))
-    } */
-// ]
+    }
+  ] */
 })

@@ -1,5 +1,6 @@
 // https://segmentfault.com/q/1010000011359250
 import {prefixCls} from '../prefix'
+
 const elTransition = '0.3s height ease-in-out, 0.3s padding-top ease-in-out, 0.3s padding-bottom ease-in-out'
 const Transition = {
   'before-enter' (el) {
@@ -66,10 +67,15 @@ const Transition = {
 export default {
   name: `${prefixCls}Transition`,
   functional: true,
+  /* props: {
+     name: String
+   }, */
   render (h, {children}) {
-    const data = {
+    let data = {
       on: Transition
     }
+    // console.log('-------------')
+    // console.log(children)
     return h('transition', data, children)
   }
 }

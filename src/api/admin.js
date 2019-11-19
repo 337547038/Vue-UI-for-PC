@@ -8,3 +8,11 @@ export function logIn (data) {
     data
   })
 }
+
+export function getTable (data) {
+  return request({
+    url: '/static/mock/table.json',
+    method: 'GET',
+    data
+  })
+}

@@ -9,7 +9,7 @@ export const defaultRouterMap = [
   {
     path: '/',
     name: 'HelloWorld',
-    component: () => import('@/views/Index'),
+    component: () => import('@/views/index'),
     meta: {
       title: 'HelloWorld'
     }
@@ -46,7 +46,8 @@ export const asyncRoutes = [
     component: () => import('@/views/admin/layout'),
     redirect: '/admin/main',
     meta: {
-      title: '主页'
+      title: '主页',
+      icon: 'fa fa-home'
     },
     children: [
       {
@@ -65,7 +66,8 @@ export const asyncRoutes = [
     component: () => import('@/views/admin/layout'),
     redirect: '/admin/table',
     meta: {
-      title: '组件'
+      title: '组件',
+      icon: 'fa fa-file-code-o'
     },
     children: [
       {
@@ -92,7 +94,8 @@ export const asyncRoutes = [
     component: () => import('@/views/admin/layout'),
     redirect: '/admin/user',
     meta: {
-      title: '用户',
+      title: '用户管理',
+      icon: 'fa fa-user-o',
       permission: true
     },
     children: [
@@ -111,6 +114,15 @@ export const asyncRoutes = [
         component: () => import('@/views/admin/user/add'),
         meta: {
           title: '新增用户',
+          permission: true
+        }
+      },
+      {
+        path: '/admin/addUser2',
+        name: 'addUser2',
+        component: () => import('@/views/admin/user/add'),
+        meta: {
+          title: '新增用户2',
           permission: true
         }
       }

@@ -4,7 +4,8 @@
 </template>
 
 <script>
-import {removeStorage, removeToken} from '@/utils/utils'
+import {removeStorage} from '@/utils/utils'
+
 export default {
   name: 'signOut',
   data () {
@@ -16,10 +17,12 @@ export default {
   computed: {},
   created () {
     // 清空登录时保存的信息
-    removeStorage('id')
-    removeStorage('_menu')
-    removeStorage('md5')
-    removeToken()
+    removeStorage('id', 0)
+    removeStorage('_menu', 0)
+    removeStorage('md5', 0)
+    removeStorage('token', 0)
+    removeStorage('loginName', 0)
+    this.$router.push({path: '/'})
   },
   mounted () {
   }

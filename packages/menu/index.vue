@@ -25,6 +25,9 @@ export default {
     }
   },
   watch: {
+    value (val) {
+      this.activeKey = val
+    },
     activeKey (val) {
       // 要将之前设置的父级的恢复
       this._resetActive(this.data)

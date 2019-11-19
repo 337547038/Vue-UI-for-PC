@@ -73,6 +73,7 @@ export default {
                 console.log('12')
                 setStorage('token', result.token, 24)
                 setStorage('id', result.user.id, 0)
+                setStorage('loginName', object.userName, 0)
                 setStorage('_menu', menu, 0)
                 // 按照这种登录机制，_menu保存在本地，如果伪造一个最高权限_menu列表，即可使普通用户变超级管理用户
                 // 1.最安全的方式应该是每到一个页面请求权限作判断

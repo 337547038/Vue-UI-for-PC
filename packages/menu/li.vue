@@ -1,6 +1,6 @@
 <!-- Created by 337547038 on 2019/11/8 0008. -->
 <template>
-  <li :class="{'has-child':data.children,'hover':data.open,'is-active':data.isActive||(data.key||data.title)===value}"
+  <li :class="{'has-child':data.children,'open':data.open,'is-active':data.isActive||(data.key||data.title)===value,'is-active-key':(data.key||data.title)===value}"
       @mouseenter="_mouseOver(data)"
       @mouseleave="_mouseLeave(data)">
     <router-link

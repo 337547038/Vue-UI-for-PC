@@ -1,23 +1,16 @@
 <!-- Created by 337547038 on $. -->
 <template>
   <div class="app-container" :class="{collapse:collapse}">
-    <Sidebar></Sidebar>
+    <Sidebar :collapse.sync="collapse"></Sidebar>
     <div class="main-layout">
-      <div class="fixed-header">
-        <div class="fixed">
-          <div class="header clearfix">
-            <div class="left">
-              <a href="javascript:;"
-                 class="control-collapse fa"
-                 :class="{'fa-indent':collapse,'fa-outdent':!collapse}"
-                 @click="collapse=!collapse"></a>
-            </div>
-            <div class="right">
-              <router-link to="/signOut" class="fa fa-sign-out">退出</router-link>
-            </div>
+      <div class="header">
+        <div class="header-bar clearfix">
+          <div class="left">这里显示其它一些信息</div>
+          <div class="right">
+            <router-link to="/signOut">{{userName}},退出<i class="fa fa-sign-out"></i></router-link>
           </div>
-          <TabsView :data="keepAlive" @click="_tabsViewClick"></TabsView>
         </div>
+        <TabsView :data="keepAlive" @click="_tabsViewClick"></TabsView>
       </div>
       <div class="main-view">
         <keep-alive :include="include">
@@ -38,6 +31,7 @@ export default {
   name: 'layout',
   data () {
     return {
+      userName: getStorage('loginName', 1),
       keepAlive: [],
       collapse: false // 用于控制侧栏收起或展开样式
     }

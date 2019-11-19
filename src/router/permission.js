@@ -2,7 +2,7 @@
  * 通过读取存储的菜单_menu权限和登录情况token添加路由
  * 同时为了防止伪造修改菜单，增加一个md5认证 */
 import {asyncRoutes, asyncRoutesOther} from './index'
-import {getStorage} from '../utils/utils'
+import {getStorage, deepCopy} from '../utils/utils'
 import md5 from 'js-md5'
 
 /**
@@ -26,7 +26,7 @@ function hasMenuPermission (route, menu) {
  * @param menu
  */
 function filterAsyncRouter (asyncRoutes, menu) {
-  const accessedRouters = asyncRoutes.filter(route => {
+  let accessedRouters = asyncRoutes.filter(route => {
     if (hasMenuPermission(route, menu)) {
       if (route.children && route.children.length) {
         route.children = filterAsyncRouter(route.children, menu)
@@ -52,8 +52,10 @@ export default function addRoutes (router) {
     return false
   }
   if (menuList && token) {
-    asyncRoutes.push.apply(asyncRoutes, asyncRoutesOther) // 这里将两个动态路由合并起来，考虑到实际情况需将路由分开写
-    const addRoutesList = filterAsyncRouter(asyncRoutes, menuList)
+    // asyncRoutes.push.apply(asyncRoutes, asyncRoutesOther) // 这里将两个动态路由合并起来，考虑到实际情况需将路由分开写
+    const c = asyncRoutes.concat(asyncRoutesOther)
+    const newArray = deepCopy(c) // 这里复制个全新的，要不会影响下次引用运态路由时会有问题
+    const addRoutesList = filterAsyncRouter(newArray, menuList)
     router.addRoutes(addRoutesList)
     console.log('addRoutes success ...', addRoutesList)
   }

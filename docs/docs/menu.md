@@ -27,10 +27,10 @@ export default {
           title: '关于我们',
           href: '',
           children: [
-            {title: '下拉1'},
-            {title: '下拉2'},
-            {title: '下拉3'},
-            {title: '下拉4'}
+            {title: '下拉11'},
+            {title: '下拉22'},
+            {title: '下拉33'},
+            {title: '下拉44'}
           ]
         },
         {title: '联系我们', href: '/contact'}
@@ -119,7 +119,7 @@ export default {
 ```html
 <template>
   <div>
-    <ak-menu :data="menuData2" value="关于我们"></ak-menu>
+    <ak-menu :data="menuData2" value="下拉22"></ak-menu>
   </div>
 </template>
 <script>
@@ -139,10 +139,10 @@ export default {
         {title: '关于我们',
           href: '',
           children: [
-            {title: '下拉1'},
-            {title: '下拉2'},
-            {title: '下拉3'},
-            {title: '下拉4'}
+            {title: '下拉11'},
+            {title: '下拉22'},
+            {title: '下拉33'},
+            {title: '下拉44'}
           ]},
         {title: '联系我们', href: '/contact'}
       ]
