@@ -8,13 +8,13 @@ import {prefixCls} from '../prefix'
 
 export default {
   name: `${prefixCls}TabPane`,
-  data () {
+  data() {
     return {
       // randomName: this.name || Math.random().toString(36).substr(2, 8)
       tabName: this.name || 'tab-' + this.$parent.tabName
     }
   },
-  created () {
+  created() {
     this.$parent.tabName++
     this.tabName = this.name || 'tab-' + this.$parent.tabName
   },
@@ -23,7 +23,7 @@ export default {
     name: String,
     disabled: Boolean
   },
-  mounted () {
+  mounted() {
     this.$parent.panes.push(this)
   }
 }

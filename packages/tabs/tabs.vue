@@ -36,7 +36,11 @@ export default {
       tabName: 0 // tabPane的name值
     }
   },
-  watch: {},
+  watch: {
+    value(val) {
+      this.active = val
+    }
+  },
   mounted () {
   },
   methods: {
