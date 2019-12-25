@@ -21,7 +21,7 @@ import dom from '../mixins/dom.js'
 export default {
   name: `${prefixCls}Loading`,
   mixins: [dom],
-  data () {
+  data() {
     return {
       prefixCls: prefixCls,
       visible: false,
@@ -44,22 +44,22 @@ export default {
   },
   components: {},
   methods: {
-    open () {
+    open() {
       this.visible = true
       if (this.lock) {
         document.body.style.overflow = 'hidden'
         document.body.style.paddingRight = this.scrollbarWidth + 'px'
       }
     },
-    close (remove) {
+    close(remove) {
       // remove false通过指令引用，这时不能移除
       this.visible = false
-      if (this.$el && remove !== false) {
+      /* if (this.$el && remove !== false) {
         // 等待css过渡完成移除
         setTimeout(() => {
           this.$el.parentNode.removeChild(this.$el)
         }, 1000)
-      }
+      } */
       if (this.lock) {
         // 解锁
         document.body.style.overflow = ''
@@ -67,10 +67,10 @@ export default {
     }
   },
   computed: {},
-  mounted () {
+  mounted() {
     this.scrollbarWidth = this.getScrollbarWidth()
   },
-  destroyed () {
+  destroyed() {
     if (this.$el && this.$el.parentNode) {
       this.$el.parentNode.removeChild(this.$el)
     }

@@ -7,7 +7,7 @@
     "docs": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "buildDocs": "vue-cli-service build",
-    "buildComponents":"vue-cli-service build --target lib --name ak packages/index.js",
+    "buildComponents": "vue-cli-service build --target lib --name ak packages/index.js",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {

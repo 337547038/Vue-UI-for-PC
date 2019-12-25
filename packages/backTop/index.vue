@@ -13,7 +13,7 @@ import {prefixCls} from '../prefix'
 
 export default {
   name: `${prefixCls}BackTop`,
-  data () {
+  data() {
     return {
       prefixCls: prefixCls,
       show: false
@@ -43,18 +43,18 @@ export default {
   },
   components: {},
   methods: {
-    _windowScroll () {
+    _windowScroll() {
       if (this.scrollTop() > this.height) {
         this.show = true
       } else {
         this.show = false
       }
     },
-    _click () {
+    _click() {
       let that = this
       smoothscroll()
 
-      function smoothscroll () {
+      function smoothscroll() {
         const currentScroll = that.scrollTop()
         if (currentScroll > 0) {
           window.requestAnimationFrame(smoothscroll)
@@ -67,14 +67,14 @@ export default {
     }
   },
   computed: {},
-  mounted () {
+  mounted() {
     this.$nextTick(() => {
       document.body.appendChild(this.$el)
       this._windowScroll()
     })
     window.addEventListener('scroll', this._windowScroll)
   },
-  destroyed () {
+  destroyed() {
     window.removeEventListener('scroll', this._windowScroll)
     if (this.$el && this.$el.parentNode) {
       this.$el.parentNode.removeChild(this.$el)

@@ -31,14 +31,16 @@ export default {
 </script>
 # Loading
 
-> 提供了两种调用 Loading 的方法：指令和服务。对于自定义指令v-loading，只需要绑定Boolean即可。默认状况下，Loading 遮罩会插入到绑定元素的子节点，通过添加body修饰符，可以使遮罩插入至 DOM 中的 body 上。
+> 自定义指令v-loading，只需要绑定Boolean即可。默认状况下，Loading 遮罩会插入到绑定元素的子节点，通过添加body修饰符，可以使遮罩插入至 DOM 中的 body 上。
 
 ### 区域加载
 
 :::demo 在表格等容器中加载数据时显示。
 ```html
 <template>
+<div>
   <div style="width: 400px;height: 200px;border: 1px solid #ddd" v-loading="loading1">容器区域</div>
+</div>
 </template>
 <script>
 export default {
@@ -77,8 +79,7 @@ export default {
 ```html
 <template>
   <div>
-  <ak-button type="primary" @click="openFullScreen" v-loading.body.lock="fullScreenLoading">指令方式</ak-button>
-  <ak-button type="primary" @click="openFullScreen2">服务方式</ak-button>
+  <ak-button type="primary" @click="openFullScreen" v-loading.body.lock="fullScreenLoading">加载</ak-button>
 </div>
 </template>
 <script>
@@ -93,17 +94,6 @@ export default {
       this.fullScreenLoading = true
       setTimeout(() => {
         this.fullScreenLoading = false
-      }, 2000)
-    },
-    openFullScreen2 () {
-      const loading = this.$loading({
-        lock: true,
-        text: 'Loading',
-        spinner: 'ak-icon-loading',
-        background: 'rgba(0, 0, 0, 0.7)'
-      })
-      setTimeout(() => {
-        loading.close()
       }, 2000)
     }
   }

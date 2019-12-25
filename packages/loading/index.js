@@ -12,7 +12,7 @@ import akLoading from './loading'
 import Vue from 'vue'
 import {prefixCls} from '../prefix'
 
-const Loading = function (options) {
+/* const Loading = function (options) {
   let Message = Vue.extend(akLoading)
   const propsData = Object.assign({}, options)
   // propsData.visible = true
@@ -22,9 +22,10 @@ const Loading = function (options) {
   document.body.appendChild(component.$el)
   component.open()
   return component
-}
+} */
 let loadingComponent = ''
-Loading.directive = function () {
+// Loading.directive = function () {
+const Loading = function () {
   Vue.directive('loading', {
     bind: function (el, binding) {
       const text = el.getAttribute(`${prefixCls}-loading-text`) || ''
@@ -45,14 +46,12 @@ Loading.directive = function () {
       if (binding.modifiers.body) {
         // 将入至body
         parent = document.body
-      } else {
-        // 将当前标签设为relative
-        el.style.position = 'relative'
       }
       parent.appendChild(component.$el)
       loadingComponent = component
       if (binding.value) {
         loadingComponent.open()
+        el.className = el.className + ` ${prefixCls}-loading-parent-relative`
       }
     },
     inserted: function (el, binding) {
@@ -60,8 +59,12 @@ Loading.directive = function () {
     update: function (el, binding) {
       if (binding.value) {
         loadingComponent.open()
+        el.className = el.className + ` ${prefixCls}-loading-parent-relative`
       } else {
         loadingComponent.close(false)
+        setTimeout(() => {
+          el.className = el.className.replace(` ${prefixCls}-loading-parent-relative`, '')
+        }, 1000)
       }
     }
   })

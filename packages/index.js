@@ -75,8 +75,8 @@ const install = function (Vue, options) {
   Vue.prototype.$dialogClear = DialogAlert.Clear
   Vue.prototype.$alert = DialogAlert.Alert
   Vue.prototype.$msg = DialogAlert.Msg
-  Vue.prototype.$loading = Loading
-  Vue.use(Loading.directive)
+  // Vue.prototype.$loading = Loading
+  Vue.use(Loading)
 }
 export default install
 
