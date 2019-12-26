@@ -16,18 +16,18 @@
   @include ns(dialog-auto-close){position: absolute; left: 10px; top: 45px;display: none }
   @include ns(dialog-alert){text-align: center;
     @include ns(dialog-text){display: inline-block;text-align: left;font-size: 16px;
-      &:before{font-size: 30px;display: inline-block;vertical-align: middle;margin-right: 5px;}
+      i{font-size: 30px;display: inline-block;vertical-align: middle;margin-right: 5px;}
     }
     // 其他的需要再定义样式
-    @include ns(icon-type1){
+    @include ns(icon-1){
       &:before{color: green;content: '\f058'}
     }
     // success
-    @include ns(icon-type2){
+    @include ns(icon-2){
       &:before{color: red;content: '\f05c'}
     }
     //failure
-    @include ns(icon-type3){
+    @include ns(icon-3){
       &:before{color: orange;content: '\f06a'}
     }
     //warning

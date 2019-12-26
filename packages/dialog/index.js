@@ -30,11 +30,11 @@ const DialogAlert = {
   },
   Alert (content, opt) {
     opt = Object.assign({}, {
-      title: opt.title,
+      title: opt.title || '提示',
       content: content,
-      confirm: opt.confirm,
+      confirm: opt.confirm || '确认',
       cancel: opt.cancel,
-      type: opt.type || 3,
+      icon: opt.icon,
       callback: opt.callback,
       animation: opt.animation,
       width: opt.width,
@@ -48,7 +48,7 @@ const DialogAlert = {
   Msg (content, opt) {
     opt = Object.assign({}, {
       content: content,
-      type: opt.type || 1,
+      icon: opt.icon,
       autoClose: opt.autoClose || 3,
       animation: opt.animation,
       width: opt.width,

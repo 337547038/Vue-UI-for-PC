@@ -42,7 +42,7 @@ export default {
         {title: '恭喜您中奖了',
           content: '成功啦',
           confirm: '确定',
-          type: 1
+          icon: 1
         }
       )
     },
@@ -51,7 +51,7 @@ export default {
         {title: '失败提示',
           content: '很抱歉，你与大奖擦肩而过',
           confirm: '确定',
-          type: 2
+          icon: 2
         }
       )
     },
@@ -60,7 +60,7 @@ export default {
         {title: '警告',
           content: '还是要按照规范来操作',
           confirm: '确定',
-          type: 3,
+          icon: 3,
           animation: 'rotate'
         }
       )
@@ -139,7 +139,7 @@ export default {
         {title:'恭喜您中奖了',
           content:'成功啦',
           confirm:'确定',
-          type:1
+          icon:1
         }
       )
     },
@@ -148,7 +148,7 @@ export default {
         {title:'失败提示',
           content:'很抱歉，你与大奖擦肩而过',
           confirm:'确定',
-          type:2
+          icon:2
         }
       )
     },
@@ -157,7 +157,7 @@ export default {
         {title:'警告',
           content:'还是要按照规范来操作',
           confirm:'确定',
-          type:3,
+          icon:3,
           animation:'rotate'
         }
       )
@@ -503,7 +503,7 @@ export default {
 |animation      | string         |动画样式名，可选zoom、flip、door、rotate、slideDown、slideUp、slideLeft、slideRight|
 |after          | function       |窗口加载完回调|
 |center         | boolean/true   |居中对齐，false时需通过添加样式控制窗口位置|
-|type           | number/0       |仅在this.$dialog下有效，用于展示常见的alert提示，1成功，2失败，3警告。其它的可通过添加样式控制|
+|icon           | number/0       |仅在this.$dialog下有效，用于展示常见的alert提示显示对应的icon图标，1成功，2失败，3提示，4警告。其它的可通过添加样式控制|
 
 ### Dialog Slot
 |参数|说明|

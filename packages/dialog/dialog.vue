@@ -23,8 +23,8 @@
            :class="{
            [prefixCls+'-dialog-alert']:isAlert,
            [prefixCls+'-dialog-content']:true}">
-        <div v-if="content" :class="[prefixCls+'-dialog-text',{[prefixCls+'-icon-type'+type]:type>0}]">
-          {{content}}
+        <div v-if="content" :class="[prefixCls+'-dialog-text']">
+          <i :class="[{[prefixCls+'-icon-'+icon]:icon>0}]"></i><span>{{content}}</span>
         </div>
         <slot v-else></slot>
       </div>
@@ -128,7 +128,7 @@ export default {
       type: Boolean,
       default: false
     },
-    type: {
+    icon: {
       // 主要用于this.$dialog中常见的几种提示
       type: Number,
       default: 0
@@ -172,6 +172,7 @@ export default {
             }
             this.$el.style.left = left + 'px'
             this.$el.style.top = top + 'px'
+            this.$el.style.transitionDuration = '0s' // 拖动时要设为0，否则拖动很慢的感觉
           }
           return false
         }
