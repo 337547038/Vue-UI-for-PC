@@ -23,7 +23,6 @@ import {prefixCls} from '../prefix'
   component.open()
   return component
 } */
-let loadingComponent = ''
 // Loading.directive = function () {
 const Loading = function () {
   Vue.directive('loading', {
@@ -46,25 +45,28 @@ const Loading = function () {
       if (binding.modifiers.body) {
         // 将入至body
         parent = document.body
-      }
+      }/* else {
+        // 将当前标签设为relative
+        // el.style.position = 'relative'
+      } */
       parent.appendChild(component.$el)
-      loadingComponent = component
+      const elCls = el.className
       if (binding.value) {
-        loadingComponent.open()
-        el.className = el.className + ` ${prefixCls}-loading-parent-relative`
+        component.open()
+        el.className = elCls + ` ${prefixCls}-loading-parent-relative`
       }
+      el.component = component // 保存当前组件和样式，更新时调用
+      el.elCls = elCls
     },
     inserted: function (el, binding) {
     },
     update: function (el, binding) {
       if (binding.value) {
-        loadingComponent.open()
-        el.className = el.className + ` ${prefixCls}-loading-parent-relative`
+        el.component.open()
+        el.className = el.elCls + ` ${prefixCls}-loading-parent-relative`
       } else {
-        loadingComponent.close(false)
-        setTimeout(() => {
-          el.className = el.className.replace(` ${prefixCls}-loading-parent-relative`, '')
-        }, 1000)
+        el.component.close(false)
+        el.className = el.elCls
       }
     }
   })

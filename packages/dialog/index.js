@@ -24,31 +24,32 @@ const dialogComm = function (propsData) {
   component.open()
 }
 const DialogAlert = {
-  Dialog (opt) {
+  Dialog(opt) {
     opt = Object.assign({}, {isAlert: true}, opt)
     dialogComm(opt)
   },
-  Alert (content, opt) {
+  Alert(content, opt = {}) {
     opt = Object.assign({}, {
-      title: opt.title,
+      title: opt.title || '信息',
       content: content,
-      confirm: opt.confirm,
+      confirm: opt.confirm || '确定',
       cancel: opt.cancel,
-      type: opt.type || 3,
+      icon: opt.icon,
       callback: opt.callback,
       animation: opt.animation,
       width: opt.width,
       isAlert: true,
       className: 'dialog-alert',
-      showClose: false,
-      closeModal: false
+      // showClose: false,
+      closeModal: false,
+      zIndex: opt.zIndex
     })
     dialogComm(opt)
   },
-  Msg (content, opt) {
+  Msg(content, opt = {}) {
     opt = Object.assign({}, {
       content: content,
-      type: opt.type || 1,
+      icon: opt.icon,
       autoClose: opt.autoClose || 3,
       animation: opt.animation,
       width: opt.width,
@@ -56,11 +57,12 @@ const DialogAlert = {
       className: 'dialog-msg',
       showClose: false,
       closeModal: false,
-      modal: opt.modal || false
+      modal: opt.modal || false,
+      zIndex: opt.zIndex
     })
     dialogComm(opt)
   },
-  Clear () {
+  Clear() {
     // 添加一个简单粗暴的方法，用于清除所有alert弹窗和遮罩层
     const dialog = document.querySelectorAll(`.${prefixCls}-dialog-isAlert`)
     if (dialog) {

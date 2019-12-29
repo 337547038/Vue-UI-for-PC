@@ -3,7 +3,7 @@
   <transition :name="animation">
     <div v-show="showHide"
          :class="{'active':showHide,[prefixCls+'-dialog']:true,[className]:className,[prefixCls+'-dialog-isAlert']:isAlert}"
-         :style="{zIndex:zIndex,
+         :style="{zIndex:zIndex2,
          animationDuration: '.3s',
          left:style.left,
          top:style.top
@@ -23,14 +23,14 @@
            :class="{
            [prefixCls+'-dialog-alert']:isAlert,
            [prefixCls+'-dialog-content']:true}">
-        <div v-if="content" :class="[prefixCls+'-dialog-text',{[prefixCls+'-icon-type'+type]:type>0}]">
-          {{content}}
+        <div v-if="content" :class="[prefixCls+'-dialog-text']">
+          <i :class="[{[prefixCls+'-icon-'+icon]:icon>0}]"></i><span>{{content}}</span>
         </div>
         <slot v-else></slot>
       </div>
       <div :class="`${prefixCls}-dialog-footer`" v-if="confirm||cancel">
-        <d-button type="cancel" v-if="cancel" @click="_cancel">{{cancel}}</d-button>
         <d-button type="primary" v-if="confirm" @click="_confirm">{{confirm}}</d-button>
+        <d-button type="cancel" v-if="cancel" @click="_cancel">{{cancel}}</d-button>
       </div>
     </div>
   </transition>
@@ -43,7 +43,7 @@ import {prefixCls} from '../prefix'
 
 export default {
   name: `${prefixCls}Dialog`,
-  data () {
+  data() {
     return {
       prefixCls: prefixCls,
       autoTime: 0, // 自动关闭时间
@@ -53,7 +53,7 @@ export default {
       dialogHeight: 0,
       windowHeight: 0,
       windowWidth: 0,
-      zIndex: 2019,
+      zIndex2: this.zIndex,
       showHide: this.visible, // 控制窗口显示隐藏
       clearTime: '',
       style: {
@@ -64,6 +64,10 @@ export default {
   },
   mixins: [dom],
   props: {
+    zIndex: {
+      type: Number,
+      default: 2019
+    },
     visible: {
       // 是否显示 Dialog，支持 .sync 修饰符
       type: Boolean,
@@ -91,7 +95,7 @@ export default {
     lockScroll: {
       // 是否在 Dialog 出现时将 body 滚动锁定
       type: Boolean,
-      default: true
+      default: false
     },
     className: String,
     showClose: {
@@ -128,7 +132,7 @@ export default {
       type: Boolean,
       default: false
     },
-    type: {
+    icon: {
       // 主要用于this.$dialog中常见的几种提示
       type: Number,
       default: 0
@@ -136,7 +140,7 @@ export default {
   },
   components: {dButton},
   watch: {
-    visible (v) {
+    visible(v) {
       this.showHide = this.visible
       if (v) {
         this.$nextTick(function () {
@@ -146,7 +150,7 @@ export default {
     }
   },
   methods: {
-    _mouseDown (ev) {
+    _mouseDown(ev) {
       let head = this.$refs.head
       if (this.move && head) {
         let flag = false
@@ -172,6 +176,7 @@ export default {
             }
             this.$el.style.left = left + 'px'
             this.$el.style.top = top + 'px'
+            this.$el.style.transitionDuration = '0s' // 拖动时要设为0，否则拖动很慢的感觉
           }
           return false
         }
@@ -182,17 +187,17 @@ export default {
         }
       }
     },
-    _close () {
+    _close() {
       // 关闭按钮点击事件
       this._beforeClose('close')
     },
-    _cancel () {
+    _cancel() {
       this._beforeClose('cancel')
     },
-    _confirm () {
+    _confirm() {
       this._beforeClose('confirm')
     },
-    _beforeClose (type) {
+    _beforeClose(type) {
       if (this.autoClose) {
         clearInterval(this.clearTime)
       }
@@ -206,7 +211,7 @@ export default {
         this._hide()
       }
     },
-    _hide () {
+    _hide() {
       // 关闭弹窗
       // 移除遮罩层
       if (this.modal) {
@@ -215,7 +220,7 @@ export default {
         let wait = 0
         let animationDuration = '0s'
         // 如果有上级弹层，则恢复上级遮罩可见
-        const prevModal = document.getElementById('dialog' + this.zIndex)
+        const prevModal = document.getElementById('dialog' + this.zIndex2)
         if (prevModal) {
           prevModal.className = `${prefixCls}-dialog-modal active`
           prevModal.style.display = 'block'
@@ -254,7 +259,7 @@ export default {
       this.$emit('update:visible', false)
       this.showHide = false
     },
-    _setPosition () {
+    _setPosition() {
       // 获取窗口宽高，设置居中对齐
       const obj = this.$el
       const clone = obj.cloneNode(true)
@@ -305,7 +310,7 @@ export default {
       }
       obj.parentNode.removeChild(clone)
     },
-    _openDialog () {
+    _openDialog() {
       // 禁止body滚动
       if (this.lockScroll) {
         document.body.style.overflow = 'hidden'
@@ -314,14 +319,14 @@ export default {
       // 显示遮罩层
       if (this.modal) {
         // 检查页面有没存在显示状态的遮罩层
-        let zIndex = 2018
+        let zIndex = this.zIndex2 - 1
         let animationDuration = '.3s'
         const modal = document.querySelector(`.${prefixCls}-dialog-modal.active`)
         if (modal) {
           // 取当前显示zIndex值，
           const activeZindex = modal.style.zIndex
           zIndex = parseInt(activeZindex) + 2
-          this.zIndex = parseInt(activeZindex) + 3
+          this.zIndex2 = parseInt(activeZindex) + 3
           // 将当前遮罩层去掉active样式并设为透明，
           // 这里因为是先隐藏一个遮罩再，再创建一个，因为有动画会出现闪烁，将动画时间设为0
           modal.style.animationDuration = '0s'
@@ -329,7 +334,7 @@ export default {
           modal.className = `${prefixCls}-dialog-modal`
           modal.style.display = 'none'
           // 同时隐藏的遮罩层设置id，等会根据这id恢复
-          modal.id = 'dialog' + this.zIndex
+          modal.id = 'dialog' + this.zIndex2
         }
         // 创建并添加事件
         const modalDiv = document.createElement('div')
@@ -345,11 +350,11 @@ export default {
       // 自动关闭
       this._autoClose()
     },
-    _modalClick (e) {
+    _modalClick(e) {
       // 遮罩层点击事件
       this._beforeClose('close')
     },
-    _autoClose () {
+    _autoClose() {
       // 自动关闭
       if (this.autoClose > 0) {
         this.autoTime = this.autoClose
@@ -362,16 +367,16 @@ export default {
         }, 1000)
       }
     },
-    open () {
+    open() {
       this.showHide = true
       this._openDialog()
       // 通过这方法打开不支持.sync绑定，这里更新visible会执行打开方法
       // this.$emit('update:visible', true)
     },
-    close () {
+    close() {
       this._hide()
     },
-    setPosition () {
+    setPosition() {
       // 当窗口高度变化时。窗口事件导致窗口高度发生变化时，重新设置top位置
       this.$nextTick(() => {
         const dialogHeight = this.$el.offsetHeight
@@ -398,10 +403,10 @@ export default {
     }
   },
   computed: {},
-  created () {
+  created() {
     this.scrollbarWidth = this.getScrollbarWidth()
   },
-  mounted () {
+  mounted() {
     this.$nextTick(() => {
       if (this.appendToBody && this.$el) {
         document.body.appendChild(this.$el)
@@ -410,10 +415,10 @@ export default {
       this.after && this.after()
     })
   },
-  beforeDestroy () {
+  beforeDestroy() {
     // console.log('beforeDestroy')
   },
-  destroyed () {
+  destroyed() {
     // if appendToBody is true, remove DOM node after destroy
     if (this.appendToBody && this.$el && this.$el.parentNode) {
       this.$el.parentNode.removeChild(this.$el)
