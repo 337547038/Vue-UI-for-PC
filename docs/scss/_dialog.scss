@@ -1,13 +1,11 @@
 @charset "UTF-8";
 @include ns(dialog){
-  position: fixed;z-index: 2019;box-shadow: 1px 1px 20px rgba(0, 0, 0, .3); border-radius: 5px; background: #fff; overflow: hidden;min-width: 300px;transition: top .3s;
+  position: fixed;z-index: 2019;box-shadow: 1px 1px 20px rgba(0, 0, 0, .3); border-radius: 5px; background: #fff; overflow: hidden;min-width: 300px;transition: all .3s;
   @include ns(dialog-close){
     display: block; position: absolute; right: 10px; top: 10px; width: 20px; height: 20px; z-index: 10; color: #666; font-size: 14px; line-height: 20px; text-align: center;
     &:hover{
       opacity: .8;
     }
-  }
-  @include ns(dialog-close){
     &:before{content: '\f00d';}
   }
   @include ns(dialog-header){overflow: hidden; font-size: 16px; padding-left: 15px; position: relative; border: 1px solid #e9eaec; color: #333; border-radius: 5px 5px 0 0;-webkit-user-select: none;height: 40px;line-height: 40px;}
@@ -31,14 +29,6 @@
       &:before{color: orange;content: '\f06a'}
     }
     //warning
-  }
-  &.dialog-alert{
-    // alert类弹窗样式
-    // min-width: auto;
-  }
-  &.dialog-msg{
-    // msg类弹窗样式
-    min-width: auto;
   }
 }
 @include ns(dialog-modal){position: fixed;left: 0;top: 0;right: 0;bottom: 0;z-index: 2018;background: rgba(55, 55, 55, .6); animation: dialog-modal .3s;transition: .3s}

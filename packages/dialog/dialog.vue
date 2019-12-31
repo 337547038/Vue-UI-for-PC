@@ -22,9 +22,10 @@
            :style="scrollStyle"
            :class="{
            [prefixCls+'-dialog-alert']:isAlert,
-           [prefixCls+'-dialog-content']:true}">
+           [prefixCls+'-dialog-content']:true,
+           'has-icon':icon}">
         <div v-if="content" :class="[prefixCls+'-dialog-text']">
-          <i :class="[{[prefixCls+'-icon-'+icon]:icon>0}]"></i><span>{{content}}</span>
+          <i :class="[{[prefixCls+'-icon-'+icon]:icon}]" v-if="icon"></i><span v-html="content"></span>
         </div>
         <slot v-else></slot>
       </div>
@@ -141,11 +142,13 @@ export default {
   components: {dButton},
   watch: {
     visible(v) {
-      this.showHide = this.visible
+      this.showHide = v
       if (v) {
         this.$nextTick(function () {
           this._openDialog()
         })
+      } else {
+        this._hide()
       }
     }
   },
@@ -208,7 +211,13 @@ export default {
       if (typeof this.beforeClose === 'function') {
         this.beforeClose(type, this._hide)
       } else {
-        this._hide()
+        // this._hide()
+        // 这里通过改变visible来关闭，直接引用this._hide会调用两次，visible改变时又一次
+        if (this.isAlert) {
+          this._hide()
+        } else {
+          this.$emit('update:visible', false)
+        }
       }
     },
     _hide() {
@@ -376,7 +385,13 @@ export default {
     close() {
       this._hide()
     },
-    setPosition() {
+    setPosition(resize) {
+      // 仅对显示的窗口处理
+      if (!this.showHide) {
+        return
+      }
+      this.windowHeight = this.getWindow().height
+      this.windowWidth = this.getWindow().width
       // 当窗口高度变化时。窗口事件导致窗口高度发生变化时，重新设置top位置
       this.$nextTick(() => {
         const dialogHeight = this.$el.offsetHeight
@@ -384,7 +399,9 @@ export default {
         if (top < 0) {
           top = 0
         }
-        // this.style.left = (this.windowWidth - this.dialogWidth) / 2 + 'px'
+        if (resize) {
+          this.style.left = (this.windowWidth - this.dialogWidth) / 2 + 'px'
+        }
         this.style.top = top + 'px'
         // 如果窗口高大于浏览器高
         if (dialogHeight > this.windowHeight) {
@@ -400,6 +417,11 @@ export default {
           }
         }
       })
+    },
+    // 窗口变化
+    _resize() {
+      // console.log('_resize')
+      this.setPosition(true)
     }
   },
   computed: {},
@@ -413,6 +435,7 @@ export default {
       }
       this._setPosition()
       this.after && this.after()
+      window.addEventListener('resize', this._resize, false)
     })
   },
   beforeDestroy() {
@@ -425,6 +448,7 @@ export default {
       document.body.style = ''
       this.scrollbarWidth = 0
     }
+    window.removeEventListener('resize', this._resize, false)
   }
 }
 </script>
