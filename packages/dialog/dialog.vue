@@ -387,13 +387,13 @@ export default {
     },
     setPosition(resize) {
       // 仅对显示的窗口处理
-      if (!this.showHide) {
-        return
-      }
-      this.windowHeight = this.getWindow().height
-      this.windowWidth = this.getWindow().width
       // 当窗口高度变化时。窗口事件导致窗口高度发生变化时，重新设置top位置
       this.$nextTick(() => {
+        if (!this.visible) {
+          return
+        }
+        this.windowHeight = this.getWindow().height
+        this.windowWidth = this.getWindow().width
         const dialogHeight = this.$el.offsetHeight
         let top = (this.windowHeight - dialogHeight) / 2
         if (top < 0) {
@@ -447,6 +447,11 @@ export default {
       this.$el.parentNode.removeChild(this.$el)
       document.body.style = ''
       this.scrollbarWidth = 0
+    }
+    // 如果遮罩层
+    const modal = document.querySelector(`.${prefixCls}-dialog-modal`)
+    if (modal) {
+      modal.parentNode.removeChild(modal)
     }
     window.removeEventListener('resize', this._resize, false)
   }

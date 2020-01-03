@@ -6,7 +6,8 @@
     </label>
     <div :class="`${prefixCls}-form-box`">
       <slot></slot>
-      <div :class="`${prefixCls}-form-tips`" v-text="errorTips" v-if="showMessage&&errorTips"></div>
+      <div :class="`${prefixCls}-form-tips failure`" v-text="errorTips" v-if="showMessage&&errorTips"></div>
+      <div :class="`${prefixCls}-form-tips success`" v-else-if="showMessage&&error===false"></div>
     </div>
   </div>
 </template>
@@ -24,7 +25,7 @@ export default {
       prefixCls: prefixCls,
       rules: {},
       errorTips: '',
-      error: false, // 验证错误添加样式
+      error: '', // 验证错误添加样式
       showMessage: true,
       trigger: ''
     }
@@ -57,10 +58,36 @@ export default {
         this.validate('', value)
       }
     },
-    _onFieldBlur () {
+    _onFieldBlur (event) {
       // 失去焦点时
       if (this.trigger === 'blur') {
         this.validate()
+      }
+      this._focusTips(event)
+    },
+    // 获取焦点提示事件，仅对输入框
+    _onFieldFocus (event) {
+      if (event.target.tagName === 'INPUT' && event.target.value === '') {
+        this._focusTips()
+      }
+    },
+    _focusTips (event) {
+      let rule = this.form.rules[this.prop]
+      for (let i = 0, len = rule.length; i < len; i++) {
+        if (rule[i].type === 'tips') {
+          // 如果有提示
+          if (event) {
+            // 失去焦点后重置，有值失去焦点有可能存在其它提示
+            if (event.target.value === '') {
+              this.errorTips = ''
+              this.error = ''
+            }
+          } else {
+            this.errorTips = rule[i].msg
+            this.error = true
+          }
+          break
+        }
       }
     },
     validate (callback, value) {
@@ -93,7 +120,8 @@ export default {
       this.errorTips = ''
       this.error = false
     }
-  },
+  }
+  ,
   computed: {
     isRequired () {
       // 是否根据验证规则自动生成必填样式名
@@ -110,7 +138,8 @@ export default {
         }
       }
       return bool
-    },
+    }
+    ,
     form () {
       // 查找form父组件
       let parent = this.$parent
@@ -123,9 +152,11 @@ export default {
       }
       return parent
     }
-  },
+  }
+  ,
   created () {
-  },
+  }
+  ,
   mounted () {
     this.rules = this.form.rules
     this.showMessage = this.form.showMessage
@@ -134,13 +165,15 @@ export default {
       // 监听表单元素改变事件
       this.$on(`${prefixCls}.form.change`, this._onFieldChange)
       this.$on(`${prefixCls}.form.blur`, this._onFieldBlur)
+      this.$on(`${prefixCls}.form.focus`, this._onFieldFocus) // 仅对input
       // 将需要验证的字段保存至form
       // 考虑到formItem父组件不一定是form，有可能是祖先组件。这里不能使用$parent
       // this.$parent.fields.push(this)
       // this.dispatch('AKForm', 'ak.form.addField', [this])
       this.form.fields.push(this)
     }
-  },
+  }
+  ,
   beforeDestroy () {
   }
 }
