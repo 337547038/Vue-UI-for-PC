@@ -39,6 +39,7 @@ export default {
           {type: 'mail', msg: '邮箱格式不正确'}
         ],
         digits: [
+          {type: 'tips', msg: '获得焦点时提示'},
           {type: 'digits', msg: '只能输入正整数'}
         ],
         number: [
@@ -527,6 +528,7 @@ export default {
 |mail           |邮箱格式|
 |digits         |正整数|
 |number         |数字|
+|tips           |获得焦点且值为空时显示输入提示|
 
 
 [[Toc]]

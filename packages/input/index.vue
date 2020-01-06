@@ -77,13 +77,15 @@ export default {
       this.$emit('input', value)
       this.change && this.change(e)
       if (this.validateEvent) {
-        // console.log('input')
         this.dispatch('formItem', `${prefixCls}.form.change`, [value, e])
       }
     },
     _focus (e) {
       this._emit('focus', e)
       this.focus && this.focus(e)
+      if (this.validateEvent) {
+        this.dispatch('formItem', `${prefixCls}.form.focus`, [e])
+      }
     },
     _clear () {
       this._emit('input', '')
