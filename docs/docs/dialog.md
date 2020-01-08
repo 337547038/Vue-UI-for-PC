@@ -483,7 +483,7 @@ export default {
 ### Dialog
 |参数|类型|说明|
 |-|-|-|
-|visible        | boolean/false  |是否显示 Dialog，支持 .sync 修饰符|
+|value          | boolean/false  |v-model形式，是否显示 Dialog|
 |title          | string         |Dialog 的标题，也可通过具名 slot 传入|
 |content        | null           |Dialog 的内容。通过参数传进content时，则不显示slot。在组件引用模式建议使用slot形式填充内容。仅支持纯文本内容|
 |width          | number         |Dialog 的宽度，单位px，建议通过css设置|
@@ -514,7 +514,7 @@ export default {
 ### Dialog Methods
 |参数|说明|
 |-|-|
-|open           |打开窗口，使用此方法打开时visible不支持.sync绑定|
+|open           |打开窗口，使用此方法打开时不支持v-model双向绑定|
 |close          |关闭窗口|
 |setPosition    |设置窗口top位置，适用于窗口展开收起事件，导致窗口高度发生变化时，用于修正窗口的位置|
 
