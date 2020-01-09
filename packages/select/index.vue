@@ -127,6 +127,10 @@ export default {
         this.text = v
       }
       this._setFirstText() // 动态改变值时
+    },
+    // 当数据为异步时
+    options(val) {
+      this.filterOption = val
     }
   },
   methods: {
