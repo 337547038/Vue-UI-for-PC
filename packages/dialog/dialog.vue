@@ -55,7 +55,7 @@ export default {
       windowHeight: 0,
       windowWidth: 0,
       zIndex2: this.zIndex,
-      showHide: this.visible, // 控制窗口显示隐藏
+      showHide: false, // 控制窗口显示隐藏
       clearTime: '',
       style: {
         left: '', // 窗口位置
@@ -69,8 +69,7 @@ export default {
       type: Number,
       default: 2019
     },
-    visible: {
-      // 是否显示 Dialog，支持 .sync 修饰符
+    value: {// 是否显示 Dialog
       type: Boolean,
       default: false
     },
@@ -141,7 +140,7 @@ export default {
   },
   components: {dButton},
   watch: {
-    visible(v) {
+    value(v) {
       this.showHide = v
       if (v) {
         this.$nextTick(function () {
@@ -212,11 +211,11 @@ export default {
         this.beforeClose(type, this._hide)
       } else {
         // this._hide()
-        // 这里通过改变visible来关闭，直接引用this._hide会调用两次，visible改变时又一次
+        // 这里通过改变value来关闭，直接引用this._hide会调用两次，value改变时又一次
         if (this.isAlert) {
           this._hide()
         } else {
-          this.$emit('update:visible', false)
+          this.$emit('input', false)
         }
       }
     },
@@ -224,30 +223,34 @@ export default {
       // 关闭弹窗
       // 移除遮罩层
       if (this.modal) {
-        // 先移除当前层对应的
-        const modal = document.querySelector(`.${prefixCls}-dialog-modal.active`)
+        // 先移除当前层对应的，根据当前窗口绑定的遮罩层删除
+        // const modal = document.querySelector(`.${prefixCls}-dialog-modal.active`)
+        const modal = document.querySelector(`.${prefixCls}-dialog-zindex-${this.zIndex2}`)
         let wait = 0
         let animationDuration = '0s'
         // 如果有上级弹层，则恢复上级遮罩可见
         const prevModal = document.getElementById('dialog' + this.zIndex2)
         if (prevModal) {
-          prevModal.className = `${prefixCls}-dialog-modal active`
+          // prevModal.className = `${prefixCls}-dialog-modal active`
+          prevModal.className = prevModal.className + ' active'
           prevModal.style.display = 'block'
           prevModal.animationDuration = '0s'
         } else {
           wait = 300
           animationDuration = '.3s'
         }
-        modal.style.animationDuration = animationDuration
-        modal.style.opacity = 0
-        // 如果只有一个弹窗口，先完成css动画再移除
-        if (wait > 0) {
-          // wait等于0时也是异步的，得分开写
-          setTimeout(() => {
+        if (modal) {
+          modal.style.animationDuration = animationDuration
+          modal.style.opacity = 0
+          // 如果只有一个弹窗口，先完成css动画再移除
+          if (wait > 0) {
+            // wait等于0时也是异步的，得分开写
+            setTimeout(() => {
+              modal.parentNode.removeChild(modal)
+            }, wait)
+          } else {
             modal.parentNode.removeChild(modal)
-          }, wait)
-        } else {
-          modal.parentNode.removeChild(modal)
+          }
         }
       }
       if (this.isAlert) {
@@ -265,7 +268,7 @@ export default {
           document.body.style = ''
         }
       }
-      this.$emit('update:visible', false)
+      this.$emit('input', false)
       this.showHide = false
     },
     _setPosition() {
@@ -340,14 +343,16 @@ export default {
           // 这里因为是先隐藏一个遮罩再，再创建一个，因为有动画会出现闪烁，将动画时间设为0
           modal.style.animationDuration = '0s'
           animationDuration = '0s'
-          modal.className = `${prefixCls}-dialog-modal`
+          // modal.className = `${prefixCls}-dialog-modal`
+          modal.className = modal.className.replace(' active', '')
           modal.style.display = 'none'
           // 同时隐藏的遮罩层设置id，等会根据这id恢复
           modal.id = 'dialog' + this.zIndex2
         }
         // 创建并添加事件
         const modalDiv = document.createElement('div')
-        modalDiv.className = `${prefixCls}-dialog-modal active`
+        // 添加一个样式对应当前弹窗层，关闭遮罩时根据此样式查找
+        modalDiv.className = `${prefixCls}-dialog-modal active ${prefixCls}-dialog-zindex-${this.zIndex2}`
         modalDiv.style.display = 'block'
         modalDiv.style.zIndex = zIndex
         modalDiv.style.animationDuration = animationDuration
@@ -379,8 +384,6 @@ export default {
     open() {
       this.showHide = true
       this._openDialog()
-      // 通过这方法打开不支持.sync绑定，这里更新visible会执行打开方法
-      // this.$emit('update:visible', true)
     },
     close() {
       this._hide()
@@ -389,31 +392,30 @@ export default {
       // 仅对显示的窗口处理
       // 当窗口高度变化时。窗口事件导致窗口高度发生变化时，重新设置top位置
       this.$nextTick(() => {
-        if (!this.visible) {
-          return
-        }
-        this.windowHeight = this.getWindow().height
-        this.windowWidth = this.getWindow().width
-        const dialogHeight = this.$el.offsetHeight
-        let top = (this.windowHeight - dialogHeight) / 2
-        if (top < 0) {
-          top = 0
-        }
-        if (resize) {
-          this.style.left = (this.windowWidth - this.dialogWidth) / 2 + 'px'
-        }
-        this.style.top = top + 'px'
-        // 如果窗口高大于浏览器高
-        if (dialogHeight > this.windowHeight) {
-          // 设置滚动
-          const header = this.$el.querySelector(`.${prefixCls}-dialog-header`)
-          const footer = this.$el.querySelector(`.${prefixCls}-dialog-footer`)
-          const headerHeight = header ? header.offsetHeight : 0
-          const footerHeight = footer ? footer.offsetHeight : 0
-          console.log(dialogHeight, headerHeight, footerHeight)
-          this.scrollStyle = {
-            height: Math.ceil(this.windowHeight - headerHeight - footerHeight) + 'px',
-            overflowY: 'auto'
+        if (this.value) {
+          this.windowHeight = this.getWindow().height
+          this.windowWidth = this.getWindow().width
+          const dialogHeight = this.$el.offsetHeight
+          let top = (this.windowHeight - dialogHeight) / 2
+          if (top < 0) {
+            top = 0
+          }
+          if (resize) {
+            this.style.left = (this.windowWidth - this.dialogWidth) / 2 + 'px'
+          }
+          this.style.top = top + 'px'
+          // 如果窗口高大于浏览器高
+          if (dialogHeight > this.windowHeight) {
+            // 设置滚动
+            const header = this.$el.querySelector(`.${prefixCls}-dialog-header`)
+            const footer = this.$el.querySelector(`.${prefixCls}-dialog-footer`)
+            const headerHeight = header ? header.offsetHeight : 0
+            const footerHeight = footer ? footer.offsetHeight : 0
+            console.log(dialogHeight, headerHeight, footerHeight)
+            this.scrollStyle = {
+              height: Math.ceil(this.windowHeight - headerHeight - footerHeight) + 'px',
+              overflowY: 'auto'
+            }
           }
         }
       })
@@ -436,6 +438,11 @@ export default {
       this._setPosition()
       this.after && this.after()
       window.addEventListener('resize', this._resize, false)
+      if (this.value) {
+        // 初始默认就是true时
+        this.showHide = true
+        this._openDialog()
+      }
     })
   },
   beforeDestroy() {
