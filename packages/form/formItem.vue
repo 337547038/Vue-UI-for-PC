@@ -6,8 +6,8 @@
     </label>
     <div :class="`${prefixCls}-form-box`">
       <slot></slot>
-      <div :class="`${prefixCls}-form-tips failure`" v-text="errorTips" v-if="showMessage&&errorTips"></div>
-      <div :class="`${prefixCls}-form-tips success`" v-else-if="showMessage&&error===false"></div>
+      <div :class="`${prefixCls}-form-tips ${iconType}`" v-text="errorTips" v-if="showMessage&&errorTips"></div>
+      <div :class="`${prefixCls}-form-tips ${iconType}`" v-else-if="showMessage&&error===false"></div>
     </div>
   </div>
 </template>
@@ -20,14 +20,15 @@ import Validate from './validate'
 export default {
   name: `${prefixCls}FormItem`,
   componentName: 'formItem',
-  data () {
+  data() {
     return {
       prefixCls: prefixCls,
       rules: {},
       errorTips: '',
       error: '', // 验证错误添加样式
       showMessage: true,
-      trigger: ''
+      trigger: '',
+      iconType: '' // 提示类型，
     }
   },
   // mixins: [emitter],
@@ -42,7 +43,7 @@ export default {
   },
   components: {},
   methods: {
-    _onFieldChange (value, event) {
+    _onFieldChange(value, event) {
       // 改变表单元素统一返回格式,value当前值 event当前元素
       console.log('_onFieldChange')
       console.log(value)
@@ -58,7 +59,7 @@ export default {
         this.validate('', value)
       }
     },
-    _onFieldBlur (event) {
+    _onFieldBlur(event) {
       // 失去焦点时
       if (this.trigger === 'blur') {
         this.validate()
@@ -66,12 +67,13 @@ export default {
       this._focusTips(event)
     },
     // 获取焦点提示事件，仅对输入框
-    _onFieldFocus (event) {
+    _onFieldFocus(event) {
       if (event.target.tagName === 'INPUT' && event.target.value === '') {
         this._focusTips()
+        this.iconType = 'tips'
       }
     },
-    _focusTips (event) {
+    _focusTips(event) {
       let rule = this.form.rules[this.prop]
       for (let i = 0, len = rule.length; i < len; i++) {
         if (rule[i].type === 'tips') {
@@ -90,7 +92,7 @@ export default {
         }
       }
     },
-    validate (callback, value) {
+    validate(callback, value) {
       // 两个参数 1回调 2当前值(按钮提交时value为空)，
       // 验证
       let value2 = value
@@ -102,11 +104,14 @@ export default {
         const result = Validate(value2, rule)
         if (this.showMessage) {
           if (result === true) {
+            // 通过
             this.errorTips = ''
             this.error = false
+            this.iconType = 'success'
           } else {
             this.errorTips = result
             this.error = true
+            this.iconType = 'failure'
           }
         }
         if (callback) {
@@ -114,16 +119,22 @@ export default {
         }
       }
     },
-    resetField () {
+    resetField() {
       // 表单重置
       // 移除错误提示
       this.errorTips = ''
       this.error = false
+    },
+    // 直接设置提示信息
+    setTips(iconType, tipsText) {
+      this.iconType = iconType
+      this.error = true
+      this.showMessage = true
+      this.errorTips = tipsText
     }
-  }
-  ,
+  },
   computed: {
-    isRequired () {
+    isRequired() {
       // 是否根据验证规则自动生成必填样式名
       let bool = false
       if (this.required && this.rules) {
@@ -138,9 +149,8 @@ export default {
         }
       }
       return bool
-    }
-    ,
-    form () {
+    },
+    form() {
       // 查找form父组件
       let parent = this.$parent
       let parentName = parent.$options.componentName
@@ -152,12 +162,10 @@ export default {
       }
       return parent
     }
-  }
-  ,
-  created () {
-  }
-  ,
-  mounted () {
+  },
+  created() {
+  },
+  mounted() {
     this.rules = this.form.rules
     this.showMessage = this.form.showMessage
     this.trigger = this.form.trigger
@@ -172,9 +180,8 @@ export default {
       // this.dispatch('AKForm', 'ak.form.addField', [this])
       this.form.fields.push(this)
     }
-  }
-  ,
-  beforeDestroy () {
+  },
+  beforeDestroy() {
   }
 }
 </script>

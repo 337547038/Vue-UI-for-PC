@@ -51,12 +51,12 @@ const Validate = function (value, rules) {
         }
         break
       case 'maxLength':
-        if (!isEmpty(value) && (parseInt(value.length) > parseInt(rule.maxLength))) {
+        if (!isEmpty(value) && (parseInt(value.length) > parseInt(rule.len))) {
           return rule.msg
         }
         break
       case 'minLength':
-        if (!isEmpty(value) && (parseInt(value.length) < parseInt(rule.minLength))) {
+        if (!isEmpty(value) && (parseInt(value.length) < parseInt(rule.len))) {
           return rule.msg
         }
         break

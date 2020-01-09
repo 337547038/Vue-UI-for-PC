@@ -25,8 +25,8 @@ export default {
       rules: {
         name: [
           {type: 'required', msg: '请输入用户名'},
-          {type: 'maxLength', maxLength: 6, msg: '最大6个字符'},
-          {type: 'minLength', minLength: 3, msg: '不能小于3'}
+          {type: 'maxLength', len: 6, msg: '最大6个字符'},
+          {type: 'minLength', len: 3, msg: '不能小于3'}
         ],
         password: [
           {type: 'required', msg: '请输入密码'}
@@ -142,28 +142,45 @@ export default {
   },
   methods: {
     submitForm () {
-      this.$refs.ruleForm.validate((result, object) => {
-        console.log(result)
-        console.log(object)
-        console.log(this.ruleForm)
+      this.$refs.ruleForm.validate()
+      .then(res=>{
+        console.log('通过验证')
+        console.log(res)
+      })
+      .catch(res=>{
+        console.log('不通过')
+        console.log(res)
       })
     },
     submitForm2 () {
       const props = ['name', 'password']
-      this.$refs.ruleForm.validateField(props, (result, object) => {
-        console.log(result)
-        console.log(object)
-      })
+            this.$refs.ruleForm.validateField(props)
+            .then(res=>{
+               console.log('通过验证')
+               console.log(res)
+            })
+            .catch(res=>{
+               console.log('不通过')
+               console.log(res)
+            })
     },
     resetForm () {
       this.$refs.ruleForm.resetFields()
     },
     submitBackForm () {
-      this.$refs.backForm.validate((result, object) => {
-        console.log(result)
-        console.log(object)
-      })
-    }
+      this.$refs.backForm.validate()
+      .then(res=>{
+              console.log('通过验证')
+              console.log(res)
+            })
+            .catch(res=>{
+              console.log('不通过')
+              console.log(res)
+            })
+    },
+    submitForm3(){
+          this.$refs.setTips.setTips('tips','输入提示')
+        }
   }
 }
 </script>
@@ -291,8 +308,8 @@ export default {
       rules: {
         name: [
           {type: 'required', msg: '请输入用户名'},
-          {type: 'maxLength', maxLength: 6, msg: '最大6个字符'},
-          {type: 'minLength', minLength: 3, msg: '不能小于3'}
+          {type: 'maxLength', len: 6, msg: '最大6个字符'},
+          {type: 'minLength', len: 3, msg: '不能小于3'}
         ],
         password: [
           {type: 'required', msg: '请输入密码'}
@@ -354,18 +371,27 @@ export default {
   components: {},
   methods: {
     submitForm () {
-      this.$refs.ruleForm.validate((result, object) => {
-        console.log(result)
-        console.log(object)
-        console.log(this.ruleForm)
-      })
+      this.$refs.ruleForm.validate()
+      .then(res=>{
+              console.log('通过验证')
+              console.log(res)
+            })
+            .catch(res=>{
+              console.log('不通过')
+              console.log(res)
+            })
     },
     submitForm2 () {
       const props = ['name', 'password']
-      this.$refs.ruleForm.validateField(props, (result, object) => {
-        console.log(result)
-        console.log(object)
-      })
+      this.$refs.ruleForm.validateField(props)
+      .then(res=>{
+                    console.log('通过验证')
+                    console.log(res)
+                  })
+                  .catch(res=>{
+                    console.log('不通过')
+                    console.log(res)
+                  })
     },
     resetForm () {
       this.$refs.ruleForm.resetFields()
@@ -429,10 +455,15 @@ export default {
   }
   methods: {
     submitBackForm () {
-      this.$refs.backForm.validate((result, object) => {
-        console.log(result)
-        console.log(object)
-      })
+      this.$refs.backForm.validate()
+      .then(res=>{
+                    console.log('通过验证')
+                    console.log(res)
+                  })
+                  .catch(res=>{
+                    console.log('不通过')
+                    console.log(res)
+                  })
     }
   }
 }
@@ -477,9 +508,10 @@ export default {
 ```html
 <template>
   <div>
-      <ak-form-item label="年龄">
+      <ak-form-item label="年龄" ref="setTips">
         <ak-input v-model="form5"></ak-input>
       </ak-form-item>
+      <ak-button @click="submitForm3" type="primary">设置验证信息</ak-button>
   </div>
 </template>
 <script>
@@ -487,6 +519,11 @@ export default {
   data () {
     return {
       form5: '5'
+    }
+  },
+  methods(){
+    submitForm3() {
+      this.$refs.setTips.setTips('tips','输入提示')
     }
   }
 }
@@ -506,8 +543,8 @@ export default {
 ### Form Methods
 |参数|类型|说明|
 |-|-|-|
-|validate       | Function       |对表单进行校验的方法，参数为一个回调函数，并回传两个参数（是否通过验证，未通过时为所有未通过检验的错误提；通过时返回value值）|
-|validateField  | Function       |对部分表单字段进行校验的方法，参数为一个要校验的prop和一个回调函数|
+|validate       | Function       |对表单进行校验的方法，promise方法（是否通过验证，未通过时为所有未通过检验的错误提示；通过时返回value值）|
+|validateField  | Function       |同上，对部分表单字段进行校验的方法，参数为一个要校验的prop|
 |resetFields    | Function       |对整个表单进行重置，将所有字段值重置为初始值并移除校验结果|
 ### FormItem
 |参数|类型|说明|

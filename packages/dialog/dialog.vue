@@ -29,6 +29,7 @@
         </div>
         <slot v-else></slot>
       </div>
+      <slot name="footer"></slot>
       <div :class="`${prefixCls}-dialog-footer`" v-if="confirm||cancel">
         <d-button type="primary" v-if="confirm" @click="_confirm">{{confirm}}</d-button>
         <d-button type="cancel" v-if="cancel" @click="_cancel">{{cancel}}</d-button>

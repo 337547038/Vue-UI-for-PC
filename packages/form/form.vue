@@ -52,40 +52,67 @@ export default {
     }) */
   },
   methods: {
-    validate(callback) {
-      this._validateComm(this.fields, callback)
+    validate() {
+      return new Promise((resolve, reject) => {
+        this._validateComm(this.fields)
+          .then(res => {
+            resolve(res) // 验证通过
+          })
+          .catch(res => {
+            reject(res)
+          })
+      })
     },
-    validateField(props, cb) {
+    /* validate(callback) {
+      this._validateComm(this.fields, callback)
+    }, */
+    validateField(props) {
       // 对指定字段验证props=['a','b']
       if (props.length > 0) {
         let fields = this.fields.filter((field) => {
           return props.indexOf(field.prop) !== -1
         })
-        this._validateComm(fields, cb)
+        // this._validateComm(fields)
+        return new Promise((resolve, reject) => {
+          this._validateComm(fields)
+            .then(res => {
+              resolve(res) // 验证通过
+            })
+            .catch(res => {
+              reject(res)
+            })
+        })
       }
     },
-    _validateComm(fields, callback) {
+    _validateComm(fields) {
       let valid = true
       let count = 0
       let errorTips = []
       console.log('validate fields')
       console.log(fields)
       if (fields.length > 0) {
-        fields.forEach(field => {
-          // 引用formItem的validate验证方法
-          console.log(field)
-          field.validate((result, field) => {
-            if (result !== true) {
-              // 错误结果
-              valid = false
-              errorTips.push(result)
-            }
-            if (++count === fields.length && callback) {
-              if (valid) {
-                errorTips = this.value
-              } // 验证通过时返回当前表单值，相当于value
-              callback(valid, errorTips)
-            }
+        return new Promise((resolve, reject) => {
+          fields.forEach(field => {
+            // 引用formItem的validate验证方法
+            console.log(field)
+            field.validate((result, field) => {
+              if (result !== true) {
+                // 错误结果
+                valid = false
+                errorTips.push(result)
+              }
+              if (++count === fields.length) {
+                if (valid) {
+                  errorTips = this.value
+                } // 验证通过时返回当前表单值，相当于value
+                if (valid) {
+                  // 通过验证
+                  resolve(errorTips)
+                } else {
+                  reject(errorTips)
+                }
+              }
+            })
           })
         })
       }
