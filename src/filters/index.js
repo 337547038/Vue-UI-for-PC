@@ -11,7 +11,7 @@
  *   ==> 2018-01-30 星期二
  *
  */
-export function parseTime (time, cFormat) {
+export function parseTime(time, cFormat) {
   if (!time) {
     return ''
   }
@@ -47,7 +47,7 @@ export function parseTime (time, cFormat) {
  * @see  /config/index.js
  * @param {Str} src  api地址
  */
-export function getAppBaseUrl (src) {
+export function getAppBaseUrl(src) {
   const serverPath = window.APP_CONFIG.VUE_APP_BASE_URL || process.env.VUE_APP_BASE_URL
   return serverPath
   // return process.env.BASE_URL + src
@@ -60,7 +60,7 @@ export function getAppBaseUrl (src) {
  *
  * @param {String} numberString 数值字符串
  */
-export function numberFormat (numberString) {
+export function numberFormat(numberString) {
   numberString = '' + numberString
   numberString = numberString.replace(/,/g, '')
   return +numberString
@@ -73,9 +73,14 @@ export function numberFormat (numberString) {
  * 在取值时 非字符串类型 时,进行特殊处理
  * 数据为 null, '' 时 返回 ''
  */
-export function filterHTMLTag (str) {
+export function filterHTMLTag(str) {
   if (typeof str === 'number' || typeof str === 'boolean' || typeof str === 'function') {
     str = '' + str
   }
   return str ? str.replace(/<[^>]+>/gm, '') : ''
+}
+
+/**过滤前后空格*/
+export function trim(str) {
+  return str.replace(/(^\s*)|(\s*$)/g, '')
 }
