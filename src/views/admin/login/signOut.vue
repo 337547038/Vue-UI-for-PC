@@ -4,27 +4,27 @@
 </template>
 
 <script>
-import {removeStorage} from '@/utils/utils'
+import {removeStorage, removeToken} from '@/utils/utils'
 
 export default {
   name: 'signOut',
-  data () {
+  data() {
     return {}
   },
   props: {},
   components: {},
   methods: {},
   computed: {},
-  created () {
+  created() {
     // 清空登录时保存的信息
     removeStorage('id', 0)
     removeStorage('_menu', 0)
     removeStorage('md5', 0)
-    removeStorage('token', 0)
+    removeToken()
     removeStorage('loginName', 0)
     this.$router.push({path: '/'})
   },
-  mounted () {
+  mounted() {
   }
 }
 </script>

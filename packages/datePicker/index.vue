@@ -26,7 +26,7 @@ const Picker = Vue.extend(DatePicker)
 export default {
   name: `${prefixCls}DatePicker`,
   mixins: [dom, emitter],
-  data () {
+  data() {
     return {
       prefixCls: prefixCls,
       component: '', // 挂载的组件
@@ -69,14 +69,24 @@ export default {
       }
     },
     change: Function,
-    innerHTML: Function
+    innerHTML: Function,
+    appendToBody: {
+      // 将日期面板插入到body中
+      type: Boolean,
+      default: true
+    }
   },
   components: {vInput},
   methods: {
-    _open (e) {
+    _open(e) {
       // 判断当前点击元素在组件里即展开，即属于组件子节点，不在关闭
       if (this.$el.contains(e.target) && !this.disabled && !this.status) {
         this.offset = this.getOffset(this.$refs.input.$el)
+        if (!this.appendToBody) {
+          // 将插入位置改为0
+          this.offset.left = 0
+          this.offset.top = 0
+        }
         const props = {
           offset: this.offset,
           value: this.value,
@@ -101,7 +111,11 @@ export default {
         }
         const propsData = Object.assign({}, props)
         this.component = new Picker({propsData}).$mount()
-        document.body.appendChild(this.component.$el)
+        if (this.appendToBody) {
+          document.body.appendChild(this.component.$el)
+        } else {
+          this.$el.appendChild(this.component.$el)
+        }
         this.status = true
       } else {
         if (this.component) {
@@ -110,11 +124,11 @@ export default {
         }
       }
     },
-    _input () {
+    _input() {
       // 清空事件
       this.$emit('input', '')
     },
-    _format (dateString) {
+    _format(dateString) {
       // 将日期格式化后返回
       const date = new Date(dateString)
       const year = date.getFullYear()
@@ -142,7 +156,7 @@ export default {
       }
       return time
     },
-    _set0 (num) {
+    _set0(num) {
       if (parseInt(num) < 10) {
         return '0' + num
       } else {
@@ -151,13 +165,13 @@ export default {
     }
   },
   computed: {},
-  mounted () {
+  mounted() {
     document.addEventListener('click', this._open)
   },
-  beforeDestroy () {
+  beforeDestroy() {
     document.removeEventListener('click', this._open)
   },
-  destroyed () {
+  destroyed() {
     console.log('destroyed')
     // if appendToBody is true, remove DOM node after destroy
     if (this.$el && this.$el.parentNode) {

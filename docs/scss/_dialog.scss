@@ -9,7 +9,7 @@
     &:before{content: '\f00d';}
   }
   @include ns(dialog-header){overflow: hidden; font-size: 16px; padding-left: 15px; position: relative; border: 1px solid #e9eaec; color: #333; border-radius: 5px 5px 0 0;-webkit-user-select: none;height: 40px;line-height: 40px;}
-  @include ns(dialog-content){overflow: hidden;overflow-y: auto;padding: 20px;box-sizing: border-box}
+  @include ns(dialog-content){overflow: hidden;overflow-y: auto;padding: 20px;box-sizing: border-box;transition: all .3s}
   @include ns(dialog-footer){text-align: center;padding: 10px 0}
   @include ns(dialog-auto-close){position: absolute; left: 10px; top: 45px;display: none }
   @include ns(dialog-alert){text-align: center;

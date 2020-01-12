@@ -11,12 +11,12 @@
 
 <script>
 import {logIn} from '@/api/admin'
-import {setStorage} from '@/utils/utils'
+import {setStorage, setToken} from '@/utils/utils'
 import md5 from 'js-md5'
 
 export default {
   name: 'login',
-  data () {
+  data() {
     return {
       form: [
         {
@@ -53,7 +53,7 @@ export default {
   },
   components: {},
   methods: {
-    _login () {
+    _login() {
       this.$refs.form.validate((result, object) => {
         console.log(result)
         console.log(object)
@@ -71,7 +71,7 @@ export default {
                   menu = result.menuUser
                 }
                 console.log('12')
-                setStorage('token', result.token, 24)
+                setToken(result.token)
                 setStorage('id', result.user.id, 0)
                 setStorage('loginName', object.userName, 0)
                 setStorage('_menu', menu, 0)
@@ -90,7 +90,7 @@ export default {
       })
     }
   },
-  mounted () {
+  mounted() {
   }
 }
 </script>

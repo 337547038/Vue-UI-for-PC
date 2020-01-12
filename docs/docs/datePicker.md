@@ -318,3 +318,4 @@ export default {
 |format         | String         |对返回的日期格式进行格式化，即对type返回再格式化|
 |innerHTML      | Function        |可以将特殊提示的文本插入到指定的日期里|
 |change         | Function        |改变回调事件|
+|appendToBody   | Boolean｜true   |是否将弹出日期面板插入到body中|

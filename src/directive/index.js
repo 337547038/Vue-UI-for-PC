@@ -1,4 +1,5 @@
 const install = function (Vue, options) {
+  // 裁切文字，溢出显示...
   Vue.directive('textOverflow', {
     inserted: function (el, binding) {
       if (!el.innerHTML) {
@@ -15,12 +16,12 @@ const install = function (Vue, options) {
       }
     }
   })
-  Vue.directive('test', {
+  /* Vue.directive('test', {
     inserted: function (el, binding) {
       console.log('ok2')
       el.innerHTML = '123'
     }
-  })
+  }) */
 }
 
 export default install
