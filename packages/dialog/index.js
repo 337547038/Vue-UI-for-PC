@@ -49,7 +49,7 @@ const DialogAlert = {
     opt = Object.assign({}, {
       content: content,
       icon: opt.icon,
-      autoClose: opt.autoClose || 3,
+      autoClose: opt.autoClose !== undefined ? opt.autoClose : 3,
       animation: opt.animation,
       width: opt.width,
       isAlert: true,
