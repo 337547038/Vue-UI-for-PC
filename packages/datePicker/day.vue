@@ -18,9 +18,9 @@
     </div>
     <div class="calendar-time clearfix" v-if="type==='ymdHms'">
       <div class="calendar-time-input">
-        <input type="text" v-model="hours" maxlength="2" oninput="value=value.replace(/[^\d]/g,'')">:
-        <input type="text" v-model="minutes" maxlength="2" oninput="value=value.replace(/[^\d]/g,'')">:
-        <input type="text" v-model="seconds" maxlength="2" oninput="value=value.replace(/[^\d]/g,'')">
+        <input type="text" v-model="hours" maxlength="2" oninput="value=value.replace(/[^\d]/g,'')" onfocus="this.select()">:
+        <input type="text" v-model="minutes" maxlength="2" oninput="value=value.replace(/[^\d]/g,'')" onfocus="this.select()">:
+        <input type="text" v-model="seconds" maxlength="2" oninput="value=value.replace(/[^\d]/g,'')" onfocus="this.select()">
       </div>
       <a class="btn-time" @click="_selectConfirm">确定</a>
     </div>

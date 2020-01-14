@@ -7,7 +7,7 @@
         :colspan="th.colspan"
         :class="[th.fixed,th.className]"
         :style="{textAlign:th.align}"
-        :title="th.title?th.label:null"
+        :title="$parent.title||th.title?th.label:null"
         @mousedown="$parent._headMouseDown($event,thIndex)"
         @mousemove="$parent._headMouseMove($event,thIndex)">
       <label @click="$parent._handleSelectAll" :class="[selectChecked,prefixCls+'-checkbox']"
@@ -31,7 +31,7 @@ import {prefixCls} from '../prefix'
 
 export default {
   name: 'tableHead',
-  data () {
+  data() {
     return {
       prefixCls: prefixCls
     }
@@ -40,13 +40,13 @@ export default {
   components: {},
   watch: {},
   methods: {
-    _getThead (index) {
+    _getThead(index) {
       return this.addSpanData.filter(item => {
         return item._layer === index
       })
     },
     // 取子级所有列
-    _getAllCol (id, len) {
+    _getAllCol(id, len) {
       if (!len) {
         len = 0
       }
@@ -64,7 +64,7 @@ export default {
   },
   computed: {
     // 对数据进行改造，添加rowspan和colspan两个属性
-    addSpanData () {
+    addSpanData() {
       let newData = []
       this.thead.forEach(item => {
         if (!item._child) {
@@ -79,7 +79,7 @@ export default {
       return newData
     },
     // 返回表头行数，
-    tableRow () {
+    tableRow() {
       let maxLayer = 0
       this.thead.forEach(item => {
         if (item._layer > maxLayer) {
@@ -89,7 +89,7 @@ export default {
       return maxLayer + 1
     }
   },
-  mounted () {
+  mounted() {
   }
 }
 </script>

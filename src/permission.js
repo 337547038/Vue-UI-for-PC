@@ -1,4 +1,4 @@
-import {getStorage} from './utils/utils'
+import {getToken} from './utils/utils'
 import router from './router'
 import addRoutes from '@/router/permission'
 
@@ -14,9 +14,8 @@ router.beforeEach((to, from, next) => {
     next()
     return false
   } else {
-    let hasAcessToken = getStorage('token', 0)
+    let hasAcessToken = getToken()
     if (!hasAcessToken) {
-      // 如需刷新token，可在这发刷新请求
       console.log('登录超时或者是页面确实是不存在')
       next({
         path: '/',
@@ -32,7 +31,7 @@ router.beforeEach((to, from, next) => {
       if (!hasPath) {
         console.log('需要添加动态路由')
         addRoutes(router)
-        next({ ...to, replace: true })
+        next({...to, replace: true})
       }
       next()
     }

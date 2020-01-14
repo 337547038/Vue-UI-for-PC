@@ -53,8 +53,10 @@ export default {
       scrollbarWidth: 0, // 滚动条的宽
       dialogWidth: 0, // 弹窗宽高
       dialogHeight: 0,
-      windowHeight: 0,
-      windowWidth: 0,
+      windowHeight: 0, // 窗口宽高
+      windowWidth: 0, // 窗口宽高
+      dialogHeader: 0, // 弹窗内的头部高
+      dialogFooter: 0, // 弹窗内的底部高
       zIndex2: this.zIndex,
       showHide: false, // 控制窗口显示隐藏
       clearTime: '',
@@ -282,8 +284,10 @@ export default {
       obj.parentNode.appendChild(clone)
       this.dialogWidth = this.width || clone.offsetWidth
       this.dialogHeight = this.height || clone.offsetHeight
-      this.windowHeight = this.getWindow().height
-      this.windowWidth = this.getWindow().width
+      const header = clone.querySelector(`.${prefixCls}-dialog-header`)
+      const footer = clone.querySelector(`.${prefixCls}-dialog-footer`)
+      this.dialogHeader = header ? header.offsetHeight : 0
+      this.dialogFooter = footer ? footer.offsetHeight : 0
       // 设宽
       if (this.width) {
         obj.style.width = this.width + 'px'
@@ -299,25 +303,15 @@ export default {
       }
       if (this.height || this.windowHeight < this.dialogHeight) {
         // 指定了高度或者弹窗高度大于窗口高时，设高
-        const header = clone.querySelector(`.${prefixCls}-dialog-header`)
-        let titleHeight = 0
-        if (header) {
-          titleHeight = header.offsetHeight
-        }
-        let footerHeight = 0
-        const footer = clone.querySelector(`.${prefixCls}-dialog-footer`)
-        if (footer) {
-          footerHeight = footer.offsetHeight
-        }
-        let scrollHeight = this.dialogHeight
+        let scrollHeight = ''
         if (this.height) {
-          scrollHeight = this.height
+          scrollHeight = this.height // 按设定的
         } else {
-          scrollHeight = this.windowHeight
+          scrollHeight = this.windowHeight // 按最大
         }
         // 滚动区域的高等于窗口高－标题栏高-底部
         this.scrollStyle = {
-          height: Math.ceil(scrollHeight - titleHeight - footerHeight) + 'px',
+          height: Math.ceil(scrollHeight - this.dialogHeader - this.dialogFooter) + 'px',
           overflowY: 'auto'
         }
       }
@@ -394,8 +388,6 @@ export default {
       // 当窗口高度变化时。窗口事件导致窗口高度发生变化时，重新设置top位置
       this.$nextTick(() => {
         if (this.value) {
-          this.windowHeight = this.getWindow().height
-          this.windowWidth = this.getWindow().width
           const dialogHeight = this.$el.offsetHeight
           let top = (this.windowHeight - dialogHeight) / 2
           if (top < 0) {
@@ -408,13 +400,8 @@ export default {
           // 如果窗口高大于浏览器高
           if (dialogHeight > this.windowHeight) {
             // 设置滚动
-            const header = this.$el.querySelector(`.${prefixCls}-dialog-header`)
-            const footer = this.$el.querySelector(`.${prefixCls}-dialog-footer`)
-            const headerHeight = header ? header.offsetHeight : 0
-            const footerHeight = footer ? footer.offsetHeight : 0
-            console.log(dialogHeight, headerHeight, footerHeight)
             this.scrollStyle = {
-              height: Math.ceil(this.windowHeight - headerHeight - footerHeight) + 'px',
+              height: Math.ceil(this.windowHeight - this.dialogHeader - this.dialogFooter) + 'px',
               overflowY: 'auto'
             }
           }
@@ -423,8 +410,16 @@ export default {
     },
     // 窗口变化
     _resize() {
+      // 重新获取窗口宽高
+      this._getWindow()
       // console.log('_resize')
       this.setPosition(true)
+    },
+    // 取当前窗口的宽高
+    _getWindow() {
+      const getWindow = this.getWindow()
+      this.windowWidth = getWindow.width
+      this.windowHeight = getWindow.height
     }
   },
   computed: {},
@@ -436,6 +431,7 @@ export default {
       if (this.appendToBody && this.$el) {
         document.body.appendChild(this.$el)
       }
+      this._getWindow() // 取当前窗口宽高
       this._setPosition()
       this.after && this.after()
       window.addEventListener('resize', this._resize, false)

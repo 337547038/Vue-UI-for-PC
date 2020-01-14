@@ -1,9 +1,12 @@
 /** 设置 localStorage 添加对时间的控制，hour单位为小时
- * data=null时使用原始sessionStorage(key,value两个参数默认为session)，即关闭浏览器过期
- * data=0时，使用localStorage，即永不过期
- * data>0时添加时间控制，即指定过期时间，类似于cookies
+ * hour=null时使用原始sessionStorage(key,value两个参数默认为session)，即关闭浏览器过期
+ * hour=0时，使用localStorage，即永不过期
+ * hour>0时添加时间控制，即指定过期时间，类似于cookies
  * */
-export function setStorage (key, value, hour) {
+
+import Cookies from 'js-cookie'
+
+export function setStorage(key, value, hour) {
   if (hour === 0) {
     window.localStorage.setItem(key, JSON.stringify(value))
   } else if (hour === undefined) {
@@ -22,7 +25,7 @@ export function setStorage (key, value, hour) {
  * 一个参数key默认为sessionStorage
  * 两个参数key,any任意值为localStorage
  * */
-export function getStorage (key, any) {
+export function getStorage(key, any) {
   if (any === undefined) {
     const val = window.sessionStorage.getItem(key)
     if (val) {
@@ -57,7 +60,7 @@ export function getStorage (key, any) {
  * 一个参数key默认为sessionStorage
  * 两个参数key,any任意值为localStorage
  * */
-export function removeStorage (key, any) {
+export function removeStorage(key, any) {
   if (any === undefined) {
     window.sessionStorage.removeItem(key)
   } else {
@@ -66,7 +69,7 @@ export function removeStorage (key, any) {
 }
 
 /** 深度复制数组 */
-export function deepCopy (obj) {
+export function deepCopy(obj) {
   // 只拷贝对象
   if (typeof obj !== 'object') return
   // 根据obj的类型判断是新建一个数组还是一个对象
@@ -79,4 +82,44 @@ export function deepCopy (obj) {
     }
   }
   return newObj
+}
+
+/** 获取token ,两种token ，bool为真时为refreshToken */
+export function getToken(bool) {
+  let key = bool ? 'refreshToken' : 'token'
+  return Cookies.get(key)
+}
+
+/** 设置 token 及过期时间 */
+export function setToken(token, bool) {
+  if (!token) {
+    return
+  }
+  token = 'Bearer_' + token
+  let key = 'token'
+  let expires = 0.48 / 24 // 有效期半个小时,28.8分钟
+  if (bool) {
+    key = 'refreshToken'
+    expires = 0.98 / 24
+  }
+  return Cookies.set(key, token, {expires: expires})
+}
+
+export function removeToken(bool) {
+  let key = bool ? 'refreshToken' : 'token'
+  return Cookies.remove(key)
+}
+
+/** cookies方法 */
+export function getCookies(key) {
+  return Cookies.get(key)
+}
+
+/** time保存时间，单位天 */
+export function setCookies(key, value, time) {
+  return Cookies.set(key, value, {expires: time})
+}
+
+export function removeCookies(key) {
+  return Cookies.remove(key)
 }

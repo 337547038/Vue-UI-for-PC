@@ -80,7 +80,7 @@ export function filterHTMLTag(str) {
   return str ? str.replace(/<[^>]+>/gm, '') : ''
 }
 
-/**过滤前后空格*/
+/** 过滤前后空格 */
 export function trim(str) {
   return str.replace(/(^\s*)|(\s*$)/g, '')
 }
