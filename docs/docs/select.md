@@ -54,7 +54,7 @@ export default {
 :::demo 
 ```html
 <template>
- <ak-select placeholder="请选择" :options="options" v-model="value1"></ak-select>
+ <ak-select placeholder="请选择" :options="options" v-model="value1" :downStyle="{width:'100px',right:0}"></ak-select>
 </template>
 <script>
 export default {
@@ -285,6 +285,7 @@ export default {
 |options           | array                 |下拉选项数据|
 |clear             | boolean/false         |是否可以清空选项|
 |showNum           | Number                |显示下拉个数，超出显示滚动条|
+|downStyle         | object                |下拉面板样式，方便对单个select个性化设置，也可通过css控制|
 
 ### Option Attributes
 |参数|类型|说明|

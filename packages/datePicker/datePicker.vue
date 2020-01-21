@@ -60,7 +60,8 @@ export default {
     },
     offset: Object, // 坐标信息
     input: Function, // 选择回调
-    innerHTML: Function
+    innerHTML: Function,
+    downStyle: Object // 下拉面板样式
   },
   components: {Year, Month, Day},
   created () {
@@ -174,14 +175,17 @@ export default {
     },
     pickerStyle () {
       // 下拉日期位置
+      let style = null
       if (this.offset) {
-        return {
+        style = {
           left: this.offset.left + 'px',
           top: this.offset.top + this.offset.height + 'px'
         }
-      } else {
-        return null
       }
+      if (this.downStyle) {
+        style = Object.assign({}, style, this.downStyle)
+      }
+      return style
     },
     showMonthControl () {
       // 显示月份上下切换。只有年月日类型时才显示

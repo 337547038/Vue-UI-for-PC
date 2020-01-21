@@ -6,10 +6,11 @@
       :class="{'disabled':disabled}"
       ref="input"
       :value="value"
-      readonly="readonly"
+      :readonly="readonly"
       :disabled="disabled"
       :clear="showClear&&!disabled"
-      @input="_input">
+      @input="_input"
+      @blur="_blur">
     </v-input>
     <i :class="`${prefixCls}-icon-date`" v-if="!disabled"></i>
   </div>
@@ -26,7 +27,7 @@ const Picker = Vue.extend(DatePicker)
 export default {
   name: `${prefixCls}DatePicker`,
   mixins: [dom, emitter],
-  data() {
+  data () {
     return {
       prefixCls: prefixCls,
       component: '', // 挂载的组件
@@ -73,12 +74,17 @@ export default {
     appendToBody: {
       // 将日期面板插入到body中
       type: Boolean,
+      default: false
+    },
+    downStyle: Object, // 下拉面板样式
+    readonly: { // 日期输入框只读
+      type: Boolean,
       default: true
     }
   },
   components: {vInput},
   methods: {
-    _open(e) {
+    _open (e) {
       // 判断当前点击元素在组件里即展开，即属于组件子节点，不在关闭
       if (this.$el.contains(e.target) && !this.disabled && !this.status) {
         this.offset = this.getOffset(this.$refs.input.$el)
@@ -88,6 +94,7 @@ export default {
           this.offset.top = 0
         }
         const props = {
+          downStyle: this.downStyle,
           offset: this.offset,
           value: this.value,
           input: (time) => {
@@ -124,11 +131,11 @@ export default {
         }
       }
     },
-    _input() {
+    _input (val) {
       // 清空事件
-      this.$emit('input', '')
+      this.$emit('input', val)
     },
-    _format(dateString) {
+    _format (dateString) {
       // 将日期格式化后返回
       const date = new Date(dateString)
       const year = date.getFullYear()
@@ -156,22 +163,34 @@ export default {
       }
       return time
     },
-    _set0(num) {
+    _set0 (num) {
       if (parseInt(num) < 10) {
         return '0' + num
       } else {
         return num
       }
+    },
+    // 当只读模式为false，有失焦事件，对日期进行检验
+    _blur (e) {
+      const value = e.target.value
+      if (!value) {
+        return
+      }
+      const time = new Date(value.toString())
+      if (time.toString() === 'Invalid Date') {
+        // 日期不合法，直接清空
+        this.$emit('input', '')
+      }
     }
   },
   computed: {},
-  mounted() {
+  mounted () {
     document.addEventListener('click', this._open)
   },
-  beforeDestroy() {
+  beforeDestroy () {
     document.removeEventListener('click', this._open)
   },
-  destroyed() {
+  destroyed () {
     console.log('destroyed')
     // if appendToBody is true, remove DOM node after destroy
     if (this.$el && this.$el.parentNode) {

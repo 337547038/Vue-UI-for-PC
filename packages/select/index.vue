@@ -33,7 +33,7 @@
         <ul>
           <li v-for="(item,index) in filterOption" @click="_itemClick(item,$event)"
               :class="{'disabled':item.disabled,'active':_getActive(item),[item.class]:item.class}" ref="li"
-              :key="index">
+              :key="index" :title="item.label||item.value">
             {{item.label||item.value}}
           </li>
         </ul>
@@ -99,7 +99,8 @@ export default {
       // 给formItem发送改变通知
       type: Boolean,
       default: true
-    }
+    },
+    downStyle: Object // 下拉面板样式
   },
   components: {},
   mounted () {
@@ -129,7 +130,7 @@ export default {
       this._setFirstText() // 动态改变值时
     },
     // 当数据为异步时
-    options(val) {
+    options (val) {
       this.filterOption = val
     }
   },
@@ -295,14 +296,17 @@ export default {
   },
   computed: {
     showLiNum () {
+      let style = {}
       if (this.showNum && this.options.length > this.showNum) {
-        return {
+        style = {
           height: this.liHeight * this.showNum + 'px',
           overflowY: 'auto'
         }
-      } else {
-        return null
       }
+      if (this.downStyle) {
+        style = Object.assign({}, this.downStyle, style)
+      }
+      return style
     }
   },
   filters: {},

@@ -19,7 +19,7 @@
   /*下拉*/
   @include ns(select-down){position: absolute;left: 0;top: 37px;background: #fff;border: 1px solid #ddd;box-sizing: border-box;width: 100%;z-index: 50;
     ul{padding: 5px 0}
-    li{list-style: none;height: 25px;line-height: 25px;padding: 0 10px;margin: 0;cursor: pointer;width: 100%;display: block;box-sizing: border-box;
+    li{list-style: none;height: 25px;line-height: 25px;padding: 0 10px;margin: 0;cursor: pointer;width: 100%;display: block;box-sizing: border-box;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;
       &:hover{background: #dcdfe6;}
       /*选中状态*/
       &.active{background: #a0cfff}
