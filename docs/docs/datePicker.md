@@ -321,3 +321,4 @@ export default {
 |appendToBody   | Boolean｜true   |是否将弹出日期面板插入到body中|
 |downStyle      | Object          |下拉面板样式，快速个性化设置单个日期下拉面板|
 |readonly       | Boolean｜true   |日期输入框只读模式|
+|split          | String          |日期分隔符，默认-|
