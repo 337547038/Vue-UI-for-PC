@@ -40,7 +40,8 @@ export default {
       validator: function (value) {
         return ['change', 'blur'].indexOf(value) !== -1
       }
-    }
+    },
+    labelWidth: String
   },
   components: {},
   created() {

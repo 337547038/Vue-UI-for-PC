@@ -539,6 +539,7 @@ export default {
 |value          | object         |表单数据对象，即所有表单的值。不需要验证表单时可不填|
 |showMessage    | boolean/true   |是否显示校验错误信息|
 |trigger        | String         |触发验证类型，change和blur两种，默认change，仅对input|
+|labelWidth     | String         |表单域标签的宽度|
 
 ### Form Methods
 |参数|类型|说明|

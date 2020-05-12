@@ -1,7 +1,8 @@
 <!-- Created by 337547038 on 2018/8/15 0015. -->
 <template>
   <div :class="{className,[prefixCls+'-form-item-error']:error,[prefixCls+'-form-item']:true}">
-    <label v-if="label || $slots.label" :class="{'required':isRequired,[prefixCls+'-form-label']:true}">
+    <label v-if="label || $slots.label" :class="{'required':isRequired,[prefixCls+'-form-label']:true}"
+           :style="labelStyle">
       <slot name="label">{{label}}</slot>
     </label>
     <div :class="`${prefixCls}-form-box`">
@@ -161,6 +162,16 @@ export default {
         }
       }
       return parent
+    },
+    // 如果form组件设置了label的宽
+    labelStyle() {
+      if (this.form.labelWidth) {
+        return {
+          width: this.form.labelWidth
+        }
+      } else {
+        return null
+      }
     }
   },
   created() {

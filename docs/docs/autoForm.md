@@ -195,6 +195,7 @@ export default {
 |showMessage    | boolean/true   |是否显示校验错误信息|
 |trigger        | String         |触发验证类型，change和blur两种，默认change，仅对input|
 |data           | object         |表单数据|
+|labelWidth     | String         |表单域标签的宽度|
 
 ### Form Methods
 |参数|说明|
