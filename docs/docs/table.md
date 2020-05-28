@@ -624,6 +624,7 @@ export default {
 |fixed          | Boolean/false |固定列，可选left/right|
 |sortBy         | Boolean/false |当前列显示排序按钮|
 |title          | Boolean/false |鼠标滑过单元格时显示title提示，仅当table的title为false时有效|
+|order          | number        |用于排序|
 
 ### Table-column Scoped Slot
 |参数|说明|

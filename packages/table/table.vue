@@ -14,7 +14,7 @@
         <col v-for="(col,index) in colWidth" :width="col" :key="index">
       </colgroup>
       <table-head
-        :thead="thead"
+        :thead="theadOrder"
         :showHeader="showHeader"
         :selectChecked="selectChecked">
       </table-head>
@@ -51,12 +51,17 @@ export default {
     }
   },
   created() {
-    console.time('timer')
+    // console.time('timer')
   },
   watch: {
     data(oldData, newData) {
       // 当表格数据发生变化时，清空选择
       this.clearSelection()
+    },
+    theadOrder(val) {
+      val.forEach(item => {
+        this.colWidth.push(item.width)
+      })
     }
   },
   components: {TableBody, TableHead},
@@ -304,7 +309,6 @@ export default {
           } else {
             if (item2.type !== 'extend') {
               thead.push(children)
-              this.colWidth.push(item2.width)
             }
             this.columns.push(item2)
           }
@@ -331,7 +335,7 @@ export default {
         this.$refs.tableContainer.style.overflowX = 'auto'
         document.addEventListener('mouseup', this._headMouseUp)
       }
-      console.timeEnd('timer')
+      // console.timeEnd('timer')
     })
     this.resetColumn()
   },
@@ -340,6 +344,16 @@ export default {
       document.removeEventListener('mouseup', this._headMouseUp)
     }
   },
-  computed: {}
+  computed: {
+    theadOrder() {
+      const hasOrder = this.thead.length > 1 && this.thead[0].order
+      let temp = this.thead
+      if (parseInt(hasOrder) > -1) {
+        // 需排序
+        temp = this.thead.sort((a, b) => parseInt(a.order) - parseInt(b.order))
+      }
+      return temp
+    }
+  }
 }
 </script>

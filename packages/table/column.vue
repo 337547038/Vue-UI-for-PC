@@ -4,7 +4,7 @@ import {prefixCls} from '../prefix'
 export default {
   name: `${prefixCls}Column`,
   componentName: 'Column',
-  data () {
+  data() {
     return {
       renderCell: {}
     }
@@ -49,9 +49,12 @@ export default {
       // 鼠标滑过单元格时是否显示title提示语
       type: Boolean,
       default: false
+    },
+    order: {
+      type: [String, Number]
     }
   },
-  created () {
+  created() {
     this.renderCell = (h, {row, column, $index, extendToggle}) => {
       if (this.$scopedSlots.default) {
         const data = {row: row, index: $index + 1, extend: extendToggle}
@@ -90,14 +93,14 @@ export default {
     }
   },
   methods: {
-    _handleChange (row) {
+    _handleChange(row) {
       this.$parent.handleChange(row)
     }
   },
-  mounted () {
+  mounted() {
   },
   computed: {
-    parent () {
+    parent() {
       // 查找父组件
       let parent = this.$parent
       let parentName = parent.$options.componentName
@@ -111,7 +114,7 @@ export default {
     }
   },
   watch: {},
-  render (h) {
+  render(h) {
     // return null
     return h('div', this.$slots.default)
   }
