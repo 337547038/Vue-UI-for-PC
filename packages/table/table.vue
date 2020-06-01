@@ -314,6 +314,7 @@ export default {
           }
         }
       })
+      this.columns.sort((a, b) => parseInt(a.order) - parseInt(b.order))
     },
     resetColumn() {
       // 1.表格加载完成时用于获取table子组件，生成表头
@@ -350,6 +351,7 @@ export default {
       let temp = this.thead
       if (parseInt(hasOrder) > -1) {
         // 需排序
+        // eslint-disable-next-line
         temp = this.thead.sort((a, b) => parseInt(a.order) - parseInt(b.order))
       }
       return temp
