@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([["chunk-2d21a5d8"],{bacf:function(t,n,e){"use strict";e.r(n);var c=e("5511"),s=Object(c.a)({},(function(){var t=this.$createElement;this._self._c;return this._m(0)}),[function(){var t=this.$createElement,n=this._self._c||t;return n("section",[n("h1",[this._v("Icon 图标")])])}],!1,null,null,null);n.default=s.exports}}]);
