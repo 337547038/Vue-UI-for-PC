@@ -27,6 +27,10 @@
       </tbody>
       <table-body :data="data" v-else :rowColSpan="rowColSpan"></table-body>
     </table>
+    <Pagination
+      v-if="pagination"
+      :total="data&&data.length"
+      v-bind="pagination"></Pagination>
   </div>
 </template>
 
@@ -34,6 +38,7 @@
 import {prefixCls} from '../prefix'
 import TableBody from './tableBody'
 import TableHead from './head'
+import Pagination from '../pagination'
 
 export default {
   name: `${prefixCls}Table`,
@@ -64,7 +69,7 @@ export default {
       })
     }
   },
-  components: {TableBody, TableHead},
+  components: {TableBody, TableHead, Pagination},
   props: {
     drag: Boolean,
     data: {
@@ -120,7 +125,8 @@ export default {
     extendToggle: { // 默认展开扩展
       type: Boolean,
       default: true
-    }
+    },
+    pagination: Object // 分页相关参数
   },
   methods: {
     _fixedHead() {

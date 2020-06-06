@@ -12,7 +12,7 @@ export default {
           city: '天河区',
           address: '广东市天河区无名路888号',
           zip: 200330,
-          trClass: 'trClass' /*特殊参数为当前tr添加指定样式*/
+          trClass: 'trClass' /* 特殊参数为当前tr添加指定样式 */
         },
         {
           date: '2016-05-02',
@@ -75,7 +75,13 @@ export default {
       hover: false,
       border: false,
       stripe: false,
-      ellipsis: true
+      ellipsis: true,
+      pagination: {
+         current: 1,
+         change: (v) => {
+           console.log(v)
+         }
+      }
     }
   },
   components: {},
@@ -126,7 +132,7 @@ export default {
 
 ### 1、基础的表格展示用法
 
-:::demo
+:::demo 
 ```html
 <template>
   <akTable :data="tableData">
@@ -353,7 +359,7 @@ export default {
 
 ### 6、排序
 
-:::demo
+:::demo 
 
 ```html
 <akTable :data="tableData" :sortChange="sortChange">
@@ -573,7 +579,7 @@ export default {
 
 ### 12、多级表头
 
-:::demo
+:::demo 
 
 ```html
 <akTable :data="tableData">
@@ -615,45 +621,84 @@ export default {
 
 :::
 
+### 13、带分页
+
+:::demo 
+
+```html
+<akTable :data="tableData" :pagination="pagination">
+  <akColumn label="姓名" prop="name"></akColumn>
+  <akColumn label="省份" prop="province"></akColumn>
+  <akColumn label="城市" prop="city"></akColumn>
+  <akColumn label="地址" prop="address" width="250"></akColumn>
+  <akColumn label="邮编" prop="zip"></akColumn>
+  <akColumn label="操作">
+    <template slot-scope="scope">
+      <a href="javascript:;">删除</a>
+    </template>
+  </akColumn>
+</akTable>
+
+<script>
+  export default {
+    data() {
+      return {
+       pagination: {
+        current: 1,
+        change: (v) => {
+         console.log(v)
+        }
+       }
+      }
+    },
+    methods: {
+    }
+  };
+</script>
+```
+
+:::
+
 ## API
 
 ### Table
 
-| 参数           | 类型          | 说明                                                                                                                                                                                                                                                |
-| -------------- | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| data           | array         | 显示的数据                                                                                                                                                                                                                                          |
-| showHeader     | boolean/true  | 是否显示表头                                                                                                                                                                                                                                        |
-| className      | String        | 表格类名                                                                                                                                                                                                                                            |
-| hover          | boolean/true  | 鼠标经过显示高亮                                                                                                                                                                                                                                    |
-| border         | boolean/true  | 是否显示表格纵向边框                                                                                                                                                                                                                                |
-| stripe         | boolean/true  | 是否显示间隔斑马纹                                                                                                                                                                                                                                  |
-| height         | String        | table 的高，溢出显示滚动条，且表头固定                                                                                                                                                                                                              |
-| width          | String        | 表格外层 div 的宽，当单元格总和大于表格 width 时，出现横向滚动条                                                                                                                                                                                    |
-| ellipsis       | boolean/true  | 表格单元格文字溢出显示...，在不指定列宽时，各列平分表格宽                                                                                                                                                                                           |
-| selectClick    | function      | 勾选单列事件                                                                                                                                                                                                                                        |
-| sortChange     | function      | 排序点击事件                                                                                                                                                                                                                                        |
-| selectAllClick | function      | 全选或返选事件                                                                                                                                                                                                                                      |
-| emptyText      | String        | 无数据时显示的文本                                                                                                                                                                                                                                  |
-| title          | Boolean/true  | 鼠标滑过单元格时显示 title 提示                                                                                                                                                                                                                     |
-| drag           | boolean/false | 允许拖动表头改变当前单元格宽度                                                                                                                                                                                                                      |
-| extendToggle   | boolean/true  | 扩展行初始显示或隐藏                                                                                                                                                                                                                                |
+| 参数           | 类型          | 说明|
+|-|-|-|
+| data           | array         | 显示的数据 |
+| showHeader     | boolean/true  | 是否显示表头 |
+| className      | String        | 表格类名|
+| hover          | boolean/true  | 鼠标经过显示高亮|
+| border         | boolean/true  | 是否显示表格纵向边框|
+| stripe         | boolean/true  | 是否显示间隔斑马纹|
+| height         | String        | table 的高，溢出显示滚动条，且表头固定|
+| width          | String        | 表格外层 div 的宽，当单元格总和大于表格 width 时，出现横向滚动条|
+| ellipsis       | boolean/true  | 表格单元格文字溢出显示...，在不指定列宽时，各列平分表格宽 |
+| selectClick    | function      | 勾选单列事件|
+| sortChange     | function      | 排序点击事件 |
+| selectAllClick | function      | 全选或返选事件|
+| emptyText      | String        | 无数据时显示的文本|
+| title          | Boolean/true  | 鼠标滑过单元格时显示 title 提示|
+| drag           | boolean/false | 允许拖动表头改变当前单元格宽度|
+| extendToggle   | boolean/true  | 扩展行初始显示或隐藏|
 | rowColSpan     | function      | 合并行或列方法。通过给传入 rowColSpan 方法可以实现合并行或列，方法的参数(当前行号 rowIndex,当前列号 columnIndex,当前行 row,当前列 column)四个属性。该函数返回一个包含两个数字的数组，第一个 rowspan，第二个 colspan，即向纵向和横向合并多少个单元格 |
+| pagination    | object        | 有相关参数时显示分页，参数的pagination组件参数|
 
 ### Table Methods
 
-| 参数               | 类型                                                                                                                      | 说明 |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------- | ---- |
-| getSelectAll       | 返回所有选中的行                                                                                                          |
+| 参数               | 类型        | 说明 |
+|-|-|- |
+| getSelectAll       | 返回所有选中的行|
 | toggleRowSelection | 用于多选表格，切换某一行的选中状态，如果使用了第二个参数，则是设置这一行选中与否（selected 为 true 则选中） row, selected |
-| toggleAllSelection | 用于多选表格，切换所有行的选中状态                                                                                        |
-| clearSelection     | 用于多选表格，清空用户的选择                                                                                              |
-| clearSort          | 用于清空排序条件                                                                                                          |
-| resetColumn        | 用于重置表头，当通过 js 动态改变表格列时用于重置表格列及表头信息                                                          |
+| toggleAllSelection | 用于多选表格，切换所有行的选中状态|
+| clearSelection     | 用于多选表格，清空用户的选择 |
+| clearSort          | 用于清空排序条件|
+| resetColumn        | 用于重置表头，当通过 js 动态改变表格列时用于重置表格列及表头信息|
 
 ### Table-column
 
-| 参数      | 类型          | 说明                                                                 |
-| --------- | ------------- | -------------------------------------------------------------------- |
+| 参数      | 类型          | 说明 |
+|-|-|-|
 | prop      | String        | 对应列内容的字段名                                                   |
 | label     | String        | 显示的标题                                                           |
 | width     | String        | 对应列的宽度                                                         |
@@ -667,8 +712,8 @@ export default {
 
 ### Table-column Scoped Slot
 
-| 参数       | 说明                                          |
-| ---------- | --------------------------------------------- |
+| 参数       | 说明|
+| -|-|
 | slot-scope | 自定义列的内容，参数为 { row, index, extend } |
 
 [[Toc]]

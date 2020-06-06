@@ -3,11 +3,18 @@
 export default {
   data () {
     return {
+     page1:1,
+     page2:1,
+     page3:1
     }
   },
   methods: {
     change(page){
-      console.log(page)
+      this.page3 = page
+    },
+    changePageSizes(pages){
+      console.log(pages)
+      // 这里是更新pageSize的值，然后重新加数据
     }
   }
 }
@@ -19,12 +26,36 @@ export default {
 :::demo 
 ```html
 <template>
-<ak-pagination :total="50" :current="1"/>
+  <div>
+    <ak-pagination :total="50" :current="page1"/>
+  </div>
 </template>
 <script>
 export default {
   data () {
     return {
+      page1:1
+    }
+  }
+}
+</script>
+```
+:::
+
+### 可使用.sync双向绑定当前值
+:::demo 
+```html
+<template>
+  <div>
+    <p>当前页：{{page2}}</p>
+    <ak-pagination :total="50" :current.sync="page2"/>
+  </div>
+</template>
+<script>
+export default {
+  data () {
+    return {
+      page2:1
     }
   }
 }
@@ -36,7 +67,7 @@ export default {
 :::demo 
 ```html
 <template>
-<ak-pagination :total="150" :current="1" :showJumper="true" :pageSizes="[10,20,30,50]" :showTotal="true"/>
+<ak-pagination :total="150" :current="1" :showJumper="true" :pageSizes="[10,20,30,50]" :showTotal="true" :changePageSizes="changePageSizes"/>
 </template>
 <script>
 export default {
@@ -53,17 +84,21 @@ export default {
 :::demo 
 ```html
 <template>
-<ak-pagination :total="50" :current="1" :change="change" :pageSize="10"/>
+  <div>
+     <p>当前页：{{page3}}</p>
+     <ak-pagination :total="50" :current="page3" :change="change" :pageSize="10"/>
+  </div>
 </template>
 <script>
 export default {
   data () {
     return {
+     page3:1
     }
   },
   methods: {
     change(page){
-      console.log(page)
+      this.page3 = page
     }
   }
 }
@@ -82,4 +117,6 @@ export default {
 |showJumper     | boolean/false  |快速跳转|
 |pageSizes      | number[]       |每页显示个数选择器的选项设置|
 |showTotal      | boolean/false  |显示总记录条数|
+|changePageSizes| function       |每页显示条数改变事件|
+|hideSinglePage | boolean/false  |当只有一页时是否隐藏显示|
 

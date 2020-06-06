@@ -3,7 +3,7 @@
 export default {
   data () {
     return {
-    ajaxContent: ''
+      ajaxContent: ''
     }
   },
   methods: {
@@ -11,7 +11,7 @@ export default {
       console.log(name, label, index)
     },
     _ajax (name, label, index) {
-      this.ajaxContent=`当前点击选项的name值：${name}；label为：${label}`
+      this.ajaxContent = `当前点击选项的name值：${name}；label为：${label}`
     },
     beforeLeave (name) {
       return false

@@ -1,9 +1,9 @@
 <!--<Pagination :total="50" :current="1"/>-->
 <template>
-  <div :class="`${prefixCls}-page`">
+  <div :class="`${prefixCls}-page`" v-show="!hidePage">
     <div :class="`${prefixCls}-page-align`">
       <div class="total" v-if="showTotal">共<span>{{total}}</span>条</div>
-      <p-select :options="selectOptions" v-model="changePageSize" v-if="pageSizes.length>0"></p-select>
+      <p-select :options="selectOptions" v-model="selectChange" v-if="pageSizes.length>0"></p-select>
       <div class="page-list">
         <ul class="clearfix">
           <li>
@@ -49,15 +49,15 @@ import pSelect from '../select/index'
 
 export default {
   name: `${prefixCls}Pagination`,
-  data () {
+  data() {
     return {
       prefixCls: prefixCls,
       active: this.current, // 当前页
       goToPage: this.current, // 快速跳到第几页
-      changePageSize: this.pageSize
+      selectChange: this.pageSize
     }
   },
-  created () {
+  created() {
 
   },
   props: {
@@ -71,7 +71,7 @@ export default {
     },
     pageSize: {// 每页条数
       type: Number,
-      default: 10
+      default: 20
     },
     showJumper: {// 显示快速切换到某一页
       type: Boolean,
@@ -91,21 +91,28 @@ export default {
       type: Boolean,
       default: false
     },
-    change: Function// 页码改变的回调，返回改变后的页码
+    change: Function, // 页码改变的回调，返回改变后的页码
+    changePageSizes: Function, // 每页显示条数改变事件
+    hideSinglePage: { // 当只有一页时，是否隐藏分页
+      type: Boolean,
+      default: false
+    }
   },
   components: {pInput, pSelect},
-  mounted () {
+  mounted() {
   },
   watch: {
-    changePageSize (v) {
+    selectChange(v) {
       // 改变每页显示条数后，更新当前页
       if (this.active > this.pageCount) {
         this.active = this.pageCount
       }
+      this.changePageSizes && this.changePageSizes(v)
+      this.$emit('changePageSizes', v)
     }
   },
   methods: {
-    _goTo (page) {
+    _goTo(page) {
       let goToPage = page
       if (page > this.pageCount) {
         goToPage = this.pageCount
@@ -116,20 +123,24 @@ export default {
       this.active = goToPage
       this.goToPage = goToPage
       this.$emit('update:current', this.active)
-      this.$emit('update:pagerCount', this.changePageSize)
-      this.change && this.change(this.active)
+      // this.$emit('update:pagerCount', this.selectChange)
+      this.change && this.change(this.active) // 同时返回两种绑定
+      this.$emit('change', this.active)
     },
-    _blur () {
+    _blur() {
       const toPage = parseInt(this.goToPage)
       this._goTo(toPage)
     }
   },
   computed: {
-    pageCount () {
-      // 一共分多少页
-      return Math.ceil(this.total / this.changePageSize)
+    hidePage() {
+      return this.hideSinglePage && this.pageCount === 1
     },
-    pages () {
+    pageCount() {
+      // 一共分多少页
+      return Math.ceil(this.total / this.selectChange)
+    },
+    pages() {
       let start = ''
       let end = this.pageCount - 1
 
@@ -163,14 +174,14 @@ export default {
       }
       return [showPages, start, end]
     },
-    pageEnd () {
+    pageEnd() {
       return this.pages[2]
     },
-    pageStart () {
+    pageStart() {
       // 页码循环开始和结束，用来判断前后的三个点链接显示
       return this.pages[1]
     },
-    selectOptions () {
+    selectOptions() {
       let options = []
       this.pageSizes.forEach(item => {
         options.push({label: `每页${item}条`, value: item})

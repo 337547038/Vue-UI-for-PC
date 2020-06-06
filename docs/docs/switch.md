@@ -110,7 +110,7 @@ export default {
 ```html
 <template>
   <div>
-   <p>{{switch7}}</p>
+     <p>{{switch7}}</p>
      <p><ak-switch v-model="switch7" closeValue="a" activeValue="b"></sk-switch></p>
   </div>
 </template>
@@ -142,4 +142,3 @@ export default {
 |-|-|
 |open           | 自定义显示打开时的内容|
 |close          | 自定义显示关闭时的内容|
-
