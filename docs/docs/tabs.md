@@ -12,6 +12,10 @@ export default {
     },
     _ajax (name, label, index) {
       this.ajaxContent=`当前点击选项的name值：${name}；label为：${label}`
+    },
+    beforeLeave (name) {
+      console.log(name)
+      return false
     }
   }
 }
@@ -167,6 +171,35 @@ export default {
 ```
 :::
 
+### 阻止事件
+:::demo 切换标签之前的钩子，若返回 false，则阻止切换
+```html
+<template>
+ <div>
+  <akTabs :beforeLeave="beforeLeave">
+    <ak-tab-pane label="用户管理">用户管理</ak-tab-pane>
+    <ak-tab-pane label="配置管理">配置管理</ak-tab-pane>
+    <ak-tab-pane label="角色管理">角色管理</ak-tab-pane>
+    <ak-tab-pane label="定时任务补偿">定时任务补偿</ak-tab-pane>
+  </akTabs>
+ </div>
+</template>
+<script>
+export default {
+  data () {
+    return {}
+  },
+  methods: {
+    beforeLeave (name) {
+      console.log(name)
+      return false
+    }
+  }
+}
+</script>
+```
+:::
+
 ## API
 ### Tabs
 |参数|类型|说明|
@@ -174,6 +207,7 @@ export default {
 |value          | string         |绑定值，支持v-model。对应选项卡的 name，为空时自动生成`tab-*`，初始默认显示第一项|
 |class          | string         |原生|
 |change         | function       |点击改变事件,function(name, label, index)|
+|beforeLeave    | function       |切换标签之前的钩子，若返回 false，则阻止切换|
 
 ### Tabs Slot
 |参数|类型|说明|

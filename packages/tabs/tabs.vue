@@ -23,6 +23,12 @@ export default {
       default: 'tab-1'
     },
     change: Function,
+    beforeLeave: {
+      type: Function,
+      default: function () {
+        return true
+      }
+    },
     showContent: {
       // 是否显示切换内容
       type: Boolean,
@@ -45,10 +51,11 @@ export default {
   },
   methods: {
     _onTabClick (item, index) {
-      if (!item.disabled) {
+      if (!item.disabled && this.beforeLeave(item.tabName)) {
         this.active = item.tabName
         this.$emit('input', item.tabName) // v-model时双向绑定
         this.change && this.change(item.tabName, item.label, index + 1)
+        this.$emit('change', item.tabName, item.label, index + 1)
       }
     }
   },

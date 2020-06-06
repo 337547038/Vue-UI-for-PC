@@ -4,11 +4,11 @@
 <template>
     <span @click="_click" :class="{
     [prefixCls+'-switch']:true,
-    'switch-checked':value,
+    'switch-checked':status,
     'disabled':disabled}"
           :style="style">
         <i :class="`${prefixCls}-switch-inner`">
-            <slot name="open" v-if="value"></slot>
+            <slot name="open" v-if="status"></slot>
             <slot name="close" v-else></slot>
         </i>
     </span>
@@ -27,7 +27,7 @@ export default {
   mixins: [emitter],
   props: {
     value: {
-      type: Boolean,
+      type: [String, Number, Boolean],
       default: false
     },
     disabled: {
@@ -37,6 +37,8 @@ export default {
     change: Function,
     activeColor: String, // 打开时的颜色
     closeColor: String, // 关闭时的颜色
+    activeValue: [String, Number, Boolean], // switch 打开时的值
+    closeValue: [String, Number, Boolean], // switch 关闭时的值
     validateEvent: {
       type: Boolean,
       default: true
@@ -49,7 +51,20 @@ export default {
     _click() {
       if (!this.disabled) {
         // this.checked = !this.checked
-        const checked = !this.value
+        let checked = false
+        if (!this.status) {
+          if (this.activeValue !== false) {
+            checked = this.activeValue
+          } else {
+            checked = true
+          }
+        } else {
+          if (this.closeValue !== false) {
+            checked = this.closeValue
+          } else {
+            checked = false
+          }
+        }
         this.$emit('input', checked)
         this.change && this.change(checked)// 回调
         if (this.validateEvent) {
@@ -59,6 +74,14 @@ export default {
     }
   },
   computed: {
+    status() {
+      if (this.activeValue !== false) {
+        // 指定了选中值时
+        return this.value === this.activeValue
+      } else {
+        return this.value
+      }
+    },
     style() {
       let elStyle = {}
       if (this.value && this.activeColor) {

@@ -8,7 +8,8 @@ export default {
       switch3: false,
       switch4: true,
       switch5: false,
-      switch6: false
+      switch6: false,
+      switch7: 'b'
     }
   }
 }
@@ -97,6 +98,27 @@ export default {
   data () {
     return {
       switch6: false
+    }
+  }
+}
+</script>
+```
+:::
+
+### 设置开关状态时的值
+:::demo `closeValue`设置关闭状态时的值，`activeValue`设置打开状态的值
+```html
+<template>
+  <div>
+   <p>{{switch7}}</p>
+     <p><ak-switch v-model="switch7" closeValue="a" activeValue="b"></sk-switch></p>
+  </div>
+</template>
+<script>
+export default {
+  data () {
+    return {
+      switch67: 'b'
     }
   }
 }
