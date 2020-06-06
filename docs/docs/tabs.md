@@ -14,7 +14,6 @@ export default {
       this.ajaxContent=`当前点击选项的name值：${name}；label为：${label}`
     },
     beforeLeave (name) {
-      console.log(name)
       return false
     }
   }
@@ -94,19 +93,21 @@ export default {
 :::demo 通过添加value/v-model和name指定初始显示项。也可以只设置value值(`tab-*`*从1开始按顺序生成)，name为空
 ```html
 <template>
+  <div>
   <akTabs value="tab2">
-    <ak-tab-pane label="用户管理" name="tab1">用户管理</ak-tab-pane>
-    <ak-tab-pane label="配置管理" name="tab2">配置管理</ak-tab-pane>
-    <ak-tab-pane label="角色管理" name="tab3">角色管理</ak-tab-pane>
-    <ak-tab-pane label="定时任务补偿" name="tab4">定时任务补偿</ak-tab-pane>
-  </akTabs>
-  <p>只设置value值</p>
-  <akTabs value="tab-2">
-    <ak-tab-pane label="用户管理">用户管理</ak-tab-pane>
-    <ak-tab-pane label="配置管理">配置管理</ak-tab-pane>
-    <ak-tab-pane label="角色管理">角色管理</ak-tab-pane>
-    <ak-tab-pane label="定时任务补偿">定时任务补偿</ak-tab-pane>
-  </akTabs>
+      <ak-tab-pane label="用户管理" name="tab1">用户管理</ak-tab-pane>
+      <ak-tab-pane label="配置管理" name="tab2">配置管理</ak-tab-pane>
+      <ak-tab-pane label="角色管理" name="tab3">角色管理</ak-tab-pane>
+      <ak-tab-pane label="定时任务补偿" name="tab4">定时任务补偿</ak-tab-pane>
+    </akTabs>
+    <p>只设置value值</p>
+    <akTabs value="tab-2">
+      <ak-tab-pane label="用户管理">用户管理</ak-tab-pane>
+      <ak-tab-pane label="配置管理">配置管理</ak-tab-pane>
+      <ak-tab-pane label="角色管理">角色管理</ak-tab-pane>
+      <ak-tab-pane label="定时任务补偿">定时任务补偿</ak-tab-pane>
+    </akTabs>
+</div>
 </template>
 ```
 :::
