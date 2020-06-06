@@ -179,6 +179,11 @@ const router = [
     component: () => import('../docs/slider.md')
   },
   {
+    path: '/badge',
+    name: 'badge',
+    component: () => import('../docs/badge.md')
+  },
+  {
     path: '/test',
     name: 'test',
     meta: {

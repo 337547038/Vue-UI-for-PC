@@ -32,6 +32,8 @@ import Tooltip from './tooltip/index'
 import ColorPicker from './colorPicker'
 import Transition from './transition'
 import Slider from './slider'
+import Badge from './badge'
+import {Icon, Icons} from './icon'
 
 const component = [
   Button,
@@ -65,7 +67,10 @@ const component = [
   Tooltip,
   ColorPicker,
   Transition,
-  Slider
+  Slider,
+  Icon,
+  Icons,
+  Badge
 ]
 const install = function (Vue, options) {
   component.forEach(item => {
