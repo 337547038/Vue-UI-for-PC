@@ -5,7 +5,7 @@
       :placeholder="placeholder"
       :class="{'disabled':disabled}"
       ref="input"
-      :value="value"
+      :value="showValue||value"
       :readonly="readonly"
       :disabled="disabled"
       :clear="showClear&&!disabled"
@@ -32,7 +32,8 @@ export default {
       prefixCls: prefixCls,
       component: '', // 挂载的组件
       offset: {}, // 当前input位置坐标
-      status: false // 防止多次挂裁
+      status: false, // 防止多次挂裁
+      showValue: '' // 显示在输入框的值
     }
   },
   watch: {},
@@ -103,11 +104,7 @@ export default {
           offset: this.offset,
           value: this.value,
           input: (time) => {
-            const value = this._format(time)
-            this.$emit('input', value)// 返回父组件更新
-            this.change && this.change(value)
-            // 通知表单组件
-            this.dispatch('formItem', `${prefixCls}.form.change`, [value, ''])
+            this._emit(time)
             this.status = false
             // 这里更新下value
           },
@@ -135,6 +132,14 @@ export default {
           this.status = false
         }
       }
+    },
+    _emit(time) {
+      const value = this._format(time)
+      this.$emit('input', value)// 返回父组件更新
+      this.change && this.change(value)
+      this.showValue = '2019'
+      // 通知表单组件
+      this.dispatch('formItem', `${prefixCls}.form.change`, [value, ''])
     },
     _input(val) {
       // 清空事件
