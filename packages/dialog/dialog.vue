@@ -1,8 +1,8 @@
 <!-- Created by 337547038 on 2018/8/31 0031. -->
 <template>
   <transition :name="animation">
-    <div v-show="showHide"
-         :class="{'active':showHide,[prefixCls+'-dialog']:true,[className]:className,[prefixCls+'-dialog-isAlert']:isAlert}"
+    <div v-show="visible"
+         :class="{'active':visible,[prefixCls+'-dialog']:true,[className]:className,[prefixCls+'-dialog-isAlert']:isAlert}"
          :style="{zIndex:zIndex2,
          animationDuration: '.3s',
          left:style.left,
@@ -58,7 +58,7 @@ export default {
       dialogHeader: 0, // 弹窗内的头部高
       dialogFooter: 0, // 弹窗内的底部高
       zIndex2: this.zIndex,
-      showHide: false, // 控制窗口显示隐藏
+      visible: false, // 控制窗口显示隐藏
       clearTime: '',
       style: {
         left: '', // 窗口位置
@@ -144,14 +144,15 @@ export default {
   components: {dButton},
   watch: {
     value(v) {
-      this.showHide = v
       if (v) {
         this.$nextTick(function () {
           this._openDialog()
         })
-      } else {
+      } else if (this.visible) {
+        // visible才调用，false表示$emit之前已经调用过_hide()了，不需要重复调用
         this._hide()
       }
+      this.visible = v
     }
   },
   methods: {
@@ -213,13 +214,7 @@ export default {
       if (typeof this.beforeClose === 'function') {
         this.beforeClose(type, this._hide)
       } else {
-        // this._hide()
-        // 这里通过改变value来关闭，直接引用this._hide会调用两次，value改变时又一次
-        if (this.isAlert) {
-          this._hide()
-        } else {
-          this.$emit('input', false)
-        }
+        this._hide()
       }
     },
     _hide() {
@@ -271,8 +266,8 @@ export default {
           document.body.style = ''
         }
       }
+      this.visible = false
       this.$emit('input', false)
-      this.showHide = false
     },
     _setPosition() {
       // 获取窗口宽高，设置居中对齐
@@ -377,7 +372,7 @@ export default {
       }
     },
     open() {
-      this.showHide = true
+      this.visible = true
       this._openDialog()
     },
     close() {
@@ -437,7 +432,7 @@ export default {
       window.addEventListener('resize', this._resize, false)
       if (this.value) {
         // 初始默认就是true时
-        this.showHide = true
+        this.visible = true
         this._openDialog()
       }
     })

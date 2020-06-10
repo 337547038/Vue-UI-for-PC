@@ -36,7 +36,11 @@ export default {
       showValue: '' // 显示在输入框的值
     }
   },
-  watch: {},
+  watch: {
+    value() {
+      this._getShowValue()
+    }
+  },
   props: {
     value: [String, Number, Date],
     placeholder: String,
@@ -58,15 +62,24 @@ export default {
       type: String,
       default: 'ymd',
       validator: function (value) {
-        // 四种类型，年/年月/年月日/年月日时分秒
+        // 下拉面板类型 四种类型，年/年月/年月日/年月日时分秒
         return ['y', 'ym', 'ymd', 'ymdHms'].indexOf(value) !== -1
       }
     },
     format: {
-      type: String,
+      type: [String, Function],
       default: '',
       validator: function (value) {
-        // 四种类型，年/年月/年月日/年月日时分秒
+        // 显示在输入框的值 四种类型，年/年月/年月日/年月日时分秒
+        return ['', 'y', 'ym', 'ymd', 'ymdHms', 'Hms'].indexOf(value) !== -1
+      }
+    },
+    valueFormat: {
+      // v-model的值
+      type: [String, Function],
+      default: '',
+      validator: function (value) {
+        // 四种类型，年/年月/年月日/年月日时分秒，其他类型可通过function返回
         return ['', 'y', 'ym', 'ymd', 'ymdHms', 'Hms'].indexOf(value) !== -1
       }
     },
@@ -90,6 +103,42 @@ export default {
   },
   components: {vInput},
   methods: {
+    _getShowValue() {
+      // 当value变化时，返回指定的输出格式
+      if (!this.value) {
+        return
+      }
+      const format = this._parseDate(this.value)
+      console.log('format')
+      console.log(format)
+      if (this.format) {
+        // 指定了显示的格式时，按指定的返回
+      } else {
+        // 没有指定显示的格式时，则按下拉的类型返回
+      }
+    },
+    // 格式化时间
+    _parseDate(date) {
+      let dateTime = new Date(date.toString())
+      if (dateTime.toString() === 'Invalid Date') {
+        // 日期不合法
+        dateTime = new Date()
+      }
+      const formatObj = {
+        y: dateTime.getFullYear(),
+        m: dateTime.getMonth() + 1,
+        d: dateTime.getDate(),
+        h: dateTime.getHours(),
+        i: dateTime.getMinutes(),
+        s: dateTime.getSeconds()
+      }
+      let format = 'y-m-d h:i:s'
+      console.log('===========')
+      const timeStr = format.replace(/(y|m|d|h|i|s)/g, result => {
+        return formatObj[result]
+      })
+      return timeStr
+    },
     _open(e) {
       // 判断当前点击元素在组件里即展开，即属于组件子节点，不在关闭
       if (this.$el.contains(e.target) && !this.disabled && !this.status) {
@@ -196,6 +245,7 @@ export default {
   computed: {},
   mounted() {
     document.addEventListener('click', this._open)
+    this._getShowValue()
   },
   beforeDestroy() {
     document.removeEventListener('click', this._open)

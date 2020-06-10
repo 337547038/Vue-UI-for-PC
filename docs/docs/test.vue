@@ -1,5 +1,6 @@
 <template>
   <div>
+    <p>{{value}}</p>
     <ak-date-picker v-model="value" placeholder="请选择时间"></ak-date-picker>
   </div>
 </template>
@@ -8,14 +9,14 @@
 export default {
   data() {
     return {
-      value: ''
+      value: new Date()
     }
   },
   components: {},
   methods: {},
   mounted() {
     setTimeout(() => {
-      this.value = '2019-04-01'
+      // this.value = new Date()
     }, 3000)
   }
 }

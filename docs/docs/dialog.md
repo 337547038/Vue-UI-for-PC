@@ -15,6 +15,7 @@ export default {
       visible10: false,
       visible11: false,
       visible12: false,
+      visible13: false,
       animation: 'zoom',
       autoHeight: ''
     }
@@ -167,6 +168,7 @@ export default {
 </script>
 ```
 :::
+
 ## 组件
 ### 1、基本用法
 :::demo 可通过两种方式弹出或隐藏窗口
@@ -175,7 +177,7 @@ export default {
   <div>
     <p>使用参数visible显示隐藏 <span @click="visible1=true" class="green">试一试</span></p>
     <p>使用组件open方法打开 <span @click="$refs.openDialog.open()" class="green">试一试</span></p>
-    <ak-dialog title="title" :visible.sync="visible1">
+    <ak-dialog title="title" v-model="visible1">
        <p>窗口内容，可包含任何内容</p>
        <p>就是样式丑了点点</p>
     </ak-dialog>
@@ -202,7 +204,7 @@ export default {
 <template>
   <div>
     <p>slot设置的标题 <span @click="visible3=true" class="green">试一试</span></p>
-    <ak-dialog :visible.sync="visible3">
+    <ak-dialog v-model="visible3">
       <div slot="title">通过slot设标题</div>
       <p>这是一个通过slot设标题的 dialog 弹窗，当然也可以是不设置标题</p>
       <p>这是一个通过slot设标题的 dialog 弹窗</p>
@@ -231,7 +233,7 @@ export default {
 <template>
   <div>
     <span @click="visible4=true" class="green">试一试</span>
-    <ak-dialog :visible.sync="visible4" title="title" :width="400" :height="200">
+    <ak-dialog v-model="visible4" title="title" :width="400" :height="200">
       <p>设置了宽高的 dialog 弹窗，设定了高时，内容溢出将显示纵向滚动条</p>
       <p style="height: 200px"></p>
       <p>设置了宽高的 dialog 弹窗，设定了高时，内容溢出将显示纵向滚动条</p>
@@ -257,7 +259,7 @@ export default {
 <template>
   <div>
     <span @click="visible5=true" class="green">试一试</span>
-    <ak-dialog :visible.sync="visible5" title="title" confirm="confirm" cancel="cancel">
+    <ak-dialog v-model="visible5" title="title" confirm="confirm" cancel="cancel">
       <p>这是按钮的 dialog 弹窗内容</p>
       <p>默认情况下点击按钮后将关闭窗口</p>
     </ak-dialog>
@@ -282,7 +284,7 @@ export default {
 <template>
   <div>
     <p><span @click="visible6=true" class="green">试一试</span></p>
-    <ak-dialog :visible.sync="visible6" confirm="confirm" cancel="cancel" :beforeClose="beforeClose">
+    <ak-dialog v-model="visible6" confirm="confirm" cancel="cancel" :beforeClose="beforeClose">
       <p>添加了beforeClose事件后，将阻止窗口关闭，转由手动关闭</p>
       <p></p>
     </ak-dialog>
@@ -321,7 +323,7 @@ export default {
 <template>
   <div>
     <span @click="visible7=true" class="green">试一试</span>
-    <ak-dialog :visible.sync="visible7" title="title" :autoClose="10">
+    <ak-dialog v-model="visible7" title="title" :autoClose="10">
       <p>10秒后将自动关闭，如果需要显示倒计时间，可通过添加窗口样式，将隐藏的倒计时显示出来</p>
       <p>这是的 dialog 弹窗内容</p>
       <p>这是一个会自动关闭的弹窗</p>
@@ -358,7 +360,7 @@ export default {
     <p><span @click="clickAnimation('val')">val</span></p>
     <p><span @click="clickAnimation('donna')">donna</span></p>
     <p><span @click="clickAnimation('ricky')">ricky</span></p>
-    <ak-dialog :visible.sync="visible8" title="title" :animation="animation">
+    <ak-dialog v-model="visible8" title="title" :animation="animation">
       <p>这是的 dialog 弹窗内容</p>
       <p></p>
     </ak-dialog>
@@ -390,7 +392,7 @@ export default {
 <template>
   <div>
     <span @click="visible9=true" class="green">试一试</span>
-    <ak-dialog :visible.sync="visible9" :center="false" class="right-bottom" :modal="false" animation="slideUp">
+    <ak-dialog v-model="visible9" :center="false" class="right-bottom" :modal="false" animation="slideUp">
       <p>这是的 dialog 弹窗内容</p>
       <p></p>
     </ak-dialog>
@@ -418,7 +420,7 @@ export default {
 <template>
   <div>
     <span @click="visible10=true" class="green">试一试</span>
-    <ak-dialog :visible.sync="visible10" title="title">
+    <ak-dialog v-model="visible10" title="title">
       <p>这是的 dialog 弹窗内容</p>
       <p>&nbsp;</p>
       <p @click="visible11=true"><a href="javascript:;" class="green">点击这里打开内层弹窗口</a></p>
@@ -426,7 +428,7 @@ export default {
       <p>这是的 dialog 弹窗内容</p>
       <p></p>
     </ak-dialog>
-    <ak-dialog :visible.sync="visible11" title="title">内层弹窗</ak-dialog>
+    <ak-dialog v-model="visible11" title="title">内层弹窗</ak-dialog>
   </div>
 </template>
 <script>
@@ -449,7 +451,7 @@ export default {
 <template>
   <div>
     <span @click="visible12=true" class="green">试一试</span>
-    <ak-dialog :visible.sync="visible12" title="title" ref="autoTop">
+    <ak-dialog v-model="visible12" title="title" ref="autoTop">
       <p>适用于窗口展开收起事件，导致窗口高度发生变化时，用于修正窗口的位置</p>
       <p>&nbsp;</p>
       <p @click="setPosition" :style="{height:autoHeight}"><a href="javascript:;" class="green">改变当前窗口高</a></p>
@@ -471,6 +473,39 @@ export default {
       this.autoHeight='600px'
       this.$refs.autoTop.setPosition()
     }
+  }
+}
+</script>
+
+```
+:::
+
+### 11、使用`slot="footer"`自定义尾部
+:::demo 适用于窗口展开收起事件，导致窗口高度发生变化时，用于修正窗口的位置
+```html
+<template>
+  <div>
+    <span @click="visible13=true" class="green">试一试</span>
+    <ak-dialog v-model="visible13" title="title">
+      <p>这是的 dialog 弹窗内容</p>
+      <p></p>
+      <div slot="footer">
+       <ak-button>取消</ak-button>
+       <ak-button>确定</ak-button>
+       <ak-button>提交</ak-button>
+      </div>
+    </ak-dialog>
+  </div>
+</template>
+<script>
+export default {
+  data () {
+    return {
+      visible13: false
+    }
+  },
+  methods:{
+  
   }
 }
 </script>
@@ -509,7 +544,7 @@ export default {
 |参数|说明|
 |-|-|
 |title           |标题|
-|-               |内容|
+|footer          |尾部内容|
 
 ### Dialog Methods
 |参数|说明|
