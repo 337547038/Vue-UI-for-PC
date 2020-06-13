@@ -98,7 +98,7 @@ export default {
       this.$refs.getSelectAll.toggleAllSelection()
     },
     toggleRowSelection (bool) {
-      const row = [this.tableData[1], this.tableData[2]];
+      const row = [this.tableData[1], this.tableData[2]]
       row.forEach(row => {
         this.$refs.getSelectAll.toggleRowSelection(row, bool)
       })
@@ -107,11 +107,11 @@ export default {
       this.$refs.getSelectAll.clearSelection()
     },
     sortChange (prop, order) {
-      console.log('sortChange');
+      console.log('sortChange')
       console.log(prop, order)
     },
     rowColSpan (rowIndex, columnIndex) {
-      console.log('arraySpanMethod');
+      console.log('arraySpanMethod')
         if (rowIndex === 0 && columnIndex === 1) {
           return [2, 3]
         }
@@ -304,7 +304,7 @@ export default {
 ```html
 <p><ak-button @click="getSelectAll">getSelectAll</ak-button></p>
 <p>&nbsp;</p>
-<akTable :data="tableData" :selectClick="selectClick" ref="getSelectAll">
+<akTable :data="tableData" @selectClick="selectClick" ref="getSelectAll">
   <akColumn type="selection" width="50px"></akColumn>
   <akColumn label="日期" prop="date"></akColumn>
   <akColumn label="姓名" prop="name"></akColumn>
@@ -330,7 +330,7 @@ export default {
 <script>
   export default {
     methods: {
-      selectClick(row) {
+      selectClick(list,row) {
         console.log("selectClick");
         console.log(row);
       },
@@ -674,15 +674,19 @@ export default {
 | height         | String        | table 的高，溢出显示滚动条，且表头固定|
 | width          | String        | 表格外层 div 的宽，当单元格总和大于表格 width 时，出现横向滚动条|
 | ellipsis       | boolean/true  | 表格单元格文字溢出显示...，在不指定列宽时，各列平分表格宽 |
-| selectClick    | function      | 勾选单列事件|
-| sortChange     | function      | 排序点击事件 |
-| selectAllClick | function      | 全选或返选事件|
 | emptyText      | String        | 无数据时显示的文本|
 | title          | Boolean/true  | 鼠标滑过单元格时显示 title 提示|
 | drag           | boolean/false | 允许拖动表头改变当前单元格宽度|
 | extendToggle   | boolean/true  | 扩展行初始显示或隐藏|
 | rowColSpan     | function      | 合并行或列方法。通过给传入 rowColSpan 方法可以实现合并行或列，方法的参数(当前行号 rowIndex,当前列号 columnIndex,当前行 row,当前列 column)四个属性。该函数返回一个包含两个数字的数组，第一个 rowspan，第二个 colspan，即向纵向和横向合并多少个单元格 |
 | pagination    | object        | 有相关参数时显示分页，参数的pagination组件参数|
+
+### Table Event
+
+| 参数 | 说明 |
+|-|-|- |
+| selectClick    | 勾选单列事件，function(list,row) list所有已勾选的row集合，row当前点击行信息|
+| sortChange     | 排序点击事件 |
 
 ### Table Methods
 
@@ -699,16 +703,16 @@ export default {
 
 | 参数      | 类型          | 说明 |
 |-|-|-|
-| prop      | String        | 对应列内容的字段名                                                   |
-| label     | String        | 显示的标题                                                           |
-| width     | String        | 对应列的宽度                                                         |
-| className | String        | 对应列的类名                                                         |
-| align     | String        | 对齐方式，可选 left/center/right                                     |
-| type      | String        | 对应列类型，可选 selection（多选）/index 序号/extend 扩展列          |
-| fixed     | Boolean/false | 固定列，可选 left/right                                              |
-| sortBy    | Boolean/false | 当前列显示排序按钮                                                   |
+| prop      | String        | 对应列内容的字段名|
+| label     | String        | 显示的标题|
+| width     | String        | 对应列的宽度|
+| className | String        | 对应列的类名|
+| align     | String        | 对齐方式，可选 left/center/right|
+| type      | String        | 对应列类型，可选 selection（多选）/index 序号/extend 扩展列|
+| fixed     | Boolean/false | 固定列，可选 left/right
+| sortBy    | Boolean/false | 当前列显示排序按钮
 | title     | Boolean/false | 鼠标滑过单元格时显示 title 提示，仅当 table 的 title 为 false 时有效 |
-| order     | number        | 用于排序                                                             |
+| order     | number        | 用于排序|
 
 ### Table-column Scoped Slot
 

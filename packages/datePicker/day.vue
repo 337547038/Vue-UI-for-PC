@@ -16,7 +16,7 @@
         <span v-text="_innerHTML(item)" v-if="_innerHTML(item)"></span>
       </a>
     </div>
-    <div class="calendar-time clearfix" v-if="type==='ymdHms'">
+    <div class="calendar-time clearfix" v-if="type==='datetime'">
       <div class="calendar-time-input">
         <input type="text" v-model="hours" maxlength="2" oninput="value=value.replace(/[^\d]/g,'')" onfocus="this.select()">:
         <input type="text" v-model="minutes" maxlength="2" oninput="value=value.replace(/[^\d]/g,'')" onfocus="this.select()">:
@@ -61,7 +61,7 @@ export default {
       let disabled = e.target.className
       if (disabled.indexOf('calendar-date-disabled') === -1) {
         const date = new Date(item.y, item.m, item.d)
-        if (this.type === 'ymdHms') {
+        if (this.type === 'datetime') {
           // 有时分秒选择时不关闭，保存选中值
           this.selectValue = date
         } else {

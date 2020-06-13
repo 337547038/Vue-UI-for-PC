@@ -118,9 +118,6 @@ export default {
       type: Boolean,
       default: true
     },
-    selectClick: Function, // 勾选单列事件
-    sortChange: Function, // 排序点击时{prop, order }
-    selectAllClick: Function, // 全选/返选
     rowColSpan: Function,
     extendToggle: { // 默认展开扩展
       type: Boolean,
@@ -183,7 +180,7 @@ export default {
         // 全选
         this.toggleAllSelection()
       }
-      this.selectAllClick && this.selectAllClick(this.selectedRows)
+      this.$emit('selectClick', this.selectedRows)
     },
     _selectStatus() {
       // 全选或返选状态
@@ -247,14 +244,15 @@ export default {
       }
       // 全选时将selectAll也选上
       this._selectStatus()
-      this.selectClick && this.selectClick(row)
+      this.$emit('selectClick', this.selectedRows, row)
     },
     _sortClick(prop, order, e) {
       const parentNode = e.target.parentNode
       parentNode.className = 'caret-wrapper ' + order
       // 将当前排序信息添加到sortBy
       this.sortBy[prop] = order
-      this.sortChange && this.sortChange(this.sortBy)
+      // this.sortChange && this.sortChange(this.sortBy)
+      this.$emit('sortChange', this.sortBy)
     },
     getSelectAll() {
       return this.selectedRows

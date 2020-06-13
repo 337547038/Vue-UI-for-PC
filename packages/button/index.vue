@@ -13,7 +13,7 @@
   </button>
   <a v-bind="$attrs"
      :class="classStyle"
-     :href="routerHref"
+     :href="disabled?'javascript:;':routerHref"
      @click="_handleClick"
      v-else>
     <slot></slot>
@@ -25,7 +25,7 @@ import {prefixCls} from '../prefix'
 
 export default {
   name: `${prefixCls}Button`,
-  data () {
+  data() {
     return {}
   },
   props: {
@@ -54,12 +54,14 @@ export default {
   },
   components: {},
   methods: {
-    _handleClick (evt) {
-      this.$emit('click', evt)
+    _handleClick(evt) {
+      if (!this.disabled) {
+        this.$emit('click', evt)
+      }
     }
   },
   computed: {
-    classStyle () {
+    classStyle() {
       return {
         [`${prefixCls}-btn`]: true,
         'is-round': this.round,
@@ -67,7 +69,7 @@ export default {
         'is-disabled': this.disabled
       }
     },
-    routerHref () {
+    routerHref() {
       // 解释路由url，即<router-link :to="/button">转<a href="#/button">
       if (this.routerTo) {
         let routeData = this.$router.resolve({path: this.routerTo})
@@ -77,7 +79,7 @@ export default {
       }
     }
   },
-  mounted () {
+  mounted() {
   }
 }
 </script>

@@ -42,7 +42,7 @@ export default {
     }
   },
   props: {
-    value: [String, Number, Date],
+    value: [Number, String, Date],
     placeholder: String,
     showClear: {// 显示清空
       type: Boolean,
@@ -60,30 +60,14 @@ export default {
     },
     type: {
       type: String,
-      default: 'ymd',
+      default: 'date',
       validator: function (value) {
         // 下拉面板类型 四种类型，年/年月/年月日/年月日时分秒
-        return ['y', 'ym', 'ymd', 'ymdHms'].indexOf(value) !== -1
+        return ['year', 'month', 'date', 'datetime'].indexOf(value) !== -1
       }
     },
-    format: {
-      type: [String, Function],
-      default: '',
-      validator: function (value) {
-        // 显示在输入框的值 四种类型，年/年月/年月日/年月日时分秒
-        return ['', 'y', 'ym', 'ymd', 'ymdHms', 'Hms'].indexOf(value) !== -1
-      }
-    },
-    valueFormat: {
-      // v-model的值
-      type: [String, Function],
-      default: '',
-      validator: function (value) {
-        // 四种类型，年/年月/年月日/年月日时分秒，其他类型可通过function返回
-        return ['', 'y', 'ym', 'ymd', 'ymdHms', 'Hms'].indexOf(value) !== -1
-      }
-    },
-    change: Function,
+    format: String, // 显示于输入框的值
+    valueFormat: String, // 实际值，即v-model
     innerHTML: Function,
     appendToBody: {
       // 将日期面板插入到body中
@@ -94,50 +78,82 @@ export default {
     readonly: { // 日期输入框只读
       type: Boolean,
       default: true
-    },
-    split: {
-      // 分隔符
-      type: String,
-      default: '-'
     }
   },
   components: {vInput},
   methods: {
-    _getShowValue() {
+    _getShowValue(date) {
       // 当value变化时，返回指定的输出格式
-      if (!this.value) {
+      let dateValue = date || this.value
+      if (!dateValue) {
         return
       }
-      const format = this._parseDate(this.value)
-      console.log('format')
-      console.log(format)
+      let type = ''
+      switch (this.type) {
+        case 'year':
+          type = 'y'
+          break
+        case 'month':
+          type = 'y-MM'
+          break
+        case 'date':
+          type = 'y-MM-dd'
+          break
+        case 'datetime':
+          type = 'y-MM-dd hh:mm:ss'
+          break
+      }
       if (this.format) {
         // 指定了显示的格式时，按指定的返回
-      } else {
-        // 没有指定显示的格式时，则按下拉的类型返回
+        type = this.format
       }
+      this.showValue = this._parseDate(dateValue, type)
+      // 更新v-model
+      const vModel = this._parseDate(dateValue, this.valueFormat || type)
+      this._emit(vModel)
     },
     // 格式化时间
-    _parseDate(date) {
-      let dateTime = new Date(date.toString())
+    _parseDate(date, formatType) {
+      let dateTime = new Date(date)
       if (dateTime.toString() === 'Invalid Date') {
         // 日期不合法
-        dateTime = new Date()
+        dateTime = ''
+        throw new Error('日期不合法')
+        // return date
       }
+      if (formatType === 'timestamp') {
+        return dateTime.getTime() // 时间戳直接返回
+      }
+      const m = dateTime.getMonth() + 1
+      const d = dateTime.getDate()
+      const h = dateTime.getHours()
+      const mi = dateTime.getMinutes()
+      const s = dateTime.getSeconds()
       const formatObj = {
         y: dateTime.getFullYear(),
-        m: dateTime.getMonth() + 1,
-        d: dateTime.getDate(),
-        h: dateTime.getHours(),
-        i: dateTime.getMinutes(),
-        s: dateTime.getSeconds()
+        M: m,
+        MM: m > 9 ? m : '0' + m,
+        d: d,
+        dd: d > 9 ? d : '0' + d,
+        h: h,
+        hh: h > 9 ? h : '0' + h,
+        m: mi,
+        mm: mi > 9 ? mi : '0' + mi,
+        s: s,
+        ss: s > 9 ? s : '0' + s,
+        w: dateTime.getDay()
       }
-      let format = 'y-m-d h:i:s'
-      console.log('===========')
-      const timeStr = format.replace(/(y|m|d|h|i|s)/g, result => {
-        return formatObj[result]
+      return formatType.replace(/(y|MM|M|dd|d|hh|h|mm|m|ss|s|w)/g, result => {
+        let value = formatObj[result]
+        if (result === 'w') return ['日', '一', '二', '三', '四', '五', '六'][value]
+        return value
       })
-      return timeStr
+    },
+    _emit(date) {
+      this.$emit('input', date)// 返回父组件更新
+      // 通知表单组件
+      this.dispatch('formItem', `${prefixCls}.form.change`, [date, ''])
+      this.$emit('change', date)
     },
     _open(e) {
       // 判断当前点击元素在组件里即展开，即属于组件子节点，不在关闭
@@ -153,7 +169,9 @@ export default {
           offset: this.offset,
           value: this.value,
           input: (time) => {
-            this._emit(time)
+            console.log(time)
+            console.log('=-=-=-=-=-=-=-=-=')
+            this._getShowValue(time)
             this.status = false
             // 这里更新下value
           },
@@ -161,8 +179,6 @@ export default {
             return this.disabledDate && this.disabledDate(time)
           },
           type: this.type,
-          // type: this.type,
-          // split: this.split,
           innerHTML: (time) => {
             return this.innerHTML && this.innerHTML(time)
           }
@@ -182,64 +198,27 @@ export default {
         }
       }
     },
-    _emit(time) {
-      const value = this._format(time)
-      this.$emit('input', value)// 返回父组件更新
-      this.change && this.change(value)
-      this.showValue = '2019'
-      // 通知表单组件
-      this.dispatch('formItem', `${prefixCls}.form.change`, [value, ''])
-    },
+
     _input(val) {
-      // 清空事件
-      this.$emit('input', val)
-    },
-    _format(dateString) {
-      // 将日期格式化后返回
-      const date = new Date(dateString)
-      const year = date.getFullYear()
-      const month = this._set0(date.getMonth() + 1)
-      const day = this._set0(date.getDate())
-      const timer = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
-      let time = ''
-      let formatType = this.format ? this.format : this.type
-      switch (formatType) {
-        case 'y':
-          time = year
-          break
-        case 'ym':
-          time = year + this.split + month
-          break
-        case 'ymd':
-          time = year + this.split + month + this.split + day
-          break
-        case 'ymdHms':
-          time = year + this.split + month + this.split + day + ' ' + timer
-          break
-        case 'Hms':
-          time = timer
-          break
-      }
-      return time
-    },
-    _set0(num) {
-      if (parseInt(num) < 10) {
-        return '0' + num
-      } else {
-        return num
+      // readonly=false时，用户输入事件。清空事件
+      this.showValue = val
+      if (val === '') {
+        this._emit('')
       }
     },
     // 当只读模式为false，有失焦事件，对日期进行检验
     _blur(e) {
+      /* console.log('ok')
       const value = e.target.value
       if (!value) {
         return
       }
-      const time = new Date(value.toString())
-      if (time.toString() === 'Invalid Date') {
-        // 日期不合法，直接清空
-        this.$emit('input', '')
+      let dateTime = new Date(value.toString())
+      if (dateTime.toString() === 'Invalid Date') {
+        // 日期不合法
+        dateTime = ''
       }
+      this._emit(dateTime) */
     }
   },
   computed: {},

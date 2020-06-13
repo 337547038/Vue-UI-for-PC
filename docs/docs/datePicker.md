@@ -15,7 +15,11 @@ export default {
       value8: '2019-10',
       value9: '',
       value10:'',
-      value11:''
+      value11:'',
+      value12:'',
+      value13:'',
+      value14:'',
+      value15:''
     }
   },
   methods: {
@@ -85,11 +89,11 @@ export default {
 <template>
   <div>
     <div>
-      <ak-date-picker v-model="value1" type="y"/>
+      <ak-date-picker v-model="value1" type="year"/>
     </div>
     <p>限制选择范围</p>
     <div>
-      <ak-date-picker v-model="value2" type="y" :disabledDate="disabledDate2"/>
+      <ak-date-picker v-model="value2" type="year" :disabledDate="disabledDate2"/>
     </div>
   </div>
 </template>
@@ -122,11 +126,11 @@ export default {
 <template>
   <div>
     <div>
-      <ak-date-picker v-model="value3" type="ym"/>
+      <ak-date-picker v-model="value3" type="month"/>
     </div>
     <p>限制选择范围</p>
     <div>
-      <ak-date-picker v-model="value4" type="ym" :disabledDate="disabledDate4"/>
+      <ak-date-picker v-model="value4" type="month" :disabledDate="disabledDate4"/>
     </div>
   </div>
 </template>
@@ -160,12 +164,12 @@ export default {
     </div>
     <p>限制选择范围，只能选择2019年</p>
     <div>
-      <ak-date-picker v-model="value6" type="ymd" :disabledDate="disabledDate6"/>
+      <ak-date-picker v-model="value6" type="date" :disabledDate="disabledDate6"/>
     </div>
     <p>限制选择范围</p>
     <div>
       <ak-date-picker v-model="value7" 
-      type="ymd" 
+      type="date" 
       :disabledDate="disabledDate7"
        placeholder="只能选择周-到周五"/>
     </div>
@@ -202,7 +206,7 @@ export default {
 <template>
   <div>
     <div>
-      <ak-date-picker v-model="value10" type="ymdHms"/>
+      <ak-date-picker v-model="value10" type="datetime"/>
     </div>
   </div>
 </template>
@@ -284,19 +288,40 @@ export default {
 :::
 
 
-### 对返回值再进行格式化
-:::demo 格式化为时间
+### 显示不同的格式
+:::demo 使用`format`指定输入显示的类型，可使用y(年)、M(月)、d(日)、h(时)、m(分)、s(秒)、w(星期)。MM表示使用两位表示月份，timestamp格式，仅在value-format可用
 ```html
 <template>
  <div>
- <ak-date-picker v-model="value11" placeholder="请选择" type="ymdHms" format="Hms"/>
+ <ak-date-picker v-model="value11" placeholder="请选择" type="datetime" format="y-MM-dd"></ak-date-picker>
+  <p>当前值两位：{{value11}}</p>
+  <p>&nbsp;</p>
+  
+<ak-date-picker v-model="value12" placeholder="请选择" type="datetime" format="y-M-d"></ak-date-picker>
+  <p>当前值一位：{{value12}}</p>
+  <p>&nbsp;</p>
+   
+<ak-date-picker v-model="value13" placeholder="请选择" format="y-M-d" value-format="y-MM-dd hh:mm:ss" type="datetime"></ak-date-picker>
+  <p>显示值和value不一致：{{value13}}</p>
+  <p>&nbsp;</p>
+
+<ak-date-picker v-model="value14" placeholder="请选择" format="y-M-d" value-format="timestamp"></ak-date-picker>
+  <p>使用timestamp：{{value14}}</p>
+  <p>&nbsp;</p>
+
+<ak-date-picker v-model="value15" placeholder="请选择" format="y年M月d日 星期w hh:mm:ss" value-format="y-MM-dd" type="datetime"></ak-date-picker>
+  <p>显示星期：{{value15}}</p>
  </div>
 </template>
 <script>
 export default {
   data () {
     return {
-      value11: ''
+      value11: '',
+      value112: '',
+      value113: '',
+      value114: '',
+      value115: '',
     }
   },
   methods: {
@@ -307,6 +332,8 @@ export default {
 :::
 
 ## API
+
+### datePicker
 |参数|类型|说明|
 |-|-|-|
 |value          |                |通过v-model双向绑定|
@@ -314,11 +341,15 @@ export default {
 |showClear      | Boolean｜true   |显示清空|
 |disabledDate   | Function       |禁用的时间，return true时将不能选择|
 |disabled       | Boolean｜true  |是否禁用|
-|type           | String         |面板日期类型，选择后将按此格式返回，年/年月/年月日/年月日时分秒。可选y, ym, ymd, ymdHms|
-|format         | String         |对返回的日期格式进行格式化，即对type返回再格式化|
+|type           | String         |面板日期类型，选择后将按此格式返回，年/年月/年月日/年月日时分秒。可选year,month,date,datetime|
+|format         | String         |输入框显示的格式，为空时按type默认格式|
+|valueFormat    | String         |绑定的值格式，即value的格式,必须要是合法的日期格式，为空则输入format的格式|
 |innerHTML      | Function        |可以将特殊提示的文本插入到指定的日期里|
-|change         | Function        |改变回调事件|
 |appendToBody   | Boolean｜true   |是否将弹出日期面板插入到body中|
 |downStyle      | Object          |下拉面板样式，快速个性化设置单个日期下拉面板|
 |readonly       | Boolean｜true   |日期输入框只读模式|
-|split          | String          |日期分隔符，默认-|
+
+### datePicker Event
+|参数|说明|
+|-|-|
+|change       |改变事件|
