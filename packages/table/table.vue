@@ -25,7 +25,12 @@
         </td>
       </tr>
       </tbody>
-      <table-body :data="data" v-else :rowColSpan="rowColSpan"></table-body>
+      <table-body
+        :data="data"
+        v-else
+        :rowColSpan="rowColSpan"
+        :hasChild="hasChild"
+        :lazyLoad="lazyLoad"></table-body>
     </table>
     <Pagination
       v-if="pagination"
@@ -121,8 +126,13 @@ export default {
     rowColSpan: Function,
     extendToggle: { // 默认展开扩展
       type: Boolean,
-      default: true
+      default: false
     },
+    hasChild: { // 有没子级
+      type: Boolean,
+      default: false
+    },
+    lazyLoad: Function,
     pagination: Object // 分页相关参数
   },
   methods: {

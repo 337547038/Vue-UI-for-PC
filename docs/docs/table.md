@@ -20,7 +20,25 @@ export default {
           province: '广东',
           city: '天河区',
           address: '广东市天河区无名路888号',
-          zip: 200331
+          zip: 200331,
+          children:[
+            {
+              date: '2020-02-02',
+              name:'子节点1',
+              province: '北京',
+              city: '天河区',
+              address: '广东市天河区无名路888号',
+              zip: 200331,
+            },
+            {
+              date: '2020-02-02',
+              name:'子节点2',
+              province: '北京',
+              city: '天河区',
+              address: '广东市天河区无名路888号',
+              zip: 200331,
+            }
+          ]
         },
         {
           date: '2016-05-04',
@@ -115,6 +133,29 @@ export default {
         if (rowIndex === 0 && columnIndex === 1) {
           return [2, 3]
         }
+    },
+    lazyLoad (row, resolve) {
+      setTimeout(() => {
+        const child = [
+          {
+            date: '2016-05-03',
+            name: '懒加载1',
+            province: '北京',
+            city: '天河区',
+            address: '北京市天河区无名路888号',
+            zip: 200330,
+          },
+          {
+            date: '2016-05-03',
+            name: '懒加载1',
+            province: '上海',
+            city: '天河区',
+            address: '北京市天河区无名路888号',
+            zip: 200330,
+          }
+        ]
+        resolve(child)
+      }, 1000)
     }
   }
 }
@@ -468,7 +509,7 @@ export default {
 
 ### 9、扩展列
 
-:::demo 使用 scope.extend()方法可展开或收起扩展行列，同时返回布尔值
+:::demo 使用 `scope.extend()`方法可展开或收起扩展行列，`scope.toggle`返回当前展开或收起状态
 
 ```html
 <akTable :data="tableData">
@@ -478,7 +519,7 @@ export default {
   <akColumn label="操作">
     <template slot-scope="scope">
       <!--<a href="javascript:;">删除</a> -->
-      <span @click="scope.extend()">展开/收起</span>
+      <span @click="scope.extend()">{{scope.toggle?'收起':'展开'}}</span>
     </template>
   </akColumn>
   <akColumn type="extend">
@@ -659,6 +700,95 @@ export default {
 
 :::
 
+### 14、支持子节点数据
+
+:::demo 类似于扩展列，使用 `scope.extend()`方法展开或收起子节点，`scope.toggle`返回当前展开或收起状态。子节点scope数据除了`row`，还包含`parentRow`父级信息
+
+```html
+<akTable :data="tableData" :hasChild="true">
+  <akColumn label="姓名" prop="name"></akColumn>
+  <akColumn label="省份" prop="province"></akColumn>
+  <akColumn label="城市" prop="city"></akColumn>
+  <akColumn label="地址" prop="address" width="250"></akColumn>
+  <akColumn label="邮编" prop="zip"></akColumn>
+  <akColumn label="操作">
+    <template slot-scope="scope">
+      <!--存在子节点信息时显示状态切换-->
+      <span @click="scope.extend()" v-if="scope.row.children">{{scope.toggle?'收起':'展开'}}</span>
+    </template>
+  </akColumn>
+</akTable>
+
+<script>
+  export default {
+    data() {
+      return {
+      }
+    },
+    methods: {
+    }
+  };
+</script>
+```
+
+:::
+
+### 15、支持子节点懒加载数据
+
+:::demo 类似于扩展列，使用 `scope.extend()`方法展开或收起子节点，`scope.toggle`返回当前展开或收起状态。子节点scope数据除了`row`，还包含`parentRow`父级信息
+
+```html
+<akTable :data="tableData" :hasChild="true" :lazyLoad="lazyLoad">
+  <akColumn label="姓名" prop="name"></akColumn>
+  <akColumn label="省份" prop="province"></akColumn>
+  <akColumn label="城市" prop="city"></akColumn>
+  <akColumn label="地址" prop="address" width="250"></akColumn>
+  <akColumn label="邮编" prop="zip"></akColumn>
+  <akColumn label="操作">
+    <template slot-scope="scope">
+      <!--存在子节点信息时显示状态切换-->
+      <span @click="scope.extend()" v-if="scope.row.children">{{scope.toggle?'收起':'展开'}}</span>
+    </template>
+  </akColumn>
+</akTable>
+
+<script>
+  export default {
+    data() {
+      return {
+      }
+    },
+    methods: {
+     lazyLoad (row, resolve) {
+      setTimeout(() => {
+        const child = [
+          {
+            date: '2016-05-03',
+            name: '懒加载1',
+            province: '北京',
+            city: '天河区',
+            address: '北京市天河区无名路888号',
+            zip: 200330,
+          },
+          {
+            date: '2016-05-03',
+            name: '懒加载1',
+            province: '上海',
+            city: '天河区',
+            address: '北京市天河区无名路888号',
+            zip: 200330,
+          }
+        ]
+        resolve(child)
+      }, 1000)
+    }
+    }
+  };
+</script>
+```
+
+:::
+
 ## API
 
 ### Table
@@ -677,9 +807,11 @@ export default {
 | emptyText      | String        | 无数据时显示的文本|
 | title          | Boolean/true  | 鼠标滑过单元格时显示 title 提示|
 | drag           | boolean/false | 允许拖动表头改变当前单元格宽度|
-| extendToggle   | boolean/true  | 扩展行初始显示或隐藏|
+| extendToggle   | boolean/false | 扩展行/子节点初始展开或收起状态|
 | rowColSpan     | function      | 合并行或列方法。通过给传入 rowColSpan 方法可以实现合并行或列，方法的参数(当前行号 rowIndex,当前列号 columnIndex,当前行 row,当前列 column)四个属性。该函数返回一个包含两个数字的数组，第一个 rowspan，第二个 colspan，即向纵向和横向合并多少个单元格 |
 | pagination    | object        | 有相关参数时显示分页，参数的pagination组件参数|
+| hasChild      | boolean/true  | 是否包含子节点数据，为true时，当 `row` 中包含 `children` 字段时，被视为子节点数据|
+| lazyLoad      | function      | 设置了`lazyLoad`时，被视为子节点使用懒加载方式，function(row,resolve) row当前行信息|
 
 ### Table Event
 

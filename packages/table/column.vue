@@ -55,9 +55,14 @@ export default {
     }
   },
   created() {
-    this.renderCell = (h, {row, column, $index, extendToggle}) => {
+    this.renderCell = (h, {row, column, $index, extendToggle, toggle, parentRow}) => {
       if (this.$scopedSlots.default) {
-        const data = {row: row, index: $index + 1, extend: extendToggle}
+        // row 当前行信息
+        // index 当前行序号
+        // extend 扩展及子级展开或收起方法
+        // toggle 扩展及子级展开或收起的状态
+        // parentRow 子级行信息时，包含的父级信息
+        const data = {row: row, index: $index + 1, extend: extendToggle, toggle: toggle, parentRow: parentRow}
         // return h('div', style, [this.$scopedSlots.default(data)])
         return this.$scopedSlots.default(data)
       }

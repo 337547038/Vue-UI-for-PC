@@ -11,12 +11,31 @@
         :columnIndex="indexTd"
         :title="$parent.title"
         :key="indexTd"
-        :showHideExtend="showHideExtend">
+        :showHideExtend="showHideExtend"
+        :toggle="toggle[rowIndex]===undefined?defaultToggle:toggle[rowIndex]">
       </TableTd>
     </tr>
+    <!--子级行-->
+    <template v-if="hasChild">
+      <tr v-for="(item,index) in row.children"
+          :key="'child'+index"
+          v-show="toggle[rowIndex]===undefined?defaultToggle:toggle[rowIndex]"
+          class="tr-child">
+        <TableTd
+          v-for="(child,childIndex) in colsNoExtend"
+          :column="child"
+          :row="item"
+          :index="index"
+          :columnIndex="childIndex"
+          :title="$parent.title"
+          :key="'childTd'+childIndex"
+          :parentRow="row"></TableTd>
+      </tr>
+    </template>
+    <!--扩展列-->
     <tr :key="'tr' + rowIndex" v-if="colsExtend.length>0" class="extend"
         :class="{'warning':$parent.selectedRows.indexOf(row) !== -1,[`extend-tr-${rowIndex+1}`]:true}"
-        v-showHide="{index:extendIndex,toggle:extendToggle,rowIndex:rowIndex}">
+        v-show="toggle[rowIndex]===undefined?defaultToggle:toggle[rowIndex]">
       <TableTd
         v-for="(column,indexTd) in colsExtend"
         :column="column"
@@ -38,22 +57,24 @@ export default {
   name: 'TableBody',
   props: {
     data: Array,
-    rowColSpan: Function
+    rowColSpan: Function,
+    hasChild: Boolean,
+    lazyLoad: Function
   },
   components: {TableTd},
-  data () {
+  data() {
     return {
-      extendToggle: this.$parent.extendToggle, // 默认展开
-      extendIndex: ''
+      defaultToggle: this.$parent.extendToggle, // 默认展开或收起状态
+      toggle: {} // {1: true, 2: false, 0: false} // 对应每行展开或收起状态
     }
   },
   computed: {
-    colsExtend () {
+    colsExtend() {
       return this.$parent.columns.filter(item => {
         return item.type === 'extend'
       })
     },
-    colsNoExtend () {
+    colsNoExtend() {
       // 不带扩展的
       return this.$parent.columns.filter(item => {
         return item.type !== 'extend'
@@ -63,39 +84,27 @@ export default {
   watch: {},
   methods: {
     // 展开或收起扩展行
-    showHideExtend (index) {
-      // 存在扩展时
-      if (this.colsExtend.length > 0) {
-        this.extendIndex = index
-        this.extendToggle = !this.extendToggle
-        return !this.extendToggle
-      }
-    }
-  },
-  created () {
-  },
-  mounted () {
-  },
-  directives: {
-    showHide: {
-      bind (el, binding) {
-        const value = binding.value
-        if (value.toggle) {
-          el.style.display = ''
+    showHideExtend(index, row) {
+      // 存在扩展时或有子级时
+      if (this.colsExtend.length > 0 || this.hasChild) {
+        if (typeof this.toggle[index] === 'undefined') {
+          this.$set(this.toggle, index, !this.defaultToggle)
         } else {
-          el.style.display = 'none'
+          this.toggle[index] = !this.toggle[index]
         }
-      },
-      update (el, binding) {
-        const value = binding.value
-        const display = el.style.display
-        if (display === 'none' && value.index === value.rowIndex) {
-          el.style.display = ''
-        } else if (value.index === value.rowIndex) {
-          el.style.display = 'none'
+        // 展开时，如果是懒加载
+        if (this.toggle[index] && this.lazyLoad) {
+          this.lazyLoad(row, child => {
+            row.children = child
+          })
         }
       }
     }
-  }
+  },
+  created() {
+  },
+  mounted() {
+  },
+  directives: {}
 }
 </script>
