@@ -20,6 +20,7 @@
       <tr v-for="(item,index) in row.children"
           :key="'child'+index"
           v-show="toggle[rowIndex]===undefined?defaultToggle:toggle[rowIndex]"
+          :class="{[row.trClass]:row.trClass}"
           class="tr-child">
         <TableTd
           v-for="(child,childIndex) in colsNoExtend"

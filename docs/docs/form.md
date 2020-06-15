@@ -134,7 +134,11 @@ export default {
         {label: '选项9', value: '9'},
         {label: '选项10', value: '10'}
       ],
-      form5: '5'
+      form5: '5',
+      form6: {
+         name:'',
+         password:''
+      }
     }
   },
   components: {},
@@ -179,8 +183,19 @@ export default {
             })
     },
     submitForm3(){
-          this.$refs.setTips.setTips('tips','输入提示')
-        }
+       this.$refs.setTips.setTips('tips','输入提示')
+    },
+    submitForm6(){
+    this.$refs.quickForm.validate()
+   .then(res=>{
+                 console.log('通过验证')
+                 console.log(res)
+               })
+               .catch(res=>{
+                 console.log('不通过')
+                 console.log(res)
+               })
+    }
   }
 }
 </script>
@@ -244,7 +259,7 @@ export default{
       <ak-form-item prop="tel" label="tel">
         <ak-input v-model="ruleForm.tel"></ak-input>
       </ak-form-item>
-      <ak-form-item label="城市">
+      <ak-form-item label="城市" class="city-item">
         <ak-form-item prop="city">
           <ak-input v-model="ruleForm.city" class="width"></ak-input>
         </ak-form-item>
@@ -402,6 +417,7 @@ export default {
 
 <style>
 .width .ak-input-control{width: 150px;}
+.city-item .ak-form-item{margin-bottom: 0}
 </style>
 ```
 :::
@@ -524,6 +540,51 @@ export default {
   methods(){
     submitForm3() {
       this.$refs.setTips.setTips('tips','输入提示')
+    }
+  }
+}
+</script>
+```
+:::
+
+### 6、快速验证
+:::demo 对于大量的表单验证不需要精确提示时，如验证为空时统一提示为必填字段
+```html
+<template>
+  <div>
+      <ak-form ref="quickForm">
+            <ak-form-item prop="password1" label="用户名" verify="mail">
+              <ak-input v-model="form6.name"></ak-input>
+            </ak-form-item>
+      
+            <ak-form-item prop="password2" label="确认密码" verify="required,digits">
+              <ak-input v-model="form6.password"></ak-input>
+            </ak-form-item>
+          </ak-form>
+      <ak-button @click="submitForm6" type="primary">按钮提交</ak-button>
+  </div>
+</template>
+<script>
+export default {
+  data () {
+    return {
+      form6: {
+       name:'',
+       password:''
+      }
+    }
+  },
+  methods(){
+    submitForm6 () {
+      this.$refs.quickForm.validate()
+      .then(res=>{
+          console.log('通过验证')
+          console.log(res)
+      })
+      .catch(res=>{
+          console.log('不通过')
+          console.log(res)
+      })
     }
   }
 }

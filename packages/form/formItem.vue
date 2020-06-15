@@ -40,6 +40,13 @@ export default {
     required: {
       type: Boolean,
       default: true
+    },
+    verify: { // 用于快速验证，formItem带验证规则时，使用默认提示
+      type: String
+      /* default: '',
+      validator: value => {
+        return ['required', 'mobile', 'tel', 'mail', 'digits', 'number'].indexOf(value) !== -1
+      } */
     }
   },
   components: {},
@@ -76,6 +83,9 @@ export default {
     },
     _focusTips(event) {
       let rule = this.form.rules[this.prop]
+      if (!rule) {
+        return
+      }
       for (let i = 0, len = rule.length; i < len; i++) {
         if (rule[i].type === 'tips') {
           // 如果有提示
@@ -96,13 +106,34 @@ export default {
     validate(callback, value) {
       // 两个参数 1回调 2当前值(按钮提交时value为空)，
       // 验证
+      console.log(value)
+      console.log(this.form.value)
+      let rule = []
       let value2 = value
-      if (value === 'undefined' || value === undefined) {
-        value2 = this.form.value[this.prop]
+
+      if (this.verify) {
+        const temRule = this.verify.split(',')
+        temRule.forEach(item => {
+          const msg = item.replace('required', '必填字段')
+            .replace('mobile', '手机号格式不正确')
+            .replace('tel', '电话号码不正确')
+            .replace('mail', '请输入正确邮箱')
+            .replace('digits', '必须为正整数')
+            .replace('number', '必须为数字')
+          rule.push({
+            type: item,
+            msg: msg
+          })
+        })
+      } else {
+        if (value === 'undefined' || value === undefined) {
+          value2 = this.form.value[this.prop]
+        }
+        rule = this.form.rules[this.prop]
       }
-      let rule = this.form.rules[this.prop]
       if (rule) {
         const result = Validate(value2, rule)
+        console.log(result)
         if (this.showMessage) {
           if (result === true) {
             // 通过
@@ -180,7 +211,7 @@ export default {
     this.rules = this.form.rules
     this.showMessage = this.form.showMessage
     this.trigger = this.form.trigger
-    if (this.form.rules && this.form.rules[this.prop]) {
+    if ((this.form.rules && this.form.rules[this.prop]) || this.verify) {
       // 监听表单元素改变事件
       this.$on(`${prefixCls}.form.change`, this._onFieldChange)
       this.$on(`${prefixCls}.form.blur`, this._onFieldBlur)

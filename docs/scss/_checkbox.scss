@@ -13,6 +13,7 @@
   input{opacity: 0;outline: none;position: absolute;margin: 0;width: 0;height: 0;z-index: -1;}
   span{display: inline-block;vertical-align: middle}
   /*默认*/
+  @include ns(checkbox-text){margin-left: 5px}
   @include ns(checkbox-inner){
     border: 1px solid $border;
     background-color: $background;
