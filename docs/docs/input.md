@@ -3,13 +3,17 @@
 export default {
   data () {
     return {
-      value:"",
-      value1:"有默认值",
-      value2:"",
-      value3:"",
-      value4:"",
-      value5:"",
-      value6:""
+      value:'',
+      value1:'有默认值',
+      value2:'',
+      value3:'',
+      value4:'',
+      value5:'',
+      value6:'',
+      value7:'',
+      value8:'',
+      value9:'',
+      value10:''
     }
   },
   components: {},
@@ -143,6 +147,44 @@ export default {
     input(e){
       console.log(e)
     }
+  }
+}
+</script>
+```
+:::
+
+
+## 带 icon 输入框
+
+:::demo 可以通过 `prefix-icon` 和 `suffix-icon` 属性在 input 组件首部和尾部增加显示图标，也可以通过 slot `prefix` 和 `suffix` 来放置图标。
+```html
+<template>
+  <div>
+   <p><akInput 
+      placeholder="请输入内容" 
+      v-model="value7" 
+      @input="input"
+      prefix-icon="fa fa-user">
+   </akInput>
+   </p>
+   <p>&nbsp;</p>
+   <akInput 
+      placeholder="请输入内容" 
+      v-model="value8" 
+      @input="input"
+      suffix-icon="fa fa-search">
+   </akInput>
+  </div>
+</template>
+<script>
+export default {
+  data () {
+    return {
+     value7: '',
+    }
+  },
+  methods: {
+   
   }
 }
 </script>

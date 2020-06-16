@@ -4,14 +4,25 @@
   <div :class="`${prefixCls}-form-input`">
     <input v-bind="$attrs" :value="value"
            :type="inputType"
-           :class="{'disabled':disabled,[prefixCls+'-input-control']:true}"
+           :class="{'disabled':disabled,[prefixCls+'-input-control']:true,'has-prefix':$slots.prefix||prefixIcon}"
            :disabled="disabled"
            @input="_input"
            @focus="_focus"
            @blur="_blur"/>
-    <i :class="`${prefixCls}-icon-clear`" v-if="clear&&value" @click.stop="_clear"></i>
-    <i :class="[prefixCls+'-icon-eye',{'eye-show':eyeShow}]"
-       v-if="value&&showEye && type==='password'" @click.stop="eyeShow=!eyeShow"></i>
+    <span class="prefix-icon" v-if="$slots.prefix||prefixIcon">
+      <i :class="[prefixIcon]" v-if="prefixIcon"></i>
+      <slot name="prefix"></slot>
+    </span>
+    <span class="suffix-icon">
+      <slot name="suffix"></slot>
+       <i :class="[suffixIcon]" v-if="suffixIcon"></i>
+       <i :class="`${prefixCls}-icon-clear`"
+          v-if="clear&&value"
+          @click.stop="_clear"></i>
+       <i :class="[prefixCls+'-icon-eye',{'eye-show':eyeShow}]"
+          v-if="value&&showEye && type==='password'"
+          @click.stop="eyeShow=!eyeShow"></i>
+      </span>
   </div>
 </template>
 <script>
@@ -20,7 +31,7 @@ import emitter from '../mixins/emitter'
 
 export default {
   name: `${prefixCls}Input`,
-  data () {
+  data() {
     return {
       prefixCls: prefixCls,
       inputType: this.type, // 密码框时要切换，所以...
@@ -30,7 +41,7 @@ export default {
   inheritAttrs: false,
   mixins: [emitter],
   watch: {
-    eyeShow (value) {
+    eyeShow(value) {
       // 显示或隐藏密码
       this.inputType = value ? 'text' : 'password'
     }
@@ -60,11 +71,13 @@ export default {
     },
     change: Function,
     focus: Function,
-    blur: Function
+    blur: Function,
+    prefixIcon: String, // 前缀icon
+    suffixIcon: String // 后缀icon
   },
   components: {},
   methods: {
-    _blur (e) {
+    _blur(e) {
       // const value = e.target.value
       if (this.validateEvent) {
         this.dispatch('formItem', `${prefixCls}.form.blur`, [e])
@@ -72,7 +85,7 @@ export default {
       this._emit('blur', e)
       this.blur && this.blur(e)
     },
-    _input (e) {
+    _input(e) {
       const value = e.target.value
       this.$emit('input', value)
       this.change && this.change(e)
@@ -80,23 +93,23 @@ export default {
         this.dispatch('formItem', `${prefixCls}.form.change`, [value, e])
       }
     },
-    _focus (e) {
+    _focus(e) {
       this._emit('focus', e)
       this.focus && this.focus(e)
       if (this.validateEvent) {
         this.dispatch('formItem', `${prefixCls}.form.focus`, [e])
       }
     },
-    _clear () {
+    _clear() {
       this._emit('input', '')
     },
-    _emit (type, e) {
+    _emit(type, e) {
       this.$emit(type, e)
       // this[type] && this[type](e)
     }
   },
   computed: {},
-  mounted () {
+  mounted() {
   }
 }
 </script>
