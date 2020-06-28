@@ -170,7 +170,7 @@ export default {
    <p>&nbsp;</p>
    <akInput 
       placeholder="请输入内容" 
-      v-model="value8" 
+      v-model="value8"
       @input="input"
       suffix-icon="fa fa-search">
    </akInput>
@@ -180,11 +180,8 @@ export default {
 export default {
   data () {
     return {
-     value7: '',
+     value7: ''
     }
-  },
-  methods: {
-   
   }
 }
 </script>

@@ -112,17 +112,14 @@ export default {
       console.log('getSelectAll')
       console.log(this.$refs.getSelectAll.getSelectAll())
     },
-    toggleAllSelection () {
-      this.$refs.getSelectAll.toggleAllSelection()
+    toggleSelection (boolean) {
+      this.$refs.getSelectAll.toggleSelection(boolean)
     },
     toggleRowSelection (bool) {
       const row = [this.tableData[1], this.tableData[2]]
       row.forEach(row => {
         this.$refs.getSelectAll.toggleRowSelection(row, bool)
       })
-    },
-    clearSelection () {
-      this.$refs.getSelectAll.clearSelection()
     },
     sortChange (prop, order) {
       console.log('sortChange')
@@ -361,12 +358,12 @@ export default {
 </akTable>
 <p><br /></p>
 <div>
-  <ak-button @click="toggleAllSelection">选中所有行</ak-button>
+  <ak-button @click="toggleSelection(true)">选中所有行</ak-button>
   <ak-button @click="toggleRowSelection">切换第二、三行为选中状态</ak-button>
   <ak-button @click="toggleRowSelection(false)"
     >切换第二、三行为未选中状态</ak-button
   >
-  <ak-button @click="clearSelection">取消选择</ak-button>
+  <ak-button @click="toggleSelection(false)">取消选择</ak-button>
 </div>
 <script>
   export default {
@@ -379,17 +376,14 @@ export default {
         console.log("getSelectAll");
         console.log(this.$refs.getSelectAll.getSelectAll());
       },
-      toggleAllSelection() {
-        this.$refs.getSelectAll.toggleAllSelection();
+      toggleSelection(boolean) {
+        this.$refs.getSelectAll.toggleSelection(boolean);
       },
       toggleRowSelection(bool) {
         const row = [this.tableData[1], this.tableData[2]];
         row.forEach(row => {
           this.$refs.getSelectAll.toggleRowSelection(row, bool);
         });
-      },
-      clearSelection() {
-        this.$refs.getSelectAll.clearSelection();
       }
     }
   };
@@ -826,8 +820,7 @@ export default {
 |-|-|- |
 | getSelectAll       | 返回所有选中的行|
 | toggleRowSelection | 用于多选表格，切换某一行的选中状态，如果使用了第二个参数，则是设置这一行选中与否（selected 为 true 则选中） row, selected |
-| toggleAllSelection | 用于多选表格，切换所有行的选中状态|
-| clearSelection     | 用于多选表格，清空用户的选择 |
+| toggleSelection | 用于多选表格，切换所有行的选中/清空状态,true为选中，false取消选中，默认false|
 | clearSort          | 用于清空排序条件|
 | resetColumn        | 用于重置表头，当通过 js 动态改变表格列时用于重置表格列及表头信息|
 
