@@ -230,3 +230,10 @@ export default {
 |-|-|-|
 |success        | Function       |上传成功回调，参数(Object,index);Object上传返回的response，index为value中的序号|
 |error          | Function       |上传失败|
+|change         | Function       |添加上传文件改变事件|
+
+### Upload Methods
+|参数|说明|
+|-|-|-|
+|upload        | 手动上传方法，auto为false时|
+|clear         | 清空事件方法|

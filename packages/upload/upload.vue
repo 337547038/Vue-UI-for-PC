@@ -19,7 +19,7 @@ import comm from './comm'
 
 export default {
   name: `${prefixCls}Upload`,
-  data () {
+  data() {
     return {
       prefixCls: prefixCls,
       axiosUpload: true, // 使用哪种方式上传
@@ -68,7 +68,8 @@ export default {
   },
   components: {},
   methods: {
-    _onFileChange (e, type) {
+    _onFileChange(e, type) {
+      this.$emit('change', e)
       if (!this.multiple) { // 多个时上传后再清除
         this.tempFiles = []
         this.tempUpload = []
@@ -141,7 +142,7 @@ export default {
       }
     },
     // 单位换算
-    _unitFormat (size) {
+    _unitFormat(size) {
       if (size === 0) return '0B'
       const k = 1024
       const sizes = ['B', 'KB', 'MB', 'GB']
@@ -149,7 +150,7 @@ export default {
       return (size / Math.pow(k, i)).toPrecision(3) + sizes[i]
     },
     // 检查文件合法性
-    _check (file, index) {
+    _check(file, index) {
       let error = {}
       let name = file.name
       let suffix = name.substr(name.length - 3, 3)
@@ -188,7 +189,7 @@ export default {
         }
       }
     },
-    async _axios (file, index) {
+    async _axios(file, index) {
       const data = {
         name: this.name, // 文件域的name值
         action: this.action,
@@ -199,7 +200,7 @@ export default {
       await this.getUpload(file, data, this.axiosUpload, this._uploadStatus.bind(this, index)) // 将图片上传
     },
     // 上传回调事件
-    _uploadStatus (index, res, type) {
+    _uploadStatus(index, res, type) {
       console.log('_uploadStatus')
       console.log(res, type, index)
       switch (type) {
@@ -221,7 +222,7 @@ export default {
           break
       }
     },
-    upload () {
+    upload() {
       // 手动上传入口
       if (!this.auto) {
         this.tempUpload.forEach(async item => {
@@ -229,10 +230,15 @@ export default {
         })
       }
     },
-    _fileDragOver (e) {
+    // 清空方法
+    clear() {
+      this.$emit('input', [])
+      this.$refs.inputFile.value = ''
+    },
+    _fileDragOver(e) {
       e.preventDefault()
     },
-    _fileDrop (e) {
+    _fileDrop(e) {
       e.preventDefault()
       // const file = e.dataTransfer.files[0] // 获取到第一个上传的文件对象
       this._onFileChange(e.dataTransfer.files, 'drag')
@@ -241,7 +247,7 @@ export default {
     }
   },
   computed: {},
-  mounted () {
+  mounted() {
   },
   filters: {}
 }
