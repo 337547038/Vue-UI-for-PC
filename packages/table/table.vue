@@ -66,7 +66,7 @@ export default {
   watch: {
     data(oldData, newData) {
       // 当表格数据发生变化时，清空选择
-      this.clearSelection()
+      this.toggleSelection(false)
     },
     theadOrder(val) {
       val.forEach(item => {
@@ -185,10 +185,10 @@ export default {
     _handleSelectAll() {
       if (this.selectChecked === 'checked') {
         // 取消所有选择
-        this.clearSelection()
+        this.toggleSelection(false)
       } else {
         // 全选
-        this.toggleAllSelection()
+        this.toggleSelection(true)
       }
       this.$emit('selectClick', this.selectedRows)
     },
@@ -267,15 +267,17 @@ export default {
     getSelectAll() {
       return this.selectedRows
     },
-    clearSelection() {
-      // 用于多选表格，清空用户的选择
-      this.selectedRows.splice(0, this.selectedRows.length)
-      this.selectChecked = 'un-select'
-    },
-    toggleAllSelection() {
-      // 用于多选表格，切换所有行的选中状态
-      this.selectedRows = [...this.data]
-      this.selectChecked = 'checked'
+    toggleSelection(boolean) {
+      // boolean=true全选，false全不选
+      if (boolean) {
+        // 用于多选表格，切换所有行的选中状态
+        this.selectedRows = [...this.data]
+        this.selectChecked = 'checked'
+      } else {
+        // 用于多选表格，清空用户的选择
+        this.selectedRows.splice(0, this.selectedRows.length)
+        this.selectChecked = 'un-select'
+      }
     },
     toggleRowSelection(row, selected) {
       // 用于多选表格，切换某一行的选中状态，如果使用了第二个参数，则是设置这一行选中与否（selected 为 true 则选中）row, selected

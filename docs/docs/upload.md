@@ -169,10 +169,10 @@ export default {
 ```html
 <template>
   <div>
-    <ak-img-crop 
-      v-model="imgCrop" 
-      :action="url" 
-      @success="_success" 
+    <ak-img-crop
+      v-model="imgCrop"
+      :action="url"
+      @success="_success"
       @error="_error">确认</ak-img-crop>
   </div>
 </template>
@@ -224,9 +224,15 @@ export default {
 |imgHeight      | Number         |裁切上传，裁切图片的高|
 |fixedScale     | Boolean/true   |裁切上传，约束比例|
 
-
 ### Upload Event
 |参数|类型|说明|
 |-|-|-|
 |success        | Function       |上传成功回调，参数(Object,index);Object上传返回的response，index为value中的序号|
 |error          | Function       |上传失败|
+|change         | Function       |添加上传文件改变事件|
+
+### Upload Methods
+|参数|说明|
+|-|-|-|
+|upload        | 手动上传方法，auto为false时|
+|clear         | 清空事件方法|

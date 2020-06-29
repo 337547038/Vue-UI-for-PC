@@ -4,7 +4,7 @@
     <Radio v-for="(item,index) in data"
            :key="index" v-model="groupValue"
            :checked="item.value"
-           :disabled="disabled||item.disabled" @input="_change">{{item.label}}
+           :disabled="disabled||item.disabled" @input="_change(item,$event)">{{item.label}}
     </Radio>
   </div>
 </template>
@@ -14,13 +14,13 @@ import {prefixCls} from '../prefix'
 
 export default {
   name: `${prefixCls}RadioGroup`,
-  data () {
+  data() {
     return {
       groupValue: this.value
     }
   },
   watch: {
-    value (v) {
+    value(v) {
       this.groupValue = v
     }
   },
@@ -35,16 +35,17 @@ export default {
   },
   components: {Radio},
   methods: {
-    _change (v) {
-      this.$emit('input', v)
-      this.change && this.change(v)
+    _change(item, value) {
+      this.$emit('input', value)
+      this.change && this.change(value, item)
+      this.$emit('change', value, item)
     }
   },
-  mounted () {
+  mounted() {
 
   },
   computed: {
-    cls () {
+    cls() {
       return `${prefixCls}-radio-group`
     }
   }

@@ -20,7 +20,7 @@ export default {
         switch: false,
         textarea: '',
         radio: '',
-        datePicker:''
+        datePicker: ''
       },
       rules: {
         name: [
@@ -134,7 +134,11 @@ export default {
         {label: '选项9', value: '9'},
         {label: '选项10', value: '10'}
       ],
-      form5: '5'
+      form5: '5',
+      form6: {
+        name: '',
+        password: ''
+      }
     }
   },
   components: {},
@@ -143,44 +147,55 @@ export default {
   methods: {
     submitForm () {
       this.$refs.ruleForm.validate()
-      .then(res=>{
-        console.log('通过验证')
-        console.log(res)
-      })
-      .catch(res=>{
-        console.log('不通过')
-        console.log(res)
-      })
+        .then(res => {
+          console.log('通过验证')
+          console.log(res)
+        })
+        .catch(res => {
+          console.log('不通过')
+          console.log(res)
+        })
     },
     submitForm2 () {
       const props = ['name', 'password']
-            this.$refs.ruleForm.validateField(props)
-            .then(res=>{
-               console.log('通过验证')
-               console.log(res)
-            })
-            .catch(res=>{
-               console.log('不通过')
-               console.log(res)
-            })
+      this.$refs.ruleForm.validateField(props)
+        .then(res => {
+          console.log('通过验证')
+          console.log(res)
+        })
+        .catch(res => {
+          console.log('不通过')
+          console.log(res)
+        })
     },
     resetForm () {
       this.$refs.ruleForm.resetFields()
     },
     submitBackForm () {
       this.$refs.backForm.validate()
-      .then(res=>{
-              console.log('通过验证')
-              console.log(res)
-            })
-            .catch(res=>{
-              console.log('不通过')
-              console.log(res)
-            })
+        .then(res => {
+          console.log('通过验证')
+          console.log(res)
+        })
+        .catch(res => {
+          console.log('不通过')
+          console.log(res)
+        })
     },
-    submitForm3(){
-          this.$refs.setTips.setTips('tips','输入提示')
-        }
+    submitForm3 () {
+      this.$refs.setTips.setTips('tips', '输入提示')
+    },
+    submitForm6 () {
+      this.$refs.quickForm.validate()
+        .then(res => {
+          console.log('通过验证')
+          console.log(res)
+        })
+        .catch(res => {
+          console.log('不通过')
+          console.log(res)
+        })
+    }
   }
 }
 </script>
@@ -244,7 +259,7 @@ export default{
       <ak-form-item prop="tel" label="tel">
         <ak-input v-model="ruleForm.tel"></ak-input>
       </ak-form-item>
-      <ak-form-item label="城市">
+      <ak-form-item label="城市" class="city-item">
         <ak-form-item prop="city">
           <ak-input v-model="ruleForm.city" class="width"></ak-input>
         </ak-form-item>
@@ -371,37 +386,38 @@ export default {
   components: {},
   methods: {
     submitForm () {
-      this.$refs.ruleForm.validate()
-      .then(res=>{
+          this.$refs.ruleForm.validate()
+            .then(res => {
               console.log('通过验证')
               console.log(res)
             })
-            .catch(res=>{
+            .catch(res => {
               console.log('不通过')
               console.log(res)
             })
-    },
-    submitForm2 () {
-      const props = ['name', 'password']
-      this.$refs.ruleForm.validateField(props)
-      .then(res=>{
-                    console.log('通过验证')
-                    console.log(res)
-                  })
-                  .catch(res=>{
-                    console.log('不通过')
-                    console.log(res)
-                  })
-    },
-    resetForm () {
-      this.$refs.ruleForm.resetFields()
-    }
+        },
+        submitForm2 () {
+          const props = ['name', 'password']
+          this.$refs.ruleForm.validateField(props)
+            .then(res => {
+              console.log('通过验证')
+              console.log(res)
+            })
+            .catch(res => {
+              console.log('不通过')
+              console.log(res)
+            })
+        },
+        resetForm () {
+          this.$refs.ruleForm.resetFields()
+        }
   }
 }
 </script>
 
 <style>
 .width .ak-input-control{width: 150px;}
+.city-item .ak-form-item{margin-bottom: 0}
 </style>
 ```
 :::
@@ -454,17 +470,17 @@ export default {
     }
   }
   methods: {
-    submitBackForm () {
-      this.$refs.backForm.validate()
-      .then(res=>{
-                    console.log('通过验证')
-                    console.log(res)
-                  })
-                  .catch(res=>{
-                    console.log('不通过')
-                    console.log(res)
-                  })
-    }
+      submitBackForm () {
+        this.$refs.backForm.validate()
+          .then(res => {
+            console.log('通过验证')
+            console.log(res)
+          })
+          .catch(res => {
+            console.log('不通过')
+            console.log(res)
+          })
+      }
   }
 }
 </script>
@@ -531,6 +547,51 @@ export default {
 ```
 :::
 
+### 6、快速验证
+:::demo 对于大量的表单验证不需要精确提示时，如验证为空时统一提示为必填字段，可通过`formItem`设置`verify`，从个用逗号隔开
+```html
+<template>
+  <div>
+      <ak-form ref="quickForm">
+        <ak-form-item prop="password1" label="用户名" verify="mail">
+          <ak-input v-model="form6.name"></ak-input>
+        </ak-form-item>
+  
+        <ak-form-item prop="password2" label="确认密码" verify="required,digits">
+          <ak-input v-model="form6.password"></ak-input>
+        </ak-form-item>
+      </ak-form>
+      <ak-button @click="submitForm6" type="primary">按钮提交</ak-button>
+    </div>
+</template>
+<script>
+export default {
+  data () {
+    return {
+      form6: {
+       name:'',
+       password:''
+      }
+    }
+  },
+  methods(){
+    submitForm6 () {
+      this.$refs.quickForm.validate()
+      .then(res=>{
+          console.log('通过验证')
+          console.log(res)
+      })
+      .catch(res=>{
+          console.log('不通过')
+          console.log(res)
+      })
+    }
+  }
+}
+</script>
+```
+:::
+
 ## API
 ### Form
 |参数|类型|说明|
@@ -546,7 +607,6 @@ export default {
 |-|-|-|
 |validate       | Function       |对表单进行校验的方法，promise方法（是否通过验证，未通过时为所有未通过检验的错误提示；通过时返回value值）|
 |validateField  | Function       |同上，对部分表单字段进行校验的方法，参数为一个要校验的prop|
-|resetFields    | Function       |对整个表单进行重置，将所有字段值重置为初始值并移除校验结果|
 ### FormItem
 |参数|类型|说明|
 |-|-|-|
@@ -554,6 +614,7 @@ export default {
 |label          | String         |标签文本|
 |className      | String         |class类名|
 |required       | boolean/true  |是否根据验证规则自动生成必填样式名|
+|verify         | String         |快速验证，支持required, mobile, tel, mail, digits, number 多个用逗号隔开|
 
 ### FormItem Rules 验证规则
 |类型|说明|

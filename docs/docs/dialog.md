@@ -481,7 +481,7 @@ export default {
 :::
 
 ### 11、使用`slot="footer"`自定义尾部
-:::demo 适用于窗口展开收起事件，导致窗口高度发生变化时，用于修正窗口的位置
+:::demo 
 ```html
 <template>
   <div>
