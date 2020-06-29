@@ -169,10 +169,10 @@ export default {
 ```html
 <template>
   <div>
-    <ak-img-crop 
-      v-model="imgCrop" 
-      :action="url" 
-      @success="_success" 
+    <ak-img-crop
+      v-model="imgCrop"
+      :action="url"
+      @success="_success"
       @error="_error">确认</ak-img-crop>
   </div>
 </template>
@@ -223,7 +223,6 @@ export default {
 |imgWidth       | Number         |裁切上传，裁切图片的宽|
 |imgHeight      | Number         |裁切上传，裁切图片的高|
 |fixedScale     | Boolean/true   |裁切上传，约束比例|
-
 
 ### Upload Event
 |参数|类型|说明|

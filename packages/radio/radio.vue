@@ -14,7 +14,7 @@ import emitter from '../mixins/emitter'
 
 export default {
   name: `${prefixCls}Radio`,
-  data () {
+  data() {
     return {
       prefixCls: prefixCls,
       isChecked: null,
@@ -32,22 +32,23 @@ export default {
     change: Function
   },
   watch: {
-    value (v) {
+    value(v) {
       this.modelValue = v
     }
   },
   methods: {
-    _onChange (e) {
+    _onChange(e) {
       let emitValue = e.target.value || true
       if (!this.checked) {
         this.isChecked = true
       }
       this.$emit('input', emitValue)
       this.change && this.change(emitValue)
+      this.$emit('change', emitValue)
       this.dispatch('formItem', `${prefixCls}.form.change`, [emitValue, e])
     }
   },
-  mounted () {
+  mounted() {
     // checked组使用时传过来的value
     // v-model=isChecked时选中状态
     if (this.checked) {

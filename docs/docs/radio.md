@@ -107,14 +107,23 @@ export default {
 |disabled        | boolean/false  |是否禁用|
 |class          | String         |原生 class|
 
+### Radio Event
+|参数|说明|
+|-|-|
+|change          |  改变事件|
+
 ### Radio Group
-|参数|类型|说明|
-|-|-|-|
-|value           | string         |Radio组 的 value|
-|change          | function       |事件|
+|参数|说明|
+|-|-|
+|value           | string         |Radio组 的 value/v-model|
 |data            | array          |组数据|
 |class           | String         |原生 class|
 |disabled        | Boolean/false   |禁用组|
+
+### Radio Group Event
+|参数|说明|
+|-|-|
+|change          | 改变事件,function(value,item) value为当前选中的值，item为当前data中选中的项|
 
 ### Radio Group Data
 |参数|类型|说明|
