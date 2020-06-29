@@ -17,10 +17,10 @@
               :key="index"
               :value="item.value"
               :label="item.label||item.value"
-              :disabled="disabled||item.disabled"
+              :disabled="disabled||item._disabled||item.disabled"
               :class="item.class"
               v-model="groupValue"
-              @change="_change">
+              @change="_change($event,item)">
     </Checkbox>
   </div>
 </template>
@@ -30,18 +30,18 @@ import {prefixCls} from '../prefix'
 
 export default {
   name: `${prefixCls}CheckboxGroup`,
-  data () {
+  data() {
     return {
       prefixCls: prefixCls,
       groupValue: this.value // 初始选中值
     }
   },
   watch: {
-    value (v) {
+    value(v) {
       this.groupValue = v
     }
   },
-  updated () {
+  updated() {
   },
   props: {
     data: Array,
@@ -57,50 +57,60 @@ export default {
   },
   components: {Checkbox},
   methods: {
-    _change (v) {
+    _change(value, item) {
       const newLen = this.groupValue.length
-      const len = this.value.length
-      let isAdd = false
-      if (newLen > len) {
-        isAdd = true // 表示添加勾选，否则表示取消选择
-      }
-      // 超出最大或最小值时返回原来的值
-      if ((isAdd && len >= this.max) || (!isAdd && len <= this.min)) {
-        this.$emit('input', [...this.value])
+      if (newLen >= this.max) {
+        // 将所有未勾选的设为禁用状态
+        this.data.forEach(item => {
+          if (this.groupValue.indexOf(item.value) === -1) {
+            this.$set(item, '_disabled', true)
+          }
+        })
+      } else if (newLen <= this.min) {
+        // 将所有已勾选的设为禁用状态
+        this.data.forEach(item => {
+          if (this.groupValue.indexOf(item.value) !== -1) {
+            this.$set(item, '_disabled', true)
+          }
+        })
       } else {
-        this.$emit('input', [...this.groupValue])
+        // 将所有_disabled去掉
+        this.data.forEach(item => {
+          delete item._disabled
+        })
       }
-      this.change && this.change(v)
+      this.$emit('input', [...this.groupValue])
+      this.change && this.change(value, item)
+      this.$emit('change', value, item)
     },
-    select () {
-      // 对外提供的全选方法
-      // 提取所有value值
+    toggleSelect(boolean) {
       let value = []
       this.data && this.data.forEach(item => {
-        if (item.disabled && this.value.indexOf(item.value) === -1) {
-          // 禁用且没有勾选的过滤
+        if (boolean) {
+          // 全选时
+          if (item.disabled && this.value.indexOf(item.value) === -1) {
+            // 禁用且没有勾选的过滤
+          } else {
+            value.push(item.value)
+          }
         } else {
-          value.push(item.value)
+          // 取消选择时
+          if (item.disabled && this.value.indexOf(item.value) !== -1) {
+            // 禁用且没有勾选的过滤
+            value.push(item.value)
+          }
         }
       })
       this.$emit('input', value)
     },
-    clear () {
-      // 对外提供的全不选方法
-      console.log('clear')
-      // 只提示禁用且已选择的
-      let value = []
-      this.data && this.data.forEach(item => {
-        if (item.disabled && this.value.indexOf(item.value) !== -1) {
-          // 禁用且没有勾选的过滤
-          value.push(item.value)
-        }
+    getValue() {
+      return this.data.filter(item => {
+        return this.value.indexOf(item.value) !== -1
       })
-      this.$emit('input', value)
     }
   },
   computed: {},
-  mounted () {
+  mounted() {
   },
   filters: {}
 }

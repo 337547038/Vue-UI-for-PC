@@ -11,7 +11,7 @@ export default {
       checkbox6: true,
       checkbox7: false,
       checkbox8: ['a1', 'a6'],
-      checkbox9: ['a2', 'a5'],
+      checkbox9: ['a5'],
       checkbox10: [],
       checkbox11: ['a2','a6'],
       groupData: [
@@ -25,9 +25,12 @@ export default {
     }
   },
   methods: {
-  _chagen11(){
-  console.log('ff')
-  }
+    _chagen11(){
+      console.log('ff')
+    },
+    getValue(){
+      console.log(this.$refs.checkGroup.getValue())
+    }
   }
 }
 </script>
@@ -87,14 +90,14 @@ export default {
 :::
 
 ### 多选框组
->data中选项text可为空
+>data中选项label可为空
 
 :::demo 
 ```html
 <template>
   <div>
     <p>已选值：{{checkbox8}}</p>
-    <p><ak-checkbox-group v-model="checkbox8" :data="groupData">选项1</ak-checkbox-group></p>
+    <p><ak-checkbox-group v-model="checkbox8" :data="groupData"></ak-checkbox-group></p>
   </div>
 </template>
 <script>
@@ -125,14 +128,14 @@ export default {
 <template>
   <div>
     <p>已选值：{{checkbox9}}</p>
-    <p><ak-checkbox-group v-model="checkbox9" :data="groupData" :min="2" :max="4" >选项1</ak-checkbox-group></p>
+    <p><ak-checkbox-group v-model="checkbox9" :data="groupData" :min="2" :max="4" ></ak-checkbox-group></p>
   </div>
 </template>
 <script>
 export default {
   data () {
     return {
-      checkbox7: ['a2', 'a5'],
+      checkbox9: ['a5'],
       groupData: [
         {label: '选项1', value: 'a1'},
         {label: '选项2', value: 'a2'},
@@ -151,14 +154,17 @@ export default {
 
 ### 组全选或全不选方法
 
-:::demo 
+:::demo `toggleSelect(true/false)全选或取消全选`，可使用 `getValue` 取方法取得已勾选的项集合
 ```html
 <template>
   <div>
     <p>已选值：{{checkbox11}}</p>
-    <p><ak-checkbox-group v-model="checkbox11" :data="groupData" ref="checkGroup">选项1</ak-checkbox-group></p>
-    <p><ak-button @click="$refs.checkGroup.select()">全选</ak-button> 
-    <ak-button @click="$refs.checkGroup.clear()">全不选</ak-button></p>
+    <p><ak-checkbox-group v-model="checkbox11" :data="groupData" ref="checkGroup"></ak-checkbox-group></p>
+    <p>
+      <ak-button @click="$refs.checkGroup.toggleSelect(true)">全选</ak-button> 
+      <ak-button @click="$refs.checkGroup.toggleSelect(false)">全不选</ak-button>
+      <ak-button @click="getValue">获取值</ak-button>
+    </p>
   </div>
 </template>
 <script>
@@ -174,6 +180,11 @@ export default {
         {label: '禁用', value: 'a5', disabled: true},
         {label: '勾选禁用', value: 'a6', disabled: true}
       ]
+    }
+  },
+  methods: {
+    getValue(){
+      console.log(this.$refs.checkGroup.getValue())
     }
   }
 }
@@ -231,7 +242,6 @@ export default {
 |-|-|-|
 |value          | Array           |当前选中的值。通过v-model绑定|
 |data           | Array           |选项数据|
-|change         |                 |改变事件|
 |max            | number          |可被勾选的 checkbox 的最大数量|
 |min            | number          |可被勾选的 checkbox 的最小数量|
 |disabled       | Boolean/false   |禁用组|
@@ -239,5 +249,10 @@ export default {
 ### CheckboxGroup Methods
 |参数|类型|
 |-|-|-|
-|select         | 全选当前组所有选项 |
-|clear          | 取消选择当前组所有选项 |
+|toggleSelect         | 全选true/取消false当前组所有选项 |
+|getValue             | 获取当前所有勾选项的集合 |
+
+### CheckboxGroup Event
+|参数|类型|说明|
+|-|-|-|
+|change         |                |改变事件|
