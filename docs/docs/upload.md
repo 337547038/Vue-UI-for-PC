@@ -236,3 +236,4 @@ export default {
 |-|-|-|
 |upload        | 手动上传方法，auto为false时|
 |clear         | 清空事件方法|
+|cancelRequest | 取消上传|
