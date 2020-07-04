@@ -68,6 +68,17 @@
 ```html
 <template>
   <div>
+    <ak-button icon="fa fa-search">搜索</ak-button>
+  </div>
+</template>
+```
+:::
+
+### 添加icon图标
+:::demo 
+```html
+<template>
+  <div>
     <ak-button type="text" routerTo="/button" target="_blank">新窗口打开</ak-button>
   </div>
 </template>
@@ -82,6 +93,7 @@
 |round          | boolean/false  |是否圆角按钮|
 |routerTo       | String         |路由url|
 |disabled       | boolean/false  |是否禁用状态|
+|icon           | String         |前缀icon|
 |nativeType     | String         |原生 type 属性，button / submit / reset|
 |-              | -              |其它原生属性|
 

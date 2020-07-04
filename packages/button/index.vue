@@ -9,6 +9,7 @@
           :disabled="disabled"
           @click="_handleClick"
           v-if="nativeType">
+    <i :class="[icon]" v-if="icon"></i>
     <slot></slot>
   </button>
   <a v-bind="$attrs"
@@ -16,6 +17,7 @@
      :href="disabled?'javascript:;':routerHref"
      @click="_handleClick"
      v-else>
+    <i :class="[icon]" v-if="icon"></i>
     <slot></slot>
   </a>
 </template>
@@ -32,10 +34,7 @@ export default {
     type: String,
     href: String,
     routerTo: String,
-    /* plain: {
-      type: Boolean,
-      default: false
-    }, */
+    icon: String,
     round: {
       type: Boolean,
       default: false
