@@ -10,8 +10,11 @@
         :showValue="showValue"
         @click="_click"
         @toggle="_toggle"
-        @checkboxChange="_checkboxChange"
-      ></treeItem>
+        @checkboxChange="_checkboxChange">
+        <template slot-scope="node">
+            <slot :row="node.row" :index="node.index||index" :parent="index"></slot>
+         </template>
+      </treeItem>
     </ul>
   </div>
 </template>

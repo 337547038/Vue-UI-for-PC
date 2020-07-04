@@ -319,7 +319,6 @@ export default {
 ```
 :::
 
-
 ### 5、可勾选
 :::demo 可勾选时，必须要带key值
 ```html
@@ -388,6 +387,71 @@ export default {
 }
 </script>
 
+```
+:::
+
+### 6、支持scoped slot自定义
+:::demo 支持scoped slot自定义，`slot-scope="{row,index,parent}"` row当前行信息,index当前行所在数组位置下标,parent父级的index
+```html
+<template>
+  <div>
+    <ak-tree :data="data5">
+      <span class="expand" slot-scope="scope">
+         <a>新增节点</a>
+         <a>修改</a>
+         <a>删除</a>
+      </span>
+    </ak-tree>
+  </div>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      data5: [
+        {
+          show: true,
+          name: '广东',
+          key: 't1',
+          children: [
+            {
+              key: 't2',
+              name: '广州市',
+              children: [
+                {name: '天河区', key: 't3'},
+                {name: '越秀区', key: 't4'},
+                {name: '白云区', key: 't5'},
+                {name: '海珠区', key: 't6'}
+              ]
+            },
+            {name: '深圳市', key: 't7'},
+            {name: '东莞市', checked: true, key: 't8'},
+            {name: '湛江市', key: 't9'},
+            {name: '阳江市', key: 't10'},
+            {name: '清远市', key: 't11'}
+          ]
+        },
+        {name: '北京', key: 't12'},
+        {name: '上海', key: 't3'},
+        {
+          name: '广西',
+          key: 't14'
+        },
+        {
+          name: '广西2',
+          key: 't15'
+        }
+      ]
+    }
+  },
+  methods: {
+  }
+}
+</script>
+<style>
+.expand{}
+.expand a{color: #2d8cf0;margin-left: 10px;}
+</style>
 ```
 :::
 

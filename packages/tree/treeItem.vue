@@ -11,8 +11,9 @@
       :class="{'some-select':data.someSelect&&!data.checked}">
     </Checkbox>
     <a @click="_click(data)">{{data.name}}<span v-if="showValue">({{data.value}})</span></a>
+    <slot :row="data"></slot>
     <!--<transition name="tree-toggle">-->
-      <collapse-transition>
+    <collapse-transition>
       <ul v-show="data.show" v-if="data.children">
         <p class="tree-loading" v-if="data.children.length===0&&$parent.lazy"></p>
         <treeLi
@@ -23,7 +24,9 @@
           :showValue="showValue"
           @click="_click"
           @toggle="_slideToggleChild"
-          @checkboxChange="_checkboxChangeChild"></treeLi>
+          @checkboxChange="_checkboxChangeChild">
+          <slot :row="item" :index="index"></slot>
+        </treeLi>
       </ul>
     </collapse-transition>
   </li>
@@ -31,6 +34,7 @@
 <script>
 import {Checkbox} from '../checkbox'
 import CollapseTransition from '../transition'
+
 export default {
   name: 'treeLi',
   data() {
