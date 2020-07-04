@@ -199,7 +199,7 @@ export default {
 ```html
 <template>
  <ak-select placeholder="请选择" v-model="value9" ref="select9">
-   <div v-for="item in templateData" @click="_click(item.label)">{{item.label}}</div>
+   <div v-for="item in templateData" @click.stop="_click(item.label,$event)">{{item.label}}</div>
 </ak-select>
 </template>
 <script>
