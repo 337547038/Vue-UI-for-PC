@@ -31,7 +31,10 @@ export default {
           param.append(i, data.data[i])
         }
       }
+      this.source = axios.CancelToken.source()
+      const cancelToken = this.source.token
       let config = {
+        cancelToken,
         headers: Object.assign({'Content-Type': 'multipart/form-data'}, data.headers),
         timeout: data.timeout, // `timeout` 指定请求超时的毫秒数(0 表示无超时时间)
         onUploadProgress: progressEvent => {
