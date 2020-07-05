@@ -34,7 +34,7 @@ import Transition from './transition'
 import Slider from './slider'
 import Badge from './badge'
 import {Icon, Icons} from './icon'
-
+import InputNumber from './inputNumber'
 const component = [
   Button,
   Dialog,
@@ -70,7 +70,8 @@ const component = [
   Slider,
   Icon,
   Icons,
-  Badge
+  Badge,
+  InputNumber
 ]
 const install = function (Vue, options) {
   component.forEach(item => {

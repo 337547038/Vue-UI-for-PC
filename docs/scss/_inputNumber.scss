@@ -1,0 +1,15 @@
+@charset "utf-8";
+@include ns(input-number) {display: inline-block;vertical-align: middle;position: relative;
+  input {text-align: center;}
+  .number-control {
+    a {display: block;position: absolute;top: 1px;width: 38px;bottom: 1px;background: #f5f7fa;left: 1px;border-right: 1px solid #dcdfe6;
+      &:last-child {left: auto;right: 1px;border-left: 1px solid #dcdfe6;border-right-color: transparent;}
+      &.disabled {cursor: not-allowed}
+    }
+  }
+  &.disabled {
+    .number-control {
+      a {background: #eee;cursor: not-allowed}
+    }
+  }
+}

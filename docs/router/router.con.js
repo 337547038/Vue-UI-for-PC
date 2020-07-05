@@ -184,6 +184,11 @@ const router = [
     component: () => import('../docs/badge.md')
   },
   {
+    path: '/inputNumber',
+    name: 'inputNumber',
+    component: () => import('../docs/inputNumber.md')
+  },
+  {
     path: '/test',
     name: 'test',
     meta: {
