@@ -2,7 +2,7 @@
 <template>
   <div :class="`${prefixCls}-page`" v-show="!hidePage">
     <div :class="`${prefixCls}-page-align`">
-      <div class="total" v-if="showTotal">共<span>{{total}}</span>条</div>
+      <div class="total" v-if="showTotal">共<span>{{formatValue}}</span>条</div>
       <p-select :options="selectOptions" v-model="selectChange" v-if="pageSizes.length>0"></p-select>
       <div class="page-list">
         <ul class="clearfix">
@@ -96,6 +96,10 @@ export default {
     hideSinglePage: { // 当只有一页时，是否隐藏分页
       type: Boolean,
       default: false
+    },
+    format: { // 总记录数值转成千分制
+      type: Boolean,
+      default: false
     }
   },
   components: {pInput, pSelect},
@@ -187,8 +191,14 @@ export default {
         options.push({label: `每页${item}条`, value: item})
       })
       return options
+    },
+    formatValue() {
+      let val = this.total
+      if (this.format) {
+        val = this.total.toString().replace(/(\d{1,3})(?=(?:\d{3})+(?!\d))/g, '$1,')
+      }
+      return val
     }
-  },
-  filters: {}
+  }
 }
 </script>

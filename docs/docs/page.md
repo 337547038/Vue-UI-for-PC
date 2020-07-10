@@ -67,7 +67,7 @@ export default {
 :::demo 
 ```html
 <template>
-<ak-pagination :total="150" :current="1" :showJumper="true" :pageSizes="[10,20,30,50]" :showTotal="true" :changePageSizes="changePageSizes"/>
+<ak-pagination :total="1050" :current="1" :showJumper="true" :pageSizes="[10,20,30,50]" :showTotal="true" :changePageSizes="changePageSizes"/>
 </template>
 <script>
 export default {
@@ -119,4 +119,5 @@ export default {
 |showTotal      | boolean/false  |显示总记录条数|
 |changePageSizes| function       |每页显示条数改变事件|
 |hideSinglePage | boolean/false  |当只有一页时是否隐藏显示|
+|format         | boolean/false  |数值转千分制显示|
 

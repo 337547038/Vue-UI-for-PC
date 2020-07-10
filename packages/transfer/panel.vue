@@ -45,9 +45,9 @@ export default {
     },
     _changeCheckbox (v) {
       if (v) {
-        this.$refs.checkboxGroupRef.select() // 全选
+        this.$refs.checkboxGroupRef.toggleSelect(true) // 全选
       } else {
-        this.$refs.checkboxGroupRef.clear()
+        this.$refs.checkboxGroupRef.toggleSelect()
       }
       // this._emit()
     }
