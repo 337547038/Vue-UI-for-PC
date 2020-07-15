@@ -134,12 +134,23 @@ export default {
     },
     validate(callback) {
       // 调用组件form的验证方法
-      this.$refs.form.validate((result, object) => {
+      /*this.$refs.form.validate((result, object) => {
         if (result) {
           object = this.model
         }
         callback(result, object)
-      })
+      })*/
+      this.$refs.form.validate()
+        .then(res => {
+          console.log('通过验证')
+          console.log(res)
+          callback(true, res)
+        })
+        .catch(res => {
+          console.log('不通过')
+          console.log(res)
+          callback(false, res)
+        })
     },
     validateField(props, callback) {
       this.$refs.form.validateField(props, (result, object) => {
