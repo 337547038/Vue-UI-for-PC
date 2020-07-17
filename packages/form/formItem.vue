@@ -185,6 +185,10 @@ export default {
           })
         }
       }
+      // 通过formItem写的verify也要添加
+      if (this.required && this.verify && this.verify.indexOf('required') !== -1) {
+        bool = true
+      }
       return bool
     },
     form () {
