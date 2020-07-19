@@ -16,10 +16,10 @@
     <span class="suffix-icon">
       <slot name="suffix"></slot>
        <i :class="[suffixIcon]" v-if="suffixIcon"></i>
-       <i :class="`${prefixCls}-icon-clear`"
+       <i class="icon-close"
           v-if="clear&&value"
           @click.stop="_clear"></i>
-       <i :class="[prefixCls+'-icon-eye',{'eye-show':eyeShow}]"
+       <i :class="{'icon-eye-close':eyeShow,'icon-eye':!eyeShow}"
           v-if="value&&showEye && type==='password'"
           @click.stop="eyeShow=!eyeShow"></i>
       </span>

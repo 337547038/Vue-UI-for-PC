@@ -2,14 +2,30 @@
 <template>
   <transition :name="animation">
     <div v-show="visible"
-         :class="{'active':visible,[prefixCls+'-dialog']:true,[className]:className,[prefixCls+'-dialog-isAlert']:isAlert}"
+         :class="{'active':visible,[prefixCls+'-dialog']:true,[className]:className,[prefixCls+'-dialog-isAlert']:isAlert,'dialog-full-screen':isFull}"
          :style="{zIndex:zIndex2,
          animationDuration: '.3s',
          left:style.left,
          top:style.top
          }">
-      <a href="javascript:;" :class="`${prefixCls}-dialog-close ${prefixCls}-icon-close`" v-if="showClose"
-         @click="_close"></a>
+      <span :class="[prefixCls+'-dialog-icon']">
+        <a href="javascript:;"
+           class="min icon-minus"
+           v-if="showScreen"
+           @click="_screenMin">
+        </a>
+        <a href="javascript:;"
+           class="max"
+           :class="{'icon-full':!isFull,'icon-max':isFull}"
+           v-if="showScreen"
+           @click="isFull=!isFull">
+        </a>
+        <a href="javascript:;"
+           :class="`${prefixCls}-dialog-close icon-close`"
+           v-if="showClose"
+           @click="_close">
+        </a>
+      </span>
       <div :class="`${prefixCls}-dialog-auto-close`" v-if="autoClose>0">
         <span v-text="autoTime"></span>秒后自动关闭
       </div>
@@ -25,7 +41,7 @@
            [prefixCls+'-dialog-content']:true,
            'has-icon':icon}">
         <div v-if="content" :class="[prefixCls+'-dialog-text']">
-          <i :class="[{[prefixCls+'-icon-'+icon]:icon}]" v-if="icon"></i><span v-html="content"></span>
+          <i :class="[{['icon-'+iconName]:icon}]" v-if="icon"></i><span v-html="content"></span>
         </div>
         <slot v-else></slot>
       </div>
@@ -42,6 +58,7 @@
 import dButton from '../button'
 import dom from '../mixins/dom.js'
 import {prefixCls} from '../prefix'
+import md5 from 'js-md5'
 
 export default {
   name: `${prefixCls}Dialog`,
@@ -63,7 +80,9 @@ export default {
       style: {
         left: '', // 窗口位置
         top: '' // 窗口位置
-      }
+      },
+      isFull: this.fullScreen, // 窗口状态 false正常 true最大化
+      minScreen: ''
     }
   },
   mixins: [dom],
@@ -139,6 +158,11 @@ export default {
       // 主要用于this.$dialog中常见的几种提示
       type: Number,
       default: 0
+    },
+    fullScreen: Boolean, // 全屏显示
+    showScreen: { // 显示最大最小化按钮
+      type: Boolean,
+      default: false
     }
   },
   components: {dButton},
@@ -353,6 +377,7 @@ export default {
       }
       // 自动关闭
       this._autoClose()
+      this.after && this.after()
     },
     _modalClick(e) {
       // 遮罩层点击事件
@@ -415,9 +440,55 @@ export default {
       const getWindow = this.getWindow()
       this.windowWidth = getWindow.width
       this.windowHeight = getWindow.height
+    },
+    // 最小化
+    _screenMin() {
+      // 将窗口关掉，向body插入最小化标签
+      this._hide()
+      const content = document.createElement('div')
+      // content.style.left = this.style.left
+      // content.style.top = this.style.top
+      content.innerHTML = this.title
+      const id = md5(this.title)
+      content.id = id
+      // 已经存在不重复添加，最小化后再打开窗口时
+      if (document.getElementById(id)) {
+        return
+      }
+      let minDiv = document.querySelector(`.${prefixCls}-dialog-min-list`)
+      if (!minDiv) {
+        // 如果不存在，侧创建
+        minDiv = document.createElement('div')
+        minDiv.className = `${prefixCls}-dialog-min-list`
+        document.body.appendChild(minDiv)
+      }
+      this.minScreen = minDiv
+      content.addEventListener('click', this._minContent.bind(this, minDiv), false)
+      minDiv.appendChild(content)
+    },
+    // 最小化点击，恢复窗口，即重新打开
+    _minContent(parent, el) {
+      parent.removeChild(el.target)
+      this.open()
     }
   },
-  computed: {},
+  computed: {
+    iconName() {
+      let icon = this.icon
+      switch (this.icon) {
+        case 1:
+          icon = 'success'
+          break
+        case 2:
+          icon = 'failure'
+          break
+        case 3:
+          icon = 'tips'
+          break
+      }
+      return icon
+    }
+  },
   created() {
     this.scrollbarWidth = this.getScrollbarWidth()
   },
@@ -428,7 +499,6 @@ export default {
       }
       this._getWindow() // 取当前窗口宽高
       this._setPosition()
-      this.after && this.after()
       window.addEventListener('resize', this._resize, false)
       if (this.value) {
         // 初始默认就是true时
@@ -453,6 +523,10 @@ export default {
       modal.parentNode.removeChild(modal)
     }
     window.removeEventListener('resize', this._resize, false)
+    // 最小化
+    if (this.minScreen) {
+      document.body.removeChild(this.minScreen)
+    }
   }
 }
 </script>

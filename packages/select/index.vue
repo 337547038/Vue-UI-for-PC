@@ -24,8 +24,10 @@
            'disabled':disabled}"
            v-text="text" v-if="!filterable">
       </div>
-      <i :class="{'open':show,[prefixCls+'-icon-arrow']:true}"></i>
-      <i :class="`${prefixCls}-icon-clear`" v-if="clear&&value.length>0" @click="_clearClick"></i>
+      <span class="icon-group">
+      <i class="icon-close" v-if="clear&&value.length>0" @click="_clearClick"></i>
+        <i :class="{'open':show,'icon-arrow':true}"></i>
+      </span>
     </div>
     <transition name="slide-toggle">
       <div :class="`${prefixCls}-select-down`" v-show="show&&filterOption.length>0" :style="showLiNum"
@@ -51,7 +53,7 @@ import emitter from '../mixins/emitter'
 export default {
   name: `${prefixCls}Select`,
   mixins: [emitter],
-  data () {
+  data() {
     return {
       prefixCls: prefixCls,
       filterOption: this.options,
@@ -103,7 +105,7 @@ export default {
     downStyle: Object // 下拉面板样式
   },
   components: {},
-  mounted () {
+  mounted() {
     this._setFirstText()
     /* 注册点击事件 */
     document.addEventListener('click', this._showHide)
@@ -112,7 +114,7 @@ export default {
     }
   },
   watch: {
-    show (value) {
+    show(value) {
       if (this.filterable) {
         if (value) {
           // 聚焦。有时点了不是输入框，而是旁边的方向，这里也让输入框聚焦
@@ -122,7 +124,7 @@ export default {
         }
       }
     },
-    value (v) {
+    value(v) {
       if (this.$slots.default) {
         // 自定模板时没办法将值和value对应起来
         this.text = v
@@ -130,12 +132,12 @@ export default {
       this._setFirstText() // 动态改变值时
     },
     // 当数据为异步时
-    options (val) {
+    options(val) {
       this.filterOption = val
     }
   },
   methods: {
-    _showHide (e) {
+    _showHide(e) {
       if (this.$el.contains(e.target)) {
         if (!this.disabled) {
           // 非禁用状态下才能点击
@@ -152,7 +154,7 @@ export default {
         this.show = false
       }
     },
-    _itemClick (item, e) {
+    _itemClick(item, e) {
       if (!item.disabled) {
         if (this.multiple) {
           // 多选
@@ -187,7 +189,7 @@ export default {
       }
       e.stopPropagation()
     },
-    _setFirstText () {
+    _setFirstText() {
       // 设置第一项选项；如果有值则选中对应项，如果没值显示默认，没默认显示选第一项
       if (this.value.toString().length > 0) {
         let text = []
@@ -221,7 +223,7 @@ export default {
         }
       }
     },
-    _change (e) {
+    _change(e) {
       // 可搜索时输入框改变事件
       this.keywords = e.target.value
       let newArray = []
@@ -233,7 +235,7 @@ export default {
       }
       this.filterOption = newArray
     },
-    _blur (e) {
+    _blur(e) {
       // 搜索输入框失焦时，判断输入的值是否符合
       const value = e.target.value
       const filter = this.options.filter((item) => {
@@ -254,14 +256,14 @@ export default {
         this.filterOption = this.options
       }, 500)
     },
-    _getActive (item) {
+    _getActive(item) {
       if (this.multiple) {
         return this.value.indexOf(item.value) !== -1
       } else {
         return item.value === this.value
       }
     },
-    _clearClick (e) {
+    _clearClick(e) {
       const value = this.multiple ? [] : ''
       // this.$emit('input', value)
       this._emit(value, '', 1)
@@ -269,7 +271,7 @@ export default {
       this.text = this.placeholder
       e.stopPropagation()
     },
-    _emit (value, label, type) {
+    _emit(value, label, type) {
       // type 0系统触发，1手动触发
       this.$emit('input', value)
       // 手动触发的给组件formItem发送验证广播
@@ -281,21 +283,21 @@ export default {
         }
       }
     },
-    _selectControlClick (e) {
+    _selectControlClick(e) {
       // 添加一个事件，在展开的时候点击收起
       if (this.show) {
         this.show = false
         e.stopPropagation()
       }
     },
-    close () {
+    close() {
       this.$nextTick(() => {
         this.show = false
       })
     }
   },
   computed: {
-    showLiNum () {
+    showLiNum() {
       let style = {}
       if (this.showNum && this.options.length > this.showNum) {
         style = {
@@ -310,7 +312,7 @@ export default {
     }
   },
   filters: {},
-  destroyed () {
+  destroyed() {
     document.removeEventListener('click', this._showHide)
   }
 }

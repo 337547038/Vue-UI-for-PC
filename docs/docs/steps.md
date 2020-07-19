@@ -25,22 +25,22 @@ export default {
         {
           title: '步骤1',
           desc: '描述',
-          icon: 'fa fa-exclamation-triangle'
+          icon: 'icon-correct'
         },
         {
           title: '步骤2',
           desc: '描述',
-          icon: 'fa fa-check-circle'
+          icon: 'icon-error'
         },
         {
           title: '步骤3',
           desc: '描述',
-          icon: 'fa fa-times-circle'
+          icon: 'icon-warn'
         },
         {
           title: '步骤4',
           desc: '描述',
-          icon: 'fa fa-pencil-square'
+          icon: 'icon-refresh'
         }
       ],
       active: 1,
@@ -141,22 +141,22 @@ export default {
         {
           title: '步骤1',
           desc: '描述',
-          icon: 'fa fa-exclamation-triangle'
+          icon: 'icon-correct'
         },
         {
           title: '步骤2',
           desc: '描述',
-          icon: 'fa fa-check-circle'
+          icon: 'icon-error'
         },
         {
           title: '步骤3',
           desc: '描述',
-          icon: 'fa fa-times-circle'
+          icon: 'icon-warn'
         },
         {
           title: '步骤4',
           desc: '描述',
-          icon: 'fa fa-pencil-square'
+          icon: 'icon-refresh'
         }
       ],
       active2: 0

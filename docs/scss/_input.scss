@@ -3,18 +3,10 @@
   display: inline-block;position: relative;
   .suffix-icon, .prefix-icon {position: absolute;right: 0;top: 50%;transform: translateY(-50%);}
   .prefix-icon {left: 0;right: auto;}
-  i {font-family: FontAwesome;display: inline-block;font-size: 20px;cursor: pointer;transition: all .3s;width: 30px;height: 30px;text-align: center;line-height: 30px;color: #999}
-  @include ns(icon-clear) {display: none;
-    &:after {content: '\f057';}
-  }
-  @include ns(icon-eye) {right: 30px;
-    &:after {content: '\f070';}
-    &.eye-show {
-      &:after {content: '\f06e';}
-    }
-  }
+  i {display: inline-block;font-size: 20px;cursor: pointer;transition: all .3s;width: 30px;height: 30px;text-align: center;line-height: 30px;color: #999}
+  .icon-close {display: none;font-size: 14px}
   &:hover {
-    @include ns(icon-clear) {display: inline-block}
+    .icon-close {display: inline-block}
   }
   .has-prefix {padding-left: 30px}
 }

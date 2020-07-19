@@ -164,7 +164,7 @@ export default {
       placeholder="请输入内容" 
       v-model="value7" 
       @input="input"
-      prefix-icon="fa fa-user">
+      prefix-icon="icon-user">
    </akInput>
    </p>
    <p>&nbsp;</p>
@@ -172,7 +172,7 @@ export default {
       placeholder="请输入内容" 
       v-model="value8"
       @input="input"
-      suffix-icon="fa fa-search">
+      suffix-icon="icon-search">
    </akInput>
   </div>
 </template>

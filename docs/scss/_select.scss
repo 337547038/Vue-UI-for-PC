@@ -1,42 +1,39 @@
 @charset "UTF-8";
-@include ns(select){display: inline-block;position: relative;
-  @include ns(select-control){
-    [class*="ak-icon-"]{font-family: FontAwesome;display: block;position: absolute;right: 0;top: 50%;transform: translateY(-50%);font-size: 20px;cursor: pointer;transition: all .3s;width: 30px;height: 30px;text-align: center;line-height: 30px;}
-    @include ns(icon-arrow){
-      &:after{content: '\f107';}
-      &.open{transform: translateY(-50%) rotate(180deg)}
+@include ns(select) {display: inline-block;position: relative;
+  @include ns(select-control) {
+    .icon-group {display: block;position: absolute;right: 10px;top: 50%;transform: translateY(-50%);font-size: 20px;cursor: pointer;transition: all .3s;height: 30px;text-align: center;line-height: 30px;}
+    .icon-arrow {font-size: 14px;
+      &.open {transform: translateY(-50%) rotate(180deg)}
     }
     /*清空*/
-    @include ns(icon-clear){z-index: 2;font-size: 16px;color: #999;display: none;
-      &:before{background: #fff;width: 10px;height: 10px;content: '';display: inline-block;position: absolute;left: 10px;top: 10px;}
-      &:after{content: '\f057';z-index: 2;position: relative}
+    .icon-close {z-index: 2;font-size: 14px;color: #999;display: none;margin-right: 6px;
     }
     /*鼠标滑过显示清空*/
-    &.show-clear:hover{
-      @include ns(icon-clear){display: block}
+    &.show-clear:hover {
+      .icon-close {display: inline-block}
     }
   }
   /*下拉*/
-  @include ns(select-down){position: absolute;left: 0;top: 37px;background: #fff;border: 1px solid #ddd;box-sizing: border-box;width: 100%;z-index: 50;
-    ul{padding: 5px 0}
-    li{list-style: none;height: 25px;line-height: 25px;padding: 0 10px;margin: 0;cursor: pointer;width: 100%;display: block;box-sizing: border-box;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;
-      &:hover{background: #dcdfe6;}
+  @include ns(select-down) {position: absolute;left: 0;top: 37px;background: #fff;border: 1px solid #ddd;box-sizing: border-box;width: 100%;z-index: 50;
+    ul {padding: 5px 0}
+    li {list-style: none;height: 25px;line-height: 25px;padding: 0 10px;margin: 0;cursor: pointer;width: 100%;display: block;box-sizing: border-box;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;
+      &:hover {background: #dcdfe6;}
       /*选中状态*/
-      &.active{background: #a0cfff}
+      &.active {background: #a0cfff}
       /*禁用状态*/
-      &.disabled{background: #ddd;color: #999;cursor: not-allowed;}
+      &.disabled {background: #ddd;color: #999;cursor: not-allowed;}
     }
   }
-  .#{$namespace}-input-control.placeholder{color: #999;}
+  .#{$namespace}-input-control.placeholder {color: #999;}
 }
 /*transition通用下拉动画 select dataPicker……*/
-.slide-toggle-enter-active{ animation: slideDown .3s; transform-origin: center top }
-.slide-toggle-leave-active{ animation: slideUp .3s; transform-origin: center top }
-@keyframes slideDown{
-  0%{ opacity: 0; transform: scaleY(0); }
-  100%{ opacity: 1; transform: scaleY(1); }
+.slide-toggle-enter-active { animation: slideDown .3s; transform-origin: center top }
+.slide-toggle-leave-active { animation: slideUp .3s; transform-origin: center top }
+@keyframes slideDown {
+  0% { opacity: 0; transform: scaleY(0); }
+  100% { opacity: 1; transform: scaleY(1); }
 }
-@keyframes slideUp{
-  0%{ opacity: 1; transform: scaleY(1); }
-  100%{ opacity: 0; transform: scaleY(0); }
+@keyframes slideUp {
+  0% { opacity: 1; transform: scaleY(1); }
+  100% { opacity: 0; transform: scaleY(0); }
 }

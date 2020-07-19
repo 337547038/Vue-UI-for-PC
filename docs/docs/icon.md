@@ -1,7 +1,6 @@
 <!-- Created by 337547038 on 2018/9/7 0007. -->
 # Icon 图标
 > 字体图标引用iconfont
-> 演示没有引入iconfont，这里不显示
 
 ## 基础用法
 :::demo `showLabel=false`不显示名称
@@ -9,8 +8,8 @@
 ```html
 <template>
   <div>
-    <ak-icon icon="name" label="名称"></ak-icon>
-    <ak-icon icon="name" label="不显示名称" :showLabel="false"></ak-icon>
+    <ak-icon icon="user" label="名称"></ak-icon>
+    <ak-icon icon="user" label="不显示名称" :showLabel="false"></ak-icon>
   </div>
 </template>
 ```
@@ -24,10 +23,10 @@
 <template>
    <div>
       <ak-icons @click="click">
-        <ak-icon icon="name" label="名称"></ak-icon>
-        <ak-icon icon="name2" label="名称2"></ak-icon>
-        <ak-icon icon="name3" label="名称3"></ak-icon>
-        <ak-icon icon="name4" label="不显示标签名" :showLabel="false"></ak-icon>
+        <ak-icon icon="user" label="名称"></ak-icon>
+        <ak-icon icon="lock" label="名称2"></ak-icon>
+        <ak-icon icon="upload" label="名称3"></ak-icon>
+        <ak-icon icon="warn" label="不显示标签名" :showLabel="false"></ak-icon>
       </ak-icons>
    </div>
 </template>

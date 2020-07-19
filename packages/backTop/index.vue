@@ -4,7 +4,7 @@
     :class="`${prefixCls}-back-top`"
     :style="{right:right+'px',bottom:bottom+'px',opacity:show?1:0,visibility:show?'visible':'hidden'}"
     @click="_click">
-    <a v-text="text" href="javascript:;"></a>
+    <a v-text="text" href="javascript:;" class="icon-top"></a>
   </div>
 </template>
 <script>

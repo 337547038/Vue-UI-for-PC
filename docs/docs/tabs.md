@@ -78,7 +78,7 @@ export default {
 <template>
   <akTabs>
     <ak-tab-pane>
-     <span slot="label"><i class="fa fa-user"></i> 用户管理</span>
+     <span slot="label"><i class="icon-user"></i> 用户管理</span>
     用户管理
     </ak-tab-pane>
     <ak-tab-pane label="配置管理">配置管理</ak-tab-pane>

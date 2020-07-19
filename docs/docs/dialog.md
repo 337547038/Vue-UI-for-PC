@@ -16,6 +16,8 @@ export default {
       visible11: false,
       visible12: false,
       visible13: false,
+      visible14: false,
+      visible15: false,
       animation: 'zoom',
       autoHeight: ''
     }
@@ -513,6 +515,60 @@ export default {
 ```
 :::
 
+### 12、全屏模式
+:::demo 
+```html
+<template>
+  <div>
+    <span @click="visible14=true" class="green">试一试</span>
+    <ak-dialog v-model="visible14" title="全屏模式弹窗口" :fullScreen="true">
+      <p>这是的 dialog 弹窗内容</p>
+    </ak-dialog>
+  </div>
+</template>
+<script>
+export default {
+  data () {
+    return {
+      visible13: false
+    }
+  },
+  methods:{
+  
+  }
+}
+</script>
+
+```
+:::
+
+### 13、显示最大最小化弹窗
+:::demo 
+```html
+<template>
+  <div>
+    <span @click="visible15=true" class="green">试一试</span>
+    <ak-dialog v-model="visible15" title="最大最小化弹窗" :showScreen="true">
+      <p>这是的 dialog 弹窗内容</p>
+    </ak-dialog>
+  </div>
+</template>
+<script>
+export default {
+  data () {
+    return {
+      visible13: false
+    }
+  },
+  methods:{
+  
+  }
+}
+</script>
+
+```
+:::
+
 ## API
 
 ### Dialog
@@ -539,6 +595,9 @@ export default {
 |after          | function       |窗口加载完回调|
 |center         | boolean/true   |居中对齐，false时需通过添加样式控制窗口位置|
 |icon           | number/0       |仅在this.$dialog下有效，用于展示常见的alert提示显示对应的icon图标，1成功，2失败，3提示，4警告。其它的可通过添加样式控制|
+|zIndex         | number         |弹层的z-index样式|
+|fullScreen     | boolean/false  |是否全屏弹层|
+|showScreen     | boolean/false  |是否显示最大最小化按钮|
 
 ### Dialog Slot
 |参数|说明|
