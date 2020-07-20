@@ -1,40 +1,40 @@
 @charset "utf-8";
-@include ns(tree){
-  $pngBase:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAnCAYAAABJ0cukAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6MkNFQ0E1ODIwMjQ4MTFFOEFGQjJEMDU4MUJDREU5NjMiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6MkNFQ0E1ODMwMjQ4MTFFOEFGQjJEMDU4MUJDREU5NjMiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDoyQ0VDQTU4MDAyNDgxMUU4QUZCMkQwNTgxQkNERTk2MyIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDoyQ0VDQTU4MTAyNDgxMUU4QUZCMkQwNTgxQkNERTk2MyIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PtNNGgsAAAFbSURBVHja7JfPSsNAEMYnxZtCRYqC0PaSU+ktl158Bl/HR+lrePAJCqWHBHooOfXUgqCIKCg22Q3TzJKFJaGITba6dQaW/RMCM99vQvYDRAQXRxiGSHPl4Lv5rw1PVVEj7icLnMWrnc9Hgx7c3gw9aDiiKMIgCLwKgZ+Ou/EDvYdSCkw2X/j58Y5vr8/48rTGx/USi+fWCLR0RaqaPSPLJGRSgpQpnJ61QYoE0jQBkWzAVhABmlvlg70KKJIXedIUOnm9txFa8EYIaOXPLy7V/rrrQ98fqkLKAtURyhoBUjrvech7Xu2XcQTxfKpaqSxQHaHsESj1PK3pzGYLNUrA7HmtPK2ptWx/A/wf+O0BR3cXYgJMgAkwAXZk7Mj+tSMTxU3UWUdmJu+kI+tcdQ/qyE4qH0UNR2Yqr02Nc47MTN5JR2Ymz46MHRnfRpkAE2ACTODYHZnzBLYCDABGakNSNa+NoAAAAABJRU5ErkJggg==';
-  li{ line-height: 24px; position: relative;padding: 0;margin: 0;list-style: none;transition: all .3s;max-height: 24px;
-
-    i{ display: inline-block; vertical-align: middle; background: url($pngBase) no-repeat 4px -11px; width: 18px; height: 18px; cursor: pointer;
-      &.last-child{ background-position: 4px -29px }
-      &.has-child{ background-position: -13px 2px }
-      &.open-child{ background-position: -13px -16px }
+@include ns(tree) {
+  $pngBase: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAnCAYAAABJ0cukAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6MkNFQ0E1ODIwMjQ4MTFFOEFGQjJEMDU4MUJDREU5NjMiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6MkNFQ0E1ODMwMjQ4MTFFOEFGQjJEMDU4MUJDREU5NjMiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDoyQ0VDQTU4MDAyNDgxMUU4QUZCMkQwNTgxQkNERTk2MyIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDoyQ0VDQTU4MTAyNDgxMUU4QUZCMkQwNTgxQkNERTk2MyIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PtNNGgsAAAFbSURBVHja7JfPSsNAEMYnxZtCRYqC0PaSU+ktl158Bl/HR+lrePAJCqWHBHooOfXUgqCIKCg22Q3TzJKFJaGITba6dQaW/RMCM99vQvYDRAQXRxiGSHPl4Lv5rw1PVVEj7icLnMWrnc9Hgx7c3gw9aDiiKMIgCLwKgZ+Ou/EDvYdSCkw2X/j58Y5vr8/48rTGx/USi+fWCLR0RaqaPSPLJGRSgpQpnJ61QYoE0jQBkWzAVhABmlvlg70KKJIXedIUOnm9txFa8EYIaOXPLy7V/rrrQ98fqkLKAtURyhoBUjrvech7Xu2XcQTxfKpaqSxQHaHsESj1PK3pzGYLNUrA7HmtPK2ptWx/A/wf+O0BR3cXYgJMgAkwAXZk7Mj+tSMTxU3UWUdmJu+kI+tcdQ/qyE4qH0UNR2Yqr02Nc47MTN5JR2Ymz46MHRnfRpkAE2ACTODYHZnzBLYCDABGakNSNa+NoAAAAABJRU5ErkJggg==';
+  li { line-height: 24px; position: relative;padding: 0;margin: 0;list-style: none;transition: all .3s;max-height: 24px;
+    i { display: inline-block; vertical-align: middle; background: url($pngBase) no-repeat 4px -11px; width: 18px; height: 18px; cursor: pointer;
+      &.last-child { background-position: 4px -29px }
+      &.has-child { background-position: -13px 2px }
+      &.open-child { background-position: -13px -16px }
     }
-    a{ display: inline-block; vertical-align: middle; cursor: pointer;
-      &.active{ color: #f00 }
+    a { display: inline-block; vertical-align: middle; cursor: pointer;
+      &.active { color: #f00 }
     }
-    label{margin-right: 3px;}
-    ul{ padding-left: 18px; background: url($pngBase) repeat-y -39px top;max-height: 24px;transition: all .3s; }
-    &.active{max-height: 500px;
-      ul{max-height: 500px;}
+    label {margin-right: 3px;}
+    ul { padding-left: 18px; background: url($pngBase) repeat-y -39px top;max-height: 24px;transition: all .3s; }
+    &.active {max-height: 500px;
+      ul {max-height: 500px;}
     }
+    &.selected > a {color: red}
   }
-  .tree-loading{
+  .tree-loading {
     // 异步加载时等待动画
     height: 24px;
-    &:after{content: '';width: 15px;height: 15px;border: 1px solid #666;border-right: 1px solid transparent;display: block;border-radius: 50%;animation: treeLoad 1s infinite linear both;}
+    &:after {content: '';width: 15px;height: 15px;border: 1px solid #666;border-right: 1px solid transparent;display: block;border-radius: 50%;animation: treeLoad 1s infinite linear both;}
   }
 }
-@keyframes treeLoad{
-  0%{transform: rotate(0)}
-  100%{transform: rotate(360deg)}
+@keyframes treeLoad {
+  0% {transform: rotate(0)}
+  100% {transform: rotate(360deg)}
 }
 // 展开收起ul动画
-.tree-toggle-enter-active{ animation: tree-toggle-down .3s; transform-origin: center top }
-.tree-toggle-leave-active{ animation: tree-toggle-up .3s; transform-origin: center top }
-@keyframes tree-toggle-down{
-  0%{ opacity: 0; transform: scaleY(0); }
-  100%{ opacity: 1; transform: scaleY(1); }
+.tree-toggle-enter-active { animation: tree-toggle-down .3s; transform-origin: center top }
+.tree-toggle-leave-active { animation: tree-toggle-up .3s; transform-origin: center top }
+@keyframes tree-toggle-down {
+  0% { opacity: 0; transform: scaleY(0); }
+  100% { opacity: 1; transform: scaleY(1); }
 }
-@keyframes tree-toggle-up{
-  0%{ opacity: 1; transform: scaleY(1); }
-  100%{ opacity: 0; transform: scaleY(0); }
+@keyframes tree-toggle-up {
+  0% { opacity: 1; transform: scaleY(1); }
+  100% { opacity: 0; transform: scaleY(0); }
 }

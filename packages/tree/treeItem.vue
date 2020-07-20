@@ -1,6 +1,6 @@
 <!--Created by 337547038 on 2018/1/26.-->
 <template>
-  <li :class="{'active':data.show,selected:data.name===selected}">
+  <li :class="{'active':data.show,'selected':data.key===value&&value}">
     <i :class="{'has-child':data.children,'open-child':data.show}"
        @click.stop="_slideToggle(data)"></i>
     <Checkbox
@@ -10,7 +10,7 @@
       @change="_checkboxChange(data,$event)"
       :class="{'some-select':data.someSelect&&!data.checked}">
     </Checkbox>
-    <a @click="_click(data)">{{data.name}}<span v-if="showValue">({{data.value}})</span></a>
+    <a @click="_click(data)">{{data.name}}</a>
     <slot :row="data"></slot>
     <!--<transition name="tree-toggle">-->
     <collapse-transition>
@@ -21,7 +21,7 @@
           :data="item"
           :key="index"
           :showCheckbox="showCheckbox"
-          :showValue="showValue"
+          :value="value"
           @click="_click"
           @toggle="_slideToggleChild"
           @checkboxChange="_checkboxChangeChild">
@@ -39,14 +39,12 @@ export default {
   name: 'treeLi',
   data() {
     return {
-      selected: '' // 当前点击项的值
     }
   },
-  props: ['data', 'showValue', 'showCheckbox'],
+  props: ['data', 'showCheckbox', 'value'],
   components: {Checkbox, CollapseTransition},
   methods: {
     _click(item) {
-      this.selected = item.name
       this.$emit('click', item)
     },
     _slideToggle(data) {
