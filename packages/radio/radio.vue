@@ -5,7 +5,10 @@
   'checked':isChecked===modelValue,[prefixCls+'-radio']:true}">
     <input type="radio" v-model="modelValue" :value="isChecked" @change="_onChange" :disabled="disabled">
     <span class="radio-inner"></span>
-    <span class="radio-text"><slot/></span>
+    <span class="radio-text" v-if="$slots.default">
+      <slot></slot>
+    </span>
+    <span class="radio-text" v-else v-text="label"></span>
   </label>
 </template>
 <script>
@@ -29,6 +32,7 @@ export default {
       default: false
     },
     value: {},
+    label: String,
     change: Function
   },
   watch: {
@@ -43,8 +47,8 @@ export default {
         this.isChecked = true
       }
       this.$emit('input', emitValue)
-      this.change && this.change(emitValue)
-      this.$emit('change', emitValue)
+      this.change && this.change(emitValue, this.label)
+      this.$emit('change', emitValue, this.label)
       this.dispatch('formItem', `${prefixCls}.form.change`, [emitValue, e])
     }
   },

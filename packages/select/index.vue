@@ -182,7 +182,7 @@ export default {
           this.text = item.label || item.value
           this.show = false // 收起下拉
           // this.$emit('input', item.value)
-          this._emit(item.value, item.label, 1)
+          this._emit(item.value, item, 1)
         }
         // this.$emit('change', item.value)
         this.keywords = this.text
@@ -219,7 +219,7 @@ export default {
           this.text = this.options[0].label || this.options[0].value
           // 更新value值
           // this.$emit('input', this.text)
-          this._emit(this.text, this.options[0].label, 0)
+          this._emit(this.text, this.options[0], 0)
         }
       }
     },
@@ -245,7 +245,7 @@ export default {
         // 输入框符合要求
         const item = filter[0]
         // this.$emit('input', item.value)
-        this._emit(item.value, item.label, 1)
+        this._emit(item.value, item, 1)
         this.text = item.label || item.value
       } else {
         // 还原
