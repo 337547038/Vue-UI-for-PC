@@ -156,16 +156,26 @@ export default {
   components: {},
   methods: {
     submitForm () {
-      this.$refs.ruleForm.validate((result, object) => {
-        console.log(result)
-        console.log(object)
+      this.$refs.ruleForm.validate()
+      .then(res=>{
+        console.log('通过验证')
+        console.log(res)
+      })
+      .catch(res=>{
+        console.log('不通过验证')
+        console.log(res)
       })
     },
     submitForm2 () {
       const props = ['userName']
-      this.$refs.ruleForm.validateField(props, (result, object) => {
-        console.log(result)
-        console.log(object)
+      this.$refs.ruleForm.validateField(props)
+      .then(res=>{
+        console.log('通过验证')
+        console.log(res)  
+      })
+      .catch(res=>{
+        console.log('不通过验证')
+        console.log(res)  
       })
     },
     submitForm3 () {

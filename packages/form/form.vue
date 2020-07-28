@@ -95,7 +95,7 @@ export default {
         return new Promise((resolve, reject) => {
           fields.forEach(field => {
             // 引用formItem的validate验证方法
-            console.log(field)
+            // console.log(field)
             field.validate((result, field) => {
               if (result !== true) {
                 // 错误结果

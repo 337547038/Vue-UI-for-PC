@@ -65,7 +65,7 @@ import vTextarea from '../textarea'
 
 export default {
   name: `${prefixCls}AutoForm`,
-  data() {
+  data () {
     return {
       prefixCls: prefixCls,
       rules: {}, // form组件rules参数
@@ -105,7 +105,7 @@ export default {
       this._changeValue(v)
     } */
   },
-  created() {
+  created () {
     this.defaultValue = []
     this._getRulesModel()
   },
@@ -119,7 +119,7 @@ export default {
       console.log(this.model)
       // this.model = Object.assign({}, this.model, val)
     }, */
-    _getRulesModel() {
+    _getRulesModel () {
       console.log('_getRulesModel')
       // 根据传进来的data提取form所需的rules，model两个参数
       let index = 0 // 系统指定顺序名称，如果不存在name值
@@ -132,15 +132,18 @@ export default {
       })
       this.$emit('input', this.model)
     },
-    validate(callback) {
+    validate () {
       // 调用组件form的验证方法
-      /*this.$refs.form.validate((result, object) => {
-        if (result) {
-          object = this.model
-        }
-        callback(result, object)
-      })*/
-      this.$refs.form.validate()
+      return new Promise((resolve, reject) => {
+        this.$refs.form.validate()
+          .then(res => {
+            resolve(res) // 验证通过
+          })
+          .catch(res => {
+            reject(res)
+          })
+      })
+      /* this.$refs.form.validate()
         .then(res => {
           console.log('通过验证')
           console.log(res)
@@ -150,17 +153,26 @@ export default {
           console.log('不通过')
           console.log(res)
           callback(false, res)
-        })
+        }) */
     },
-    validateField(props, callback) {
-      this.$refs.form.validateField(props, (result, object) => {
+    validateField (props) {
+      /* this.$refs.form.validateField(props, (result, object) => {
         if (result) {
           object = this.model
         }
         callback(result, object)
+      }) */
+      return new Promise((resolve, reject) => {
+        this.$refs.form.validateField(props)
+          .then(res => {
+            resolve(res) // 验证通过
+          })
+          .catch(res => {
+            reject(res)
+          })
       })
     },
-    resetFields() {
+    resetFields () {
       let i = 0
       this.data.forEach(item => {
         item.control.value = this.defaultValue[i]
@@ -171,7 +183,7 @@ export default {
       this.$refs.form.resetFields()
     },
     // 初始化后重新设值
-    setValue(obj) {
+    setValue (obj) {
       for (let key in obj) {
         this.data.forEach(item => {
           if (key === item.name) {
@@ -182,7 +194,7 @@ export default {
     }
   },
   computed: {},
-  mounted() {
+  mounted () {
   }
 }
 </script>

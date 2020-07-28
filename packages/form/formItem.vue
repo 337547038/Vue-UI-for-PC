@@ -108,8 +108,8 @@ export default {
     validate (callback, value) {
       // 两个参数 1回调 2当前值(按钮提交时value为空)，
       // 验证
-      console.log(value)
-      console.log(this.form.value)
+      // console.log(value)
+      // console.log(this.form.value)
       let rule = []
       let value2 = value
 
@@ -138,7 +138,7 @@ export default {
       }
       if (rule) {
         const result = Validate(value2, rule)
-        console.log(result)
+        // console.log(result)
         if (this.showMessage) {
           if (result === true) {
             // 通过
