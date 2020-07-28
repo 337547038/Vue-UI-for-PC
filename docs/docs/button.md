@@ -68,13 +68,13 @@
 ```html
 <template>
   <div>
-    <ak-button icon="fa fa-search">搜索</ak-button>
+    <ak-button icon="icon-search">搜索</ak-button>
   </div>
 </template>
 ```
 :::
 
-### 添加icon图标
+### 文字类型
 :::demo 
 ```html
 <template>

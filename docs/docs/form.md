@@ -605,8 +605,10 @@ export default {
 ### Form Methods
 |参数|类型|说明|
 |-|-|-|
-|validate       | Function       |对表单进行校验的方法，promise方法（是否通过验证，未通过时为所有未通过检验的错误提示；通过时返回value值）|
-|validateField  | Function       |同上，对部分表单字段进行校验的方法，参数为一个要校验的prop|
+|validate       |对表单进行校验的方法，promise方法（是否通过验证，未通过时为所有未通过检验的错误提示；通过时返回value值）|
+|validateField  |同上，对部分表单字段进行校验的方法，参数为一个要校验的prop|
+|resetFields    |表单重置方法|
+
 ### FormItem
 |参数|类型|说明|
 |-|-|-|

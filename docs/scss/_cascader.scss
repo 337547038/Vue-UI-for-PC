@@ -3,7 +3,7 @@
   //用个标签挡住输入框底边线
   .mask{ content: ''; height: 2px; background: #fff; position: absolute; left: 0; top: 36px; width: 100%; display: block; z-index: 100; border-left: 1px solid #f60; border-right: 1px solid #f60; box-sizing: border-box; }
   @include ns(input-control){ position: relative;
-    &:after{ top: 0; content: '\F107'; display: block; position: absolute; right: 10px; height: 38px; line-height: 38px; transition: all .2s; cursor: pointer; font-family: "FontAwesome"; font-size: 18px; }
+    &:after{ top: 0; content: '\e61a'; display: block; position: absolute; right: 10px; height: 38px; line-height: 38px; transition: all .2s; cursor: pointer; font-family: "iconfont"; font-size: 14px; }
     &.focus{
       &:after{ transform: rotate(180deg); }
     }
@@ -11,8 +11,7 @@
       + .icon-clear{visibility: visible;opacity: 1}
     }
   }
-  .icon-clear{
-    font-family: FontAwesome;
+  .icon-close{
     visibility: hidden;
     opacity: 0;
     transition: all .3s;
@@ -27,8 +26,7 @@
     height: 30px;
     text-align: center;
     line-height: 30px;
-    &:after{
-      content: '\f057';color: #999;
+    &:after{color: #999;
     }
     &:hover{
       visibility: visible;opacity: 1

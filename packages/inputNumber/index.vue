@@ -12,12 +12,12 @@
       onkeyup="this.value=this.value.replace(/[^0-9\.]/g,'')">
     <span class="number-control">
       <a href="javascript:;"
-         class="icon-less"
+         class="icon-minus"
          @click="_numberControl(-1)"
          :class="{'disabled':value<=min}">
       </a>
       <a href="javascript:;"
-         class="icon-add"
+         class="icon-plus"
          @click="_numberControl(1)"
          :class="{'disabled':value>=max}">
       </a>

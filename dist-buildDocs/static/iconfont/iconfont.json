@@ -1,0 +1,170 @@
+{
+  "id": "1935909",
+  "name": "vue",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "902005",
+      "name": "arrow down",
+      "font_class": "arrow",
+      "unicode": "e61a",
+      "unicode_decimal": 58906
+    },
+    {
+      "icon_id": "9626990",
+      "name": "正确",
+      "font_class": "hook",
+      "unicode": "e88c",
+      "unicode_decimal": 59532
+    },
+    {
+      "icon_id": "4485682",
+      "name": "最大化",
+      "font_class": "max",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "6160677",
+      "name": "最大化",
+      "font_class": "full",
+      "unicode": "e60d",
+      "unicode_decimal": 58893
+    },
+    {
+      "icon_id": "3442283",
+      "name": "lock",
+      "font_class": "lock",
+      "unicode": "e88f",
+      "unicode_decimal": 59535
+    },
+    {
+      "icon_id": "3442292",
+      "name": "user2",
+      "font_class": "user",
+      "unicode": "e898",
+      "unicode_decimal": 59544
+    },
+    {
+      "icon_id": "2357672",
+      "name": "正确",
+      "font_class": "correct",
+      "unicode": "e60e",
+      "unicode_decimal": 58894
+    },
+    {
+      "icon_id": "575774",
+      "name": "眼睛",
+      "font_class": "eye-close",
+      "unicode": "e61c",
+      "unicode_decimal": 58908
+    },
+    {
+      "icon_id": "2391055",
+      "name": "错误",
+      "font_class": "error",
+      "unicode": "e640",
+      "unicode_decimal": 58944
+    },
+    {
+      "icon_id": "2020252",
+      "name": "删除",
+      "font_class": "del",
+      "unicode": "e608",
+      "unicode_decimal": 58888
+    },
+    {
+      "icon_id": "9071621",
+      "name": "top",
+      "font_class": "top",
+      "unicode": "e90c",
+      "unicode_decimal": 59660
+    },
+    {
+      "icon_id": "11052661",
+      "name": "icon-7",
+      "font_class": "upload",
+      "unicode": "e915",
+      "unicode_decimal": 59669
+    },
+    {
+      "icon_id": "258557",
+      "name": "搜索",
+      "font_class": "search",
+      "unicode": "e60b",
+      "unicode_decimal": 58891
+    },
+    {
+      "icon_id": "348468",
+      "name": "eye",
+      "font_class": "eye",
+      "unicode": "eab4",
+      "unicode_decimal": 60084
+    },
+    {
+      "icon_id": "400932",
+      "name": "minus",
+      "font_class": "minus",
+      "unicode": "e7af",
+      "unicode_decimal": 59311
+    },
+    {
+      "icon_id": "725069",
+      "name": "警告",
+      "font_class": "warn",
+      "unicode": "e638",
+      "unicode_decimal": 58936
+    },
+    {
+      "icon_id": "974272",
+      "name": "close",
+      "font_class": "close",
+      "unicode": "e650",
+      "unicode_decimal": 58960
+    },
+    {
+      "icon_id": "1298820",
+      "name": "plus",
+      "font_class": "plus",
+      "unicode": "e625",
+      "unicode_decimal": 58917
+    },
+    {
+      "icon_id": "1789485",
+      "name": "日期",
+      "font_class": "date",
+      "unicode": "e6c7",
+      "unicode_decimal": 59079
+    },
+    {
+      "icon_id": "1801060",
+      "name": "refresh",
+      "font_class": "refresh",
+      "unicode": "e615",
+      "unicode_decimal": 58901
+    },
+    {
+      "icon_id": "12542148",
+      "name": "error",
+      "font_class": "failure",
+      "unicode": "e90b",
+      "unicode_decimal": 59659
+    },
+    {
+      "icon_id": "12542150",
+      "name": "tips",
+      "font_class": "tips",
+      "unicode": "e90d",
+      "unicode_decimal": 59661
+    },
+    {
+      "icon_id": "12542151",
+      "name": "success",
+      "font_class": "success",
+      "unicode": "e90e",
+      "unicode_decimal": 59662
+    }
+  ]
+}

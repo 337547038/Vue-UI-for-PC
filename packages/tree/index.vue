@@ -7,13 +7,13 @@
         :data="item"
         :key="index"
         :showCheckbox="showCheckbox"
-        :showValue="showValue"
+        :value="activeValue"
         @click="_click"
         @toggle="_toggle"
         @checkboxChange="_checkboxChange">
         <template slot-scope="node">
-            <slot :row="node.row" :index="node.index||index" :parent="index"></slot>
-         </template>
+          <slot :row="node.row" :index="node.index||index" :parent="index"></slot>
+        </template>
       </treeItem>
     </ul>
   </div>
@@ -26,7 +26,8 @@ export default {
   name: `${prefixCls}Tree`,
   data() {
     return {
-      prefixCls: prefixCls
+      prefixCls: prefixCls,
+      activeValue: this.value
     }
   },
   props: {
@@ -38,23 +39,19 @@ export default {
     toggle: Function,
     click: Function,
     change: Function, // 多选框选择事件
-    showValue: {
-      // 在名称后面显示值
-      type: Boolean,
-      default: false
-    },
     showCheckbox: {
       // 显示checkbox
       type: Boolean,
       default: false
-    }
+    },
+    value: String
   },
   components: {treeItem},
   methods: {
     _click(item) {
       // console.log('index')
       // console.log(item)
-      // this.active = item.name
+      this.activeValue = item.key
       this.$emit('click', item)
       this.click && this.click(item)
     },

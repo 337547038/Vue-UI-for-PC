@@ -12,7 +12,7 @@
       @input="_input"
       @blur="_blur">
     </v-input>
-    <i :class="`${prefixCls}-icon-date`" v-if="!disabled"></i>
+    <i class="icon-date" v-if="!disabled"></i>
   </div>
 </template>
 <script>

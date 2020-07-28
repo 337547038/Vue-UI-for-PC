@@ -55,8 +55,8 @@ export default {
         {name: '湖南'}
       ],
       data3: [
-        {name: '广东', value: 1},
-        {name: '北京', value: 2}
+        {name: '广东', key: 'gg'},
+        {name: '北京', key: 'bj'}
       ],
       data4: [
         {name: '广东', children: []},
@@ -239,12 +239,12 @@ export default {
 ```
 :::
 
-### 3、显示对应值
+### 3、选中值
 :::demo 
 ```html
 <template>
   <div>
-    <ak-tree :data="data3" :showValue="true"></ak-tree>
+    <ak-tree :data="data3" value="gg"></ak-tree>
 </div>
 </template>
 <script>
@@ -252,8 +252,8 @@ export default {
   data () {
     return {
       data3: [
-        {name: '广东', value: 1},
-        {name: '北京', value: 2}
+        {name: '广东', key: 'gg'},
+        {name: '北京', key: 'bj'}
       ]
     }
   }
@@ -466,14 +466,14 @@ export default {
 |click          | Function       |点击事件|
 |change 　　　　　| Function       |checkbox改变事件|
 |lazy           | Boolean/false  |表单数据|
+|value          | String          |当前选中值，匹配data中的key|
 
 ### Tree Data
 |参数|类型|说明|
 |-|-|-|
 |name           | String          |显示的名称|
-|value          | String          |showValue为true时显示的值|
 |show           | Boolean/false   |是否展开当前项|
-|key            | String  　　　　　|唯一值，当showCheckbox=true时取值和赋值根据key值|
+|key            | String  　　　　　|唯一值，当showCheckbox=true时取值和赋值根据key值，同时匹配value|
 |checked        | Boolean/false   |当前项为勾选状态，仅当showCheckbox=true时有效|
 |disabled       | Boolean/false   |当前项禁用勾选，仅当showCheckbox=true时有效|
 

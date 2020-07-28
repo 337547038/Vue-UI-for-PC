@@ -41,7 +41,8 @@ const DialogAlert = {
       isAlert: true,
       className: 'dialog-alert',
       // showClose: false,
-      closeModal: false
+      closeModal: false,
+      zIndex: opt.zIndex
     })
     dialogComm(opt)
   },
@@ -56,7 +57,8 @@ const DialogAlert = {
       className: 'dialog-msg',
       showClose: false,
       closeModal: false,
-      modal: opt.modal || false
+      modal: opt.modal || false,
+      zIndex: opt.zIndex
     })
     dialogComm(opt)
   },
