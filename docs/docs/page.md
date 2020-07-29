@@ -118,6 +118,6 @@ export default {
 |pageSizes      | number[]       |每页显示个数选择器的选项设置|
 |showTotal      | boolean/false  |显示总记录条数|
 |changePageSizes| function       |每页显示条数改变事件|
-|hideSinglePage | boolean/false  |当只有一页时是否隐藏显示|
+|hideSinglePage | boolean/false  |当小于或只有一页时是否隐藏显示|
 |format         | boolean/false  |数值转千分制显示|
 

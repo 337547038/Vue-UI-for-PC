@@ -138,7 +138,7 @@ export default {
   },
   computed: {
     hidePage() {
-      return this.hideSinglePage && this.pageCount === 1
+      return this.hideSinglePage && this.pageCount <= 1
     },
     pageCount() {
       // 一共分多少页

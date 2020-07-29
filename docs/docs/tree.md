@@ -465,8 +465,8 @@ export default {
 |toggle         | Function       |展开或收起点击事件，回调两个参数。当前项和当事点击事件（展开/收起）|
 |click          | Function       |点击事件|
 |change 　　　　　| Function       |checkbox改变事件|
-|lazy           | Boolean/false  |表单数据|
-|value          | String          |当前选中值，匹配data中的key|
+|lazy           | Boolean/false  |是否异步加载|
+|value          | String         |当前选中值，匹配data中的key|
 
 ### Tree Data
 |参数|类型|说明|

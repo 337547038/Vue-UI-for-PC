@@ -2,8 +2,8 @@
 @include ns(select) {display: inline-block;position: relative;
   @include ns(select-control) {
     .icon-group {display: block;position: absolute;right: 10px;top: 50%;transform: translateY(-50%);font-size: 20px;cursor: pointer;transition: all .3s;height: 30px;text-align: center;line-height: 30px;}
-    .icon-arrow {font-size: 14px;
-      &.open {transform: translateY(-50%) rotate(180deg)}
+    .icon-arrow {font-size: 14px;display: inline-block;transition: all .3s;
+      &.open {transform: translateY(0) rotate(180deg)}
     }
     /*清空*/
     .icon-close {z-index: 2;font-size: 14px;color: #999;display: none;margin-right: 6px;

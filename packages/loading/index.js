@@ -27,6 +27,7 @@ import {prefixCls} from '../prefix'
 const Loading = function () {
   Vue.directive('loading', {
     bind: function (el, binding) {
+      el.style.position = 'relative'
       const text = el.getAttribute(`${prefixCls}-loading-text`) || ''
       const spinner = el.getAttribute(`${prefixCls}-loading-spinner`) || ''
       const background = el.getAttribute(`${prefixCls}-loading-background`) || ''
@@ -45,28 +46,29 @@ const Loading = function () {
       if (binding.modifiers.body) {
         // 将入至body
         parent = document.body
-      }/* else {
-        // 将当前标签设为relative
-        // el.style.position = 'relative'
-      } */
+      }
+      /* else {
+              // 将当前标签设为relative
+              // el.style.position = 'relative'
+            } */
       parent.appendChild(component.$el)
-      const elCls = el.className
+      // const elCls = el.className
       if (binding.value) {
         component.open()
-        el.className = elCls + ` ${prefixCls}-loading-parent-relative`
+        // el.className = elCls + ` ${prefixCls}-loading-parent-relative`
       }
       el.component = component // 保存当前组件和样式，更新时调用
-      el.elCls = elCls
+      // el.elCls = elCls
     },
     inserted: function (el, binding) {
     },
     update: function (el, binding) {
       if (binding.value) {
         el.component.open()
-        el.className = el.elCls + ` ${prefixCls}-loading-parent-relative`
+        // el.className = el.elCls + ` ${prefixCls}-loading-parent-relative`
       } else {
         el.component.close(false)
-        el.className = el.elCls
+        // el.className = el.elCls
       }
     }
   })
