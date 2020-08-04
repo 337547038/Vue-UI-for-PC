@@ -1,8 +1,10 @@
 <template>
   <tbody>
   <template v-for="(row,rowIndex) in data">
-    <tr :key="rowIndex"
-        :class="{'warning':$parent.selectedRows.indexOf(row) !== -1,[`parent-tr-${rowIndex+1}`]:colsExtend.length,[row.trClass]:row.trClass}">
+    <tr
+      :key="rowIndex"
+      :class="{'warning':$parent.selectedRows.indexOf(row) !== -1,[`parent-tr-${rowIndex+1}`]:colsExtend.length,[row.trClass]:row.trClass}"
+      @click="_trClick(row, rowIndex)">
       <TableTd
         v-for="(column,indexTd) in colsNoExtend"
         :column="column"
@@ -17,11 +19,13 @@
     </tr>
     <!--子级行-->
     <template v-if="hasChild">
-      <tr v-for="(item,index) in row.children"
-          :key="'child'+index"
-          v-show="toggle[rowIndex]===undefined?defaultToggle:toggle[rowIndex]"
-          :class="{[row.trClass]:row.trClass}"
-          class="tr-child">
+      <tr
+        v-for="(item,index) in row.children"
+        :key="'child'+index"
+        v-show="toggle[rowIndex]===undefined?defaultToggle:toggle[rowIndex]"
+        :class="{[row.trClass]:row.trClass}"
+        class="tr-child"
+        @cllick="_trClick(item, index)">
         <TableTd
           v-for="(child,childIndex) in colsNoExtend"
           :column="child"
@@ -30,13 +34,17 @@
           :columnIndex="childIndex"
           :title="$parent.title"
           :key="'childTd'+childIndex"
-          :parentRow="row"></TableTd>
+          :parentRow="row">
+        </TableTd>
       </tr>
     </template>
     <!--扩展列-->
-    <tr :key="'tr' + rowIndex" v-if="colsExtend.length>0" class="extend"
-        :class="{'warning':$parent.selectedRows.indexOf(row) !== -1,[`extend-tr-${rowIndex+1}`]:true}"
-        v-show="toggle[rowIndex]===undefined?defaultToggle:toggle[rowIndex]">
+    <tr
+      :key="'tr' + rowIndex" v-if="colsExtend.length>0"
+      class="extend"
+      :class="{'warning':$parent.selectedRows.indexOf(row) !== -1,[`extend-tr-${rowIndex+1}`]:true}"
+      v-show="toggle[rowIndex]===undefined?defaultToggle:toggle[rowIndex]"
+      @cllick="_trClick(row, rowIndex)">
       <TableTd
         v-for="(column,indexTd) in colsExtend"
         :column="column"
@@ -100,6 +108,9 @@ export default {
           })
         }
       }
+    },
+    _trClick(row, index) {
+      this.$emit('trClick', row, index)
     }
   },
   created() {

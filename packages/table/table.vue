@@ -30,12 +30,15 @@
         v-else
         :rowColSpan="rowColSpan"
         :hasChild="hasChild"
-        :lazyLoad="lazyLoad"></table-body>
+        :lazyLoad="lazyLoad"
+        @trClick="_trClick">
+      </table-body>
     </table>
     <Pagination
       v-if="pagination"
       :total="data&&data.length"
-      v-bind="pagination"></Pagination>
+      v-bind="pagination">
+    </Pagination>
   </div>
 </template>
 
@@ -343,6 +346,9 @@ export default {
         this.colWidth = []
         this._getAllHead(this.thead, child)
       })
+    },
+    _trClick (row, index) {
+      this.$emit('trClick', row, index)
     }
   },
   mounted() {

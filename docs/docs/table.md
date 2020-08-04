@@ -153,6 +153,10 @@ export default {
         ]
         resolve(child)
       }, 1000)
+    },
+    trClick (row,index) {
+      console.log(row)
+      console.log(index)
     }
   }
 }
@@ -783,6 +787,38 @@ export default {
 
 :::
 
+
+### 16、当前行点击事件
+
+:::demo 支持tr行点击事件
+
+```html
+<akTable :data="tableData" @trClick="trClick">
+  <akColumn label="姓名" prop="name"></akColumn>
+  <akColumn label="省份" prop="province"></akColumn>
+  <akColumn label="城市" prop="city"></akColumn>
+  <akColumn label="地址" prop="address" width="250"></akColumn>
+  <akColumn label="邮编" prop="zip"></akColumn>
+</akTable>
+
+<script>
+  export default {
+    data() {
+      return {
+      }
+    },
+    methods: {
+     trClick(row,index) {
+        console.log(row)
+        console.log(index)
+     }
+    }
+  };
+</script>
+```
+
+:::
+
 ## API
 
 ### Table
@@ -813,6 +849,7 @@ export default {
 |-|-|- |
 | selectClick    | 勾选单列事件，function(list,row) list所有已勾选的row集合，row当前点击行信息|
 | sortChange     | 排序点击事件 |
+| trClick        | 当前行点击事件，即tr点击事件，function(row,index) |
 
 ### Table Methods
 
