@@ -44,6 +44,13 @@ export default {
     eyeShow(value) {
       // 显示或隐藏密码
       this.inputType = value ? 'text' : 'password'
+    },
+    value(val) {
+      // 通过其他事件修改了输入框值时，
+      console.log(val)
+      if (this.validateEvent) {
+        this.dispatch('formItem', `${prefixCls}.form.change`, [val, ''])
+      }
     }
   },
   props: {
@@ -89,9 +96,10 @@ export default {
       const value = e.target.value
       this.$emit('input', value)
       this.change && this.change(e)
-      if (this.validateEvent) {
+      // 使用watch
+      /* if (this.validateEvent) {
         this.dispatch('formItem', `${prefixCls}.form.change`, [value, e])
-      }
+      } */
     },
     _focus(e) {
       this._emit('focus', e)
