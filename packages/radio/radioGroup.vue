@@ -12,7 +12,7 @@
   </div>
 </template>
 <script>
-import Radio from './radio2'
+import Radio from './radio'
 import {prefixCls} from '../prefix'
 
 export default {
