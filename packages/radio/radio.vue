@@ -2,13 +2,12 @@
 <template>
   <label :class="{
   'disabled':disabled,
-  'checked':isChecked===modelValue,[prefixCls+'-radio']:true}">
-    <input type="radio" v-model="modelValue" :value="isChecked" @change="_onChange" :disabled="disabled">
+  'checked':label===modelValue,[prefixCls+'-radio']:true}">
+    <input type="radio" v-model="modelValue" :value="label" @change="_onChange" :disabled="disabled">
     <span class="radio-inner"></span>
     <span class="radio-text" v-if="$slots.default">
-      <slot></slot>
+      <slot/>
     </span>
-    <span class="radio-text" v-else v-text="label"></span>
   </label>
 </template>
 <script>
@@ -20,20 +19,20 @@ export default {
   data() {
     return {
       prefixCls: prefixCls,
-      isChecked: null,
       modelValue: this.value
     }
   },
   mixins: [emitter],
   props: {
-    checked: String, // 在组使用时
     disabled: {
       type: Boolean,
       default: false
     },
     value: {},
-    label: String,
-    change: Function
+    label: { // 当label等于value时为选中状态
+      type: [String, Boolean, Number],
+      default: true
+    }
   },
   watch: {
     value(v) {
@@ -43,25 +42,12 @@ export default {
   methods: {
     _onChange(e) {
       let emitValue = e.target.value || true
-      if (!this.checked) {
-        this.isChecked = true
-      }
       this.$emit('input', emitValue)
-      this.change && this.change(emitValue, this.label)
-      this.$emit('change', emitValue, this.label)
+      this.$emit('change', emitValue)
       this.dispatch('formItem', `${prefixCls}.form.change`, [emitValue, e])
     }
   },
   mounted() {
-    // checked组使用时传过来的value
-    // v-model=isChecked时选中状态
-    if (this.checked) {
-      this.isChecked = this.checked
-    } else {
-      if (this.value) {
-        this.isChecked = this.value
-      }
-    }
   },
   computed: {}
 }

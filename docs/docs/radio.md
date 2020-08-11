@@ -3,15 +3,16 @@
 export default {
   data () {
     return {
-      radio1: 'a',
-      radio2: true,
-      radio3: false,
-      radio4: '',
-      radio5: false,
-      radio6: true,
-      radio7: 'a2',
-      radio8: '',
+      radio1: true,
+      radio2: false,
+      radio3: true,
+      radio4: false,
+      radio5: 'a',
+      radio6: '',
+      radio7: 'a',
+      radio8: 'a2',
       radio9: '',
+      radio10: 'a3',
       data1: [
         {label: '选项1', value: 'a1'},
         {label: '选项2', value: 'a2'},
@@ -28,28 +29,49 @@ export default {
 > 美观样式可根据需要参考checkbox
 
 ### 基础用法
-:::demo 单个使用时，v-model为true时选中状态；为false时未选状态，选中返回true
+:::demo 单个使用时，v-model为true时选中状态；为false时未选状态，选中返回true。
 ```html
 <template>
   <div>
     <p><ak-radio v-model="radio1">选项1</ak-radio>  当前值：{{radio1}}</p>
     <p><ak-radio v-model="radio2">选项2</ak-radio>  当前值：{{radio2}}</p>
-    <p><ak-radio v-model="radio3">选项3</ak-radio>  当前值：{{radio3}}</p>
-    <p><ak-radio v-model="radio4">选项4</ak-radio>  当前值：{{radio4}}</p>
-    <p><ak-radio v-model="radio5" :disabled="true">禁用5</ak-radio>  当前值：{{radio5}}</p>
-    <p><ak-radio v-model="radio6" :disabled="true">禁用6</ak-radio>  当前值：{{radio6}}</p>
+    <p><ak-radio v-model="radio3" :disabled="true">禁用5</ak-radio>  当前值：{{radio3}}</p>
+    <p><ak-radio v-model="radio4" :disabled="true">禁用6</ak-radio>  当前值：{{radio4}}</p>
   </div>
 </template>
 <script>
 export default {
   data () {
     return {
-      radio1: 'a',
-      radio2: true,
-      radio3: false,
-      radio4: '',
-      radio5: false,
-      radio6: true
+      radio1: true,
+      radio2: false,
+      radio3: true,
+      radio4: false
+    }
+  }
+}
+</script>
+
+```
+:::
+
+### 指定选中状态的值
+:::demo 使用label时，选中状态返回label的值，当label=value时为选中状态。
+```html
+<template>
+  <div>
+    <p><ak-radio v-model="radio5" label="a">选项1</ak-radio>  当前值：{{radio5}}</p>
+    <p><ak-radio v-model="radio6" label="1">选项2</ak-radio>  当前值：{{radio6}}</p>
+    <p><ak-radio v-model="radio7" label="ab">选项3</ak-radio>  当前值：{{radio7}}</p>
+  </div>
+</template>
+<script>
+export default {
+  data () {
+    return {
+      radio5: 'a',
+      radio6: '',
+      radio7: 'a2'
     }
   }
 }
@@ -64,15 +86,15 @@ export default {
 <template>
   <div>
     <div>
-      <p>当前值：{{radio7}}</p>
-      <ak-radio-group :data="data1" v-model="radio7"></ak-radio-group>
-    </div>
-    <div>
       <p>当前值：{{radio8}}</p>
       <ak-radio-group :data="data1" v-model="radio8"></ak-radio-group>
     </div>
+    <div>
+      <p>当前值：{{radio9}}</p>
+      <ak-radio-group :data="data1" v-model="radio9"></ak-radio-group>
+    </div>
     <div><p>整个组不可选</p>
-    <ak-radio-group :data="data1" v-model="radio9" :disabled="true"></ak-radio-group></div>
+    <ak-radio-group :data="data1" v-model="radio10" :disabled="true"></ak-radio-group></div>
   </div>
 </template>
 
@@ -102,8 +124,8 @@ export default {
 ### Radio
 |参数|类型|说明|
 |-|-|-|
-|value           | string         |Radio 的 value|
-|change          | function       |事件|
+|value/v-model   | string         |Radio 的 value|
+|label           | string/boolean/number         |选中的值，当label＝value时为选中状态|
 |disabled        | boolean/false  |是否禁用|
 |class          | String         |原生 class|
 

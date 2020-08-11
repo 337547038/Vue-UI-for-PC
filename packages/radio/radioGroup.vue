@@ -1,15 +1,18 @@
 <!-- Created by 337547038 on 2018/9/7 0007. -->
 <template>
   <div :class="cls">
-    <Radio v-for="(item,index) in data"
-           :key="index" v-model="groupValue"
-           :checked="item.value"
-           :disabled="disabled||item.disabled" @input="_change(item,$event)">{{item.label}}
+    <Radio
+      v-for="(item,index) in data"
+      :key="index"
+      v-model="groupValue"
+      :label="item.value"
+      :disabled="disabled||item.disabled"
+      @input="_change(item,$event)">{{item.label}}
     </Radio>
   </div>
 </template>
 <script>
-import Radio from './radio'
+import Radio from './radio2'
 import {prefixCls} from '../prefix'
 
 export default {
@@ -30,14 +33,12 @@ export default {
     disabled: { // 控制整个组
       type: Boolean,
       default: false
-    },
-    change: Function
+    }
   },
   components: {Radio},
   methods: {
     _change(item, value) {
       this.$emit('input', value)
-      this.change && this.change(value, item)
       this.$emit('change', value, item)
     }
   },
