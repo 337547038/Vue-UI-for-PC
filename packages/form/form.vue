@@ -53,9 +53,15 @@ export default {
     }) */
   },
   methods: {
-    validate() {
+    validate(props) {
+      let fields = this.fields
+      if (props && props.length > 0) {
+        fields = this.fields.filter((field) => {
+          return props.indexOf(field.prop) !== -1
+        })
+      }
       return new Promise((resolve, reject) => {
-        this._validateComm(this.fields)
+        this._validateComm(fields)
           .then(res => {
             resolve(res) // 验证通过
           })
@@ -67,7 +73,7 @@ export default {
     /* validate(callback) {
       this._validateComm(this.fields, callback)
     }, */
-    validateField(props) {
+    /* validateField(props) {
       // 对指定字段验证props=['a','b']
       if (props.length > 0) {
         let fields = this.fields.filter((field) => {
@@ -84,7 +90,7 @@ export default {
             })
         })
       }
-    },
+    }, */
     _validateComm(fields) {
       let valid = true
       let count = 0

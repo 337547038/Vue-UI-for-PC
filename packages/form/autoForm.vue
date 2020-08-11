@@ -132,10 +132,10 @@ export default {
       })
       this.$emit('input', this.model)
     },
-    validate () {
+    validate (props) {
       // 调用组件form的验证方法
       return new Promise((resolve, reject) => {
-        this.$refs.form.validate()
+        this.$refs.form.validate(props)
           .then(res => {
             resolve(res) // 验证通过
           })
@@ -143,25 +143,8 @@ export default {
             reject(res)
           })
       })
-      /* this.$refs.form.validate()
-        .then(res => {
-          console.log('通过验证')
-          console.log(res)
-          callback(true, res)
-        })
-        .catch(res => {
-          console.log('不通过')
-          console.log(res)
-          callback(false, res)
-        }) */
     },
-    validateField (props) {
-      /* this.$refs.form.validateField(props, (result, object) => {
-        if (result) {
-          object = this.model
-        }
-        callback(result, object)
-      }) */
+    /* validateField (props) {
       return new Promise((resolve, reject) => {
         this.$refs.form.validateField(props)
           .then(res => {
@@ -171,7 +154,7 @@ export default {
             reject(res)
           })
       })
-    },
+    }, */
     resetFields () {
       let i = 0
       this.data.forEach(item => {
