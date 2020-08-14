@@ -2,12 +2,13 @@
 <template>
   <label :class="{
   'disabled':disabled,
-  'checked':label===modelValue,[prefixCls+'-radio']:true}">
-    <input type="radio" v-model="modelValue" :value="label" @change="_onChange" :disabled="disabled">
+  'checked':checked===value,[prefixCls+'-radio']:true}">
+    <input type="radio" v-model="checked" :value="value" @change="_onChange" :disabled="disabled">
     <span class="radio-inner"></span>
     <span class="radio-text" v-if="$slots.default">
       <slot/>
     </span>
+    <span class="radio-text" v-if="label" v-html="label"></span>
   </label>
 </template>
 <script>
@@ -16,38 +17,43 @@ import emitter from '../mixins/emitter'
 
 export default {
   name: `${prefixCls}Radio`,
-  data() {
+  data () {
     return {
       prefixCls: prefixCls,
-      modelValue: this.value
+      checked: this.modelValue
     }
   },
   mixins: [emitter],
+  model: {
+    prop: 'modelValue',
+    event: 'change'
+  },
   props: {
     disabled: {
       type: Boolean,
       default: false
     },
-    value: {},
-    label: { // 当label等于value时为选中状态
+    value: {
       type: [String, Boolean, Number],
       default: true
-    }
+    },
+    modelValue: {},
+    label: String
   },
   watch: {
-    value(v) {
-      this.modelValue = v
+    modelValue (v) {
+      this.checked = v
     }
   },
   methods: {
-    _onChange(e) {
+    _onChange (e) {
       let emitValue = e.target.value || true
       this.$emit('input', emitValue)
       this.$emit('change', emitValue)
       this.dispatch('formItem', `${prefixCls}.form.change`, [emitValue, e])
     }
   },
-  mounted() {
+  mounted () {
   },
   computed: {}
 }

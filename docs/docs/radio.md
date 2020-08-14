@@ -60,9 +60,9 @@ export default {
 ```html
 <template>
   <div>
-    <p><ak-radio v-model="radio5" label="a">选项1</ak-radio>  当前值：{{radio5}}</p>
-    <p><ak-radio v-model="radio6" label="1">选项2</ak-radio>  当前值：{{radio6}}</p>
-    <p><ak-radio v-model="radio7" label="ab">选项3</ak-radio>  当前值：{{radio7}}</p>
+    <p><ak-radio v-model="radio5" value="a">选项1</ak-radio>  当前值：{{radio5}}</p>
+    <p><ak-radio v-model="radio6" value="1">选项2</ak-radio>  当前值：{{radio6}}</p>
+    <p><ak-radio v-model="radio7" value="ab">选项3</ak-radio>  当前值：{{radio7}}</p>
   </div>
 </template>
 <script>
@@ -71,7 +71,7 @@ export default {
     return {
       radio5: 'a',
       radio6: '',
-      radio7: 'a2'
+      radio7: 'a'
     }
   }
 }
@@ -102,9 +102,9 @@ export default {
 export default {
   data () {
     return {
-      radio7: 'a2',
-      radio8: '',
+      radio8: 'a2',
       radio9: '',
+      radio10: 'a3',
       data1: [
         {label: '选项1', value: 'a1'},
         {label: '选项2', value: 'a2'},
@@ -124,10 +124,11 @@ export default {
 ### Radio
 |参数|类型|说明|
 |-|-|-|
-|value/v-model   | string         |Radio 的 value|
-|label           | string/boolean/number         |选中的值，当label＝value时为选中状态|
-|disabled        | boolean/false  |是否禁用|
-|class          | String         |原生 class|
+|v-model       | string         |Radio 的 v-model|
+|vale          | string/boolean/number    |选中的值，当v-model＝value时为选中状态|
+|disabled      | boolean/false  |是否禁用|
+|label         | String         |显示的文本值，也可以是slot|
+|class         | String         |原生 class|
 
 ### Radio Event
 |参数|说明|
@@ -137,7 +138,7 @@ export default {
 ### Radio Group
 |参数|说明|
 |-|-|
-|value           | string         |Radio组 的 value/v-model|
+|value         | string         |Radio组 的 v-model/value|
 |data            | array          |组数据|
 |class           | String         |原生 class|
 |disabled        | Boolean/false   |禁用组|

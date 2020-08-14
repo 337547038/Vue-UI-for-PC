@@ -5,7 +5,7 @@
       v-for="(item,index) in data"
       :key="index"
       v-model="groupValue"
-      :label="item.value"
+      :value="item.value"
       :disabled="disabled||item.disabled"
       @input="_change(item,$event)">{{item.label}}
     </Radio>

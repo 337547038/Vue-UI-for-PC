@@ -7,7 +7,7 @@ export default {
       checkbox2: false,
       checkbox3: '1',
       checkbox4: ['4'],
-      checkbox5: [],
+      checkbox5: '',
       checkbox6: true,
       checkbox7: false,
       checkbox8: ['a1', 'a6'],
@@ -38,7 +38,7 @@ export default {
 # Checkbox 多选框
 
 ### 基础用法
-:::demo 单一的`checkbox`中，默认绑定变量的值会是`Boolean`，选中为`true`。如选中时需要返回指定的值，则添加`value`，并且v-model的值为数组
+:::demo 单一的`checkbox`中，默认绑定变量的值会是`Boolean`，选中为`true`。如选中时需要返回指定的值，则添加`value`
 ```html
 <template>
   <div>  
