@@ -565,12 +565,7 @@ export default {
   export default {
     data() {
       return {
-        showHeader: true,
-        hover: false,
-        border: false,
-        stripe: false,
-        ellipsis: true
-      };
+      }
     }
   };
 </script>

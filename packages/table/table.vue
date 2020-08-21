@@ -227,10 +227,13 @@ export default {
         return
       }
       // 当鼠标移至当前单元格10px位置处，显示可拖动手形状
+      const cls = event.className
       if (event.offsetX > event.target.offsetWidth - 10) {
         event.target.style.cursor = 'col-resize'
+        event.className = cls + ' col-resize'
       } else {
         event.target.style.cursor = 'default'
+        // event.className = event.className.replace(' col-resize', '')
       }
       if (this.dragHead.mouseDown) {
         let newWidth = this.dragHead.oldWidth + (event.x - this.dragHead.oldX)
@@ -347,8 +350,17 @@ export default {
         this._getAllHead(this.thead, child)
       })
     },
-    _trClick (row, index) {
+    _trClick(row, index) {
       this.$emit('trClick', row, index)
+    },
+    // 表格可以拖动时，重新设置表格的实际宽度。否则点击拖动时会先发生宽度变化
+    _setTHWidth() {
+      const th = this.$el.querySelectorAll('th')
+      console.log(th)
+      this.colWidth = []
+      th.forEach(item => {
+        this.colWidth.push(item.offsetWidth + 'px')
+      })
     }
   },
   mounted() {
@@ -357,6 +369,9 @@ export default {
       if (this.drag) {
         this.$refs.tableContainer.style.overflowX = 'auto'
         document.addEventListener('mouseup', this._headMouseUp)
+        setTimeout(() => {
+          this._setTHWidth()
+        }, 0)
       }
       // console.timeEnd('timer')
     })

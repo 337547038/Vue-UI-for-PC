@@ -1,59 +1,95 @@
 <template>
   <div>
-    <!--<p>
-      <radio v-model="radio1">男</radio>
-      {{radio1}}
-    </p>
-    <p>
-      <radio v-model="radio2" @change="change">女</radio>
-      {{radio2}}
-    </p>
-    <p>
-      <radio v-model="radio3" :value="1">女</radio>
-      {{radio3}}
-    </p>
-    <p>
-      <radio v-model="radio4" value="a">女</radio>
-      {{radio4}}
-    </p>
-    <hr>
-    <p>
-      <group :data="data" v-model="value" @change="change"></group>
-    </p>-->
-    <checkbox v-model="radio1" value="b">000</checkbox>{{radio1}}
-    <!--<checkbox v-model="radio1" value="a">aaa</checkbox>{{radio1}}-->
-    <!--<checkbox v-model="radio4" value="a">1111</checkbox>
-    <checkboxGroup v-model="radio4" :data="data"></checkboxGroup>-->
+    <akTable :data="tableData" :drag="true">
+      <akColumn label="日期" prop="date" width="230px"></akColumn>
+      <akColumn label="姓名" prop="name" width="100px"></akColumn>
+      <akColumn label="地址" prop="address" width="250px"></akColumn>
+      <akColumn label="操作" prop="city" width="100px"></akColumn>
+    </akTable>
   </div>
 </template>
 <script>
-import radio from '../../packages/radio/radio'
-import group from '../../packages/radio/radioGroup'
-import checkbox from '../../packages/checkbox/checkbox'
-import checkboxGroup from '../../packages/checkbox/group'
 
 export default {
-  data () {
+  data() {
     return {
-      radio1: 'b',
-      radio2: false,
-      radio3: 2,
-      radio4: '',
-      value: '0',
-      data: [
-        {label: '男', value: '1'},
-        {label: '女', value: '0'}
+      tableData: [
+        {
+          date: '2016-05-03',
+          name: '1张三',
+          province: '广东',
+          city: '天河区',
+          address: '广东市天河区无名路888号',
+          zip: 200330,
+          trClass: 'trClass' // 特殊参数为当前tr添加指定样式
+        },
+        {
+          date: '2016-05-02',
+          name: '2张三',
+          province: '广东',
+          city: '天河区',
+          address: '广东市天河区无名路888号',
+          zip: 200331
+        },
+        {
+          date: '2016-05-04',
+          name: '3张三',
+          province: '广东',
+          city: '天河区',
+          address: '广东市天河区无名路888号',
+          zip: 200332
+        },
+        {
+          date: '2016-05-01',
+          name: '4张三',
+          province: '广东',
+          city: '天河区',
+          address: '广东市天河区无名路888号',
+          zip: 200333
+        },
+        {
+          date: '2016-05-03',
+          name: '5张三',
+          province: '广东',
+          city: '天河区',
+          address: '广东市天河区无名路888号',
+          zip: 200334
+        },
+        {
+          date: '2016-05-02',
+          name: '6张三',
+          province: '广东',
+          city: '天河区',
+          address: '广东市天河区无名路888号',
+          zip: 200335
+        },
+        {
+          date: '2016-05-04',
+          name: '7张三',
+          province: '广东',
+          city: '天河区',
+          address: '广东市天河区无名路888号',
+          zip: 200336
+        },
+        {
+          date: '2016-05-01',
+          name: '8张三',
+          province: '广东',
+          city: '天河区',
+          address: '广东市天河区无名路888号',
+          zip: 200337
+        }
       ]
     }
   },
-  components: {radio, group, checkbox, checkboxGroup},
+  components: {},
   methods: {
-    change (value, item) {
+    change(value, item) {
       console.log(value)
       console.log(item)
     }
   },
-  mounted () {
+  mounted() {
 
   }
 }
