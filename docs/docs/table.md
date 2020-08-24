@@ -832,6 +832,7 @@ export default {
 | emptyText      | String        | 无数据时显示的文本|
 | title          | Boolean/true  | 鼠标滑过单元格时显示 title 提示|
 | drag           | boolean/false | 允许拖动表头改变当前单元格宽度|
+| dragWidth      | array         | 允许拖动最大与最小宽度[min,max]|
 | extendToggle   | boolean/false | 扩展行/子节点初始展开或收起状态|
 | rowColSpan     | function      | 合并行或列方法。通过给传入 rowColSpan 方法可以实现合并行或列，方法的参数(当前行号 rowIndex,当前列号 columnIndex,当前行 row,当前列 column)四个属性。该函数返回一个包含两个数字的数组，第一个 rowspan，第二个 colspan，即向纵向和横向合并多少个单元格 |
 | pagination    | object        | 有相关参数时显示分页，参数的pagination组件参数|
@@ -855,6 +856,7 @@ export default {
 | toggleSelection | 用于多选表格，切换所有行的选中/清空状态,true为选中，false取消选中，默认false|
 | clearSort          | 用于清空排序条件|
 | resetColumn        | 用于重置表头，当通过 js 动态改变表格列时用于重置表格列及表头信息|
+| setTHWidth         | 用于重新设置每个单元格的宽，仅在drag=true时有效|
 
 ### Table-column
 

@@ -80,6 +80,13 @@ export default {
   components: {TableBody, TableHead, Pagination},
   props: {
     drag: Boolean,
+    dragWidth: {
+      // 拖动时的最小宽和最大宽限制，0为不限
+      type: Array,
+      default: () => {
+        return [60, 0]
+      }
+    },
     data: {
       type: Array,
       default: () => {
@@ -228,12 +235,24 @@ export default {
       }
       // 当鼠标移至当前单元格10px位置处，显示可拖动手形状
       const cls = event.className
-      if (event.offsetX > event.target.offsetWidth - 10) {
+      const offsetWidth = event.target.offsetWidth
+      if (event.offsetX > offsetWidth - 10) {
         event.target.style.cursor = 'col-resize'
         event.className = cls + ' col-resize'
       } else {
         event.target.style.cursor = 'default'
         // event.className = event.className.replace(' col-resize', '')
+      }
+      // 如果设置了最小宽或最大
+      if (this.dragWidth[0] > 0) {
+        if (offsetWidth < this.dragWidth[0]) {
+          return
+        }
+      }
+      if (this.dragWidth[1] > 0) {
+        if (offsetWidth > this.dragWidth[1]) {
+          return
+        }
       }
       if (this.dragHead.mouseDown) {
         let newWidth = this.dragHead.oldWidth + (event.x - this.dragHead.oldX)
@@ -348,19 +367,29 @@ export default {
         this.columns = []
         this.colWidth = []
         this._getAllHead(this.thead, child)
+        this.setTHWidth()
       })
     },
     _trClick(row, index) {
       this.$emit('trClick', row, index)
     },
-    // 表格可以拖动时，重新设置表格的实际宽度。否则点击拖动时会先发生宽度变化
-    _setTHWidth() {
-      const th = this.$el.querySelectorAll('th')
-      console.log(th)
-      this.colWidth = []
-      th.forEach(item => {
-        this.colWidth.push(item.offsetWidth + 'px')
-      })
+    // 表格可以拖动时，重新设置表格的实际宽度。否则点击拖动时会先发生宽度变化，也可通过外部调用来改变宽
+    setTHWidth(t) {
+      let time = t
+      if (!t) {
+        time = 500 // 设置一个延时时间，外部调用时不需要
+      }
+      if (!this.drag) {
+        return
+      }
+      setTimeout(() => {
+        const th = this.$el.querySelectorAll('th')
+        console.log(th)
+        this.colWidth = []
+        th.forEach(item => {
+          this.colWidth.push(item.offsetWidth + 'px')
+        })
+      }, time)
     }
   },
   mounted() {
