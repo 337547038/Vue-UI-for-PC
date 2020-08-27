@@ -83,4 +83,20 @@
   .extend{
     td{white-space: normal}
   }
+  // 拖动相关
+  .drag{
+    th{position: relative;
+      &:hover{
+        .drag-line{display: block}
+      }
+    }
+    .drag-line{display: none;
+      width: 10px;
+      height: 25px;
+      cursor: ew-resize;
+      border-right: 2px solid #dfe6ee;
+      position: absolute;
+      right: 11px;
+      top: 7px;}
+  }
 }

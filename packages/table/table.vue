@@ -51,7 +51,7 @@ import Pagination from '../pagination'
 export default {
   name: `${prefixCls}Table`,
   componentName: 'table',
-  data() {
+  data () {
     return {
       prefixCls: prefixCls,
       thead: [], // 表头信息及包含关系
@@ -60,18 +60,19 @@ export default {
       selectChecked: 'un-select', // 全选状态 un-select为全不选，some-select选择了部分，checked全选
       selectedRows: [], // 已选择的行
       sortBy: {}, // 存放所有排序信息
-      dragHead: {} // 临时存放表头拖动信息
+      dragHead: {}, // 临时存放表头拖动信息
+      isSetThWidth: false // 用于记录是否已经重新设置过表头的实际宽
     }
   },
-  created() {
+  created () {
     // console.time('timer')
   },
   watch: {
-    data(oldData, newData) {
+    data (oldData, newData) {
       // 当表格数据发生变化时，清空选择
       this.toggleSelection(false)
     },
-    theadOrder(val) {
+    theadOrder (val) {
       val.forEach(item => {
         this.colWidth.push(item.width)
       })
@@ -146,7 +147,7 @@ export default {
     pagination: Object // 分页相关参数
   },
   methods: {
-    _fixedHead() {
+    _fixedHead () {
       // 如果有高和表头，则固定表头
       // if (this.height && this.showHeader) {
       let tableContainer = this.$refs.tableContainer
@@ -154,7 +155,7 @@ export default {
       // }
       this._fixedRight(tableContainer, 0)// 初始化时横向滚动条在0位置
     },
-    _scrollHandle(el) {
+    _scrollHandle (el) {
       const scrollTop = el.scrollTop
       let head = this.$el.querySelector('thead')
       if (scrollTop > 0 && head) {
@@ -178,7 +179,7 @@ export default {
       }
       this._fixedRight(el, scrollLeft)
     },
-    _fixedRight(el, scrollLeft) {
+    _fixedRight (el, scrollLeft) {
       // 初始化时有横向滚动条，则先将右则固定的移到可见区
       const fixedRight = el.querySelectorAll('.right')
       const tableWidth = el.querySelector('table').offsetWidth
@@ -192,7 +193,7 @@ export default {
         }
       }
     },
-    _handleSelectAll() {
+    _handleSelectAll () {
       if (this.selectChecked === 'checked') {
         // 取消所有选择
         this.toggleSelection(false)
@@ -202,7 +203,7 @@ export default {
       }
       this.$emit('selectClick', this.selectedRows)
     },
-    _selectStatus() {
+    _selectStatus () {
       // 全选或返选状态
       if (this.selectedRows.length === this.data.length) {
         this.selectChecked = 'checked'
@@ -214,52 +215,51 @@ export default {
         }
       }
     },
-    _headMouseDown(event, index) {
+    _headMouseDown (event, index) {
       if (!this.drag) {
         return
       }
-      if (event.offsetX > event.target.offsetWidth - 10) {
-        this.dragHead = {
-          mouseDown: true,
-          oldX: event.x,
-          oldWidth: event.target.offsetWidth,
-          index: index
-        }
+      if (!this.isSetThWidth) {
+        // 重新设置表头的实际宽，仅在第一次点击时重置
+        this.setTHWidth()
+        this.isSetThWidth = true
+      }
+      this.dragHead = {
+        mouseDown: true,
+        oldX: event.x,
+        // oldWidth: event.target.offsetWidth,
+        oldWidth: parseInt(this.colWidth[index].replace('px', '')) || 0, // 拖动前的单元格宽
+        index: index
       }
       // 不让选择
       event.preventDefault()
     },
-    _headMouseMove(event, index) {
+    _headMouseMove (event, index) {
       if (!this.drag) {
         return
       }
-      // 当鼠标移至当前单元格10px位置处，显示可拖动手形状
-      const cls = event.className
-      const offsetWidth = event.target.offsetWidth
-      if (event.offsetX > offsetWidth - 10) {
-        event.target.style.cursor = 'col-resize'
-        event.className = cls + ' col-resize'
-      } else {
-        event.target.style.cursor = 'default'
-        // event.className = event.className.replace(' col-resize', '')
-      }
+      // const offsetWidth = event.target.offsetWidth
+      let newWidth = this.dragHead.oldWidth + (event.x - this.dragHead.oldX) // 移动鼠标实现宽
+      console.log(newWidth)
       // 如果设置了最小宽或最大
-      if (this.dragWidth[0] > 0) {
-        if (offsetWidth < this.dragWidth[0]) {
-          return
-        }
+      if (this.dragWidth[0] > 0 && (newWidth < this.dragWidth[0])) {
+        return
       }
-      if (this.dragWidth[1] > 0) {
-        if (offsetWidth > this.dragWidth[1]) {
-          return
-        }
+      if (this.dragWidth[1] > 0 && (newWidth > this.dragWidth[1])) {
+        return
       }
       if (this.dragHead.mouseDown) {
-        let newWidth = this.dragHead.oldWidth + (event.x - this.dragHead.oldX)
+        // 拖动时有可能会存在意外，这里也限制一下
+        if (this.dragWidth[0] > 0 && newWidth < this.dragWidth[0]) {
+          newWidth = this.dragWidth[0] // 过小时使用最小值
+        }
+        if (this.dragWidth[1] > 0 && newWidth > this.dragWidth[1]) {
+          newWidth = this.dragWidth[1] // 超出限制时使用最大值
+        }
         this.$set(this.colWidth, this.dragHead.index, newWidth + 'px')
       }
     },
-    _headMouseUp() {
+    _headMouseUp () {
       console.log('_headMouseUp')
       this.dragHead = {
         mouseDown: false,
@@ -268,7 +268,7 @@ export default {
         index: ''
       }
     },
-    handleChange(row) {
+    handleChange (row) {
       // 提供给column引用 ，单选行时
       // 单选checkbox，选中时将当前行信息存入selectedRows，没勾选时删除
       const index = this.selectedRows.indexOf(row)
@@ -281,7 +281,7 @@ export default {
       this._selectStatus()
       this.$emit('selectClick', this.selectedRows, row)
     },
-    _sortClick(prop, order, e) {
+    _sortClick (prop, order, e) {
       const parentNode = e.target.parentNode
       parentNode.className = 'caret-wrapper ' + order
       // 将当前排序信息添加到sortBy
@@ -289,10 +289,10 @@ export default {
       // this.sortChange && this.sortChange(this.sortBy)
       this.$emit('sortChange', this.sortBy)
     },
-    getSelectAll() {
+    getSelectAll () {
       return this.selectedRows
     },
-    toggleSelection(boolean) {
+    toggleSelection (boolean) {
       // boolean=true全选，false全不选
       if (boolean) {
         // 用于多选表格，切换所有行的选中状态
@@ -304,7 +304,7 @@ export default {
         this.selectChecked = 'un-select'
       }
     },
-    toggleRowSelection(row, selected) {
+    toggleRowSelection (row, selected) {
       // 用于多选表格，切换某一行的选中状态，如果使用了第二个参数，则是设置这一行选中与否（selected 为 true 则选中）row, selected
       const index = this.selectedRows.indexOf(row)
       if (selected === false) {
@@ -319,12 +319,12 @@ export default {
         }
       }
     },
-    clearSort() {
+    clearSort () {
       // 用于清空排序条件
       this.sortBy = {}
     },
     // 获取表头信息
-    _getAllHead(thead, child, tid, layer) {
+    _getAllHead (thead, child, tid, layer) {
       // tid父级id,layer为当前层级
       if (!tid) {
         tid = 0
@@ -357,7 +357,7 @@ export default {
       })
       this.columns.sort((a, b) => parseInt(a.order) - parseInt(b.order))
     },
-    resetColumn() {
+    resetColumn () {
       // 1.表格加载完成时用于获取table子组件，生成表头
       // 2.当存在动态切换Column时，用于重置表头
       // console.log('getColumn')
@@ -370,49 +370,40 @@ export default {
         this.setTHWidth()
       })
     },
-    _trClick(row, index) {
+    _trClick (row, index) {
       this.$emit('trClick', row, index)
     },
     // 表格可以拖动时，重新设置表格的实际宽度。否则点击拖动时会先发生宽度变化，也可通过外部调用来改变宽
-    setTHWidth(t) {
-      let time = t
-      if (!t) {
-        time = 500 // 设置一个延时时间，外部调用时不需要
-      }
+    setTHWidth () {
       if (!this.drag) {
         return
       }
-      setTimeout(() => {
-        const th = this.$el.querySelectorAll('th')
-        console.log(th)
-        this.colWidth = []
-        th.forEach(item => {
-          this.colWidth.push(item.offsetWidth + 'px')
-        })
-      }, time)
+      const th = this.$el.querySelectorAll('th')
+      console.log(th)
+      this.colWidth = []
+      th.forEach(item => {
+        this.colWidth.push(item.offsetWidth + 'px')
+      })
     }
   },
-  mounted() {
+  mounted () {
     this.$nextTick(() => {
       this._fixedHead()
       if (this.drag) {
         this.$refs.tableContainer.style.overflowX = 'auto'
         document.addEventListener('mouseup', this._headMouseUp)
-        setTimeout(() => {
-          this._setTHWidth()
-        }, 0)
       }
       // console.timeEnd('timer')
     })
     this.resetColumn()
   },
-  destroyed() {
+  destroyed () {
     if (this.drag) {
       document.removeEventListener('mouseup', this._headMouseUp)
     }
   },
   computed: {
-    theadOrder() {
+    theadOrder () {
       const hasOrder = this.thead.length > 1 && this.thead[0].order
       let temp = this.thead
       if (parseInt(hasOrder) > -1) {

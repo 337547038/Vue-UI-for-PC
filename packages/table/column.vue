@@ -52,6 +52,10 @@ export default {
     },
     order: {
       type: [String, Number]
+    },
+    drag: { // 当前单元格允许拖动，仅在table设置drag＝true时有效
+      type: Boolean,
+      default: true
     }
   },
   created() {

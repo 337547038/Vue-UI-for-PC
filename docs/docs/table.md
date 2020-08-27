@@ -872,6 +872,7 @@ export default {
 | sortBy    | Boolean/false | 当前列显示排序按钮
 | title     | Boolean/false | 鼠标滑过单元格时显示 title 提示，仅当 table 的 title 为 false 时有效 |
 | order     | number        | 用于排序|
+| drag      | Boolean/true  | 允许当前单元格拖动，仅在table的drag=true时有效|
 
 ### Table-column Scoped Slot
 
