@@ -367,7 +367,7 @@ export default {
         this.columns = []
         this.colWidth = []
         this._getAllHead(this.thead, child)
-        this.setTHWidth()
+        this.isSetThWidth = false // 表头发生变化时，恢复初始值
       })
     },
     _trClick (row, index) {
