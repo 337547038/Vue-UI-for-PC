@@ -30,18 +30,19 @@ import {prefixCls} from '../prefix'
 
 export default {
   name: `${prefixCls}CheckboxGroup`,
-  data() {
+  data () {
     return {
       prefixCls: prefixCls,
       groupValue: this.value // 初始选中值
     }
   },
   watch: {
-    value(v) {
+    value (v) {
       this.groupValue = v
+      this._change(v) // value改变时处理超出最大最小限制时的禁用状态
     }
   },
-  updated() {
+  updated () {
   },
   props: {
     data: Array,
@@ -57,7 +58,7 @@ export default {
   },
   components: {Checkbox},
   methods: {
-    _change(value, item) {
+    _change (value, item) {
       const newLen = this.groupValue.length
       if (newLen >= this.max) {
         // 将所有未勾选的设为禁用状态
@@ -79,11 +80,13 @@ export default {
           delete item._disabled
         })
       }
-      this.$emit('input', [...this.groupValue])
-      this.change && this.change(value, item)
-      this.$emit('change', value, item)
+      if (item) { // 监听状态时不用发emit
+        this.$emit('input', [...this.groupValue])
+        this.change && this.change(value, item)
+        this.$emit('change', value, item)
+      }
     },
-    toggleSelect(boolean) {
+    toggleSelect (boolean) {
       let value = []
       this.data && this.data.forEach(item => {
         if (boolean) {
@@ -103,14 +106,14 @@ export default {
       })
       this.$emit('input', value)
     },
-    getValue() {
+    getValue () {
       return this.data.filter(item => {
         return this.value.indexOf(item.value) !== -1
       })
     }
   },
   computed: {},
-  mounted() {
+  mounted () {
   },
   filters: {}
 }
