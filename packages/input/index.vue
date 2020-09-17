@@ -8,7 +8,8 @@
            :disabled="disabled"
            @input="_input"
            @focus="_focus"
-           @blur="_blur"/>
+           @blur="_blur"
+           ref="input"/>
     <span class="prefix-icon" v-if="$slots.prefix||prefixIcon">
       <i :class="[prefixIcon]" v-if="prefixIcon"></i>
       <slot name="prefix"></slot>
@@ -77,8 +78,6 @@ export default {
       default: false
     },
     change: Function,
-    focus: Function,
-    blur: Function,
     prefixIcon: String, // 前缀icon
     suffixIcon: String // 后缀icon
   },
@@ -90,7 +89,6 @@ export default {
         this.dispatch('formItem', `${prefixCls}.form.blur`, [e])
       }
       this._emit('blur', e)
-      this.blur && this.blur(e)
     },
     _input(e) {
       const value = e.target.value
@@ -103,7 +101,6 @@ export default {
     },
     _focus(e) {
       this._emit('focus', e)
-      this.focus && this.focus(e)
       if (this.validateEvent) {
         this.dispatch('formItem', `${prefixCls}.form.focus`, [e])
       }
@@ -114,6 +111,12 @@ export default {
     _emit(type, e) {
       this.$emit(type, e)
       // this[type] && this[type](e)
+    },
+    focus() {
+      this.$refs.input.focus()
+    },
+    blur() {
+      this.$refs.input.blur()
     }
   },
   computed: {},
