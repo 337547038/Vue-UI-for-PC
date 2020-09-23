@@ -270,8 +270,10 @@ export default {
     }
   },
   methods: {
-    beforeChange (value) {
-      console.log(value)
+    _beforeChange(value) {
+       console.log(value)
+       alert('不能选择')
+       return false
     }
   }
 }
