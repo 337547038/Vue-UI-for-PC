@@ -176,6 +176,14 @@ module.exports = {
     }
     if (NODE_ENV) {
       // config.optimization.delete('splitChunks')
+      // 生成文件名不添加hash值
+      config.output.filename('static/js/[name].js').end()
+      config.output.chunkFilename('static/js/[name].js').end()
+      // 为生产环境修改配置...
+      config.plugin('extract-css').tap(args => [{
+        filename: `static/css/[name].css`,
+        chunkFilename: `static/css/[name].css`
+      }])
     }
     // 配置【vue-markdown-loader】解析md格式的文件
     config.module
