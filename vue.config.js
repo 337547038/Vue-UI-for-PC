@@ -75,6 +75,7 @@ module.exports = {
       chunks: ['vendors', 'ak', 'index']
     }
   },
+  parallel: false,
   configureWebpack: (config) => {
     let plugins = []
     // 添加环境变量
