@@ -13,6 +13,7 @@ export default {
       value8: [],
       value9: '',
       value10: '',
+      value11: '',
       options: [
         {label: '选项1', value: '1'},
         {label: '选项2', value: '2'},
@@ -42,7 +43,11 @@ export default {
     _change (value) {
       console.log(value)
     },
-   
+    _beforeChange(value) {
+      console.log(value)
+      alert('不能选择')
+      return false
+    }
   }
 }
 </script>
@@ -250,6 +255,30 @@ export default {
 ```
 :::
 
+### 11、改变前拉截事件
+:::demo 
+```html
+<template>
+ <ak-select placeholder="请选择" :options="options" v-model="value11" :beforeChange="_beforeChange">
+</ak-select>
+</template>
+<script>
+export default {
+  data () {
+    return {
+      value11: ''
+    }
+  },
+  methods: {
+    beforeChange (value) {
+      console.log(value)
+    }
+  }
+}
+</script>
+```
+:::
+
 ### 示例option数据
 ```javascript
 export default {
@@ -299,6 +328,7 @@ export default {
 |参数|类型|说明|
 |-|-|-|
 |change            | function              |选中值发生变化时触发|
+|beforeChange      | function              |选择前事件|
 
 ### Select Method
 |参数|类型|说明|
