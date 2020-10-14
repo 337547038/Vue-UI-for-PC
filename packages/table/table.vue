@@ -226,7 +226,7 @@ export default {
       }
       this.dragHead = {
         mouseDown: true,
-        oldX: event.x,
+        oldX: event.pageX,
         // oldWidth: event.target.offsetWidth,
         oldWidth: parseInt(this.colWidth[index].replace('px', '')) || 0, // 拖动前的单元格宽
         index: index
@@ -239,7 +239,7 @@ export default {
         return
       }
       // const offsetWidth = event.target.offsetWidth
-      let newWidth = this.dragHead.oldWidth + (event.x - this.dragHead.oldX) // 移动鼠标实现宽
+      let newWidth = this.dragHead.oldWidth + (event.pageX - this.dragHead.oldX) // 移动鼠标实现宽
       console.log(newWidth)
       // 如果设置了最小宽或最大
       if (this.dragWidth[0] > 0 && (newWidth < this.dragWidth[0])) {

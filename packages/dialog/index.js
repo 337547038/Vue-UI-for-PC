@@ -65,7 +65,7 @@ const DialogAlert = {
   Clear() {
     // 添加一个简单粗暴的方法，用于清除所有alert弹窗和遮罩层
     const dialog = document.querySelectorAll(`.${prefixCls}-dialog-isAlert`)
-    if (dialog) {
+    if (dialog && dialog.length > 0) {
       dialog.forEach(item => {
         // console.log(item)
         item.parentNode.removeChild(item)
@@ -74,7 +74,7 @@ const DialogAlert = {
     }
     // 遮罩层
     const modal = document.querySelectorAll(`.${prefixCls}-dialog-modal`)
-    if (modal) {
+    if (modal && modal.length > 0) {
       modal.forEach(item => {
         item.parentNode.removeChild(item)
       })
