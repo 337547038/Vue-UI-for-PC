@@ -80,7 +80,7 @@ export default {
         return h('label', {
           attrs: {class: className},
           on: {
-            click: this._handleChange.bind(this, row)
+            click: this._handleChange.bind(this, row, $index)
           }
         }, [
           h('span', {class: `${prefixCls}-checkbox-inner`})
@@ -102,8 +102,8 @@ export default {
     }
   },
   methods: {
-    _handleChange(row) {
-      this.$parent.handleChange(row)
+    _handleChange(row, index) {
+      this.$parent.handleChange(row, index)
     }
   },
   mounted() {

@@ -341,7 +341,7 @@ export default {
 
 ### 5、添加勾选
 
-:::demo `type="selection"`;`getSelectAll`方法可取已勾选行
+:::demo `type="selection"`;`getSelectAll`方法可取已勾选行。支持按住`ctrl`键一次勾选或取消多个
 
 ```html
 <p><ak-button @click="getSelectAll">getSelectAll</ak-button></p>
@@ -843,7 +843,7 @@ export default {
 
 | 参数 | 说明 |
 |-|-|- |
-| selectClick    | 勾选单列事件，function(list,row) list所有已勾选的row集合，row当前点击行信息|
+| selectClick    | 勾选单列事件，function(list,row, index) list所有已勾选的row集合，row当前点击行信息，index当前行序号|
 | sortChange     | 排序点击事件 |
 | trClick        | 当前行点击事件，即tr点击事件，function(row,index) |
 
