@@ -45,7 +45,7 @@
 <script>
 import {prefixCls} from '../prefix'
 import pInput from '../input/index'
-import pSelect from '../select/index'
+import pSelect from '../select/select'
 
 export default {
   name: `${prefixCls}Pagination`,

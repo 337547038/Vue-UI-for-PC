@@ -5,6 +5,7 @@ export default {
   name: `${prefixCls}Option`,
   data() {
     return {
+      prefixCls: prefixCls,
       timer: ''
     }
   },

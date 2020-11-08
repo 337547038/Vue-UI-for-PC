@@ -59,13 +59,13 @@ import vInput from '../input'
 import {RadioGroup} from '../radio'
 import {CheckboxGroup} from '../checkbox'
 import DatePicker from '../datePicker'
-import vSelect from '../select'
+import vSelect from '../select/select'
 import vSwitch from '../switch'
 import vTextarea from '../textarea'
 
 export default {
   name: `${prefixCls}AutoForm`,
-  data () {
+  data() {
     return {
       prefixCls: prefixCls,
       rules: {}, // form组件rules参数
@@ -105,7 +105,7 @@ export default {
       this._changeValue(v)
     } */
   },
-  created () {
+  created() {
     this.defaultValue = []
     this._getRulesModel()
   },
@@ -119,7 +119,7 @@ export default {
       console.log(this.model)
       // this.model = Object.assign({}, this.model, val)
     }, */
-    _getRulesModel () {
+    _getRulesModel() {
       console.log('_getRulesModel')
       // 根据传进来的data提取form所需的rules，model两个参数
       let index = 0 // 系统指定顺序名称，如果不存在name值
@@ -132,7 +132,7 @@ export default {
       })
       this.$emit('input', this.model)
     },
-    validate (props) {
+    validate(props) {
       // 调用组件form的验证方法
       return new Promise((resolve, reject) => {
         this.$refs.form.validate(props)
@@ -155,7 +155,7 @@ export default {
           })
       })
     }, */
-    resetFields () {
+    resetFields() {
       let i = 0
       this.data.forEach(item => {
         item.control.value = this.defaultValue[i]
@@ -166,7 +166,7 @@ export default {
       this.$refs.form.resetFields()
     },
     // 初始化后重新设值
-    setValue (obj) {
+    setValue(obj) {
       for (let key in obj) {
         this.data.forEach(item => {
           if (key === item.name) {
@@ -177,7 +177,7 @@ export default {
     }
   },
   computed: {},
-  mounted () {
+  mounted() {
   }
 }
 </script>
