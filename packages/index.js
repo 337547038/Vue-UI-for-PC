@@ -11,7 +11,7 @@ import {Form, FormItem, AutoForm} from './form/index'
 import Input from './input/index'
 import Loading from './loading/index'
 import {Radio, RadioGroup} from './radio/index'
-import Select from './select/index'
+import {Select, Option} from './select/index'
 import Switch from './switch/index'
 import {Table, TableColumn} from './table/index'
 import {Tabs, TabPane} from './tabs/index'
@@ -35,12 +35,14 @@ import Slider from './slider'
 import Badge from './badge'
 import {Icon, Icons} from './icon'
 import InputNumber from './inputNumber'
+
 const component = [
   Button,
   Dialog,
   Form, FormItem,
   Input,
   Select,
+  Option,
   Switch,
   Table, TableColumn,
   DatePicker,

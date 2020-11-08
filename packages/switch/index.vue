@@ -66,6 +66,7 @@ export default {
           }
         }
         this.$emit('input', checked)
+        this.$emit('change', checked)
         this.change && this.change(checked)// 回调
         if (this.validateEvent) {
           this.dispatch('formItem', `${prefixCls}.form.change`, [checked, ''])

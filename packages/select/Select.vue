@@ -29,19 +29,25 @@
         <i :class="{'open':show,'icon-arrow':true}"></i>
       </span>
     </div>
+    <div v-if="$slots.default">
+      <slot></slot>
+    </div>
     <transition name="slide-toggle">
-      <div :class="`${prefixCls}-select-down`" v-show="show&&filterOption.length>0" :style="showLiNum"
-           v-if="!$slots.default">
+      <div
+        :class="`${prefixCls}-select-down`"
+        v-show="show&&filterOption.length>0"
+        :style="showLiNum"
+        v-if="!$slots.template">
         <ul>
           <li v-for="(item,index) in filterOption" @click="_itemClick(item,$event)"
-              :class="{'disabled':item.disabled,'active':_getActive(item),[item.class]:item.class}" ref="li"
+              :class="{'disabled':item.disabled,'active':_getActive(item),[item.className]:item.className}" ref="li"
               :key="index" :title="item.label||item.value">
             {{item.label||item.value}}
           </li>
         </ul>
       </div>
-      <div :class="`${prefixCls}-select-down`" v-if="$slots.default" v-show="show">
-        <slot></slot>
+      <div :class="`${prefixCls}-select-down`" v-if="$slots.template" v-show="show">
+        <slot name="template"></slot>
       </div>
     </transition>
   </div>
@@ -80,7 +86,12 @@ export default {
       type: Number,
       default: 0
     },
-    options: Array, // 下拉选顶
+    options: {
+      type: Array,
+      default: function () {
+        return []
+      }
+    }, // 下拉选顶
     change: Function, // 下拉选择后回调
     beforeChange: Function,
     disabled: {
@@ -107,6 +118,7 @@ export default {
   },
   components: {},
   mounted() {
+    console.log('ok')
     this._setFirstText()
     if (this.$slots.default) {
       // 自定模板时没办法将值和value对应起来
@@ -117,6 +129,8 @@ export default {
     if (this.filterable) {
       this.keywords = this.value ? this.text : ''
     }
+    console.log('$slots')
+    console.log(this.$slots)
   },
   watch: {
     show(value) {
@@ -203,8 +217,8 @@ export default {
       // 设置第一项选项；如果有值则选中对应项，如果没值显示默认，没默认显示选第一项
       if (this.value.toString().length > 0) {
         let text = []
-        for (let i in this.options) {
-          const option = this.options[i]
+        for (let i in this.filterOption) {
+          const option = this.filterOption[i]
           if (this.multiple) {
             // 多选
             if (this.value.indexOf(option.value) !== -1) {
@@ -226,10 +240,10 @@ export default {
         if (this.placeholder) {
           this.text = this.placeholder
         } else {
-          this.text = this.options[0].label || this.options[0].value
+          this.text = this.filterOption[0].label || this.filterOption[0].value
           // 更新value值
           // this.$emit('input', this.text)
-          this._emit(this.text, this.options[0], 0)
+          this._emit(this.text, this.filterOption[0], 0)
         }
       }
     },

@@ -14,6 +14,7 @@ export default {
       value9: '',
       value10: '',
       value11: '',
+      value12: '',
       options: [
         {label: '选项1', value: '1'},
         {label: '选项2', value: '2'},
@@ -204,7 +205,7 @@ export default {
 ```html
 <template>
  <ak-select placeholder="请选择" v-model="value9" ref="select9">
-   <div v-for="item in templateData" @click.stop="_click(item.label)">{{item.label}}</div>
+   <div v-for="item in templateData" @click.stop="_click(item.label)" slot="template">{{item.label}}</div>
 </ak-select>
 </template>
 <script>
@@ -281,6 +282,28 @@ export default {
 ```
 :::
 
+### 12、使用`Option`组件，参数和`select`的`option`一致
+:::demo 
+```html
+<template>
+ <ak-select placeholder="请选择" v-model="value12">
+   <ak-option value="1" label="选择一"></ak-option>
+</ak-select>
+</template>
+<script>
+export default {
+  data () {
+    return {
+      value12: ''
+    }
+  },
+  methods: {
+  }
+}
+</script>
+```
+:::
+
 ### 示例option数据
 ```javascript
 export default {
@@ -324,7 +347,7 @@ export default {
 |value            | string                |选项的值|
 |label            | string                |选项的标签，若不设置则默认与 value 相同|
 |disabled         | boolean/false         |是否禁用该选项|
-|class            | string                |对当前项添加样式|
+|className        | string                |对当前项添加样式|
 
 ### Select Events
 |参数|类型|说明|
