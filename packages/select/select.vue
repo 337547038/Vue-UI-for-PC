@@ -120,7 +120,7 @@ export default {
   mounted() {
     console.log('ok')
     this._setFirstText()
-    if (this.$slots.default) {
+    if (this.$slots.template) {
       // 自定模板时没办法将值和value对应起来
       this.text = this.value
     }
@@ -144,7 +144,8 @@ export default {
       }
     },
     value(v) {
-      if (this.$slots.default) {
+      console.log('value watch')
+      if (this.$slots.template) {
         // 自定模板时没办法将值和value对应起来
         this.text = v
       }
@@ -153,6 +154,7 @@ export default {
     // 当数据为异步时
     options(val) {
       this.filterOption = val
+      this._setFirstText() // 动态改变值时
     }
   },
   methods: {
@@ -214,6 +216,9 @@ export default {
       e.stopPropagation()
     },
     _setFirstText() {
+      console.log('_setFirstText')
+      console.log(this.value)
+      console.log(this.filterOption)
       // 设置第一项选项；如果有值则选中对应项，如果没值显示默认，没默认显示选第一项
       if (this.value.toString().length > 0) {
         let text = []
@@ -246,6 +251,7 @@ export default {
           this._emit(this.text, this.filterOption[0], 0)
         }
       }
+      console.log(this.text)
     },
     _change(e) {
       // 可搜索时输入框改变事件
