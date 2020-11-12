@@ -104,7 +104,7 @@ export default {
   },
   components: {},
   methods: {
-    selectClick (row) {
+    selectClick (list,checked,row) {
       console.log('selectClick')
       console.log(row)
     },
@@ -372,7 +372,7 @@ export default {
 <script>
   export default {
     methods: {
-      selectClick(list,row) {
+      selectClick(list,checked,row) {
         console.log("selectClick");
         console.log(row);
       },
@@ -843,7 +843,7 @@ export default {
 
 | 参数 | 说明 |
 |-|-|- |
-| selectClick    | 勾选单列事件，function(list,row, index) list所有已勾选的row集合，row当前点击行信息，index当前行序号|
+| selectClick    | 勾选单列事件，function(list,checked,row, index) list所有已勾选的row集合，checked当前状态，row当前点击行信息，index当前行序号|
 | sortChange     | 排序点击事件 |
 | trClick        | 当前行点击事件，即tr点击事件，function(row,index) |
 
