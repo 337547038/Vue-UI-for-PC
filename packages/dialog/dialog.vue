@@ -394,6 +394,7 @@ export default {
           if (this.autoTime > 1) {
             this.autoTime--
           } else {
+	    this.callback&&this.callback()
             this._close()
           }
         }, 1000)
