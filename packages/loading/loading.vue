@@ -1,7 +1,7 @@
 <!-- Created by 337547038 on 2018/9/5 0005. -->
 <template>
   <transition :name="`${prefixCls}-loading-fade`">
-    <div v-show="visible" :style="{ backgroundColor: background || '' }"
+    <div v-show="visible" :style="{ backgroundColor: background || '','z-index':zIndex }"
          :class="{[prefixCls+'-loading-full']:body,[prefixCls+'-loading']:true}">
       <div :class="`${prefixCls}-loading-spinner`">
         <i :class="[spinner,[prefixCls+'-icon-rotate']]" v-if="spinner"></i>
@@ -21,7 +21,7 @@ import dom from '../mixins/dom.js'
 export default {
   name: `${prefixCls}Loading`,
   mixins: [dom],
-  data() {
+  data () {
     return {
       prefixCls: prefixCls,
       visible: false,
@@ -40,18 +40,19 @@ export default {
       // 添加一个类名，插入body时。body时fixed定位
       type: Boolean,
       default: true
-    }
+    },
+    zIndex: Number
   },
   components: {},
   methods: {
-    open() {
+    open () {
       this.visible = true
       if (this.lock) {
         document.body.style.overflow = 'hidden'
         document.body.style.paddingRight = this.scrollbarWidth + 'px'
       }
     },
-    close(remove) {
+    close (remove) {
       // remove false通过指令引用，这时不能移除
       this.visible = false
       /* if (this.$el && remove !== false) {
@@ -67,10 +68,10 @@ export default {
     }
   },
   computed: {},
-  mounted() {
+  mounted () {
     this.scrollbarWidth = this.getScrollbarWidth()
   },
-  destroyed() {
+  destroyed () {
     if (this.$el && this.$el.parentNode) {
       this.$el.parentNode.removeChild(this.$el)
     }

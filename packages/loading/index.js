@@ -12,7 +12,7 @@ import akLoading from './loading'
 import Vue from 'vue'
 import {prefixCls} from '../prefix'
 
-/* const Loading = function (options) {
+const Loading = function (options) {
   let Message = Vue.extend(akLoading)
   const propsData = Object.assign({}, options)
   // propsData.visible = true
@@ -22,9 +22,9 @@ import {prefixCls} from '../prefix'
   document.body.appendChild(component.$el)
   component.open()
   return component
-} */
-// Loading.directive = function () {
-const Loading = function () {
+}
+Loading.directive = function () {
+// const Loading = function () {
   Vue.directive('loading', {
     bind: function (el, binding) {
       el.style.position = 'relative'

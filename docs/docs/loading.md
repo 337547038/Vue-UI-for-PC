@@ -80,6 +80,7 @@ export default {
 <template>
   <div>
   <ak-button type="primary" @click="openFullScreen" v-loading.body.lock="fullScreenLoading">加载</ak-button>
+  <ak-button type="primary" @click="openFullScreen2">服务方式</ak-button>
 </div>
 </template>
 <script>
@@ -95,6 +96,17 @@ export default {
       setTimeout(() => {
         this.fullScreenLoading = false
       }, 2000)
+    },
+    openFullScreen2 () {
+       const loading = this.$loading({
+          lock: true,
+          text: 'Loading',
+          spinner: 'ak-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)'
+          })
+       setTimeout(() => {
+          loading.close()
+       }, 2000)
     }
   }
 }
