@@ -1,6 +1,6 @@
 <!--Created by 337547038 on 2018/9/5.-->
 <template>
-  <div :class="{[prefixCls+'-date-picker-input']:true,'date-picker-clear':value&&showClear}">
+  <div :class="{[prefixCls+'-date-picker-input']:true,'date-picker-clear':value&&showClear,top:positionTop}">
     <v-input
       :placeholder="placeholder"
       :class="{'disabled':disabled}"
@@ -27,17 +27,18 @@ const Picker = Vue.extend(DatePicker)
 export default {
   name: `${prefixCls}DatePicker`,
   mixins: [dom, emitter],
-  data() {
+  data () {
     return {
       prefixCls: prefixCls,
       component: '', // 挂载的组件
       offset: {}, // 当前input位置坐标
       status: false, // 防止多次挂裁
-      showValue: '' // 显示在输入框的值
+      showValue: '', // 显示在输入框的值
+      positionTop: false
     }
   },
   watch: {
-    value() {
+    value () {
       this._getShowValue()
     }
   },
@@ -78,11 +79,12 @@ export default {
     readonly: { // 日期输入框只读
       type: Boolean,
       default: true
-    }
+    },
+    maxHeight: Number // 距离浏览底部高度，当小于这个高度时将向上弹出
   },
   components: {vInput},
   methods: {
-    _getShowValue(date) {
+    _getShowValue (date) {
       // 当value变化时，返回指定的输出格式
       let dateValue = date || this.value
       if (!dateValue) {
@@ -113,7 +115,7 @@ export default {
       this._emit(vModel)
     },
     // 格式化时间
-    _parseDate(date, formatType) {
+    _parseDate (date, formatType) {
       let dateTime = new Date(date)
       if (dateTime.toString() === 'Invalid Date') {
         // 日期不合法
@@ -149,13 +151,13 @@ export default {
         return value
       })
     },
-    _emit(date) {
+    _emit (date) {
       this.$emit('input', date)// 返回父组件更新
       // 通知表单组件
       this.dispatch('formItem', `${prefixCls}.form.change`, [date, ''])
       this.$emit('change', date)
     },
-    _open(e) {
+    _open (e) {
       // 判断当前点击元素在组件里即展开，即属于组件子节点，不在关闭
       if (this.$el.contains(e.target) && !this.disabled && !this.status) {
         this.offset = this.getOffset(this.$refs.input.$el)
@@ -164,7 +166,9 @@ export default {
           this.offset.left = 0
           this.offset.top = 0
         }
+        this.positionTop = this._setPosition(e)
         const props = {
+          positionTop: this.positionTop,
           downStyle: this.downStyle,
           offset: this.offset,
           value: this.value,
@@ -199,7 +203,7 @@ export default {
       }
     },
 
-    _input(val) {
+    _input (val) {
       // readonly=false时，用户输入事件。清空事件
       this.showValue = val
       if (val === '') {
@@ -207,7 +211,7 @@ export default {
       }
     },
     // 当只读模式为false，有失焦事件，对日期进行检验
-    _blur(e) {
+    _blur (e) {
       /* console.log('ok')
       const value = e.target.value
       if (!value) {
@@ -219,17 +223,29 @@ export default {
         dateTime = ''
       }
       this._emit(dateTime) */
+    },
+    _setPosition (e) {
+      let top = false
+      if (this.maxHeight) {
+        // 设有距浏览器底部高度时
+        const wh = document.documentElement.clientHeight || document.body.clientHeight
+        const clientY = e.clientY // 当鼠标事件发生时，鼠标相对于浏览器（这里说的是浏览器的有效区域）y轴的位置；
+        if (this.maxHeight > wh - clientY) {
+          top = true
+        }
+      }
+      return top
     }
   },
   computed: {},
-  mounted() {
+  mounted () {
     document.addEventListener('click', this._open)
     this._getShowValue()
   },
-  beforeDestroy() {
+  beforeDestroy () {
     document.removeEventListener('click', this._open)
   },
-  destroyed() {
+  destroyed () {
     console.log('destroyed')
     // if appendToBody is true, remove DOM node after destroy
     if (this.$el && this.$el.parentNode) {

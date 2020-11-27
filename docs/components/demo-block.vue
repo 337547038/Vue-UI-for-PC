@@ -51,6 +51,9 @@ export default {
   .sh-checkbox{color: #444;font-weight: 500;font-size: 14px;position: relative;cursor: pointer;display: inline-block;white-space: nowrap;user-select: none;}
   .slide-toggle-enter-active{ animation: slideDown .3s; transform-origin: center top }
   .slide-toggle-leave-active{ animation: slideUp .3s; transform-origin: center top }
+  .top .slide-toggle-enter-active, .top .slide-toggle-leave-active{
+    transform-origin: center bottom;
+  }
   @keyframes slideDown{
     0%{ opacity: 0; transform: scaleY(0); }
     100%{ opacity: 1; transform: scaleY(1); }

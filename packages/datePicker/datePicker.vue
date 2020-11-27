@@ -32,7 +32,7 @@ import {prefixCls} from '../prefix'
 
 export default {
   name: 'datePicker',
-  data() {
+  data () {
     return {
       prefixCls: prefixCls,
       activeValue: '', // 当前显示的值，即日历表头显示的日间值。在选择了年或月时改变
@@ -61,16 +61,17 @@ export default {
     offset: Object, // 坐标信息
     input: Function, // 选择回调
     innerHTML: Function,
-    downStyle: Object // 下拉面板样式
+    downStyle: Object, // 下拉面板样式
+    positionTop: Boolean
   },
   components: {Year, Month, Day},
-  created() {
+  created () {
     this.activeValue = this._getTime(this.value) // 判断检查日期合法，并设置初始默认值
     this.bodyValue = this._getTime(this.value)
     this._setActivePanel() // 根据参数展开默认面板
   },
   methods: {
-    _yearClick(type) {
+    _yearClick (type) {
       // 前后年切换点击
       // type=0表示减，1表示加
       // 仅在年面板时，+－10，其它时间+-1
@@ -88,7 +89,7 @@ export default {
         this.activeValue = new Date(this.activeValue.setYear(this.activeValue.getFullYear() + num))
       }
     },
-    _monthClick(type) {
+    _monthClick (type) {
       // 前后月切换点击，只有在日期面板时显示，年或年月面板不显示
       // type=0表示减，1表示加
       let num = 1
@@ -97,7 +98,7 @@ export default {
       }
       this.activeValue = new Date(this.activeValue.setMonth(this.activeValue.getMonth() + num))
     },
-    _getTime(date) {
+    _getTime (date) {
       // 判断初始日期转为标准格式
       let time
       if (date) {
@@ -112,13 +113,13 @@ export default {
       }
       return time
     },
-    close() {
+    close () {
       this.showHide = false
     },
-    _stopPropagation(e) {
+    _stopPropagation (e) {
       e.stopPropagation()
     },
-    _click(value) {
+    _click (value) {
       // 下拉日期时间点击回调事件
       console.log('click')
       console.log(value)
@@ -154,7 +155,7 @@ export default {
         this.close()
       }
     },
-    _setActivePanel() {
+    _setActivePanel () {
       // 根据参数展开默认面板
       if (this.type === 'year') {
         // 年或年月选择时，默认显示年
@@ -167,13 +168,13 @@ export default {
     }
   },
   computed: {
-    year() {
+    year () {
       return new Date(this.activeValue).getFullYear()
     },
-    month() {
+    month () {
       return new Date(this.activeValue).getMonth() + 1
     },
-    pickerStyle() {
+    pickerStyle () {
       // 下拉日期位置
       let style = null
       if (this.offset) {
@@ -181,26 +182,32 @@ export default {
           left: this.offset.left + 'px',
           top: this.offset.top + this.offset.height + 'px'
         }
+        if (this.positionTop) {
+          style = {
+            left: this.offset.left + 'px',
+            bottom: this.offset.top + this.offset.height + 'px'
+          }
+        }
       }
       if (this.downStyle) {
         style = Object.assign({}, style, this.downStyle)
       }
       return style
     },
-    showMonthControl() {
+    showMonthControl () {
       // 显示月份上下切换。只有年月日类型时才显示
       // return this.type.length > 2
       return this.type === 'date' || this.type === 'datetime'
     },
-    showMonth() {
+    showMonth () {
       // 头部显示月份，仅在type='y'时不显示
       return this.type !== 'year'
     }
   },
-  mounted() {
+  mounted () {
     // document.body.appendChild(this.$el)
   },
-  destroyed() {
+  destroyed () {
     // this.$el.parentNode.removeChild(this.$el)
   },
   filters: {}

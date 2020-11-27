@@ -1,7 +1,7 @@
 <!-- Created by 337547038 on 2018/8/27 0027. -->
 <!--<Select placeholder="请选择" :options="options" v-model="value"></Select>-->
 <template>
-  <div :class="{'open':show,[prefixCls+'-select']:true}">
+  <div :class="{'open':show,[prefixCls+'-select']:true,top:position}">
     <div :class="{
     'show-clear':clear&&value.length>0,
     [prefixCls+'-select-control']:true}" @click="_selectControlClick">
@@ -59,14 +59,15 @@ import emitter from '../mixins/emitter'
 export default {
   name: `${prefixCls}Select`,
   mixins: [emitter],
-  data() {
+  data () {
     return {
       prefixCls: prefixCls,
       filterOption: this.options,
       show: false,
       liHeight: '', // li高度，用于显示提定的数量
       text: '',
-      keywords: '' // 搜索输入框的值
+      keywords: '', // 搜索输入框的值
+      position: ''
     }
   },
   props: {
@@ -114,10 +115,11 @@ export default {
       type: Boolean,
       default: true
     },
-    downStyle: Object // 下拉面板样式
+    downStyle: Object, // 下拉面板样式
+    maxHeight: Number // 距离浏览底部高度，当小于这个高度时将向上弹出
   },
   components: {},
-  mounted() {
+  mounted () {
     console.log('ok')
     this._setFirstText()
     if (this.$slots.template) {
@@ -133,7 +135,7 @@ export default {
     console.log(this.$slots)
   },
   watch: {
-    show(value) {
+    show (value) {
       if (this.filterable) {
         if (value) {
           // 聚焦。有时点了不是输入框，而是旁边的方向，这里也让输入框聚焦
@@ -143,7 +145,7 @@ export default {
         }
       }
     },
-    value(v) {
+    value (v) {
       console.log('value watch')
       if (this.$slots.template) {
         // 自定模板时没办法将值和value对应起来
@@ -152,17 +154,18 @@ export default {
       this._setFirstText() // 动态改变值时
     },
     // 当数据为异步时
-    options(val) {
+    options (val) {
       this.filterOption = val
       this._setFirstText() // 动态改变值时
     }
   },
   methods: {
-    _showHide(e) {
+    _showHide (e) {
       if (e && this.$el.contains(e.target)) {
         if (!this.disabled) {
           // 非禁用状态下才能点击
           this.show = true
+          this._setPosition(e)
         }
         // e.preventDefault();
         // e.stopPropagation();
@@ -175,7 +178,7 @@ export default {
         this.show = false
       }
     },
-    _itemClick(item, e) {
+    _itemClick (item, e) {
       if (!item.disabled) {
         if (this.beforeChange && !this.beforeChange(item)) {
           this.show = false
@@ -215,7 +218,7 @@ export default {
       }
       e.stopPropagation()
     },
-    _setFirstText() {
+    _setFirstText () {
       console.log('_setFirstText')
       console.log(this.value)
       console.log(this.filterOption)
@@ -253,7 +256,7 @@ export default {
       }
       console.log(this.text)
     },
-    _change(e) {
+    _change (e) {
       // 可搜索时输入框改变事件
       this.keywords = e.target.value
       let newArray = []
@@ -265,7 +268,7 @@ export default {
       }
       this.filterOption = newArray
     },
-    _blur(e) {
+    _blur (e) {
       // 搜索输入框失焦时，判断输入的值是否符合
       const value = e.target.value
       const filter = this.options.filter((item) => {
@@ -286,14 +289,14 @@ export default {
         this.filterOption = this.options
       }, 500)
     },
-    _getActive(item) {
+    _getActive (item) {
       if (this.multiple) {
         return this.value.indexOf(item.value) !== -1
       } else {
         return item.value === this.value
       }
     },
-    _clearClick(e) {
+    _clearClick (e) {
       const value = this.multiple ? [] : ''
       // this.$emit('input', value)
       this._emit(value, '', 1)
@@ -301,7 +304,7 @@ export default {
       this.text = this.placeholder
       e.stopPropagation()
     },
-    _emit(value, label, type) {
+    _emit (value, label, type) {
       // type 0系统触发，1手动触发
       this.$emit('input', value)
       // 手动触发的给组件formItem发送验证广播
@@ -313,21 +316,33 @@ export default {
         }
       }
     },
-    _selectControlClick(e) {
+    _selectControlClick (e) {
       // 添加一个事件，在展开的时候点击收起
       if (this.show) {
         this.show = false
         e.stopPropagation()
       }
     },
-    close() {
+    close () {
       this.$nextTick(() => {
         this.show = false
       })
+    },
+    // 点击展开时，判断展开的方向
+    _setPosition (e) {
+      if (this.maxHeight) {
+        // 设有距浏览器底部高度时
+        this.position = ''
+        const wh = document.documentElement.clientHeight || document.body.clientHeight
+        const clientY = e.clientY // 当鼠标事件发生时，鼠标相对于浏览器（这里说的是浏览器的有效区域）y轴的位置；
+        if (this.maxHeight > wh - clientY) {
+          this.position = 'top'
+        }
+      }
     }
   },
   computed: {
-    showLiNum() {
+    showLiNum () {
       let style = {}
       if (this.showNum && this.options.length > this.showNum) {
         style = {
@@ -342,7 +357,7 @@ export default {
     }
   },
   filters: {},
-  destroyed() {
+  destroyed () {
     document.removeEventListener('click', this._showHide)
   }
 }

@@ -15,6 +15,7 @@ export default {
       value10: '',
       value11: '',
       value12: '',
+      value13: '',
       options: [
         {label: '选项1', value: '1'},
         {label: '选项2', value: '2'},
@@ -304,6 +305,30 @@ export default {
 ```
 :::
 
+
+
+### 13、使用`maxHeight`自动计算下拉面板弹出的方向，当前组件距离浏览器底部小于此高度时向上弹窗
+:::demo 
+```html
+<template>
+ <ak-select placeholder="请选择" v-model="value13" :maxHeight="200">
+   <ak-option value="1" label="选择一"></ak-option>
+</ak-select>
+</template>
+<script>
+export default {
+  data () {
+    return {
+      value13: ''
+    }
+  },
+  methods: {
+  }
+}
+</script>
+```
+:::
+
 ### 示例option数据
 ```javascript
 export default {
@@ -340,6 +365,7 @@ export default {
 |clear             | boolean/false         |是否可以清空选项|
 |showNum           | Number                |显示下拉个数，超出显示滚动条|
 |downStyle         | object                |下拉面板样式，方便对单个select个性化设置，也可通过css控制|
+|maxHeight         | Number                |自动计算下拉面板弹出的方向，当前组件距离浏览器底部小于此高度时向上弹出窗口|
 
 ### Option Attributes
 |参数|类型|说明|
