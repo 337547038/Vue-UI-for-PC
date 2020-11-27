@@ -102,7 +102,8 @@ export default {
           lock: true,
           text: 'Loading',
           spinner: 'ak-icon-loading',
-          background: 'rgba(0, 0, 0, 0.7)'
+          background: 'rgba(0, 0, 0, 0.7)',
+          // el:'.className' //使用此方法打开时还可以指定插入的位置，可以是样式或id
           })
        setTimeout(() => {
           loading.close()

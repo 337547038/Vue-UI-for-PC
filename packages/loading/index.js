@@ -19,7 +19,11 @@ const Loading = function (options) {
   let component = new Message({
     propsData
   }).$mount()
-  document.body.appendChild(component.$el)
+  if (options.el) {
+    document.querySelector(options.el).appendChild(component.$el)
+  } else {
+    document.body.appendChild(component.$el)
+  }
   component.open()
   return component
 }
