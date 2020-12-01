@@ -37,8 +37,7 @@ export default new Router({
   scrollBehavior: () => ({y: 0}),
   routes: defaultRouterMap
 })
-// 异步获取的路由，permission: true需根据菜单权限筛选加载
-// 不需要缓存时keepAlive:false
+// 异步获取的路由，permission: false不用权限
 export const asyncRoutes = [
   {
     path: '/admin',
@@ -95,8 +94,7 @@ export const asyncRoutes = [
     redirect: '/admin/user',
     meta: {
       title: '用户管理',
-      icon: 'fa fa-user-o',
-      permission: true
+      icon: 'fa fa-user-o'
     },
     children: [
       {
@@ -104,8 +102,7 @@ export const asyncRoutes = [
         name: 'user',
         component: () => import('@/views/admin/user'),
         meta: {
-          title: '用户列表',
-          permission: true
+          title: '用户列表'
         }
       },
       {
@@ -114,7 +111,7 @@ export const asyncRoutes = [
         component: () => import('@/views/admin/user/add'),
         meta: {
           title: '新增用户',
-          permission: true
+          permission: false
         }
       },
       {
@@ -123,7 +120,7 @@ export const asyncRoutes = [
         component: () => import('@/views/admin/user/add'),
         meta: {
           title: '新增用户2',
-          permission: true
+          permission: false
         }
       }
     ]

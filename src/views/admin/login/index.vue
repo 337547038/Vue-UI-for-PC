@@ -12,7 +12,7 @@
 <script>
 import {logIn} from '@/api/admin'
 import {setStorage, setToken} from '@/utils/utils'
-import md5 from 'js-md5'
+// import md5 from 'js-md5'
 
 export default {
   name: 'login',
@@ -54,10 +54,8 @@ export default {
   components: {},
   methods: {
     _login() {
-      this.$refs.form.validate((result, object) => {
-        console.log(result)
-        console.log(object)
-        if (result) {
+      this.$refs.form.validate()
+        .then(object => {
           logIn(object)
             .then(res => {
               console.log(res)
@@ -78,7 +76,7 @@ export default {
                 // 按照这种登录机制，_menu保存在本地，如果伪造一个最高权限_menu列表，即可使普通用户变超级管理用户
                 // 1.最安全的方式应该是每到一个页面请求权限作判断
                 // 2.将_menu和token转一个md5，同时存起来。可增加伪造难度，除非清楚算法，同时伪造_menu和md5
-                setStorage('md5', md5(JSON.stringify(menu) + result.token), 0)
+                // setStorage('md5', md5(JSON.stringify(menu) + result.token), 0)
                 // 跳转页面
                 this.$router.push('/admin/main')
               }
@@ -86,8 +84,7 @@ export default {
             .catch(res => {
               console.log(res)
             })
-        }
-      })
+        })
     }
   },
   mounted() {

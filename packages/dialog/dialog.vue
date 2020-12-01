@@ -62,7 +62,7 @@ import md5 from 'js-md5'
 
 export default {
   name: `${prefixCls}Dialog`,
-  data () {
+  data() {
     return {
       prefixCls: prefixCls,
       autoTime: 0, // 自动关闭时间
@@ -170,7 +170,7 @@ export default {
   },
   components: {dButton},
   watch: {
-    value (v) {
+    value(v) {
       if (v) {
         this.$nextTick(function () {
           this._openDialog()
@@ -183,7 +183,7 @@ export default {
     }
   },
   methods: {
-    _mouseDown (ev) {
+    _mouseDown(ev) {
       let head = this.$refs.head
       if (this.move && head) {
         let flag = false
@@ -220,17 +220,17 @@ export default {
         }
       }
     },
-    _close () {
+    _close() {
       // 关闭按钮点击事件
       this._beforeClose('close')
     },
-    _cancel () {
+    _cancel() {
       this._beforeClose('cancel')
     },
-    _confirm () {
+    _confirm() {
       this._beforeClose('confirm')
     },
-    _beforeClose (type) {
+    _beforeClose(type) {
       if (this.autoClose) {
         clearInterval(this.clearTime)
       }
@@ -244,7 +244,7 @@ export default {
         this._hide()
       }
     },
-    _hide () {
+    _hide() {
       // 关闭弹窗
       // 移除遮罩层
       if (this.modal) {
@@ -296,7 +296,7 @@ export default {
       this.visible = false
       this.$emit('input', false)
     },
-    _setPosition () {
+    _setPosition() {
       // 获取窗口宽高，设置居中对齐
       const obj = this.$el
       const clone = obj.cloneNode(true)
@@ -339,7 +339,7 @@ export default {
       }
       obj.parentNode.removeChild(clone)
     },
-    _openDialog () {
+    _openDialog() {
       // 禁止body滚动
       if (this.lockScroll) {
         document.body.style.overflow = 'hidden'
@@ -382,11 +382,11 @@ export default {
       this._autoClose()
       this.after && this.after()
     },
-    _modalClick (e) {
+    _modalClick(e) {
       // 遮罩层点击事件
       this._beforeClose('close')
     },
-    _autoClose () {
+    _autoClose() {
       // 自动关闭
       if (this.autoClose > 0) {
         this.autoTime = this.autoClose
@@ -394,20 +394,20 @@ export default {
           if (this.autoTime > 1) {
             this.autoTime--
           } else {
-	    this.callback&&this.callback()
+            this.callback && this.callback()
             this._close()
           }
         }, 1000)
       }
     },
-    open () {
+    open() {
       this.visible = true
       this._openDialog()
     },
-    close () {
+    close() {
       this._hide()
     },
-    setPosition (resize) {
+    setPosition(resize) {
       // 仅对显示的窗口处理
       // 当窗口高度变化时。窗口事件导致窗口高度发生变化时，重新设置top位置
       this.$nextTick(() => {
@@ -433,20 +433,20 @@ export default {
       })
     },
     // 窗口变化
-    _resize () {
+    _resize() {
       // 重新获取窗口宽高
       this._getWindow()
       // console.log('_resize')
       this.setPosition(true)
     },
     // 取当前窗口的宽高
-    _getWindow () {
+    _getWindow() {
       const getWindow = this.getWindow()
       this.windowWidth = getWindow.width
       this.windowHeight = getWindow.height
     },
     // 最小化
-    _screenMin () {
+    _screenMin() {
       // 将窗口关掉，向body插入最小化标签
       this._hide()
       const content = document.createElement('div')
@@ -471,13 +471,13 @@ export default {
       minDiv.appendChild(content)
     },
     // 最小化点击，恢复窗口，即重新打开
-    _minContent (parent, el) {
+    _minContent(parent, el) {
       parent.removeChild(el.target)
       this.open()
     }
   },
   computed: {
-    iconName () {
+    iconName() {
       let icon = this.icon
       switch (this.icon) {
         case 1:
@@ -493,10 +493,10 @@ export default {
       return icon
     }
   },
-  created () {
+  created() {
     this.scrollbarWidth = this.getScrollbarWidth()
   },
-  mounted () {
+  mounted() {
     this.$nextTick(() => {
       if (this.appendToBody && this.$el) {
         document.body.appendChild(this.$el)
@@ -511,10 +511,10 @@ export default {
       }
     })
   },
-  beforeDestroy () {
+  beforeDestroy() {
     // console.log('beforeDestroy')
   },
-  destroyed () {
+  destroyed() {
     // if appendToBody is true, remove DOM node after destroy
     if (this.appendToBody && this.$el && this.$el.parentNode) {
       this.$el.parentNode.removeChild(this.$el)

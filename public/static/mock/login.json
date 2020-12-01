@@ -8,18 +8,11 @@
       "id": "xxxxxxx"
     },
     "menuAdmin": [
-      {
-        "href": "/admin/userCenter",
-        "name": "用户中心"
-      },
-      {
-        "href": "/admin/user",
-        "name": "用户列表"
-      },
-      {
-        "href": "/admin/addUser",
-        "name": "新增用户"
-      }
+      "/admin/userCenter",
+      "/admin/user",
+      "/admin/addUser",
+      "/admin/main",
+      "/admin"
     ],
     "menuUser": []
   }
