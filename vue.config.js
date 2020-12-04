@@ -76,6 +76,14 @@ module.exports = {
     }
   },
   parallel: false,
+  devServer: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8099',
+        changeOrigin: true
+      }
+    }
+  },
   configureWebpack: (config) => {
     let plugins = []
     // 添加环境变量

@@ -16,7 +16,7 @@ import {setStorage, setToken} from '@/utils/utils'
 
 export default {
   name: 'login',
-  data() {
+  data () {
     return {
       form: [
         {
@@ -53,13 +53,18 @@ export default {
   },
   components: {},
   methods: {
-    _login() {
+    _login () {
       this.$refs.form.validate()
         .then(object => {
           logIn(object)
             .then(res => {
+              console.log('成功')
               console.log(res)
               const result = res.data.data
+              console.log(result)
+              if (result.a) {
+
+              }
               if (result) {
                 // 登录成功，模拟接口，根据不同用户名取不同菜单
                 let menu = []
@@ -82,12 +87,13 @@ export default {
               }
             })
             .catch(res => {
-              console.log(res)
+              console.log('res')
+              console.log(res.response)
             })
         })
     }
   },
-  mounted() {
+  mounted () {
   }
 }
 </script>

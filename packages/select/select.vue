@@ -20,8 +20,8 @@
       <div :class="{
            [prefixCls+'-input-control']:true,
            'focus':show,
-           'placeholder':placeholder&&value.length===0,
            'disabled':disabled}"
+           :placeholder="!text?placeholder:''"
            v-text="text" v-if="!filterable">
       </div>
       <span class="icon-group">
@@ -155,6 +155,7 @@ export default {
     },
     // 当数据为异步时
     options (val) {
+      console.log('watch option')
       this.filterOption = val
       this._setFirstText() // 动态改变值时
     }
@@ -187,7 +188,7 @@ export default {
         }
         if (this.multiple) {
           // 多选
-          let newText = (this.text && this.text !== this.placeholder) ? this.text.split(',') : [] // label的值，即显示的文字
+          let newText = this.text ? this.text.split(',') : [] // label的值，即显示的文字
           if (this.multipleLimit > 0 && this.multipleLimit < newText.length) {
             return false
           }
@@ -219,6 +220,31 @@ export default {
       e.stopPropagation()
     },
     _setFirstText () {
+      console.log('_setFirstText')
+      console.log(this.value)
+      console.log(this.filterOption)
+      // 判断当前value是不是存在于列表的value中
+      let text = []
+      if (this.filterOption && this.filterOption.length > 0) {
+        for (let i = 0; i < this.filterOption.length; i++) {
+          let item = this.filterOption[i]
+          if (this.multiple) {
+            // 多选
+            if (this.value.indexOf(item.value) !== -1) {
+              text.push(item.label || item.value)
+            }
+          } else {
+            // 单选
+            if (item.value === this.value) {
+              text.push(item.label || item.value) // 没有label时直接取value
+              break
+            }
+          }
+        }
+        this.text = text.join(',')
+      }
+    },
+    _setFirstTextOld () {
       console.log('_setFirstText')
       console.log(this.value)
       console.log(this.filterOption)
@@ -301,7 +327,7 @@ export default {
       // this.$emit('input', value)
       this._emit(value, '', 1)
       this.keywords = ''
-      this.text = this.placeholder
+      this.text = ''
       e.stopPropagation()
     },
     _emit (value, label, type) {

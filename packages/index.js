@@ -35,6 +35,7 @@ import Slider from './slider'
 import Badge from './badge'
 import {Icon, Icons} from './icon'
 import InputNumber from './inputNumber'
+import {Dropdown, DropdownItem} from './dropdown'
 
 const component = [
   Button,
@@ -73,7 +74,9 @@ const component = [
   Icon,
   Icons,
   Badge,
-  InputNumber
+  InputNumber,
+  Dropdown,
+  DropdownItem
 ]
 const install = function (Vue, options) {
   component.forEach(item => {

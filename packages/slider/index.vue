@@ -30,7 +30,7 @@ import dom from '../mixins/dom.js'
 
 export default {
   name: `${prefixCls}Slider`,
-  data() {
+  data () {
     return {
       prefixCls: prefixCls,
       startLeft: 0,
@@ -74,12 +74,12 @@ export default {
   },
   components: {},
   watch: {
-    value() {
+    value () {
       this.__init()
     }
   },
   methods: {
-    __init() {
+    __init () {
       // 根据初始值定位初始位置
       if (this.range) {
         this._setDefaultValue(this.value[0], 'left')
@@ -89,7 +89,7 @@ export default {
         this._setDefaultValue(this.value, 'left')
       }
     },
-    _setDefaultValue(val, direction) {
+    _setDefaultValue (val, direction) {
       // 控制在最小和最大之间
       let value = val
       if (val < this.min) {
@@ -107,13 +107,13 @@ export default {
         this.endLeft = currentValue
       }
     },
-    _mouseDown(direction, e) {
+    _mouseDown (direction, e) {
       if (this.disabled) {
         return
       }
       const t = e.pageX - e.target.offsetLeft
       document.onmousemove = ev => {
-        let distance = (ev.pageX - t) / this.elWidth * 100 // 偏移距离转百分比
+        let distance = parseInt((ev.pageX - t) / this.elWidth * 100) // 偏移距离转百分比
         if (distance < 0) {
           distance = 0
         }
@@ -122,6 +122,9 @@ export default {
         }
         // 步长所点比例
         if (Math.round(distance) % this.getStepPercent === 0) {
+          console.log(distance)
+          console.log(this.getStepPercent)
+
           if (typeof this.value === 'object') {
             // 范围选择时
             if (direction === 'left') {
@@ -148,11 +151,11 @@ export default {
       e.preventDefault()
       e.stopPropagation()
     },
-    _clickStop(e) {
+    _clickStop (e) {
       e.preventDefault()
       e.stopPropagation()
     },
-    _emit(type) {
+    _emit (type) {
       let val = ''
       if (this.range) {
         const min = this._percentageToNumber(this.startLeft)
@@ -170,16 +173,16 @@ export default {
       this.change && this.change(val)
     },
     // 将具体值转百分比
-    _numberToPercentage(value) {
+    _numberToPercentage (value) {
       // (当前值－最小值)/(最大值-最小值)*100%＝当前值所占的百分比
       return Math.round((value - this.min) / (this.max - this.min) * 100)
     },
     // 将百分比值转具体值
-    _percentageToNumber(currentValue) {
+    _percentageToNumber (currentValue) {
       return Math.round((this.max - this.min) * currentValue / 100 + this.min)
     },
     // 点击时滑动互指定位置
-    _slierClick(e) {
+    _slierClick (e) {
       const offsetLeft = this.getOffset(this.$el).left // 当前元素偏移位置
       // 当前点击位置所在百分比位置
       let d = (e.pageX - offsetLeft) / this.elWidth * 100
@@ -204,11 +207,11 @@ export default {
     }
   },
   computed: {
-    elWidth() {
+    elWidth () {
       // 返回当前可滑动的宽
-      return this.$el.offsetWidth
+      return parseInt(this.$el.offsetWidth)
     },
-    range() {
+    range () {
       // 根据值判断是否为范围选择，数组时且长度为2时 为是
       if (typeof this.value === 'object' && this.value.length === 2) {
         return true
@@ -217,7 +220,7 @@ export default {
       }
     },
     // 选中范围开始位置和长度
-    sliderBarStyle() {
+    sliderBarStyle () {
       if (this.range) {
         let startLeft = this.startLeft
         if (this.startLeft > this.endLeft) {
@@ -235,7 +238,7 @@ export default {
       }
     },
     // 计算间断点的位置和个数，返回每个点的位置
-    sliderStops() {
+    sliderStops () {
       let stopList = []
       if (this.showStops) {
         // (最大值－最小值)/步长＝个数，即分多少步
@@ -248,7 +251,7 @@ export default {
       return stopList
     },
     // 格式化返回提示语
-    tooltipStart() {
+    tooltipStart () {
       if (this.showTooltip) {
         const val = this._percentageToNumber(this.startLeft)
         return this.formatTooltip ? this.formatTooltip(val) : val
@@ -256,7 +259,7 @@ export default {
         return ''
       }
     },
-    tooltipEnd() {
+    tooltipEnd () {
       if (this.showTooltip) {
         const val = this._percentageToNumber(this.endLeft)
         return this.formatTooltip ? this.formatTooltip(val) : val
@@ -265,11 +268,11 @@ export default {
       }
     },
     // 获取每步长所占的百分比
-    getStepPercent() {
+    getStepPercent () {
       return Math.round(100 / ((this.max - this.min) / this.step))
     },
     // 转换mark为key,value形式
-    marksList() {
+    marksList () {
       let list = []
       if (this.marks) {
         for (let i in this.marks) {
@@ -282,7 +285,7 @@ export default {
       return list
     }
   },
-  mounted() {
+  mounted () {
     this.__init()
   }
 }

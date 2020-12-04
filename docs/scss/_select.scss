@@ -13,6 +13,15 @@
       .icon-close{display: inline-block}
     }
   }
+  @include ns(input-control){
+    &:empty:before{
+      content: attr(placeholder);
+      font-size: 14px;
+      color: #999;
+      line-height: 21px;
+      padding-top: 10px;
+      cursor: text}
+  }
   /*下拉*/
   @include ns(select-down){position: absolute;left: 0;top: 37px;background: #fff;border: 1px solid #ddd;box-sizing: border-box;width: 100%;z-index: 50;
     ul{padding: 5px 0}
