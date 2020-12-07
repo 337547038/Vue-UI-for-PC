@@ -4,12 +4,12 @@
     <div :class="`${prefixCls}-slider-runway`" @click="_slierClick">
       <span class="slider-control"
             :style="{left:startLeft+'%'}"
-            @mousedown="_mouseDown('left',$event)" @click.stop="_clickStop">
+            @mousedown.stop="_mouseDown('left',$event)" @click.stop="_clickStop">
           <i v-html="tooltipStart" class="slider-tooltip" v-if="showTooltip"></i>
       </span>
       <span class="slider-control"
             v-if="range"
-            @mousedown="_mouseDown('right',$event)" @click.stop="_clickStop"
+            @mousedown.stop="_mouseDown('right',$event)" @click.stop="_clickStop"
             :style="{left:endLeft+'%'}">
           <i v-html="tooltipEnd" class="slider-tooltip" v-if="showTooltip"></i>
         </span>
@@ -113,18 +113,46 @@ export default {
       }
       const t = e.pageX - e.target.offsetLeft
       document.onmousemove = ev => {
-        let distance = parseInt((ev.pageX - t) / this.elWidth * 100) // 偏移距离转百分比
+        let distance = (ev.pageX - t) / this.elWidth * 100 // 偏移距离转百分比
         if (distance < 0) {
           distance = 0
         }
         if (distance > 100) {
           distance = 100
         }
-        // 步长所点比例
-        if (Math.round(distance) % this.getStepPercent === 0) {
-          console.log(distance)
-          console.log(this.getStepPercent)
-
+        if (direction === 'left') {
+          this.startLeft = distance
+        } else {
+          this.endLeft = distance
+        }
+      }
+      document.onmouseup = (ev) => {
+        this._slierClick(ev)
+        document.onmousemove = null
+        document.onmouseup = null
+      }
+      e.preventDefault()
+      e.stopPropagation()
+    },
+    _mouseDown2 (direction, e) {
+      if (this.disabled) {
+        return
+      }
+      const t = e.pageX - e.target.offsetLeft
+      document.onmousemove = ev => {
+        let distance = (ev.pageX - t) / this.elWidth * 100 // 偏移距离转百分比
+        if (distance < 0) {
+          distance = 0
+        }
+        if (distance > 100) {
+          distance = 100
+        }
+        const result = distance % this.getStepPercent
+        const index = parseInt(distance / this.getStepPercent)
+        if (result < 1 || result === 0 || distance === 100) { // 余数小于1，表示距离分隔点比较近
+          if (distance < 100) { // 不是最后一个时
+            distance = this.getStepPercent * index // 只能停留在分隔点，存在取值精确问题
+          }
           if (typeof this.value === 'object') {
             // 范围选择时
             if (direction === 'left') {
@@ -136,8 +164,27 @@ export default {
           } else {
             this.startLeft = distance
           }
-          e.target.style.left = distance + '%'
-          this._emit()
+          // e.target.style.left = distance + '%'
+          // this._emit()
+          this.$nextTick(() => {
+            // 处理下两个相等时，当end不是处于最后时，向后移一个单位；
+            // 42.85714285714286 会出现两种数值不同长度
+            // 42.857142857142854
+            if (this.startLeft.toFixed(2) === this.endLeft.toFixed(2)) {
+              // 重叠点所在的位置
+              console.log(index)
+              console.log(this.startLeft)
+              console.log('重叠点所在的位置')
+              if (this.startLeft === 0) {
+                // 将结束点往后一个单位
+                this.endLeft = this.getStepPercent
+              } else {
+                /* // 将开始点往前一个单位 */
+                this.startLeft = this.getStepPercent * (index - 1)
+              }
+            }
+            this._emit()
+          })
         }
       }
       document.onmouseup = () => {
@@ -175,10 +222,12 @@ export default {
     // 将具体值转百分比
     _numberToPercentage (value) {
       // (当前值－最小值)/(最大值-最小值)*100%＝当前值所占的百分比
-      return Math.round((value - this.min) / (this.max - this.min) * 100)
+      // return Math.round((value - this.min) / (this.max - this.min) * 100)
+      return (value - this.min) / (this.max - this.min) * 100
     },
     // 将百分比值转具体值
     _percentageToNumber (currentValue) {
+      // return Math.round((this.max - this.min) * currentValue / 100 + this.min)
       return Math.round((this.max - this.min) * currentValue / 100 + this.min)
     },
     // 点击时滑动互指定位置
@@ -187,29 +236,52 @@ export default {
       // 当前点击位置所在百分比位置
       let d = (e.pageX - offsetLeft) / this.elWidth * 100
       // 定位到当前步数位置*每步所占的百分比
-      let step = Math.round(d / this.step)
-      // 根据步长修改点击的位置，不能出现指定步长外的地方
-      d = step * this.getStepPercent
+      const index = parseInt(Math.round(d / this.getStepPercent)) // 第几个分隔点
+      const left = this.getStepPercent * index // 确保定位在分隔点
       if (this.range) {
         const offsetStart = Math.abs(d - this.startLeft) // 到起点的距离
         const offsetEnd = Math.abs(d - this.endLeft) // 到终点的距离
         if (offsetStart < offsetEnd) {
           // 表示离起点比较近，则移动左则点
-          this.startLeft = d
+          this.startLeft = left
         } else {
           // 离终点近
-          this.endLeft = d
+          this.endLeft = left
         }
       } else {
-        this.startLeft = d
+        this.startLeft = left
       }
-      this._emit()
+      // 处理重叠
+      /* console.log(this.startLeft)
+      console.log(this.endLeft)
+      console.log(Math.abs(this.startLeft - this.endLeft).toFixed(4))
+      console.log(this.getStepPercent.toFixed(4))
+      console.log(Number(Math.abs(this.startLeft - this.endLeft).toFixed(4)) < Number(this.getStepPercent.toFixed(4))) */
+      if (Number(Math.abs(this.startLeft - this.endLeft).toFixed(4)) < Number(this.getStepPercent.toFixed(4))) {
+        // 重叠点所在的位置
+        console.log(index)
+        console.log(this.startLeft)
+        console.log('重叠点所在的位置')
+        if (this.startLeft === 0) {
+          // 将结束点往后一个单位
+          this.endLeft = this.getStepPercent
+        } else {
+          /* // 将开始点往前一个单位 */
+          this.startLeft = this.getStepPercent * (index - 1)
+        }
+      }
+      // 鼠标弹起时，如果起始值大于终点值，则互换下
+      if (this.startLeft > this.endLeft) {
+        this._emit('change')
+      } else {
+        this._emit()
+      }
     }
   },
   computed: {
     elWidth () {
       // 返回当前可滑动的宽
-      return parseInt(this.$el.offsetWidth)
+      return this.$el.offsetWidth
     },
     range () {
       // 根据值判断是否为范围选择，数组时且长度为2时 为是
@@ -269,7 +341,7 @@ export default {
     },
     // 获取每步长所占的百分比
     getStepPercent () {
-      return Math.round(100 / ((this.max - this.min) / this.step))
+      return 100 / ((this.max - this.min) / this.step)
     },
     // 转换mark为key,value形式
     marksList () {

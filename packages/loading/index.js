@@ -35,13 +35,15 @@ Loading.directive = function () {
       const text = el.getAttribute(`${prefixCls}-loading-text`) || ''
       const spinner = el.getAttribute(`${prefixCls}-loading-spinner`) || ''
       const background = el.getAttribute(`${prefixCls}-loading-background`) || ''
+      const zIndex = el.getAttribute(`${prefixCls}-loading-zIndex`) || ''
       let Loading = Vue.extend(akLoading)
       const propsData = {
         text: text,
         spinner: spinner,
         background: background,
         lock: binding.modifiers.lock,
-        body: binding.modifiers.body || false
+        body: binding.modifiers.body || false,
+        zIndex: parseInt(zIndex)
       }
       let component = new Loading({
         propsData
