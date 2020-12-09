@@ -232,11 +232,22 @@ export default {
     },
     // 点击时滑动互指定位置
     _slierClick (e) {
+      if (this.disabled) {
+        return
+      }
       const offsetLeft = this.getOffset(this.$el).left // 当前元素偏移位置
       // 当前点击位置所在百分比位置
       let d = (e.pageX - offsetLeft) / this.elWidth * 100
       // 定位到当前步数位置*每步所占的百分比
+      if (d < 0) {
+        d = 0
+      }
+      if (d > 100) {
+        d = 100
+      }
       const index = parseInt(Math.round(d / this.getStepPercent)) // 第几个分隔点
+      console.log(d)
+      console.log(index)
       const left = this.getStepPercent * index // 确保定位在分隔点
       if (this.range) {
         const offsetStart = Math.abs(d - this.startLeft) // 到起点的距离
@@ -257,7 +268,7 @@ export default {
       console.log(Math.abs(this.startLeft - this.endLeft).toFixed(4))
       console.log(this.getStepPercent.toFixed(4))
       console.log(Number(Math.abs(this.startLeft - this.endLeft).toFixed(4)) < Number(this.getStepPercent.toFixed(4))) */
-      if (Number(Math.abs(this.startLeft - this.endLeft).toFixed(4)) < Number(this.getStepPercent.toFixed(4))) {
+      if (Number(Math.abs(this.startLeft - this.endLeft).toFixed(4)) < Number(this.getStepPercent.toFixed(4)) || (this.startLeft.toFixed(2) === this.endLeft.toFixed(2))) {
         // 重叠点所在的位置
         console.log(index)
         console.log(this.startLeft)
@@ -267,6 +278,9 @@ export default {
           this.endLeft = this.getStepPercent
         } else {
           /* // 将开始点往前一个单位 */
+          if (index < 1) {
+            return
+          }
           this.startLeft = this.getStepPercent * (index - 1)
         }
       }
