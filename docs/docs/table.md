@@ -274,7 +274,7 @@ export default {
 
 ### 2、固定表头
 
-:::demo 纵向内容过多时，可选择固定表头
+:::demo 纵向内容过多时，可选择固定表头，滚动时头部会添加样式`transform`，可用于控制不同的样式
 
 ```html
 <akTable :data="tableData" height="200px">
@@ -296,7 +296,7 @@ export default {
 
 ### 3、固定头和列
 
-:::demo 横向内容过多时，可选择固定列。`table`添加 `width="600px"`；`column`添加`fixed="left"`
+:::demo 横向内容过多时，可选择固定列。`table`添加 `width="600px"`；`column`添加`fixed="left"`，横向滚动时添加类名`scroll-left`，方便用于控制样式，如固定列之间的分隔线
 
 ```html
 <akTable :data="tableData" height="200px" width="600px">
@@ -832,6 +832,7 @@ export default {
 | emptyText      | String        | 无数据时显示的文本|
 | title          | Boolean/true  | 鼠标滑过单元格时显示 title 提示|
 | drag           | boolean/false | 允许拖动表头改变当前单元格宽度|
+| dragLine       | boolean/true  | 拖动时显示垂直线|
 | dragWidth      | array         | 允许拖动最大与最小宽度[min,max]|
 | extendToggle   | boolean/false | 扩展行/子节点初始展开或收起状态|
 | rowColSpan     | function      | 合并行或列方法。通过给传入 rowColSpan 方法可以实现合并行或列，方法的参数(当前行号 rowIndex,当前列号 columnIndex,当前行 row,当前列 column)四个属性。该函数返回一个包含两个数字的数组，第一个 rowspan，第二个 colspan，即向纵向和横向合并多少个单元格 |

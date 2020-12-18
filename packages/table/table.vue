@@ -1,5 +1,5 @@
 <template>
-  <div :class="[prefixCls+'-table']"
+  <div :class="{[prefixCls+'-table']:true,'scroll-left':scrollLeft}"
        :style="{overflow: (width||height)?'auto':'',height:height,width:width}" ref="tableContainer">
     <div style="display: none">
       <slot/>
@@ -39,6 +39,7 @@
       :total="data&&data.length"
       v-bind="pagination">
     </Pagination>
+    <div class="table-drag-line" v-if="drag&&dragHead.mouseDown"></div>
   </div>
 </template>
 
@@ -47,6 +48,7 @@ import {prefixCls} from '../prefix'
 import TableBody from './tableBody'
 import TableHead from './head'
 import Pagination from '../pagination'
+import dom from '../mixins/dom'
 
 export default {
   name: `${prefixCls}Table`,
@@ -63,12 +65,14 @@ export default {
       dragHead: {}, // 临时存放表头拖动信息
       isSetThWidth: false, // 用于记录是否已经重新设置过表头的实际宽
       ctrlIsDown: false, // 是否按下ctrl键
-      ctrlRowIndex: '' // 按下ctrl键盘时点击的checkbox序号
+      ctrlRowIndex: '', // 按下ctrl键盘时点击的checkbox序号
+      scrollLeft: 0 // 横向滚动时的标识
     }
   },
   created () {
     // console.time('timer')
   },
+  mixins: [dom],
   watch: {
     data (oldData, newData) {
       // 当表格数据发生变化时，清空选择
@@ -83,6 +87,10 @@ export default {
   components: {TableBody, TableHead, Pagination},
   props: {
     drag: Boolean,
+    dragLine: {
+      type: Boolean,
+      default: true
+    },
     dragWidth: {
       // 拖动时的最小宽和最大宽限制，0为不限
       type: Array,
@@ -171,6 +179,7 @@ export default {
       }
       // 左右滚动
       const scrollLeft = el.scrollLeft
+      this.scrollLeft = scrollLeft
       const fixedLeft = el.querySelectorAll('.left')
       if (fixedLeft.length > 0) {
         // left
@@ -235,6 +244,7 @@ export default {
         oldWidth: parseInt(this.colWidth[index].replace('px', '')) || 0, // 拖动前的单元格宽
         index: index
       }
+      this._setTableDragLine(event)
       // 不让选择
       event.preventDefault()
     },
@@ -253,6 +263,7 @@ export default {
         return
       }
       if (this.dragHead.mouseDown) {
+        this._setTableDragLine(event)
         // 拖动时有可能会存在意外，这里也限制一下
         if (this.dragWidth[0] > 0 && newWidth < this.dragWidth[0]) {
           newWidth = this.dragWidth[0] // 过小时使用最小值
@@ -271,6 +282,22 @@ export default {
         oldWidth: '',
         index: ''
       }
+    },
+    // 拖动时的垂直线
+    _setTableDragLine (event) {
+      this.$nextTick(() => {
+        // 当前表格偏移位置
+        const tableOffset = this.getOffset(this.$el)
+        console.log(tableOffset)
+        let dragLine = this.$el.querySelector('.table-drag-line')
+        if (dragLine) {
+          /* dragLine = document.createElement('div')
+          dragLine.className = 'table-drag-line'
+          document.body.appendChild(dragLine) */
+          dragLine.style.left = (event.pageX - tableOffset.left) + 'px'
+          dragLine.style.height = tableOffset.height + 'px'
+        }
+      })
     },
     handleChange (row, index) {
       console.log(row)

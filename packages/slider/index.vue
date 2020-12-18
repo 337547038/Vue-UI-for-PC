@@ -70,7 +70,7 @@ export default {
     },
     formatTooltip: Function, // 格式化提示信息
     marks: Object,
-    change: Function
+    trigger: String // 触发方式，默认鼠标弹起时改变，任何值时为移动时改变
   },
   components: {},
   watch: {
@@ -125,72 +125,11 @@ export default {
         } else {
           this.endLeft = distance
         }
+        this.trigger && this._slierClick(ev)
       }
       document.onmouseup = (ev) => {
-        this._slierClick(ev)
-        document.onmousemove = null
-        document.onmouseup = null
-      }
-      e.preventDefault()
-      e.stopPropagation()
-    },
-    _mouseDown2 (direction, e) {
-      if (this.disabled) {
-        return
-      }
-      const t = e.pageX - e.target.offsetLeft
-      document.onmousemove = ev => {
-        let distance = (ev.pageX - t) / this.elWidth * 100 // 偏移距离转百分比
-        if (distance < 0) {
-          distance = 0
-        }
-        if (distance > 100) {
-          distance = 100
-        }
-        const result = distance % this.getStepPercent
-        const index = parseInt(distance / this.getStepPercent)
-        if (result < 1 || result === 0 || distance === 100) { // 余数小于1，表示距离分隔点比较近
-          if (distance < 100) { // 不是最后一个时
-            distance = this.getStepPercent * index // 只能停留在分隔点，存在取值精确问题
-          }
-          if (typeof this.value === 'object') {
-            // 范围选择时
-            if (direction === 'left') {
-              // 左边滑块
-              this.startLeft = distance
-            } else {
-              this.endLeft = distance
-            }
-          } else {
-            this.startLeft = distance
-          }
-          // e.target.style.left = distance + '%'
-          // this._emit()
-          this.$nextTick(() => {
-            // 处理下两个相等时，当end不是处于最后时，向后移一个单位；
-            // 42.85714285714286 会出现两种数值不同长度
-            // 42.857142857142854
-            if (this.startLeft.toFixed(2) === this.endLeft.toFixed(2)) {
-              // 重叠点所在的位置
-              console.log(index)
-              console.log(this.startLeft)
-              console.log('重叠点所在的位置')
-              if (this.startLeft === 0) {
-                // 将结束点往后一个单位
-                this.endLeft = this.getStepPercent
-              } else {
-                /* // 将开始点往前一个单位 */
-                this.startLeft = this.getStepPercent * (index - 1)
-              }
-            }
-            this._emit()
-          })
-        }
-      }
-      document.onmouseup = () => {
-        // 鼠标弹起时，如果起始值大于终点值，则互换下
-        if (this.startLeft > this.endLeft) {
-          this._emit('change')
+        if (!this.trigger) { // 默认鼠标弹起时改变
+          this._slierClick(ev)
         }
         document.onmousemove = null
         document.onmouseup = null
@@ -217,7 +156,6 @@ export default {
       }
       this.$emit('input', val)
       this.$emit('change', val)
-      this.change && this.change(val)
     },
     // 将具体值转百分比
     _numberToPercentage (value) {

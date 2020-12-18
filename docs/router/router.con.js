@@ -189,6 +189,11 @@ const router = [
     component: () => import('../docs/inputNumber.md')
   },
   {
+    path: '/dropdown',
+    name: 'dropdown',
+    component: () => import('../docs/dropdown.md')
+  },
+  {
     path: '/test',
     name: 'test',
     meta: {

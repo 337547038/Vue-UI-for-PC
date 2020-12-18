@@ -21,8 +21,15 @@
            [prefixCls+'-input-control']:true,
            'focus':show,
            'disabled':disabled}"
-           :placeholder="!text?placeholder:''"
-           v-text="text" v-if="!filterable">
+           v-if="!filterable"
+           :placeholder="!text?placeholder:''">
+        <ul v-if="multiple&&text" class="multiple-text" :placeholder="!text?placeholder:''">
+          <li v-for="(item,index) in text.split(',')" :key="index">
+            <span v-text="item"></span>
+            <i class="icon-error" @click.stop="_deleteText(item,index)"></i>
+          </li>
+        </ul>
+        <span v-else-if="text" v-text="text"></span>
       </div>
       <span class="icon-group">
       <i class="icon-close" v-if="clear&&value.length>0" @click="_clearClick"></i>
@@ -364,6 +371,15 @@ export default {
         if (this.maxHeight > wh - clientY) {
           this.position = 'top'
         }
+      }
+    },
+    _deleteText (item, index) {
+      // 多选时删除单个选项
+      if (this.multiple) {
+        let val = JSON.parse(JSON.stringify(this.value))
+        val.splice(index, 1)
+        const newText = this.text.replace(item + ',', '').replace(item, '')
+        this._emit(val, newText, 1)
       }
     }
   },

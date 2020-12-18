@@ -8,28 +8,29 @@
   $background: #fff; //table背景色
   $selectBackground: #fcf8e3; //勾选行的背景颜色
   position: relative;
-  table{border-collapse: collapse; border-spacing: 0;margin: 0;padding: 0;transform-style: preserve-3d;border: 1px solid $border;width: 100%;}
-  td, th{border-bottom: 1px solid $border;background: $background; text-align: left;padding: 8px 10px;box-sizing: border-box;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;}
-  /*溢出不换行*/
+  table{border-collapse: collapse; border-spacing: 0;margin: 0;padding: 0;transform-style: preserve-3d;border: 1px solid $border;width: 100%;
+  }
+  td, th{border-bottom: 1px solid $border; text-align: left;padding: 8px 10px;box-sizing: border-box;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;background: #fff}
+  //*溢出不换行*
   .table-ellipsis{table-layout: fixed;
     td, th{}
   }
-  /*奇偶分隔*/
+  //*奇偶分隔*!
   .table-stripe{
     tr:nth-child(odd) td{ background: $stripe }
   }
-  /*鼠标悬停时的高亮*/
+  //*鼠标悬停时的高亮*!
   .table-hover{
     tr:hover td{ background: $highlight; transition: all .5s }
   }
   // transform上下移动，边框会消失，这里补上，没有纵边框时只处理头部
   .transform{
+    tr{transform-style: preserve-3d;}
     th{transform: translateZ(10px);position: relative;top: -1px;
       &:before{content: '';display: block;width: 100%;height: 100%;border-top: 1px solid $border;border-bottom: 1px solid $border;position: absolute;top: 0;left: 0;box-sizing: border-box}
     }
   }
-
-  /*显示纵向边框*/
+  //*显示纵向边框*!
   .table-border{
     th, td{ border: 1px solid $border;}
     // transform左右移动，边框会消失，这里补上
@@ -91,12 +92,14 @@
       }
     }
     .drag-line{display: none;
-      width: 10px;
+      width: 0;
       height: 25px;
       cursor: ew-resize;
       border-right: 2px solid #dfe6ee;
+      padding: 0 1px;
       position: absolute;
-      right: 11px;
+      right: 0;
       top: 7px;}
   }
+  .table-drag-line{position: absolute;top: 0;height: 100%;border-left: 1px solid #2093f7;cursor: ew-resize}
 }

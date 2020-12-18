@@ -40,6 +40,10 @@
       top: auto;bottom: 37px;
     }
   }
+  .multiple-text{display: flex;align-items: center;
+    li{line-height: inherit;margin-right: 5px;height: 36px}
+    i{cursor: pointer}
+  }
 }
 /*transition通用下拉动画 select dataPicker……*/
 .slide-toggle-enter-active{ animation: slideDown .3s; transform-origin: center top }
