@@ -22,7 +22,8 @@ export default {
   methods: {
     itemClick () {
       if (!this.disabled) {
-        this.$parent.itemClick('click', this)
+        this.$parent.itemClick(this)
+        this.$emit('click')
       }
     }
   },

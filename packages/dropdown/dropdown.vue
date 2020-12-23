@@ -5,18 +5,20 @@
        @mouseleave="_mouseLeave"
        @click.stop="_click">
     <slot></slot>
-    <div @mouseenter.stop="_mouseOver($event,'slot')"
-         @mouseleave.stop="_mouseLeave($event,'slot')"
-         @click.stop="_click($event,'slot')"
-         v-if="$slots.trigger">
+    <span
+      @mouseenter.stop="_mouseOver($event,'slot')"
+      @mouseleave.stop="_mouseLeave($event,'slot')"
+      @click.stop="_click($event,'slot')"
+      v-if="$slots.trigger">
       <slot name="trigger"></slot>
-    </div>
+    </span>
     <transition name="slide-toggle">
-      <div :class="{[prefixCls+'-dropdown-menu']:true,top:position}"
-           v-show="show"
-           ref="dropdown"
-           @mouseenter="_menuMouseOver"
-           @mouseleave="_menuMouseLeave">
+      <div
+        :class="{[prefixCls+'-dropdown-menu']:true,top:position}"
+        v-show="show"
+        ref="dropdown"
+        @mouseenter="_menuMouseOver"
+        @mouseleave="_menuMouseLeave">
         <slot name="dropdown"></slot>
         <span class="arrow"></span>
       </div>
@@ -55,27 +57,30 @@ export default {
   methods: {
     // 下拉项点击
     itemClick (item) {
-      console.log('itemClick')
       this.show = false
       this.$emit('click', item)
     },
     _mouseOver (e, type) {
-      // 没有trigger slot
-      this._control('hover', type, true, e)
+      if (!this.show) { // 已展开时不重复
+        this._control('hover', type, true, e)
+      }
     },
     _mouseLeave (e, type) {
-      clearTimeout(this.timer)
-      this.timer = setTimeout(() => {
-        console.log(e)
-        console.log(type)
-        this._control('hover', type, false, e)
-      }, 500)
+      // 表示离开的是slots标签或者是没有slots里离开
+      if ((type && this.$slots.trigger) || (!type && !this.$slots.trigger)) {
+        clearTimeout(this.timer)
+        this.timer = setTimeout(() => {
+          this._control('hover', type, false, e)
+        }, 500)
+      }
     },
     _click (e, type) {
       this._control('click', type, !this.show, e)
     },
     _hide () {
-      this._control('click', true, false)
+      if (this.trigger === 'click') {
+        this.show = false
+      }
     },
     _control (triggle, type, show, e) {
       if (this.trigger === triggle) {
@@ -90,11 +95,6 @@ export default {
             this.show = show
           }
         }
-        /* if (this.$slots.trigger && type) {
-          this.show = show
-        } else if (!this.$slots.trigger && !type) {
-          this.show = show
-        } */
       }
       e && this._setPosition(e)
       this.$nextTick(() => {
