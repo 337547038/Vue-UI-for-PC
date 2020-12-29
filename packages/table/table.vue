@@ -1,39 +1,56 @@
 <template>
-  <div :class="{[prefixCls+'-table']:true,'scroll-left':scrollLeft}"
-       :style="{overflow: (width||height)?'auto':'',height:height,width:width}" ref="tableContainer">
+  <div
+    :class="{[prefixCls+'-table']:true,'scroll-left':scrollLeft,'scroll-top':hasScrollTop}" :style="{width:width}">
     <div style="display: none">
       <slot/>
     </div>
-    <table
-      :class="{'table-stripe':stripe,
+    <div class="thead" :style="{overflowX:width?'hidden':'',width:width}" ref="thead">
+      <table
+        :class="{'table-stripe':stripe,
       'table-border':border,
       'table-hover':hover,
       'table-ellipsis':ellipsis,
-      [className]:className}" ref="table">
-      <colgroup>
-        <col v-for="(col,index) in colWidth" :width="col" :key="index">
-      </colgroup>
-      <table-head
-        :thead="theadOrder"
-        :showHeader="showHeader"
-        :selectChecked="selectChecked">
-      </table-head>
-      <tbody v-if="data.length===0">
-      <tr>
-        <td :colspan="columns.length" class="empty">
-          {{emptyText}}
-        </td>
-      </tr>
-      </tbody>
-      <table-body
-        :data="data"
-        v-else
-        :rowColSpan="rowColSpan"
-        :hasChild="hasChild"
-        :lazyLoad="lazyLoad"
-        @trClick="_trClick">
-      </table-body>
-    </table>
+      [className]:className}">
+        <colgroup>
+          <col v-for="(col,index) in colWidth" :width="col" :key="index">
+        </colgroup>
+        <table-head
+          :thead="theadOrder"
+          :showHeader="showHeader"
+          :selectChecked="selectChecked">
+        </table-head>
+      </table>
+    </div>
+    <div
+      class="tbody"
+      :style="{overflowY: height?'auto':'',height:height,width:width}"
+      ref="srcollBody">
+      <table
+        :class="{'table-stripe':stripe,
+      'table-border':border,
+      'table-hover':hover,
+      'table-ellipsis':ellipsis,
+      [className]:className}">
+        <colgroup>
+          <col v-for="(col,index) in colWidth" :width="col" :key="index">
+        </colgroup>
+        <tbody v-if="data.length===0">
+        <tr>
+          <td :colspan="columns.length" class="empty">
+            {{emptyText}}
+          </td>
+        </tr>
+        </tbody>
+        <table-body
+          :data="data"
+          v-else
+          :rowColSpan="rowColSpan"
+          :hasChild="hasChild"
+          :lazyLoad="lazyLoad"
+          @trClick="_trClick">
+        </table-body>
+      </table>
+    </div>
     <Pagination
       v-if="pagination"
       :total="data&&data.length"
@@ -66,7 +83,8 @@ export default {
       isSetThWidth: false, // 用于记录是否已经重新设置过表头的实际宽
       ctrlIsDown: false, // 是否按下ctrl键
       ctrlRowIndex: '', // 按下ctrl键盘时点击的checkbox序号
-      scrollLeft: 0 // 横向滚动时的标识
+      scrollLeft: 0, // 横向滚动时的标识
+      hasScrollTop: false // 表示存在纵向滚动条
     }
   },
   created () {
@@ -160,13 +178,20 @@ export default {
     _fixedHead () {
       // 如果有高和表头，则固定表头
       // if (this.height && this.showHeader) {
-      let tableContainer = this.$refs.tableContainer
+      let tableContainer = this.$refs.srcollBody
       tableContainer.addEventListener('scroll', this._scrollHandle.bind(this, tableContainer), false)
       // }
       this._fixedRight(tableContainer, 0)// 初始化时横向滚动条在0位置
+      // 判断有没出现垂直滚动条
+      const tbodyHeight = tableContainer.offsetHeight
+      const tbodyTable = tableContainer.querySelector('table').offsetHeight
+      if (tbodyTable > tbodyHeight) {
+        // 表示有滚动条
+        this.hasScrollTop = true
+      }
     },
     _scrollHandle (el) {
-      const scrollTop = el.scrollTop
+      /* const scrollTop = el.scrollTop
       let head = this.$el.querySelector('thead')
       if (scrollTop > 0 && head) {
         head.className = 'transform'
@@ -176,27 +201,37 @@ export default {
       if (scrollTop === 0 && head) {
         head.style = ''
         head.className = ''
-      }
-      // 左右滚动
+      } */
       const scrollLeft = el.scrollLeft
+      this.$refs.thead.scrollTo(scrollLeft, 0) // 横向滚动时同步表头滚动条位置
+      // 左右滚动固定
       this.scrollLeft = scrollLeft
-      const fixedLeft = el.querySelectorAll('.left')
+      const fixedLeft = this.$el.querySelectorAll('.left')
       if (fixedLeft.length > 0) {
         // left
-        for (let i = 0, len = fixedLeft.length; i < len; i++) {
-          fixedLeft[i].style.transform = `translateX(${scrollLeft}px) translateZ(90px)`
-          fixedLeft[i].style.webkitTransform = `translateX(${scrollLeft}px) translateZ(90px)`
+        if (scrollLeft > 0) {
+          for (let i = 0, len = fixedLeft.length; i < len; i++) {
+            fixedLeft[i].style.transform = `translateX(${scrollLeft}px) translateZ(90px)`
+            fixedLeft[i].style.webkitTransform = `translateX(${scrollLeft}px) translateZ(90px)`
+          }
+        } else {
+          for (let i = 0, len = fixedLeft.length; i < len; i++) {
+            fixedLeft[i].style.transform = ''
+          }
         }
       }
       this._fixedRight(el, scrollLeft)
     },
     _fixedRight (el, scrollLeft) {
       // 初始化时有横向滚动条，则先将右则固定的移到可见区
-      const fixedRight = el.querySelectorAll('.right')
+      const fixedRight = this.$el.querySelectorAll('.right')
       const tableWidth = el.querySelector('table').offsetWidth
       // 可移动的最大宽
       let moveMaxWidth = tableWidth - el.clientWidth // div可见宽
       moveMaxWidth = scrollLeft - moveMaxWidth
+      console.log(fixedRight)
+      console.log('tableWidth:' + tableWidth)
+      console.log(moveMaxWidth)
       if (fixedRight.length > 0) {
         for (let i = 0, len = fixedRight.length; i < len; i++) {
           fixedRight[i].style.transform = `translateX(${moveMaxWidth}px)translateZ(90px)`
@@ -446,13 +481,20 @@ export default {
         this.ctrlIsDown = false
         this.ctrlRowIndex = ''
       }
+    },
+    // 用于将滚动条恢复到初始状态
+    scrollTo (x, y) {
+      this.$refs.thead.scrollTo(x || 0, 0)
+      this.$refs.srcollBody.scrollTo(x || 0, y || 0)
     }
   },
   mounted () {
     this.$nextTick(() => {
-      this._fixedHead()
+      setTimeout(() => {
+        this._fixedHead()
+      }, 300)
       if (this.drag) {
-        this.$refs.tableContainer.style.overflowX = 'auto'
+        // this.$refs.tableContainer.style.overflowX = 'auto'
         document.addEventListener('mouseup', this._headMouseUp)
       }
       // console.timeEnd('timer')

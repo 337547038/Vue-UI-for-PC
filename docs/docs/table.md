@@ -858,6 +858,7 @@ export default {
 | clearSort          | 用于清空排序条件|
 | resetColumn        | 用于重置表头，当通过 js 动态改变表格列时用于重置表格列及表头信息|
 | setTHWidth         | 用于重新设置每个单元格的宽，仅在drag=true时有效|
+| scrollTo           | 用于将滚动条恢复到初始状态|
 
 ### Table-column
 

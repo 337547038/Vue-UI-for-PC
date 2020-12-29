@@ -7,13 +7,24 @@
   $stripe: #f9f9f9; //斑马纹
   $background: #fff; //table背景色
   $selectBackground: #fcf8e3; //勾选行的背景颜色
-  position: relative;
+  position: relative;overflow: hidden;
   table{border-collapse: collapse; border-spacing: 0;margin: 0;padding: 0;transform-style: preserve-3d;border: 1px solid $border;width: 100%;
   }
   td, th{border-bottom: 1px solid $border; text-align: left;padding: 8px 10px;box-sizing: border-box;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;background: #fff}
   //*溢出不换行*
   .table-ellipsis{table-layout: fixed;
     td, th{}
+  }
+  /*表头表格*/
+  .thead{
+    table{border: 0;
+      th{border-bottom: 0}
+    }
+  }
+  // 存在纵向滚动条时，用于body和头对齐
+  &.scroll-top{
+    &:before{content: '';display: block;position: absolute;right: 0;top: 0;height: 40px;width: 22px;z-index: 20;background: white;border: 1px solid #ddd;border-left: 0}
+    .thead{overflow-y: scroll}
   }
   //*奇偶分隔*!
   .table-stripe{
