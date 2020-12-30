@@ -73,7 +73,7 @@ export default {
 :::demo 
 ```html
 <template>
-  <ak-dropdown>
+  <ak-dropdown ref="dropdown">
     下拉菜单
     <ul slot="dropdown">
        <ak-dropdown-item v-for="item in 5" @click="click">菜单选项{{item}}</ak-dropdown-item>
@@ -110,3 +110,8 @@ export default {
 |参数|说明|
 |-|-|
 |click      |点击事件|
+
+### Dropdown Methods
+|参数|说明|
+|-|-|
+|hide      |用于收起下拉|

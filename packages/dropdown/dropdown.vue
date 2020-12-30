@@ -18,7 +18,8 @@
         v-show="show"
         ref="dropdown"
         @mouseenter="_menuMouseOver"
-        @mouseleave="_menuMouseLeave">
+        @mouseleave="_menuMouseLeave"
+        @click.stop="_clickStop">
         <slot name="dropdown"></slot>
         <span class="arrow"></span>
       </div>
@@ -32,7 +33,7 @@ import {prefixCls} from '../prefix'
 
 export default {
   name: `${prefixCls}Dropdown`,
-  data () {
+  data() {
     return {
       prefixCls: prefixCls,
       show: false,
@@ -56,16 +57,16 @@ export default {
   components: {},
   methods: {
     // 下拉项点击
-    itemClick (item) {
-      this.show = false
+    itemClick(item) {
+      // this.show = false
       this.$emit('click', item)
     },
-    _mouseOver (e, type) {
+    _mouseOver(e, type) {
       if (!this.show) { // 已展开时不重复
         this._control('hover', type, true, e)
       }
     },
-    _mouseLeave (e, type) {
+    _mouseLeave(e, type) {
       // 表示离开的是slots标签或者是没有slots里离开
       if ((type && this.$slots.trigger) || (!type && !this.$slots.trigger)) {
         clearTimeout(this.timer)
@@ -74,15 +75,16 @@ export default {
         }, 500)
       }
     },
-    _click (e, type) {
+    _click(e, type) {
       this._control('click', type, !this.show, e)
     },
-    _hide () {
+    // 点击时同时用于子级点击需要时关闭
+    hide() {
       if (this.trigger === 'click') {
         this.show = false
       }
     },
-    _control (triggle, type, show, e) {
+    _control(triggle, type, show, e) {
       if (this.trigger === triggle) {
         console.log(this.$slots.trigger)
         console.log(type)
@@ -117,7 +119,7 @@ export default {
         }
       })
     },
-    _setPosition (e) {
+    _setPosition(e) {
       if (this.maxHeight) {
         // 设有距浏览器底部高度时
         this.position = ''
@@ -128,24 +130,27 @@ export default {
         }
       }
     },
-    _menuMouseOver () {
+    _menuMouseOver() {
       if (this.trigger === 'hover') {
         clearTimeout(this.timer)
         this.show = true
       }
     },
-    _menuMouseLeave () {
+    _menuMouseLeave() {
       if (this.trigger === 'hover') {
         this.show = false
       }
+    },
+    _clickStop(e) {
+      e.stopPropagation()
     }
   },
   computed: {},
-  mounted () {
-    document.addEventListener('click', this._hide)
+  mounted() {
+    document.addEventListener('click', this.hide)
   },
-  destroyed () {
-    document.removeEventListener('click', this._hide)
+  destroyed() {
+    document.removeEventListener('click', this.hide)
     if (this.appendToBody && this.appendChild) {
       document.body.removeChild(this.$refs.dropdown)
     }
