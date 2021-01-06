@@ -839,6 +839,7 @@ export default {
 | pagination    | object        | 有相关参数时显示分页，参数的pagination组件参数|
 | hasChild      | boolean/true  | 是否包含子节点数据，为true时，当 `row` 中包含 `children` 字段时，被视为子节点数据|
 | lazyLoad      | function      | 设置了`lazyLoad`时，被视为子节点使用懒加载方式，function(row,resolve) row当前行信息|
+| splitHeader   | boolean/false   |是否将表格的表头和主体内容拆分为两个表格，固定头和列时需要拆分|
 
 ### Table Event
 

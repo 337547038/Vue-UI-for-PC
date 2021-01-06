@@ -4,9 +4,9 @@
     <div style="display: none">
       <slot/>
     </div>
-    <div class="thead" :style="{overflowX:width?'hidden':'',width:width}" ref="thead">
-      <table
-        :class="{'table-stripe':stripe,
+    <div class="thead" :style="{overflowX:width?'hidden':'',width:width}" ref="thead" v-if="splitHeader">
+      <table class="table-thead"
+             :class="{'table-stripe':stripe,
       'table-border':border,
       'table-hover':hover,
       'table-ellipsis':ellipsis,
@@ -25,8 +25,8 @@
       class="tbody"
       :style="{overflowY: height?'auto':'',height:height,width:width}"
       ref="srcollBody">
-      <table
-        :class="{'table-stripe':stripe,
+      <table class="table-tbody"
+             :class="{'table-stripe':stripe,
       'table-border':border,
       'table-hover':hover,
       'table-ellipsis':ellipsis,
@@ -34,6 +34,12 @@
         <colgroup>
           <col v-for="(col,index) in colWidth" :width="col" :key="index">
         </colgroup>
+        <table-head
+          :thead="theadOrder"
+          :showHeader="showHeader"
+          :selectChecked="selectChecked"
+          v-if="splitHeader">
+        </table-head>
         <tbody v-if="data.length===0">
         <tr>
           <td :colspan="columns.length" class="empty">
@@ -172,7 +178,12 @@ export default {
       default: false
     },
     lazyLoad: Function,
-    pagination: Object // 分页相关参数
+    pagination: Object, // 分页相关参数
+    splitHeader:
+      { // 是否将表头的主体部分折分成两个表格
+        type: Boolean,
+        default: false
+      }
   },
   methods: {
     _fixedHead () {
@@ -453,6 +464,7 @@ export default {
         this.colWidth = []
         this._getAllHead(this.thead, child)
         this.isSetThWidth = false // 表头发生变化时，恢复初始值
+        this._setColDefaultWidth()
       })
     },
     _trClick (row, index) {
@@ -486,6 +498,25 @@ export default {
     scrollTo (x, y) {
       this.$refs.thead.scrollTo(x || 0, 0)
       this.$refs.srcollBody.scrollTo(x || 0, y || 0)
+    },
+    // 窗口缩放时，恢复滚动条位置
+    _resize () {
+      this.scrollTo()
+    },
+    // 初始时设置每列的默认宽，当没设宽时
+    _setColDefaultWidth () {
+      if (this.splitHeader) {
+        setTimeout(() => {
+          const th = this.$el.querySelectorAll('th')
+          if (this.colWidth && this.colWidth.length > 0 && th && th.length > 0) {
+            this.colWidth && this.colWidth.forEach((item, index) => {
+              if (!item && th[index].offsetWidth) {
+                this.$set(this.colWidth, index, th[index].offsetWidth + 'px')
+              }
+            })
+          }
+        }, 300)
+      }
     }
   },
   mounted () {
@@ -497,6 +528,7 @@ export default {
         // this.$refs.tableContainer.style.overflowX = 'auto'
         document.addEventListener('mouseup', this._headMouseUp)
       }
+      this._setColDefaultWidth()
       // console.timeEnd('timer')
     })
     this.resetColumn()
