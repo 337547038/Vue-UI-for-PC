@@ -131,7 +131,7 @@ export default {
     maxHeight: Number, // 距离浏览底部高度，当小于这个高度时将向上弹出
     appendToBody: {
       type: Boolean,
-      default: true
+      default: false
     }
   },
   components: {},
@@ -191,10 +191,10 @@ export default {
             this.liHeight = this.$refs.li[0].offsetHeight
           }
         })
+        this._appendToBody()
       } else {
         this.show = false
       }
-      this._appendToBody()
     },
     _itemClick (item, e) {
       if (!item.disabled) {
