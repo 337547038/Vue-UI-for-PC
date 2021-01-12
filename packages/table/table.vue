@@ -342,6 +342,9 @@ export default {
           document.body.appendChild(dragLine) */
           dragLine.style.left = (event.pageX - tableOffset.left) + 'px'
           dragLine.style.height = tableOffset.height + 'px'
+          // 拖动发生滚动条位置时，同步位置
+          const a = this.$refs.thead.scrollLeft
+          this.$refs.srcollBody.scrollTo(a, 0)
         }
       })
     },
