@@ -214,7 +214,12 @@ export default {
         head.className = ''
       } */
       const scrollLeft = el.scrollLeft
-      this.$refs.thead.scrollTo(scrollLeft, 0) // 横向滚动时同步表头滚动条位置
+      if (thead.scrollTo) {
+        thead.scrollTo(scrollLeft, 0) // 横向滚动时同步表头滚动条位置
+      } else {
+        // 兼容ie,ie不兼容scrollTo
+        thead.scrollLeft = scrollLeft
+      }
       // 左右滚动固定
       this.scrollLeft = scrollLeft
       const fixedLeft = this.$el.querySelectorAll('.left')
@@ -344,7 +349,11 @@ export default {
           dragLine.style.height = tableOffset.height + 'px'
           // 拖动发生滚动条位置时，同步位置
           const a = this.$refs.thead.scrollLeft
-          this.$refs.srcollBody.scrollTo(a, 0)
+          if (document.body.scrollTo) {
+            this.$refs.srcollBody.scrollTo(a, 0)
+          } else {
+            this.$refs.srcollBody.scrollLeft = a
+          }
         }
       })
     },
@@ -499,8 +508,14 @@ export default {
     },
     // 用于将滚动条恢复到初始状态
     scrollTo (x, y) {
-      this.$refs.thead.scrollTo(x || 0, 0)
-      this.$refs.srcollBody.scrollTo(x || 0, y || 0)
+     if (document.body.scrollTo) {
+        this.$refs.thead.scrollTo(x || 0, 0)
+        this.$refs.srcollBody.scrollTo(x || 0, y || 0)
+      } else {
+        this.$refs.thead.scrollLeft = x || 0
+        this.$refs.srcollBody.scrollLeft = x || 0
+        this.$refs.srcollBody.scrollTop = y || 0
+      }
     },
     // 窗口缩放时，恢复滚动条位置
     _resize () {
