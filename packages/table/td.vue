@@ -10,7 +10,11 @@ export default {
   // parentRow 子级下拉时，包含的父级信息
   props: ['column', 'row', 'index', 'title', 'columnIndex', 'showHideExtend', 'toggle', 'parentRow'],
   components: {},
-  methods: {},
+  methods: {
+    _onCellClick(row, column, index) {
+      this.$emit('cellClick', row, column, index)
+    }
+  },
   computed: {},
   mounted() {
   },
@@ -76,7 +80,10 @@ export default {
         rowspan = {rowspan > 1 ? rowspan : null}
         colspan = {colspan > 1 ? colspan : null}
         style = {'text-align:' + column.align}
-        title = {title || column.title ? row[column.prop] : null}>
+        title = {title || column.title ? row[column.prop] : null}
+        on-click={(ev) => {
+          this._onCellClick(row, column, $index)
+        }}>
         {
           this.column.renderCell.call(this, h, {
             row,

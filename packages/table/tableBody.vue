@@ -4,7 +4,7 @@
     <tr
       :key="rowIndex"
       :class="{'warning':$parent.selectedRows.indexOf(row) !== -1,[`parent-tr-${rowIndex+1}`]:colsExtend.length,[row.trClass]:row.trClass}"
-      @click="_trClick(row, rowIndex)">
+      @click="_rowClick(row, rowIndex)">
       <TableTd
         v-for="(column,indexTd) in colsNoExtend"
         :column="column"
@@ -14,7 +14,8 @@
         :title="$parent.title"
         :key="indexTd"
         :showHideExtend="showHideExtend"
-        :toggle="toggle[rowIndex]===undefined?defaultToggle:toggle[rowIndex]">
+        :toggle="toggle[rowIndex]===undefined?defaultToggle:toggle[rowIndex]"
+        @cellClick="_cellClick">
       </TableTd>
     </tr>
     <!--子级行-->
@@ -25,7 +26,7 @@
         v-show="toggle[rowIndex]===undefined?defaultToggle:toggle[rowIndex]"
         :class="{[row.trClass]:row.trClass}"
         class="tr-child"
-        @cllick="_trClick(item, index)">
+        @cllick="_rowClick(item, index)">
         <TableTd
           v-for="(child,childIndex) in colsNoExtend"
           :column="child"
@@ -34,7 +35,8 @@
           :columnIndex="childIndex"
           :title="$parent.title"
           :key="'childTd'+childIndex"
-          :parentRow="row">
+          :parentRow="row"
+          @cellClick="_cellClick">
         </TableTd>
       </tr>
     </template>
@@ -44,7 +46,7 @@
       class="extend"
       :class="{'warning':$parent.selectedRows.indexOf(row) !== -1,[`extend-tr-${rowIndex+1}`]:true}"
       v-show="toggle[rowIndex]===undefined?defaultToggle:toggle[rowIndex]"
-      @cllick="_trClick(row, rowIndex)">
+      @cllick="_rowClick(row, rowIndex)">
       <TableTd
         v-for="(column,indexTd) in colsExtend"
         :column="column"
@@ -52,7 +54,8 @@
         :index="rowIndex"
         :title="$parent.title"
         :key="indexTd"
-        :colspan="colsNoExtend.length">
+        :colspan="colsNoExtend.length"
+        @cellClick="_cellClick">
       </TableTd>
     </tr>
   </template>
@@ -109,8 +112,11 @@ export default {
         }
       }
     },
-    _trClick(row, index) {
-      this.$emit('trClick', row, index)
+    _rowClick(row, index) {
+      this.$emit('rowClick', row, index)
+    },
+    _cellClick(row, column, rowIndex) {
+      this.$emit('cellClick', row, column, rowIndex)
     }
   },
   created() {

@@ -154,7 +154,7 @@ export default {
         resolve(child)
       }, 1000)
     },
-    trClick (row,index) {
+    rowClick (row,index) {
       console.log(row)
       console.log(index)
     }
@@ -788,7 +788,7 @@ export default {
 :::demo 支持tr行点击事件
 
 ```html
-<akTable :data="tableData" @trClick="trClick">
+<akTable :data="tableData" @rowClick="rowClick">
   <akColumn label="姓名" prop="name"></akColumn>
   <akColumn label="省份" prop="province"></akColumn>
   <akColumn label="城市" prop="city"></akColumn>
@@ -803,7 +803,7 @@ export default {
       }
     },
     methods: {
-     trClick(row,index) {
+     rowClick(row,index) {
         console.log(row)
         console.log(index)
      }
@@ -847,7 +847,8 @@ export default {
 |-|-|- |
 | selectClick    | 勾选单列事件，function(list,checked,row, index) list所有已勾选的row集合，checked当前状态，row当前点击行信息，index当前行序号|
 | sortChange     | 排序点击事件 |
-| trClick        | 当前行点击事件，即tr点击事件，function(row,index) |
+| rowClick       | 当前行点击事件，即tr点击事件，function(row,index) |
+| cellClick      | 当前列点击事件，即td点击事件，function(row,column,rowIndex) |
 
 ### Table Methods
 

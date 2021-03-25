@@ -53,7 +53,8 @@
           :rowColSpan="rowColSpan"
           :hasChild="hasChild"
           :lazyLoad="lazyLoad"
-          @trClick="_trClick">
+          @rowClick="_rowClick"
+          @cellClick="_cellClick">
         </table-body>
       </table>
     </div>
@@ -479,8 +480,11 @@ export default {
         this._setColDefaultWidth()
       })
     },
-    _trClick (row, index) {
-      this.$emit('trClick', row, index)
+    _rowClick (row, index) {
+      this.$emit('rowClick', row, index)
+    },
+    _cellClick (row, column, rowIndex) {
+      this.$emit('cellClick', row, column, rowIndex)
     },
     // 表格可以拖动时，重新设置表格的实际宽度。否则点击拖动时会先发生宽度变化，也可通过外部调用来改变宽
     setTHWidth () {
@@ -508,7 +512,7 @@ export default {
     },
     // 用于将滚动条恢复到初始状态
     scrollTo (x, y) {
-     if (document.body.scrollTo) {
+      if (document.body.scrollTo) {
         this.$refs.thead.scrollTo(x || 0, 0)
         this.$refs.srcollBody.scrollTo(x || 0, y || 0)
       } else {
