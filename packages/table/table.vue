@@ -483,8 +483,8 @@ export default {
     _rowClick (row, index) {
       this.$emit('rowClick', row, index)
     },
-    _cellClick (row, column, rowIndex) {
-      this.$emit('cellClick', row, column, rowIndex)
+    _cellClick (row, column, rowIndex, columnIndex) {
+      this.$emit('cellClick', row, column, rowIndex, columnIndex)
     },
     // 表格可以拖动时，重新设置表格的实际宽度。否则点击拖动时会先发生宽度变化，也可通过外部调用来改变宽
     setTHWidth () {

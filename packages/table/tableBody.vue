@@ -74,19 +74,19 @@ export default {
     lazyLoad: Function
   },
   components: {TableTd},
-  data() {
+  data () {
     return {
       defaultToggle: this.$parent.extendToggle, // 默认展开或收起状态
       toggle: {} // {1: true, 2: false, 0: false} // 对应每行展开或收起状态
     }
   },
   computed: {
-    colsExtend() {
+    colsExtend () {
       return this.$parent.columns.filter(item => {
         return item.type === 'extend'
       })
     },
-    colsNoExtend() {
+    colsNoExtend () {
       // 不带扩展的
       return this.$parent.columns.filter(item => {
         return item.type !== 'extend'
@@ -96,7 +96,7 @@ export default {
   watch: {},
   methods: {
     // 展开或收起扩展行
-    showHideExtend(index, row) {
+    showHideExtend (index, row) {
       // 存在扩展时或有子级时
       if (this.colsExtend.length > 0 || this.hasChild) {
         if (typeof this.toggle[index] === 'undefined') {
@@ -112,16 +112,16 @@ export default {
         }
       }
     },
-    _rowClick(row, index) {
+    _rowClick (row, index) {
       this.$emit('rowClick', row, index)
     },
-    _cellClick(row, column, rowIndex) {
-      this.$emit('cellClick', row, column, rowIndex)
+    _cellClick (row, column, rowIndex, columnIndex) {
+      this.$emit('cellClick', row, column, rowIndex, columnIndex)
     }
   },
-  created() {
+  created () {
   },
-  mounted() {
+  mounted () {
   },
   directives: {}
 }

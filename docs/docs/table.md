@@ -848,7 +848,7 @@ export default {
 | selectClick    | 勾选单列事件，function(list,checked,row, index) list所有已勾选的row集合，checked当前状态，row当前点击行信息，index当前行序号|
 | sortChange     | 排序点击事件 |
 | rowClick       | 当前行点击事件，即tr点击事件，function(row,index) |
-| cellClick      | 当前列点击事件，即td点击事件，function(row,column,rowIndex) |
+| cellClick      | 当前列点击事件，即td点击事件，function(row,column,rowIndex, columnIndex) |
 
 ### Table Methods
 
