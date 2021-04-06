@@ -625,6 +625,7 @@ export default {
 |minLength      |最小字符|
 |mobile         |手机号格式|
 |tel            |固话|
+|phone          |固话或手机|
 |mail           |邮箱格式|
 |digits         |正整数|
 |number         |数字|
