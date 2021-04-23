@@ -12,7 +12,11 @@
       'table-ellipsis':ellipsis,
       [className]:className}">
         <colgroup>
-          <col v-for="(col,index) in colWidth" :width="col" :key="index">
+          <col
+            v-for="(col,index) in colWidth"
+            :width="col"
+            :key="index"
+            :class="[theadOrder[index].className]">
         </colgroup>
         <table-head
           :thead="theadOrder"
