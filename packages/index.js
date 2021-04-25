@@ -36,6 +36,7 @@ import Badge from './badge'
 import {Icon, Icons} from './icon'
 import InputNumber from './inputNumber'
 import {Dropdown, DropdownItem} from './dropdown'
+import {Carousel, CarouselItem} from './carousel'
 
 const component = [
   Button,
@@ -76,7 +77,8 @@ const component = [
   Badge,
   InputNumber,
   Dropdown,
-  DropdownItem
+  DropdownItem,
+  Carousel, CarouselItem
 ]
 const install = function (Vue, options) {
   component.forEach(item => {

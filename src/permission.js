@@ -4,8 +4,9 @@ import {getStorage, getToken} from './utils/utils'
 import router, {asyncRoutes, asyncRoutesOther} from './router'
 
 console.log(router)
+
 /* asyncRoutes这个路由表示需要匹配菜单权限，当带有permission=false表示特殊项，不需要匹配 */
-function filterAsyncRouter(asyncRoutes, menuList) {
+function filterAsyncRouter (asyncRoutes, menuList) {
   return asyncRoutes.filter(route => {
     if (route.children) {
       route.children = filterAsyncRouter(route.children, menuList)
@@ -19,7 +20,7 @@ function filterAsyncRouter(asyncRoutes, menuList) {
 }
 
 // 配置白名单
-const whiteList = ['/login', '/404', '/', '/signOut']
+const whiteList = ['/login', '/404', '/', '/signOut', '/test']
 router.beforeEach((to, from, next) => {
   // 设置不同的标题
   if (to.meta.title) {

@@ -219,6 +219,7 @@ export default {
         head.className = ''
       } */
       const scrollLeft = el.scrollLeft
+      const thead = this.$refs.thead
       if (thead.scrollTo) {
         thead.scrollTo(scrollLeft, 0) // 横向滚动时同步表头滚动条位置
       } else {

@@ -28,6 +28,11 @@ export const defaultRouterMap = [
     path: '/login',
     name: 'login',
     component: () => import('@/views/admin/login')
+  },
+  {
+    path: '/test',
+    name: 'test',
+    component: () => import('@/views/test')
   }
 ]
 
