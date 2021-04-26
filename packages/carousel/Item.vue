@@ -13,7 +13,6 @@ export default {
     className: String
   },
   created () {
-    // const props = this.$options.propsData
     this.renderCell = (h) => {
       const data = {}
       return this.$scopedSlots.default(data)

@@ -6,7 +6,8 @@ export default {
   },
   props: {
     childItem: Object,
-    styleCls: Object
+    styleCls: Object,
+    className: String
   },
   components: {},
   methods: {},
@@ -14,11 +15,11 @@ export default {
   mounted () {
   },
   render (h) {
-    let cls = 'carousel-slide'
-    if (this.childItem.className) {
-      cls += ' ' + this.childItem.className
-    }
-    return (<div class={cls} style={this.styleCls}>
+    let cls = ['carousel-slide']
+    const itemCls = this.childItem.className
+    itemCls && cls.push(itemCls)
+    this.className && cls.push(this.className)
+    return (<div class={cls.join(' ')} style={this.styleCls}>
       {this.childItem.renderCell.call(this, h)}</div>)
   }
 }

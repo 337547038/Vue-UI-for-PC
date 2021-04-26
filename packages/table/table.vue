@@ -220,7 +220,7 @@ export default {
       } */
       const scrollLeft = el.scrollLeft
       const thead = this.$refs.thead
-      if (thead.scrollTo) {
+      if (thead && thead.scrollTo) {
         thead.scrollTo(scrollLeft, 0) // 横向滚动时同步表头滚动条位置
       } else {
         // 兼容ie,ie不兼容scrollTo
@@ -356,7 +356,7 @@ export default {
           // 拖动发生滚动条位置时，同步位置
           const a = this.$refs.thead.scrollLeft
           if (document.body.scrollTo) {
-            this.$refs.srcollBody.scrollTo(a, 0)
+            this.$refs.srcollBody && this.$refs.srcollBody.scrollTo(a, 0)
           } else {
             this.$refs.srcollBody.scrollLeft = a
           }
@@ -518,8 +518,8 @@ export default {
     // 用于将滚动条恢复到初始状态
     scrollTo (x, y) {
       if (document.body.scrollTo) {
-        this.$refs.thead.scrollTo(x || 0, 0)
-        this.$refs.srcollBody.scrollTo(x || 0, y || 0)
+        this.$refs.thead && this.$refs.thead.scrollTo(x || 0, 0)
+        this.$refs.srcollBody && this.$refs.srcollBody.scrollTo(x || 0, y || 0)
       } else {
         this.$refs.thead.scrollLeft = x || 0
         this.$refs.srcollBody.scrollLeft = x || 0

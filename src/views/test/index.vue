@@ -1,6 +1,6 @@
 <template>
   <div class="aaa">
-    <ak-carousel :loop="true">
+    <ak-carousel :loop="true" :autoPlay="false" :showNumber="3">
       <ak-carousel-item v-for="item in 6" :key="item">
         {{item}}
       </ak-carousel-item>
