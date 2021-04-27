@@ -1,21 +1,25 @@
 <!-- Created by 337547038 on -->
 <template>
-  <div :class="{[prefixCls+'-carousel']:true}"
-       @mouseover="_mouseOver"
-       @mouseleave="_mouseLeave">
-    <div class="carousel-container" :style="style">
+  <div
+    :class="{[prefixCls+'-carousel']:true,vertical:direction==='v'}"
+    @mouseover="_mouseOver"
+    @mouseleave="_mouseLeave">
+    <div class="carousel-container"
+         :style="containerStyle">
       <slot></slot>
-      <item-list
-        v-for="(item,index) in children"
-        :key="`item${index}`"
-        :childItem="item"
-        :className="_getItemClass(index)"
-        :styleCls="{width:width+'px'}">
-      </item-list>
+      <div :style="style" class="carousel-transform clearfix">
+        <item-list
+          v-for="(item,index) in children"
+          :key="`item${index}`"
+          :childItem="item"
+          :className="_getItemClass(index)"
+          :styleCls="{width:width+'px',height:itemHeight+'px'}">
+        </item-list>
+      </div>
     </div>
     <div class="direction-nav" v-if="directionNav">
-      <a class="carousel-prev" @click="_directionNavClick(-1)">上</a>
-      <a class="carousel-next" @click="_directionNavClick(1)">下</a>
+      <a class="carousel-prev" :class="{disabled:!loop&&index<=0}" @click="_directionNavClick(-1)"></a>
+      <a class="carousel-next" :class="{disabled:!loop&&index>=maxMove}" @click="_directionNavClick(1)"></a>
     </div>
     <div class="control-nav" v-if="controlNav">
       <a href="javascript:;"
@@ -40,17 +44,22 @@ export default {
       width: 0,
       duration2: this.duration,
       timer: '', // 控制自动播放
-      maxMove: 0
+      maxMove: 0,
+      isAnimation: false
     }
   },
   props: {
-    loop: Boolean,
+    loop: {
+      type: Boolean,
+      default: false
+    },
     move: {
       // 每次移动单位个数
       type: Number,
       default: 1
     },
     itemWidth: Number,
+    itemHeight: Number,
     active: {
       // 当前，从0开始
       type: Number,
@@ -68,7 +77,7 @@ export default {
     },
     autoPlay: {
       type: Boolean,
-      default: true
+      default: false
     },
     pauseOnHover: {
       // 鼠标滑过暂停
@@ -88,7 +97,15 @@ export default {
     showNumber: {
       type: Number,
       default: 1
-    } // 可见个数
+    }, // 可见个数
+    direction: {
+      type: String,
+      default: 'h' // h/v两种
+    },
+    slice: { // 强制截取数据，当总个数%每次移动单位数大于0时，仅在loop=true时有效，
+      type: Boolean,
+      default: true
+    }
   },
   components: {ItemList},
   methods: {
@@ -99,9 +116,15 @@ export default {
           this.children.push(ch)
         }
       })
+      // 截取符合要求的个数
+      if (this.loop && this.slice) {
+        const v = this.children.length % this.move
+        if (v > 0) {
+          this.children.splice(this.children.length - v, v)
+        }
+      }
       const showPage = Math.ceil(this.showNumber / this.move) // 可视个数所占的页数
       this.maxMove = Math.ceil(this.children.length / this.move) - showPage
-      // console.log(this.children.length)
       // 总个数大于每次单位移动个数时
       if (this.loop && this.children.length >= this.move) {
         // 将前面move个添加到child的后面，同时将最后move个插入到前面
@@ -116,6 +139,10 @@ export default {
       }
     },
     _directionNavClick (type) {
+      if (this.isAnimation) {
+        return
+      }
+      this.isAnimation = true
       this.duration2 = this.duration
       let pageIndex = this.index
       if (type === 1) {
@@ -156,6 +183,7 @@ export default {
       this.$emit('slideBefore', index)
       setTimeout(() => {
         this.$emit('slideAfter', this.index)
+        this.isAnimation = false
       }, this.duration)
     },
     _autoPlay () {
@@ -202,26 +230,50 @@ export default {
   computed: {
     style () {
       const len = this.children.length
-      if (this.width && len > 0) {
-        const moveWidth = this.width * this.move // 每次移动的宽
+      let distance = this.width
+      let translate = 'translateX'
+      let obj = {}
+      if (this.direction === 'v') {
+        // 垂直方向
+        distance = this.itemHeight
+        translate = 'translateY'
+      } else {
+        obj.width = len * distance + 'px'
+      }
+      if (distance && len > 0) {
+        const moveWidth = distance * this.move // 每次移动的宽
         let x = moveWidth * this.index
         if (this.loop) {
           // 加上
           x += moveWidth
         }
-        const maxX = len * this.width - this.$el.offsetWidth // 最大可移动距离
-        if (x > maxX) {
-          x = maxX // 仿止右边出现空白
+        if (this.direction === 'h') {
+          const maxX = len * distance - this.$el.offsetWidth // 最大可移动距离
+          if (x > maxX) {
+            x = maxX // 仿止右边出现空白
+          }
         }
-        return {
-          overflow: 'hidden',
-          width: len * this.width + 'px',
-          transform: `translateX(-${x}px)`,
+        return Object.assign({
+          'overflow-x': 'hidden',
+          transform: `${translate}(-${x}px)`,
           transition: `transform ${this.duration2}ms`
-        }
+        }, obj)
       } else {
         return {}
       }
+    },
+    containerStyle () {
+      let obj = {'overflow-x': 'hidden'}
+      if (this.width && this.showNumber) {
+        Object.assign(obj, {width: this.width * this.showNumber + 'px'})
+      }
+      if (this.direction === 'v') {
+        obj = {
+          height: this.itemHeight * this.showNumber + 'px',
+          'overflow-y': 'hidden'
+        }
+      }
+      return obj
     }
   },
   mounted () {

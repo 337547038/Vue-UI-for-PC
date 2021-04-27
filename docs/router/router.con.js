@@ -119,9 +119,9 @@ const router = [
     component: () => import('../docs/menu.md')
   },
   {
-    path: '/swiper',
-    name: 'swiper',
-    component: () => import('../docs/swiper.md')
+    path: '/carousel',
+    name: 'carousel',
+    component: () => import('../docs/carousel.md')
   },
   {
     path: '/echarts',

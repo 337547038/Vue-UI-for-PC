@@ -1,10 +1,9 @@
 <template>
   <div class="aaa">
-    <ak-carousel :loop="true" :autoPlay="false" :showNumber="3">
+    <ak-carousel :showNumber="3" :itemHeight="100" class="card" :itemWidth="400">
       <ak-carousel-item v-for="item in 6" :key="item">
-        {{item}}
+        <div>{{item}}</div>
       </ak-carousel-item>
-      <ak-carousel-item className="tee">afsf</ak-carousel-item>
     </ak-carousel>
   </div>
 </template>
@@ -23,3 +22,6 @@ export default {
   }
 }
 </script>
+<style>
+  .carousel-slide{background: #f0f0f0}
+</style>
