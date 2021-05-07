@@ -1,4 +1,5 @@
 # Carousel 走马灯
+
 ### 1、基本使用
 :::demo 
 ```html
@@ -48,7 +49,7 @@
 :::
 
 ### 4、卡片
-:::demo 通过设置每屏可视数量，配合自定义样式展示卡片化切换
+:::demo 通过设置每屏可视数量，配合自定义样式展示卡片化切换。每屏展示的可视数一般为3/5/7个，每次移动单位为1个
 ```html
 <template>
    <ak-carousel :showNumber="3" class="card">
@@ -85,6 +86,7 @@
 
 ```
 :::
+
 ## API
 ### Carousel
 |参数|类型|说明|
@@ -106,8 +108,8 @@
 |参数|说明|
 |-|-|
 |slideBefore          | -|
-|slideAfter          | -|
+|slideAfter           | -|
 ### Carousel Methods
 |参数|说明|
 |-|-|
-|init          | -|
+|init          | 初始化|

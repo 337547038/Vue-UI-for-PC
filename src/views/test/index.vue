@@ -1,7 +1,7 @@
 <template>
   <div class="aaa">
-    <ak-carousel :showNumber="3" :itemHeight="100" class="card" :itemWidth="400">
-      <ak-carousel-item v-for="item in 6" :key="item">
+    <ak-carousel :showNumber="5" :move="2" :itemHeight="100" :loop="true">
+      <ak-carousel-item v-for="item in 15" :key="item">
         <div>{{item}}</div>
       </ak-carousel-item>
     </ak-carousel>

@@ -1,0 +1,31 @@
+@charset "utf-8";
+@include ns(carousel){position: relative;
+  .carousel-container{
+  }
+  .carousel-transform{}
+  .carousel-slide{float: left;}
+  .direction-nav{
+    a{position: absolute;display: block;width: 30px;height: 30px;top: 50%;transform: translateY(-50%);left: 20px;z-index: 10;cursor: pointer;
+      &:after{content: '';display: block;border-top: 1px solid #666;border-right: 1px solid #666;width: 100%;height: 100%;;transform: rotate(-135deg)}
+      &.carousel-next{right: 20px;left: auto;
+        &:after{transform: rotate(45deg)}
+      }
+      &.disabled{cursor: not-allowed}
+    }
+  }
+  .control-nav{
+    position: absolute; left: 0; bottom: 0; width: 100%; text-align: center; z-index: 10;
+    a{ display: inline-block; vertical-align: middle; width: 6px; height: 6px; border-radius: 50%; background: #fff; margin: 0 5px;font-size: 0;
+      &.control-nav-active{ background: #f60 }
+    }
+  }
+  // 卡片式
+  &.card{
+    .carousel-slide{position: relative;
+      div{left: 0;top: 0;width: 100%;height: 100px}
+    }
+    .carousel-transform{padding: 20px 0}
+    .big-size{position: relative;z-index: 2}
+    .big-size div{ position: absolute;left: -20px;top: -20px;background: #2d8cf0;height: 140px;width: 440px;transition: all .3s;}
+  }
+}

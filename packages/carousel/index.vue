@@ -19,11 +19,11 @@
     </div>
     <div class="direction-nav" v-if="directionNav">
       <a class="carousel-prev" :class="{disabled:!loop&&index<=0}" @click="_directionNavClick(-1)"></a>
-      <a class="carousel-next" :class="{disabled:!loop&&index>=maxMove}" @click="_directionNavClick(1)"></a>
+      <a class="carousel-next" :class="{disabled:!loop&&(index+1)>=maxMove}" @click="_directionNavClick(1)"></a>
     </div>
     <div class="control-nav" v-if="controlNav">
       <a href="javascript:;"
-         v-for="item in (maxMove+1)"
+         v-for="item in maxMove"
          :class="{'control-nav-active':(index+1)===item}"
          :key="item" @click="_controlNavClick(item)">{{item}}</a>
     </div>
@@ -124,7 +124,7 @@ export default {
         }
       }
       const showPage = Math.ceil(this.showNumber / this.move) // 可视个数所占的页数
-      this.maxMove = Math.ceil(this.children.length / this.move) - showPage
+      this.maxMove = Math.ceil((this.children.length - showPage) / this.move)
       // 总个数大于每次单位移动个数时
       if (this.loop && this.children.length >= this.move) {
         // 将前面move个添加到child的后面，同时将最后move个插入到前面
@@ -144,7 +144,7 @@ export default {
       }
       this.isAnimation = true
       this.duration2 = this.duration
-      let pageIndex = this.index
+      let pageIndex = this.index + 1
       if (type === 1) {
         if (this.loop) {
           // 可以多翻一下
@@ -158,16 +158,16 @@ export default {
           // 可以多翻一下
           pageIndex += 1
         }
-        if (pageIndex > 0) {
+        if (pageIndex > 1) {
           this.index--
         }
       }
       this._callback(this.index)
-      if (this.loop && (this.index === -1 || this.index > this.maxMove)) {
+      if (this.loop && (this.index === -1 || this.index >= this.maxMove)) {
         // 完成切换后
         let index = 0
         if (this.index === -1) {
-          index = this.maxMove
+          index = (this.maxMove - 1)
         }
         setTimeout(() => {
           this.duration2 = 0
