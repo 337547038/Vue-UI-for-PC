@@ -98,12 +98,13 @@
 |loop           | Boolean/true    |是否循环|
 |move           | Number/1        |每次移动单位个数|
 |itemWidth      | Number          |单位移动宽度|
-|active         | Number/0        |初始显示第几个，从0开始|
+|active         | Number/0        |初始显示第几个，从1开始|
 |duration       | Number/500      |切换过渡时间|
 |showTime       | Number/3000     |自动播放时停留的时间|
 |autoPlay       | Boolean/false   |是否用动播放|
 |pauseOnHover   | Boolean/true    |鼠标滑动过暂停播放|
-|slice          | Boolean/true    |强制截取数据以符合循环展示最佳效果，当loop=true时有效|
+|type           | string          |卡片类型，可选card|
+
 ### Carousel Event
 |参数|说明|
 |-|-|

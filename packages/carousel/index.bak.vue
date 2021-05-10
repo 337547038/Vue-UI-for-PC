@@ -1,7 +1,7 @@
 <!-- Created by 337547038 on -->
 <template>
   <div
-    :class="{[prefixCls+'-carousel']:true,vertical:direction==='v',[type]:type}"
+    :class="{[prefixCls+'-carousel']:true,vertical:direction==='v'}"
     @mouseover="_mouseOver"
     @mouseleave="_mouseLeave">
     <div class="carousel-container"
@@ -18,13 +18,13 @@
       </div>
     </div>
     <div class="direction-nav" v-if="directionNav">
-      <a class="carousel-prev" :class="{disabled:!loop&&index<=1}" @click="_directionNavClick(-1)"></a>
-      <a class="carousel-next" :class="{disabled:!loop&&index>=maxMove}" @click="_directionNavClick(1)"></a>
+      <a class="carousel-prev" :class="{disabled:!loop&&index<=0}" @click="_directionNavClick(-1)"></a>
+      <a class="carousel-next" :class="{disabled:!loop&&(index+1)>=maxMove}" @click="_directionNavClick(1)"></a>
     </div>
     <div class="control-nav" v-if="controlNav">
       <a href="javascript:;"
          v-for="item in maxMove"
-         :class="{'control-nav-active':index===item}"
+         :class="{'control-nav-active':(index+1)===item}"
          :key="item" @click="_controlNavClick(item)">{{item}}</a>
     </div>
   </div>
@@ -40,14 +40,12 @@ export default {
     return {
       prefixCls: prefixCls,
       children: [],
-      index: this.active, // 从1开始
+      index: this.active,
       width: 0,
-      duration2: 0,
+      duration2: this.duration,
       timer: '', // 控制自动播放
       maxMove: 0,
-      isAnimation: false,
-      moveDirection: 0, // 移动方向1右-1左
-      defaultMove: 0 // 初始移动位置
+      isAnimation: false
     }
   },
   props: {
@@ -63,9 +61,9 @@ export default {
     itemWidth: Number,
     itemHeight: Number,
     active: {
-      // 当前，从1开始
+      // 当前，从0开始
       type: Number,
-      default: 1
+      default: 0
     },
     duration: {
       // transition-duration过渡时间，单位毫秒
@@ -104,16 +102,10 @@ export default {
       type: String,
       default: 'h' // h/v两种
     },
-    type: {
-      type: String,
-      validator: function (value) {
-        return ['card', ''].indexOf(value) !== -1
-      }
-    }
-    /* slice: { // 强制截取数据，当总个数%每次移动单位数大于0时，仅在loop=true时有效，
+    slice: { // 强制截取数据，当总个数%每次移动单位数大于0时，仅在loop=true时有效，
       type: Boolean,
       default: true
-    } */
+    }
   },
   components: {ItemList},
   methods: {
@@ -124,91 +116,78 @@ export default {
           this.children.push(ch)
         }
       })
+      // 截取符合要求的个数
+      if (this.loop && this.slice) {
+        const v = this.children.length % this.move
+        if (v > 0) {
+          this.children.splice(this.children.length - v, v)
+        }
+      }
       let showPage = 0
-      if (!this.loop && this.showNumber > 1) {
+      if (this.showNumber > 1) {
         showPage = Math.ceil(this.showNumber / this.move) - 1 // 可视个数所占的页数
       }
       this.maxMove = Math.ceil((this.children.length - showPage) / this.move)
       // 总个数大于每次单位移动个数时
       if (this.loop && this.children.length >= this.move) {
-        // 截取后面移动单位个数移动到前面,
-        this._unShiftPush(-1)
+        // 将前面move个添加到child的后面，同时将最后move个插入到前面
+        const pre = this.children.slice(0, this.move)
+        const next = this.children.slice(this.children.length - this.move)
+        pre.forEach(item => {
+          this.children.push(item)
+        })
+        for (let i = next.length; i > 0; i--) {
+          this.children.unshift(next[i - 1])
+        }
       }
     },
     _directionNavClick (type) {
       if (this.isAnimation) {
         return
       }
-      if (type === 1) {
-        // 下一页
-        if (this.maxMove > this.index) {
-          this.index++
-        } else {
-          if (this.loop) {
-            this.index = 1
-          } else {
-            return
-          }
-        }
-      } else {
-        // 上一页
-        if (this.index > 1) {
-          this.index--
-        } else {
-          if (this.loop) {
-            this.index = this.maxMove
-          } else {
-            return
-          }
-        }
-      }
       this.isAnimation = true
-      this.$emit('slideBefore', this.index)
-      this.moveDirection = type
       this.duration2 = this.duration
-      this._setTimeOutReset(type)
-    },
-    _setTimeOutReset (type) {
-      // 动画完成后回到初始translate
-      setTimeout(() => {
-        if (this.loop) {
-          this.moveDirection = 0
-          this.duration2 = 0
-          this._unShiftPush(type)
-        }
-        this.isAnimation = false
-        this.$emit('slideAfter', this.index)
-      }, this.duration)
-    },
-    _unShiftPush (type, move) {
-      if (!this.loop) {
-        return
-      }
-      const moveNum = move || this.move
+      let pageIndex = this.index
       if (type === 1) {
-        // 删除前面第N个，追加到最后
-        const pre = this.children.slice(0, moveNum)
-        this.children.splice(0, moveNum)
-        pre.forEach(item => {
-          this.children.push(item)
-        })
-      } else {
-        // 将数组最后N条移动到最前面
-        const next = this.children.slice(this.children.length - moveNum)
-        for (let i = next.length; i > 0; i--) {
-          this.children.unshift(next[i - 1])
+        if (this.loop) {
+          // 可以多翻一下
+          pageIndex -= 1
         }
-        this.children.splice(this.children.length - moveNum)
+        if ((pageIndex + 1) < this.maxMove) {
+          this.index++
+        }
+      } else {
+        if (this.loop) {
+          // 可以多翻一下
+          pageIndex += 1
+        }
+        if (pageIndex > 1) {
+          this.index--
+        }
+      }
+      this._callback(this.index)
+      if (this.loop && (this.index === -1 || this.index > this.maxMove)) {
+        // 完成切换后
+        let index = 0
+        if (this.index === -1) {
+          index = (this.maxMove - 1)
+        }
+        setTimeout(() => {
+          this.duration2 = 0
+          this.index = index
+        }, this.duration)
       }
     },
     _controlNavClick (page) {
-      if (page > this.index) {
-        // 相当于下一页
-        this._unShiftPush(1, page - this.index)
-      } else {
-        this._unShiftPush(-1, this.index - page)
-      }
-      this.index = page
+      this._callback(page - 1)
+      this.index = page - 1
+    },
+    _callback (index) {
+      this.$emit('slideBefore', index)
+      setTimeout(() => {
+        this.$emit('slideAfter', this.index)
+        this.isAnimation = false
+      }, this.duration)
     },
     _autoPlay () {
       if (this.autoPlay) {
@@ -228,23 +207,16 @@ export default {
       this._autoPlay()
     },
     _getItemClass (index) {
-      if (this.type === 'card') {
+      if (this.showNumber) {
         // 实现卡片模式
         const obj = {3: 2, 5: 3, 7: 4} // 每屏可视个数3,5,7个，中间的添加样式
-        let bigIndex = obj[this.showNumber] - 2 + this.index
-        let loopIndex = ''
+        let bigIndex = obj[this.showNumber] - 1 + this.index
         if (this.loop) {
-          bigIndex = obj[this.showNumber] + this.moveDirection
-          loopIndex = obj[this.showNumber]
+          bigIndex += this.move
         }
-        let cls = ''
         if (bigIndex === index) {
-          cls = 'big-size'
+          return 'big-size'
         }
-        if (loopIndex === index) {
-          cls += ' normal-size'
-        }
-        return cls
       }
     },
     _getItemWidth () {
@@ -272,22 +244,21 @@ export default {
         obj.width = len * distance + 'px'
       }
       if (distance && len > 0) {
-        let moveWidth = -distance * this.move // 每次移动的宽
-        let transformWidth = moveWidth * this.moveDirection
+        const moveWidth = distance * this.move // 每次移动的宽
+        let x = moveWidth * this.index
         if (this.loop) {
-          transformWidth += moveWidth
-        } else {
-          transformWidth = moveWidth * (this.index - 1)
-          if (this.direction === 'h') {
-            const maxX = this.$el.offsetWidth - len * distance // 最大可移动距离
-            if (transformWidth < maxX) {
-              transformWidth = maxX // 仿止右边出现空白
-            }
+          // 加上
+          x += moveWidth
+        }
+        if (this.direction === 'h') {
+          const maxX = len * distance - this.$el.offsetWidth // 最大可移动距离
+          if (x > maxX) {
+            x = maxX // 仿止右边出现空白
           }
         }
         return Object.assign({
-          overflow: 'hidden',
-          transform: `${translate}(${transformWidth}px)`,
+          'overflow-x': 'hidden',
+          transform: `${translate}(-${x}px)`,
           transition: `transform ${this.duration2}ms`
         }, obj)
       } else {
@@ -296,7 +267,7 @@ export default {
     },
     containerStyle () {
       let obj = {'overflow-x': 'hidden'}
-      if (this.width) {
+      if (this.width && this.showNumber) {
         Object.assign(obj, {width: this.width * this.showNumber + 'px'})
       }
       if (this.direction === 'v') {
