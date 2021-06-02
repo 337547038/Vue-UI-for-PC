@@ -42,7 +42,7 @@
           :thead="theadOrder"
           :showHeader="showHeader"
           :selectChecked="selectChecked"
-          v-if="splitHeader">
+          v-if="!splitHeader">
         </table-head>
         <tbody v-if="data.length===0">
         <tr>

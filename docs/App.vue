@@ -255,7 +255,7 @@ export default {
     overflow-y: auto;
     overflow-x: hidden;
     position: fixed;
-    width: 180px;left: 0;top:85px;
+    width: 180px;left: 0;top: 85px;
   }
   #app .main- .main-left ul{
     width: 180px;
