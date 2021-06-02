@@ -112,7 +112,7 @@ export default {
       this.showValue = this._parseDate(dateValue, type)
       // 更新v-model
       const vModel = this._parseDate(dateValue, this.valueFormat || type)
-      this._emit(vModel)
+      date && this._emit(vModel)
     },
     // 格式化时间
     _parseDate (date, formatType) {

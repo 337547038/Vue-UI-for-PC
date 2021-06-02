@@ -189,6 +189,7 @@
 |showTooltip　　 | Boolean/false  |是否显示 tooltip|
 |formatTooltip  | Function       |格式化 tooltip message，仅当showTooltip为true时|
 |marks      　　 | Function　　　  |标记， key 的类型必须为number，表示当前位置 |
+|trigger      　 | String 　　　   |触发改变事件，默认为鼠标弹起时触发，其他值时为鼠标移动时触发|
 
 ### Slider Event
 |参数|说明|

@@ -123,4 +123,5 @@ export default {
 |background     | String         |遮罩背景色|
 |spinner        | String         |自定义加载图标类名|
 |lock           | Boolean/false  |锁定滚动|
+|zIndex         | Number         |层级|
 |body           | Boolean/false  |将遮罩层插入到body|

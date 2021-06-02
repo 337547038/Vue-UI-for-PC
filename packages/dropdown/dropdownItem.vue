@@ -1,17 +1,32 @@
-<!-- Created by 337547038 on 2020/12/2 0002. -->
 <template>
-  <div></div>
+  <li :class="{'disabled':disabled,className}" @click="itemClick">
+    <slot></slot>
+  </li>
 </template>
-
 <script>
+import {prefixCls} from '../prefix'
+
 export default {
-  name: 'dropdownItem',
+  name: `${prefixCls}DropdownItem`,
   data () {
     return {}
   },
-  props: {},
+  props: {
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+    className: String
+  },
   components: {},
-  methods: {},
+  methods: {
+    itemClick () {
+      if (!this.disabled) {
+        this.$parent.itemClick(this)
+        this.$emit('click')
+      }
+    }
+  },
   computed: {},
   mounted () {
   }

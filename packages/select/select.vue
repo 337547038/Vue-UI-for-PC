@@ -21,8 +21,15 @@
            [prefixCls+'-input-control']:true,
            'focus':show,
            'disabled':disabled}"
-           :placeholder="!text?placeholder:''"
-           v-text="text" v-if="!filterable">
+           v-if="!filterable"
+           :placeholder="!text?placeholder:''">
+        <ul v-if="multiple&&text" class="multiple-text" :placeholder="!text?placeholder:''">
+          <li v-for="(item,index) in text.split(',')" :key="index">
+            <span v-text="item"></span>
+            <i class="icon-error" @click.stop="_deleteText(item,index)"></i>
+          </li>
+        </ul>
+        <span v-else-if="text" v-text="text"></span>
       </div>
       <span class="icon-group">
       <i class="icon-close" v-if="clear&&value.length>0" @click="_clearClick"></i>
@@ -32,12 +39,13 @@
     <div v-if="$slots.default">
       <slot></slot>
     </div>
-    <transition name="slide-toggle">
+    <transition :name="transition">
       <div
-        :class="`${prefixCls}-select-down`"
+        :class="{[prefixCls+'-select-down']:true,[downClass]:downClass}"
         v-show="show&&filterOption.length>0"
         :style="showLiNum"
-        v-if="!$slots.template">
+        v-if="!$slots.template"
+        ref="selectDown">
         <ul>
           <li v-for="(item,index) in filterOption" @click="_itemClick(item,$event)"
               :class="{'disabled':item.disabled,'active':_getActive(item),[item.className]:item.className}" ref="li"
@@ -46,7 +54,7 @@
           </li>
         </ul>
       </div>
-      <div :class="`${prefixCls}-select-down`" v-if="$slots.template" v-show="show">
+      <div :class="{[prefixCls+'-select-down']:true,[downClass]:downClass}" v-if="$slots.template" v-show="show" ref="selectDown" :style="showLiNum">
         <slot name="template"></slot>
       </div>
     </transition>
@@ -55,19 +63,22 @@
 <script>
 import {prefixCls} from '../prefix'
 import emitter from '../mixins/emitter'
+import dom from '../mixins/dom'
 
 export default {
   name: `${prefixCls}Select`,
-  mixins: [emitter],
+  mixins: [emitter, dom],
   data () {
     return {
+      transition: 'slide-toggle',
       prefixCls: prefixCls,
       filterOption: this.options,
       show: false,
       liHeight: '', // li高度，用于显示提定的数量
       text: '',
       keywords: '', // 搜索输入框的值
-      position: ''
+      position: '',
+      appendStyle: {}
     }
   },
   props: {
@@ -116,7 +127,12 @@ export default {
       default: true
     },
     downStyle: Object, // 下拉面板样式
-    maxHeight: Number // 距离浏览底部高度，当小于这个高度时将向上弹出
+    downClass: String, // 下拉类名
+    maxHeight: Number, // 距离浏览底部高度，当小于这个高度时将向上弹出
+    appendToBody: {
+      type: Boolean,
+      default: false
+    }
   },
   components: {},
   mounted () {
@@ -175,6 +191,7 @@ export default {
             this.liHeight = this.$refs.li[0].offsetHeight
           }
         })
+        this._appendToBody()
       } else {
         this.show = false
       }
@@ -220,9 +237,9 @@ export default {
       e.stopPropagation()
     },
     _setFirstText () {
-      console.log('_setFirstText')
+      /* console.log('_setFirstText')
       console.log(this.value)
-      console.log(this.filterOption)
+      console.log(this.filterOption) */
       // 判断当前value是不是存在于列表的value中
       let text = []
       if (this.filterOption && this.filterOption.length > 0) {
@@ -243,44 +260,6 @@ export default {
         }
         this.text = text.join(',')
       }
-    },
-    _setFirstTextOld () {
-      console.log('_setFirstText')
-      console.log(this.value)
-      console.log(this.filterOption)
-      // 设置第一项选项；如果有值则选中对应项，如果没值显示默认，没默认显示选第一项
-      if (this.value.toString().length > 0) {
-        let text = []
-        for (let i in this.filterOption) {
-          const option = this.filterOption[i]
-          if (this.multiple) {
-            // 多选
-            if (this.value.indexOf(option.value) !== -1) {
-              text.push(option.label || option.value)
-            }
-          } else {
-            // 单选
-            if (option.value === this.value) {
-              this.text = option.label || option.value
-              break
-            }
-          }
-        }
-        if (this.multiple) {
-          this.text = text.join(',')
-        }
-      } else {
-        // 有placeholder时显示placeholder，没有时显示第一项
-        if (this.placeholder) {
-          this.text = this.placeholder
-        } else {
-          this.text = this.filterOption[0].label || this.filterOption[0].value
-          // 更新value值
-          // this.$emit('input', this.text)
-          this._emit(this.text, this.filterOption[0], 0)
-        }
-      }
-      console.log(this.text)
     },
     _change (e) {
       // 可搜索时输入框改变事件
@@ -356,14 +335,46 @@ export default {
     },
     // 点击展开时，判断展开的方向
     _setPosition (e) {
-      if (this.maxHeight) {
+      this.transition = 'slide-toggle' // 恢复
+      if (this.maxHeight === 0) {
+        this.position = 'top'
+        this.transition = 'slide-toggle-top'
+      } else if (this.maxHeight) {
         // 设有距浏览器底部高度时
         this.position = ''
         const wh = document.documentElement.clientHeight || document.body.clientHeight
         const clientY = e.clientY // 当鼠标事件发生时，鼠标相对于浏览器（这里说的是浏览器的有效区域）y轴的位置；
         if (this.maxHeight > wh - clientY) {
           this.position = 'top'
+          this.transition = 'slide-toggle-top'
         }
+      }
+    },
+    _deleteText (item, index) {
+      // 多选时删除单个选项
+      if (this.multiple) {
+        let val = JSON.parse(JSON.stringify(this.value))
+        val.splice(index, 1)
+        const newText = this.text.replace(item + ',', '').replace(item, '')
+        this._emit(val, newText, 1)
+      }
+    },
+    _appendToBody () {
+      // 插入到body
+      if (this.appendToBody) {
+        // 插入到body
+        const ww = this.getWindow()
+        const offset = this.getOffset(this.$el)
+        this.appendStyle = {
+          width: offset.width + 'px',
+          left: offset.left + 'px',
+          top: (offset.top + offset.height) + 'px'
+        }
+        if (this.position === 'top') {
+          this.appendStyle.top = 'auto'
+          this.appendStyle.bottom = (ww.height - offset.top) + 'px'
+        }
+        document.body.appendChild(this.$refs.selectDown)
       }
     }
   },
@@ -376,13 +387,17 @@ export default {
           overflowY: 'auto'
         }
       }
-      if (this.downStyle) {
-        style = Object.assign({}, this.downStyle, style)
-      }
+      style = Object.assign({}, this.appendStyle, this.downStyle || {}, style)
       return style
     }
   },
   filters: {},
+  beforeDestroy () {
+    if (this.appendToBody) {
+      console.log(this.$refs.selectDown)
+      document.body.removeChild(this.$refs.selectDown)
+    }
+  },
   destroyed () {
     document.removeEventListener('click', this._showHide)
   }

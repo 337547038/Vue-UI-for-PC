@@ -119,9 +119,9 @@ const router = [
     component: () => import('../docs/menu.md')
   },
   {
-    path: '/swiper',
-    name: 'swiper',
-    component: () => import('../docs/swiper.md')
+    path: '/carousel',
+    name: 'carousel',
+    component: () => import('../docs/carousel.md')
   },
   {
     path: '/echarts',
@@ -187,6 +187,11 @@ const router = [
     path: '/inputNumber',
     name: 'inputNumber',
     component: () => import('../docs/inputNumber.md')
+  },
+  {
+    path: '/dropdown',
+    name: 'dropdown',
+    component: () => import('../docs/dropdown.md')
   },
   {
     path: '/test',

@@ -154,7 +154,7 @@ export default {
         resolve(child)
       }, 1000)
     },
-    trClick (row,index) {
+    rowClick (row,index) {
       console.log(row)
       console.log(index)
     }
@@ -274,7 +274,7 @@ export default {
 
 ### 2、固定表头
 
-:::demo 纵向内容过多时，可选择固定表头
+:::demo 纵向内容过多时，可选择固定表头，滚动时头部会添加样式`transform`，可用于控制不同的样式
 
 ```html
 <akTable :data="tableData" height="200px">
@@ -296,7 +296,7 @@ export default {
 
 ### 3、固定头和列
 
-:::demo 横向内容过多时，可选择固定列。`table`添加 `width="600px"`；`column`添加`fixed="left"`
+:::demo 横向内容过多时，可选择固定列。`table`添加 `width="600px"`；`column`添加`fixed="left"`，横向滚动时添加类名`scroll-left`，方便用于控制样式，如固定列之间的分隔线
 
 ```html
 <akTable :data="tableData" height="200px" width="600px">
@@ -788,7 +788,7 @@ export default {
 :::demo 支持tr行点击事件
 
 ```html
-<akTable :data="tableData" @trClick="trClick">
+<akTable :data="tableData" @rowClick="rowClick">
   <akColumn label="姓名" prop="name"></akColumn>
   <akColumn label="省份" prop="province"></akColumn>
   <akColumn label="城市" prop="city"></akColumn>
@@ -803,7 +803,7 @@ export default {
       }
     },
     methods: {
-     trClick(row,index) {
+     rowClick(row,index) {
         console.log(row)
         console.log(index)
      }
@@ -832,12 +832,14 @@ export default {
 | emptyText      | String        | 无数据时显示的文本|
 | title          | Boolean/true  | 鼠标滑过单元格时显示 title 提示|
 | drag           | boolean/false | 允许拖动表头改变当前单元格宽度|
+| dragLine       | boolean/true  | 拖动时显示垂直线|
 | dragWidth      | array         | 允许拖动最大与最小宽度[min,max]|
 | extendToggle   | boolean/false | 扩展行/子节点初始展开或收起状态|
 | rowColSpan     | function      | 合并行或列方法。通过给传入 rowColSpan 方法可以实现合并行或列，方法的参数(当前行号 rowIndex,当前列号 columnIndex,当前行 row,当前列 column)四个属性。该函数返回一个包含两个数字的数组，第一个 rowspan，第二个 colspan，即向纵向和横向合并多少个单元格 |
 | pagination    | object        | 有相关参数时显示分页，参数的pagination组件参数|
 | hasChild      | boolean/true  | 是否包含子节点数据，为true时，当 `row` 中包含 `children` 字段时，被视为子节点数据|
 | lazyLoad      | function      | 设置了`lazyLoad`时，被视为子节点使用懒加载方式，function(row,resolve) row当前行信息|
+| splitHeader   | boolean/false   |是否将表格的表头和主体内容拆分为两个表格，固定头和列时需要拆分|
 
 ### Table Event
 
@@ -845,7 +847,8 @@ export default {
 |-|-|- |
 | selectClick    | 勾选单列事件，function(list,checked,row, index) list所有已勾选的row集合，checked当前状态，row当前点击行信息，index当前行序号|
 | sortChange     | 排序点击事件 |
-| trClick        | 当前行点击事件，即tr点击事件，function(row,index) |
+| rowClick       | 当前行点击事件，即tr点击事件，function(row,index) |
+| cellClick      | 当前列点击事件，即td点击事件，function(row,column,rowIndex, columnIndex) |
 
 ### Table Methods
 
@@ -857,6 +860,7 @@ export default {
 | clearSort          | 用于清空排序条件|
 | resetColumn        | 用于重置表头，当通过 js 动态改变表格列时用于重置表格列及表头信息|
 | setTHWidth         | 用于重新设置每个单元格的宽，仅在drag=true时有效|
+| scrollTo           | 用于将滚动条恢复到初始状态|
 
 ### Table-column
 

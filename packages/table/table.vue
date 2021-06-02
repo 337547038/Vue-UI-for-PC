@@ -1,44 +1,73 @@
 <template>
-  <div :class="[prefixCls+'-table']"
-       :style="{overflow: (width||height)?'auto':'',height:height,width:width}" ref="tableContainer">
+  <div
+    :class="{[prefixCls+'-table']:true,'scroll-left':scrollLeft,'scroll-top':hasScrollTop}" :style="{width:width}">
     <div style="display: none">
       <slot/>
     </div>
-    <table
-      :class="{'table-stripe':stripe,
+    <div class="thead" :style="{overflowX:width?'hidden':'',width:width}" ref="thead" v-if="splitHeader">
+      <table class="table-thead"
+             :class="{'table-stripe':stripe,
       'table-border':border,
       'table-hover':hover,
       'table-ellipsis':ellipsis,
-      [className]:className}" ref="table">
-      <colgroup>
-        <col v-for="(col,index) in colWidth" :width="col" :key="index">
-      </colgroup>
-      <table-head
-        :thead="theadOrder"
-        :showHeader="showHeader"
-        :selectChecked="selectChecked">
-      </table-head>
-      <tbody v-if="data.length===0">
-      <tr>
-        <td :colspan="columns.length" class="empty">
-          {{emptyText}}
-        </td>
-      </tr>
-      </tbody>
-      <table-body
-        :data="data"
-        v-else
-        :rowColSpan="rowColSpan"
-        :hasChild="hasChild"
-        :lazyLoad="lazyLoad"
-        @trClick="_trClick">
-      </table-body>
-    </table>
+      [className]:className}">
+        <colgroup>
+          <col
+            v-for="(col,index) in colWidth"
+            :width="col"
+            :key="index"
+            :class="[theadOrder[index].className]">
+        </colgroup>
+        <table-head
+          :thead="theadOrder"
+          :showHeader="showHeader"
+          :selectChecked="selectChecked">
+        </table-head>
+      </table>
+    </div>
+    <div
+      class="tbody"
+      :style="{overflowY: height?'auto':'',height:height,width:width}"
+      ref="srcollBody">
+      <table class="table-tbody"
+             :class="{'table-stripe':stripe,
+      'table-border':border,
+      'table-hover':hover,
+      'table-ellipsis':ellipsis,
+      [className]:className}">
+        <colgroup>
+          <col v-for="(col,index) in colWidth" :width="col" :key="index">
+        </colgroup>
+        <table-head
+          :thead="theadOrder"
+          :showHeader="showHeader"
+          :selectChecked="selectChecked"
+          v-if="!splitHeader">
+        </table-head>
+        <tbody v-if="data.length===0">
+        <tr>
+          <td :colspan="columns.length" class="empty">
+            {{emptyText}}
+          </td>
+        </tr>
+        </tbody>
+        <table-body
+          :data="data"
+          v-else
+          :rowColSpan="rowColSpan"
+          :hasChild="hasChild"
+          :lazyLoad="lazyLoad"
+          @rowClick="_rowClick"
+          @cellClick="_cellClick">
+        </table-body>
+      </table>
+    </div>
     <Pagination
       v-if="pagination"
       :total="data&&data.length"
       v-bind="pagination">
     </Pagination>
+    <div class="table-drag-line" v-if="drag&&dragHead.mouseDown"></div>
   </div>
 </template>
 
@@ -47,6 +76,7 @@ import {prefixCls} from '../prefix'
 import TableBody from './tableBody'
 import TableHead from './head'
 import Pagination from '../pagination'
+import dom from '../mixins/dom'
 
 export default {
   name: `${prefixCls}Table`,
@@ -63,12 +93,15 @@ export default {
       dragHead: {}, // 临时存放表头拖动信息
       isSetThWidth: false, // 用于记录是否已经重新设置过表头的实际宽
       ctrlIsDown: false, // 是否按下ctrl键
-      ctrlRowIndex: '' // 按下ctrl键盘时点击的checkbox序号
+      ctrlRowIndex: '', // 按下ctrl键盘时点击的checkbox序号
+      scrollLeft: 0, // 横向滚动时的标识
+      hasScrollTop: false // 表示存在纵向滚动条
     }
   },
   created () {
     // console.time('timer')
   },
+  mixins: [dom],
   watch: {
     data (oldData, newData) {
       // 当表格数据发生变化时，清空选择
@@ -83,6 +116,10 @@ export default {
   components: {TableBody, TableHead, Pagination},
   props: {
     drag: Boolean,
+    dragLine: {
+      type: Boolean,
+      default: true
+    },
     dragWidth: {
       // 拖动时的最小宽和最大宽限制，0为不限
       type: Array,
@@ -146,19 +183,31 @@ export default {
       default: false
     },
     lazyLoad: Function,
-    pagination: Object // 分页相关参数
+    pagination: Object, // 分页相关参数
+    splitHeader:
+      { // 是否将表头的主体部分折分成两个表格
+        type: Boolean,
+        default: false
+      }
   },
   methods: {
     _fixedHead () {
       // 如果有高和表头，则固定表头
       // if (this.height && this.showHeader) {
-      let tableContainer = this.$refs.tableContainer
+      let tableContainer = this.$refs.srcollBody
       tableContainer.addEventListener('scroll', this._scrollHandle.bind(this, tableContainer), false)
       // }
       this._fixedRight(tableContainer, 0)// 初始化时横向滚动条在0位置
+      // 判断有没出现垂直滚动条
+      const tbodyHeight = tableContainer.offsetHeight
+      const tbodyTable = tableContainer.querySelector('table').offsetHeight
+      if (tbodyTable > tbodyHeight) {
+        // 表示有滚动条
+        this.hasScrollTop = true
+      }
     },
     _scrollHandle (el) {
-      const scrollTop = el.scrollTop
+      /* const scrollTop = el.scrollTop
       let head = this.$el.querySelector('thead')
       if (scrollTop > 0 && head) {
         head.className = 'transform'
@@ -168,26 +217,43 @@ export default {
       if (scrollTop === 0 && head) {
         head.style = ''
         head.className = ''
-      }
-      // 左右滚动
+      } */
       const scrollLeft = el.scrollLeft
-      const fixedLeft = el.querySelectorAll('.left')
+      const thead = this.$refs.thead
+      if (thead && thead.scrollTo) {
+        thead.scrollTo(scrollLeft, 0) // 横向滚动时同步表头滚动条位置
+      } else {
+        // 兼容ie,ie不兼容scrollTo
+        thead.scrollLeft = scrollLeft
+      }
+      // 左右滚动固定
+      this.scrollLeft = scrollLeft
+      const fixedLeft = this.$el.querySelectorAll('.left')
       if (fixedLeft.length > 0) {
         // left
-        for (let i = 0, len = fixedLeft.length; i < len; i++) {
-          fixedLeft[i].style.transform = `translateX(${scrollLeft}px) translateZ(90px)`
-          fixedLeft[i].style.webkitTransform = `translateX(${scrollLeft}px) translateZ(90px)`
+        if (scrollLeft > 0) {
+          for (let i = 0, len = fixedLeft.length; i < len; i++) {
+            fixedLeft[i].style.transform = `translateX(${scrollLeft}px) translateZ(90px)`
+            fixedLeft[i].style.webkitTransform = `translateX(${scrollLeft}px) translateZ(90px)`
+          }
+        } else {
+          for (let i = 0, len = fixedLeft.length; i < len; i++) {
+            fixedLeft[i].style.transform = ''
+          }
         }
       }
       this._fixedRight(el, scrollLeft)
     },
     _fixedRight (el, scrollLeft) {
       // 初始化时有横向滚动条，则先将右则固定的移到可见区
-      const fixedRight = el.querySelectorAll('.right')
+      const fixedRight = this.$el.querySelectorAll('.right')
       const tableWidth = el.querySelector('table').offsetWidth
       // 可移动的最大宽
       let moveMaxWidth = tableWidth - el.clientWidth // div可见宽
       moveMaxWidth = scrollLeft - moveMaxWidth
+      console.log(fixedRight)
+      console.log('tableWidth:' + tableWidth)
+      console.log(moveMaxWidth)
       if (fixedRight.length > 0) {
         for (let i = 0, len = fixedRight.length; i < len; i++) {
           fixedRight[i].style.transform = `translateX(${moveMaxWidth}px)translateZ(90px)`
@@ -235,6 +301,7 @@ export default {
         oldWidth: parseInt(this.colWidth[index].replace('px', '')) || 0, // 拖动前的单元格宽
         index: index
       }
+      this._setTableDragLine(event)
       // 不让选择
       event.preventDefault()
     },
@@ -253,6 +320,7 @@ export default {
         return
       }
       if (this.dragHead.mouseDown) {
+        this._setTableDragLine(event)
         // 拖动时有可能会存在意外，这里也限制一下
         if (this.dragWidth[0] > 0 && newWidth < this.dragWidth[0]) {
           newWidth = this.dragWidth[0] // 过小时使用最小值
@@ -271,6 +339,29 @@ export default {
         oldWidth: '',
         index: ''
       }
+    },
+    // 拖动时的垂直线
+    _setTableDragLine (event) {
+      this.$nextTick(() => {
+        // 当前表格偏移位置
+        const tableOffset = this.getOffset(this.$el)
+        console.log(tableOffset)
+        let dragLine = this.$el.querySelector('.table-drag-line')
+        if (dragLine) {
+          /* dragLine = document.createElement('div')
+          dragLine.className = 'table-drag-line'
+          document.body.appendChild(dragLine) */
+          dragLine.style.left = (event.pageX - tableOffset.left) + 'px'
+          dragLine.style.height = tableOffset.height + 'px'
+          // 拖动发生滚动条位置时，同步位置
+          const a = this.$refs.thead.scrollLeft
+          if (document.body.scrollTo) {
+            this.$refs.srcollBody && this.$refs.srcollBody.scrollTo(a, 0)
+          } else {
+            this.$refs.srcollBody.scrollLeft = a
+          }
+        }
+      })
     },
     handleChange (row, index) {
       console.log(row)
@@ -391,10 +482,14 @@ export default {
         this.colWidth = []
         this._getAllHead(this.thead, child)
         this.isSetThWidth = false // 表头发生变化时，恢复初始值
+        this._setColDefaultWidth()
       })
     },
-    _trClick (row, index) {
-      this.$emit('trClick', row, index)
+    _rowClick (row, index) {
+      this.$emit('rowClick', row, index)
+    },
+    _cellClick (row, column, rowIndex, columnIndex) {
+      this.$emit('cellClick', row, column, rowIndex, columnIndex)
     },
     // 表格可以拖动时，重新设置表格的实际宽度。否则点击拖动时会先发生宽度变化，也可通过外部调用来改变宽
     setTHWidth () {
@@ -419,20 +514,54 @@ export default {
         this.ctrlIsDown = false
         this.ctrlRowIndex = ''
       }
+    },
+    // 用于将滚动条恢复到初始状态
+    scrollTo (x, y) {
+      if (document.body.scrollTo) {
+        this.$refs.thead && this.$refs.thead.scrollTo(x || 0, 0)
+        this.$refs.srcollBody && this.$refs.srcollBody.scrollTo(x || 0, y || 0)
+      } else {
+        this.$refs.thead.scrollLeft = x || 0
+        this.$refs.srcollBody.scrollLeft = x || 0
+        this.$refs.srcollBody.scrollTop = y || 0
+      }
+    },
+    // 窗口缩放时，恢复滚动条位置
+    _resize () {
+      this.scrollTo()
+    },
+    // 初始时设置每列的默认宽，当没设宽时
+    _setColDefaultWidth () {
+      if (this.splitHeader) {
+        setTimeout(() => {
+          const th = this.$el.querySelectorAll('th')
+          if (this.colWidth && this.colWidth.length > 0 && th && th.length > 0) {
+            this.colWidth && this.colWidth.forEach((item, index) => {
+              if (!item && th[index].offsetWidth) {
+                this.$set(this.colWidth, index, th[index].offsetWidth + 'px')
+              }
+            })
+          }
+        }, 300)
+      }
     }
   },
   mounted () {
     this.$nextTick(() => {
-      this._fixedHead()
+      setTimeout(() => {
+        this._fixedHead()
+      }, 300)
       if (this.drag) {
-        this.$refs.tableContainer.style.overflowX = 'auto'
+        // this.$refs.tableContainer.style.overflowX = 'auto'
         document.addEventListener('mouseup', this._headMouseUp)
       }
+      this._setColDefaultWidth()
       // console.timeEnd('timer')
     })
     this.resetColumn()
     window.addEventListener('keydown', this._keydown)
     window.addEventListener('keyup', this._keyup)
+    window.addEventListener('resize', this._resize)
   },
   destroyed () {
     if (this.drag) {
@@ -440,6 +569,7 @@ export default {
     }
     window.removeEventListener('keydown', this._keydown)
     window.removeEventListener('keyup', this._keyup)
+    window.removeEventListener('resize', this._resize)
   },
   computed: {
     theadOrder () {

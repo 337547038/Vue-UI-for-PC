@@ -55,8 +55,6 @@ export default {
 </script>
 # Select 选择器
 
-> 注意：Select是通过div显示隐藏来模拟，下拉层并不是插入至body，因此父元素不能有overflow:hidden
-
 ### 1、基础用法
 :::demo 
 ```html
@@ -307,11 +305,11 @@ export default {
 
 
 
-### 13、使用`maxHeight`自动计算下拉面板弹出的方向，当前组件距离浏览器底部小于此高度时向上弹窗
+### 13、使用`maxHeight`自动计算下拉面板弹出的方向，当前组件距离浏览器底部小于此高度时向上弹窗，等于0是向上
 :::demo 
 ```html
 <template>
- <ak-select placeholder="请选择" v-model="value13" :maxHeight="200">
+ <ak-select placeholder="请选择" v-model="value13" :maxHeight="0">
    <ak-option value="1" label="选择一"></ak-option>
 </ak-select>
 </template>
@@ -365,7 +363,9 @@ export default {
 |clear             | boolean/false         |是否可以清空选项|
 |showNum           | Number                |显示下拉个数，超出显示滚动条|
 |downStyle         | object                |下拉面板样式，方便对单个select个性化设置，也可通过css控制|
-|maxHeight         | Number                |自动计算下拉面板弹出的方向，当前组件距离浏览器底部小于此高度时向上弹出窗口|
+|downClass         | string                |下拉面板类名|
+|maxHeight         | Number                |自动计算下拉面板弹出的方向，当前组件距离浏览器底部小于此高度时向上弹出窗口，等于0时为向上|
+|appendToBody      | boolean/false         |将下拉面板插入到body|
 
 ### Option Attributes
 |参数|类型|说明|

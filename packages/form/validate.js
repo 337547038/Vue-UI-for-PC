@@ -50,6 +50,11 @@ const Validate = function (value, rules) {
           return rule.msg
         }
         break
+      case 'phone':
+        if (!isEmpty(value) && !(isRules(value, 'mobile') || isRules(value, 'tel'))) {
+          return rule.msg
+        }
+        break
       case 'maxLength':
         if (!isEmpty(value) && (parseInt(value.length) > parseInt(rule.len))) {
           return rule.msg

@@ -10,7 +10,11 @@ export default {
   // parentRow 子级下拉时，包含的父级信息
   props: ['column', 'row', 'index', 'title', 'columnIndex', 'showHideExtend', 'toggle', 'parentRow'],
   components: {},
-  methods: {},
+  methods: {
+    _onCellClick(row, column, rowIndex, columnIndex) {
+      this.$emit('cellClick', row, column, rowIndex, columnIndex)
+    }
+  },
   computed: {},
   mounted() {
   },
@@ -18,6 +22,7 @@ export default {
     const row = this.row // 传进来的表格行数数据
     const column = this.column // column组件数据
     const $index = this.index
+    const columnIndex = this.columnIndex
     const title = this.title
     const extendToggle = this.showHideExtend && this.showHideExtend.bind(this, this.index, this.row) // 用于展开或收起扩展方法
     const toggle = this.toggle
@@ -76,7 +81,10 @@ export default {
         rowspan = {rowspan > 1 ? rowspan : null}
         colspan = {colspan > 1 ? colspan : null}
         style = {'text-align:' + column.align}
-        title = {title || column.title ? row[column.prop] : null}>
+        title = {title || column.title ? row[column.prop] : null}
+        on-click={(ev) => {
+          this._onCellClick(row, column, $index, columnIndex)
+        }}>
         {
           this.column.renderCell.call(this, h, {
             row,
