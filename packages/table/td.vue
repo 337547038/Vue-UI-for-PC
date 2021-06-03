@@ -1,7 +1,7 @@
 <script>
 export default {
   name: 'tableTd',
-  data() {
+  data () {
     return {}
   },
   // columnIndex当前列号
@@ -11,14 +11,14 @@ export default {
   props: ['column', 'row', 'index', 'title', 'columnIndex', 'showHideExtend', 'toggle', 'parentRow'],
   components: {},
   methods: {
-    _onCellClick(row, column, rowIndex, columnIndex) {
+    _onCellClick (row, column, rowIndex, columnIndex) {
       this.$emit('cellClick', row, column, rowIndex, columnIndex)
     }
   },
   computed: {},
-  mounted() {
+  mounted () {
   },
-  render(h) {
+  render (h) {
     const row = this.row // 传进来的表格行数数据
     const column = this.column // column组件数据
     const $index = this.index
@@ -60,12 +60,14 @@ export default {
           }
         }
         // 这里存store会好些，单为这组件这里先不引入，先使用全局变量代替
-        window.rowspanColspan = displayArr
-        // window.sessionStorage.setItem(this.$parent.rowspanColspan, JSON.stringify(displayArr))
+        // window.rowspanColspan = displayArr
+        // 使用全局全隐藏到其他表格
+        this.$parent.rowspanColspan = displayArr
       }
       const activeRowCol = `${this.index}:${this.columnIndex}`
       // let displayArr = window.sessionStorage.getItem(this.$parent.rowspanColspan)
-      let displayArr = window.rowspanColspan
+      // let displayArr = window.rowspanColspan
+      const displayArr = this.$parent.rowspanColspan
       if (displayArr) {
         // displayArr = JSON.parse(displayArr)
         if (displayArr.indexOf(activeRowCol) !== -1) {
@@ -77,11 +79,11 @@ export default {
       return ''
     } else {
       return (<td
-        class = {classNameTd}
-        rowspan = {rowspan > 1 ? rowspan : null}
-        colspan = {colspan > 1 ? colspan : null}
-        style = {'text-align:' + column.align}
-        title = {title || column.title ? row[column.prop] : null}
+        class={classNameTd}
+        rowspan={rowspan > 1 ? rowspan : null}
+        colspan={colspan > 1 ? colspan : null}
+        style={'text-align:' + column.align}
+        title={title || column.title ? row[column.prop] : null}
         on-click={(ev) => {
           this._onCellClick(row, column, $index, columnIndex)
         }}>

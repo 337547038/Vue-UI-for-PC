@@ -47,7 +47,7 @@
         <tbody v-if="data.length===0">
         <tr>
           <td :colspan="columns.length" class="empty">
-            {{emptyText}}
+            {{ emptyText }}
           </td>
         </tr>
         </tbody>
@@ -95,7 +95,8 @@ export default {
       ctrlIsDown: false, // 是否按下ctrl键
       ctrlRowIndex: '', // 按下ctrl键盘时点击的checkbox序号
       scrollLeft: 0, // 横向滚动时的标识
-      hasScrollTop: false // 表示存在纵向滚动条
+      hasScrollTop: false, // 表示存在纵向滚动条
+      rowspanColspan: [] // 暂存记录合并不需要显示的记录
     }
   },
   created () {
