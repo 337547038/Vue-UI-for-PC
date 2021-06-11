@@ -1,0 +1,16 @@
+@charset "utf-8";
+$namespace: 'ak-';
+@mixin ns($cls){
+  $NS: $namespace+$cls;
+  //$NS: 'ak-'+$cls;
+  .#{$NS}{
+    @content;
+  }
+}
+// 设置边框背景字体颜色
+// $color: border background textColor
+@mixin BBT($color){
+  border-color: nth($color, 1);
+  background-color: nth($color, 2);
+  color: nth($color, 3);
+}

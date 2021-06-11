@@ -1,0 +1,35 @@
+@charset "UTF-8";
+$btn: #dcdfe6 #fff #666; // border background textColor
+$btnPri: #07c160 #07c160 #fff; // type=primary
+$btnCancel: #e3e3e3 #f7f7f7 #333; // type=cancel
+$btnText: transparent transparent #07c160; // type=text
+@include ns(btn){
+  display: inline-block;line-height: 1;white-space: nowrap;cursor: pointer;border: 1px solid transparent; text-align: center; box-sizing: border-box;outline: none;padding: 12px 20px;border-radius: 4px;font-size: 14px;transition: .1s;@include BBT($btn);
+  &:hover{
+    opacity: .8;
+  }
+  &.disabled{cursor: not-allowed;opacity: .5}
+  &.is-round{border-radius: 20px;}
+  /*以上为默认*/
+
+  /*要对每种type定义不同的状态，如type=primary*/
+  &.#{$namespace}btn-primary{
+    @include BBT($btnPri);
+    &.border{background: none;color: nth($btnPri, 2)}
+  }
+  &.#{$namespace}btn-cancel{
+    @include BBT($btnCancel);
+    &.border{background: none}
+  }
+  &.#{$namespace}btn-text{
+    //文字链接按钮
+    @include BBT($btnText);border: 0;padding: 0; border-radius: 0;
+  }
+  // 尺寸大小
+  &.medium{padding: 10px 20px;border-radius: 4px;font-size: 14px;}
+  &.small{padding: 9px 15px;border-radius: 3px;font-size: 12px;}
+  &.mini{padding: 7px 15px;border-radius: 4px;font-size: 12px;}
+  /*+ .-btn{margin-left: 10px}*/
+  + .#{$namespace}btn{margin-left: 10px}
+}
+@include ns(btn-group){}

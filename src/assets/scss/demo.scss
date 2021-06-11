@@ -1,0 +1,25 @@
+.sidebar {position: fixed;height: 100vh;width: 180px;overflow: hidden;overflow-y: auto;border-right: 1px solid #ddd;
+  li {margin: 0;list-style: none;padding: 0;font-size: 14px;overflow: hidden;
+    text-overflow: ellipsis;cursor: pointer;}
+  a {font-size: 16px;color: #333;line-height: 30px;height: 30px;margin: 0;padding: 0 25px;text-decoration: none;display: block;position: relative;-webkit-transition: .15s ease-out;transition: .15s ease-out;border-left: 3px solid transparent;
+    &:hover {color: #07c160}
+  }
+  .router-link-active {color: #07c160;background: rgba(7, 229, 108, 0.19);border-left-color: #07c160}
+}
+.main- {padding: 20px 20px 20px 200px;
+  .row {margin-bottom: 15px}
+  h3 {margin-bottom: 10px;}
+  .vuedoc-demo {margin-bottom: 20px;}
+  p code { color: #444;
+    background-color: #eeffde;
+    margin: 0 4px;
+    display: inline-block;
+    padding: 3px 7px;
+    border-radius: 3px;
+    font-size: 14px;
+    line-height: 20px;}
+  .vuedoc__code {line-height: 22px;}
+}
+table {width: 100%;border-spacing: 0; border-collapse: collapse;border: 1px solid #eaeefb;margin-bottom: 20px;
+  th, td {border: 1px solid #eaeefb;color: #314659;text-align: left;padding: 10px 15px;}
+}

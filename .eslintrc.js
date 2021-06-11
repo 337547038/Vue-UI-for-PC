@@ -1,30 +1,70 @@
 module.exports = {
-  root: true,
-  env: {
-    node: true,
-    browser: true
-  },
-  'extends': [
-    'plugin:vue/essential',
-    '@vue/standard'
-  ],
-  plugins: [],
-  globals: {
-    jQuery: true,
-    layer: true,
-    echarts: true
-  },
-  rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'space-before-function-paren': 0,
-    'generator-star-spacing': 'off',
-    'object-curly-spacing': 0, // 强制在大括号中使用一致的空格
-    'array-bracket-spacing': 0 // 方括号
-  },
+  parser: 'vue-eslint-parser',
   parserOptions: {
-    parser: 'babel-eslint'
+    parser: '@typescript-eslint/parser',
+    sourceType: 'module',
+    ecmaFeatures: {
+      jsx: true,
+      tsx: true
+    }
+  },
+  env: {
+    browser: true,
+    node: true
+  },
+  plugins: [
+    '@typescript-eslint'
+  ],
+  extends: [
+    'plugin:@typescript-eslint/recommended',
+    'plugin:vue/vue3-recommended'
+  ],
+  rules: {
+    // js/ts
+    'eol-last': 'error',
+    'no-trailing-spaces': 'error',
+    'comma-style': ['error', 'last'],
+    'comma-dangle': ['error', 'never'],
+    quotes: ['error', 'single', {avoidEscape: true, allowTemplateLiterals: true}],
+    camelcase: ['error', {properties: 'never'}],
+    semi: ['error', 'never'],
+    indent: ['error', 2, {SwitchCase: 1}],
+    'object-curly-spacing': ['error', 'never'],
+    'arrow-parens': ['error', 'as-needed'],
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/member-delimiter-style': [
+      'error',
+      {
+        multiline: {
+          delimiter: 'none',
+          requireLast: false
+        },
+        singleline: {
+          delimiter: 'semi',
+          requireLast: true
+        }
+      }
+    ],
+    // vue
+    'vue/no-v-html': 'off',
+    'vue/singleline-html-element-content-newline': 'off',
+    'vue/html-self-closing': ['error', {
+      html: {
+        void: 'never',
+        normal: 'never',
+        component: 'always'
+      }
+    }],
+    'vue/max-attributes-per-line': ['error', {
+      singleline: 5,
+      multiline: 1
+    }],
+    'vue/require-default-prop': 'off',
+    'vue/html-closing-bracket-spacing': 'error',
+    'vue/html-closing-bracket-newline': ['error', {
+      'singleline': 'never',
+      'multiline': 'never'
+    }]
   }
 }
-// // eslint-disable-next-line
-// /* eslint-disable */

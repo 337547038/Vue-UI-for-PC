@@ -1,0 +1,41 @@
+@charset "utf-8";
+@include ns(carousel) {position: relative;
+  .carousel-container {
+  }
+  .carousel-transform {}
+  .carousel-slide {float: left;transition: all .3s;height: 100px}
+  .direction-nav {
+    a {position: absolute;display: block;width: 30px;height: 30px;top: 50%;transform: translateY(-50%) rotate(-135deg);left: 20px;z-index: 10;cursor: pointer;border-top: 1px solid #666;border-right: 1px solid #666;background: transparent;
+      /*&:after{content: '';display: block;border-top: 1px solid #666;border-right: 1px solid #666;width: 100%;height: 100%;}*/
+      &.carousel-next {right: 20px;left: auto;transform: rotate(45deg)
+        /*&:after{transform: rotate(45deg)}*/
+      }
+
+      &.disabled {cursor: not-allowed}
+    }
+  }
+  .control-nav {
+    position: absolute; left: 0; bottom: 0; width: 100%; text-align: center; z-index: 10;
+
+    a { display: inline-block; vertical-align: middle; width: 6px; height: 6px; border-radius: 50%; background: #fff; margin: 0 5px;font-size: 0;
+
+      &.control-nav-active { background: #f60 }
+    }
+  }
+  // 卡片式
+  &.card {
+    .carousel-slide {position: relative;height: 100px;transition: all 0s;
+
+      div {left: 0;top: 0;width: 100%;height: 100px}
+    }
+
+    .carousel-transform {padding: 20px 0}
+
+    .big-size {position: relative;z-index: 2}
+
+    .big-size div { position: absolute;background: #F8F8F8; transition: all .3s;left: -20px;top: -20px;height: 140px;width: 440px;
+    }
+
+    .normal-size div {transition: all 0s}
+  }
+}
