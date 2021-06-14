@@ -1,4 +1,4 @@
-import {createRouter, createWebHistory} from 'vue-router'
+import {createRouter, /*createWebHistory*/ createWebHashHistory} from 'vue-router'
 //import {DefineComponent} from 'vue'
 import routesList from 'virtual:generated-pages'
 
@@ -26,7 +26,6 @@ routes.push(
   })
 console.log(routes)
 const router = createRouter({
-  history: createWebHistory(), // 路由的history模式
   // 返回 savedPosition，在按下 后退/前进 按钮时，就会像浏览器的原生表现那样
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
@@ -35,6 +34,8 @@ const router = createRouter({
       return {top: 0}
     }
   },
+  // history: createWebHistory(), // 路由的history模式
+  history: createWebHashHistory(),
   routes
 })
 
