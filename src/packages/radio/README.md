@@ -91,3 +91,80 @@ export default {
 </script>
 
 ```
+
+### 单选组
+
+```vue demo
+
+<template>
+  <p>
+  <div>当前值：{{radio8}}</div>
+  <ak-radio-group :data="data1" v-model="radio8" @change="changeGroup"></ak-radio-group>
+  </p>
+  <p>
+  <div>整个组不可选，当前值：{{radio10}}</div>
+  <ak-radio-group :data="data1" v-model="radio10" :disabled="true"></ak-radio-group>
+  </p>
+</template>
+
+<script>
+import {reactive, toRefs} from 'vue'
+
+export default {
+  setup() {
+    const state = reactive({
+      radio8: 'a2',
+      radio10: 'a3',
+      data1: [
+        {label: '选项1', value: 'a1'},
+        {label: '选项2', value: 'a2'},
+        {label: '选项3', value: 'a3'},
+        {label: '选项4', value: 'a4'},
+        {label: '禁用', value: 'a5', disabled: true}
+      ]
+    })
+    const changeGroup = (value,item)=>{
+      console.log(value)
+      console.log(item)
+    }
+    return {
+      ...toRefs(state),
+      changeGroup
+    }
+  }
+}
+</script>
+
+```
+## API
+### Radio
+|参数|类型|说明|
+|-|-|-|
+|v-model       | string         |Radio 的 v-model|
+|vale          | string/boolean/number    |选中的值，当v-model＝value时为选中状态|
+|disabled      | boolean/false  |是否禁用|
+|label         | String         |显示的文本值，也可以是slot|
+
+### Radio Event
+|参数|说明|
+|-|-|
+|change          |  改变事件|
+
+### Radio Group
+|参数|说明|
+|-|-|
+|v-model         | string         |Radio组 的 v-model|
+|data            | array          |组数据|
+|disabled        | Boolean/false   |禁用组|
+
+### Radio Group Event
+|参数|说明|
+|-|-|
+|change          | 改变事件,返回(value,item) value为当前选中的值，item为当前data中选中的项|
+
+### Radio Group Data
+|参数|类型|说明|
+|-|-|-|
+|label          | string         |显示的文本值|
+|value          | string         |当前选项值|
+|disabled       | boolean/false  |是否禁用|

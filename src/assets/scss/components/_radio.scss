@@ -13,5 +13,6 @@
   &.disabled {cursor: not-allowed;
     .radio-inner {opacity: .5}
   }
-  + .#{$namespace}radio{margin-left: 10px}
+  + .#{$namespace}radio {margin-left: 10px}
 }
+@include ns(radio-group) {display: inline-block}

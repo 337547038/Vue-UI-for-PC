@@ -1,16 +1,13 @@
 # Input 输入框
 
-### 1、基本使用
+### 基本使用
 
 ```vue demo
 <template>
-   <div><ak-input></ak-input></div>
-   <p>&nbsp;</p>
-   <div><ak-input placeholder="请输入内容"></ak-input></div>
-   <p>&nbsp;</p>
-   <div><ak-input placeholder="请输入内容" v-model="defaultValue"></ak-input></div>
-   <p>&nbsp;</p>
-   <div><ak-input placeholder="禁用状态" :disabled="true"></ak-input></div>
+   <p><ak-input></ak-input></p>
+   <p><ak-input placeholder="请输入内容"></ak-input></p>
+   <p><ak-input placeholder="请输入内容" v-model="defaultValue"></ak-input></p>
+   <p><ak-input placeholder="禁用状态" :disabled="true"></ak-input></p>
 </template>
 <script>
 import {ref} from 'vue'
@@ -69,15 +66,18 @@ export default {
 
 ```vue demo
 <template>
+<p>
    <ak-input 
       placeholder="请输入内容" 
       prefix-icon="icon-user">
    </ak-input>
-   <p>&nbsp;</p>
+   </p>
+   <p>
    <ak-input 
       placeholder="请输入内容" 
       suffix-icon="icon-search">
    </ak-input>
+   </p>
 </template>
 ```
 
@@ -87,13 +87,10 @@ export default {
 
 ```vue demo
 <template>
-   <div><ak-input placeholder="默认尺寸"></ak-input></div>
-   <p>&nbsp;</p>
-   <div><ak-input placeholder="sixe=medium" size="medium"></ak-input></div>
-   <p>&nbsp;</p>
-   <div><ak-input placeholder="sixe=small" size="small"></ak-input></div>
-   <p>&nbsp;</p>
-   <div><ak-input placeholder="sixe=mini" size="mini"></ak-input></div>
+   <p><ak-input placeholder="默认尺寸"></ak-input></p>
+   <p><ak-input placeholder="sixe=medium" size="medium"></ak-input></p>
+   <p><ak-input placeholder="sixe=small" size="small"></ak-input></p>
+   <p><ak-input placeholder="sixe=mini" size="mini"></ak-input></p>
 </template>
 <script>
 import {ref} from 'vue'

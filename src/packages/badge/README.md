@@ -1,6 +1,6 @@
 # Badge 标记
 
-## 基础用法
+### 基础用法
 
 ```vue demo
 <template>
@@ -15,7 +15,7 @@
 </template>
 ```
 
-## 最大值
+### 最大值
 
 可自定义最大值，当value为Number时
 
@@ -41,7 +41,7 @@ export default {
 </script>
 ```
 
-## 小圆点
+### 小圆点
 
 以红点的形式标注需要关注的内容
 
@@ -67,7 +67,7 @@ export default {
 </script>
 ```
 
-## 自定义内容
+### 自定义内容
 
 自定义显示内容
 

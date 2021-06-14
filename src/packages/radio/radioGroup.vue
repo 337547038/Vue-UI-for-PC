@@ -1,54 +1,43 @@
-<!--
-&lt;!&ndash; Created by 337547038 on 2018/9/7 0007. &ndash;&gt;
+<!-- Created by 337547038 on 2018/9/7 0007. -->
 <template>
-  <div :class="cls">
+  <div :class="`${prefixCls}-radio-group`">
     <Radio
       v-for="(item,index) in data"
       :key="index"
       v-model="groupValue"
       :value="item.value"
       :disabled="disabled||item.disabled"
-      @input="_change(item,$event)">
+      @change="change($event,item)">
       {{ item.label }}
     </Radio>
   </div>
 </template>
-<script>
-import Radio from './radio'
+<script lang="ts">
+import Radio from './radio.vue'
 import {prefixCls} from '../prefix'
+import pType from '../util/pType'
+import {ref,defineComponent} from 'vue'
 
-export default {
+export default defineComponent({
   name: `${prefixCls}RadioGroup`,
   components: {Radio},
   props: {
-    value: {},
-    data: Array,
-    disabled: { // 控制整个组
-      type: Boolean,
-      default: false
-    }
+    modelValue: pType.string(),
+    data: pType.array(),
+    disabled: pType.bool() // 控制整个组
   },
-  data() {
+  emits: ['update:modelValue', 'change'],
+  setup(props, {emit}) {
+    const groupValue = ref(props.modelValue)
+    const change = (val, item) => {
+      emit('update:modelValue', val)
+      emit('change', val, item)
+    }
     return {
-      groupValue: this.value
-    }
-  },
-  computed: {
-    cls() {
-      return `${prefixCls}-radio-group`
-    }
-  },
-  watch: {
-    value(v) {
-      this.groupValue = v
-    }
-  },
-  methods: {
-    _change(item, value) {
-      this.$emit('input', value)
-      this.$emit('change', value, item)
+      groupValue,
+      change,
+      prefixCls
     }
   }
-}
+})
 </script>
--->
