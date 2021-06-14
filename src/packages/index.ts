@@ -11,14 +11,15 @@ import {Carousel, CarouselItem} from './carousel/index'
 import Cascader from './cascader/index.vue'
 import {Collapse, CollapsePanel} from './collapse/index'
 import Transition from './transition/index.vue'
-
+import Input from './input/index.vue'
+import {Radio, RadioGroup} from './radio/index'
 /*import {Checkbox, CheckboxGroup} from './checkbox/index'
 import DatePicker from './datePicker/index'
 import {Dialog, DialogAlert} from './dialog/index'
 import {Form, FormItem, AutoForm} from './form/index'
 import Input from './input/index'
 import Loading from './loading/index'
-import {Radio, RadioGroup} from './radio/index'
+
 import {Select, Option} from './select/index'
 import Switch from './switch/index'
 import {Table, TableColumn} from './table/index'
@@ -53,7 +54,9 @@ const component = [
   Cascader,
   Collapse,
   CollapsePanel,
-  Transition
+  Transition,
+  Input,
+  Radio, RadioGroup
 ]
 
 /*

@@ -9,9 +9,6 @@
        </ak-carousel-item>
    </ak-carousel>
 </template>
-<script>
-
-</script>
 ```
 
 ### 2、循环轮播
@@ -24,9 +21,6 @@
        </ak-carousel-item>
    </ak-carousel>
 </template>
-<script>
-
-</script>
 ```
 
 ### 3、方向
@@ -39,25 +33,18 @@
        </ak-carousel-item>
    </ak-carousel>
 </template>
-<script>
-
-</script>
 ```
 
 ### 4、卡片
 通过设置每屏可视数量，配合自定义样式展示卡片化切换。每屏展示的可视数一般为3/5/7个，每次移动单位为1个
 ```vue demo
 <template>
-   <ak-carousel :showNumber="3" class="card">
+   <ak-carousel :showNumber="3" type="card">
        <ak-carousel-item v-for="item in 6" :key="item">
           <div>{{item}}</div>
        </ak-carousel-item>
    </ak-carousel>
 </template>
-<script>
-
-</script>
-
 ```
 
 ### 5、一次显示多个slides
@@ -70,9 +57,8 @@
        </ak-carousel-item>
    </ak-carousel>
 </template>
-
 ```
-
+## API
 ### Carousel Props
 |参数|类型|说明|
 |-|-|-|

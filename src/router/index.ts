@@ -13,11 +13,17 @@ routesList.forEach((item: any) => {
     })
   }
 })
-routes.push({
-  path: '/test',
-  name: 'test',
-  component: () => import('../views/test.vue')
-})
+routes.push(
+  {
+    path: '/',
+    name: 'index',
+    component: () => import('../views/index.vue')
+  },
+  {
+    path: '/test',
+    name: 'test',
+    component: () => import('../views/test.vue')
+  })
 console.log(routes)
 const router = createRouter({
   history: createWebHistory(), // 路由的history模式

@@ -1,11 +1,14 @@
-<!-- Created by 337547038 on 2018/9/7 0007. -->
+<!-- Created by 337547038 on 2021.6. -->
 <template>
   <div :class="{'active':visible}" class="collapse-panel">
-    <div @click="slideToggle" class="collapse-title">
+    <div class="collapse-title" @click="slideToggle(1)">
       <slot></slot>
+      <span v-if="$slots.trigger" @click="slideToggle()">
+        <slot name="trigger"></slot>
+      </span>
     </div>
     <collapse-transition>
-      <div ref="content" :class="{'active':visible}" v-show="visible" class="collapse-content">
+      <div v-show="visible" ref="content" :class="{'active':visible}" class="collapse-content">
         <slot name="content"></slot>
       </div>
     </collapse-transition>
@@ -15,6 +18,7 @@
 import {prefixCls} from '../prefix'
 import CollapseTransition from '../transition/index.vue'
 import {computed, onMounted, inject, defineComponent} from 'vue'
+import {AnyPropName, VoidFun} from '../types'
 
 export default defineComponent({
   name: `${prefixCls}CollapsePanel`,
@@ -22,35 +26,36 @@ export default defineComponent({
   props: {
     name: String
   },
-  setup(props) {
+  setup(props, {slots}) {
     const randomName = props.name || Math.random().toString(36).substr(2, 8)
+    const parentProps = inject('props') as AnyPropName
+    const changePanel = inject('changePanel') as VoidFun
     const visible = computed(() => {
-      // return props.active.indexOf(randomName) !== -1
+      return parentProps.modelValue.indexOf(randomName) !== -1
     })
-    const parentProps = inject('props')
-    const slideToggle = () => {
-      /*const index = parentProps.active.indexOf(randomName)
+    const slideToggle = (type?: number) => {
+      if (type === 1 && slots.trigger) {
+        return
+      }
+      const modelValue = parentProps.modelValue
+      const index = modelValue.indexOf(randomName)
       if (parentProps.accordion) {
+        // 每次只能展开一个面板
         if (index !== -1) {
-          parentProps.active.splice(index, 1)
+          modelValue.splice(index, 1)
         } else {
-          parentProps.active.splice(index, 1, randomName)
+          modelValue.splice(index, 1, randomName)
         }
       } else {
         // 点击展开，再点关闭
         if (index !== -1) {
-          parentProps.active.splice(index, 1)
+          modelValue.splice(index, 1)
         } else {
-          parentProps.active.push(randomName)
+          modelValue.push(randomName)
         }
-      }*/
-
-      /*const changePanel = (v: string) => {
-        props.change && props.change(v)
-      }*/
-
-      let change:any = inject('changePanel')
-      change && change(randomName)
+      }
+      // 点事件
+      changePanel && changePanel(visible.value)
     }
     onMounted(() => {
       // parentProps.panelName.push(randomName)

@@ -1,4 +1,4 @@
-<!-- Created by 337547038 on 2018/9/7 0007. -->
+<!-- Created by 337547038. -->
 <template>
   <div :class="`${prefixCls}-collapse`">
     <slot></slot>
@@ -8,24 +8,26 @@
 <script lang="ts">
 import {prefixCls} from '../prefix'
 import pType from '../util/pType'
-import {provide, defineComponent} from 'vue'
+import {provide, defineComponent, reactive} from 'vue'
 
 export default defineComponent({
   name: `${prefixCls}Collapse`,
   props: {
-    value: pType.array(),
-    accordion: pType.bool(),// 风琴模式
-    change: pType.func(),
-    transition: pType.string('collapse')// 过渡动画名
+    modelValue: pType.array([]),
+    accordion: pType.bool()// 风琴模式
   },
-  setup(props) {
-    const changePanel = (v: string) => {
-      props.change && props.change(v)
+  emits: ['change'],
+  setup(props, {emit}) {
+    const provideChangePanel = (v: boolean) => {
+      /*console.log(v)
+      console.log('provideChangePanel')*/
+      emit('change', v)
     }
-    provide('changePanel', changePanel)
-    provide('props', props)
-    /*const panelName = ref([])
-    provide('panelName', panelName)*/
+    provide('changePanel', provideChangePanel)
+    provide('props', reactive({
+      modelValue: props.modelValue,
+      accordion: props.accordion
+    }))
     return {
       prefixCls
     }
