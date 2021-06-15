@@ -13,8 +13,8 @@ import {Collapse, CollapsePanel} from './collapse/index'
 import Transition from './transition/index.vue'
 import Input from './input/index.vue'
 import {Radio, RadioGroup} from './radio/index'
-/*import {Checkbox, CheckboxGroup} from './checkbox/index'
-import DatePicker from './datePicker/index'
+import {Checkbox, CheckboxGroup} from './checkbox/index'
+/*import DatePicker from './datePicker/index'
 import {Dialog, DialogAlert} from './dialog/index'
 import {Form, FormItem, AutoForm} from './form/index'
 import Input from './input/index'
@@ -56,7 +56,8 @@ const component = [
   CollapsePanel,
   Transition,
   Input,
-  Radio, RadioGroup
+  Radio, RadioGroup,
+  Checkbox, CheckboxGroup
 ]
 
 /*

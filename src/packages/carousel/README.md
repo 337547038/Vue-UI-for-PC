@@ -1,6 +1,6 @@
 # Carousel 走马灯
 
-### 1、基本使用
+### 基本使用
 ```vue demo
 <template>
    <ak-carousel>
@@ -11,7 +11,7 @@
 </template>
 ```
 
-### 2、循环轮播
+### 循环轮播
 循环轮播`loop=true`
 ```vue demo
 <template>
@@ -23,7 +23,7 @@
 </template>
 ```
 
-### 3、方向
+### 方向
 默认情况下，`direction` 为 `horizontal`。通过设置 `direction` 为 `vertical` 来让走马灯在垂直方向上显示。需设置高度`itemHeight`
 ```vue demo
 <template>
@@ -35,7 +35,7 @@
 </template>
 ```
 
-### 4、卡片
+### 卡片
 通过设置每屏可视数量，配合自定义样式展示卡片化切换。每屏展示的可视数一般为3/5/7个，每次移动单位为1个
 ```vue demo
 <template>
@@ -47,7 +47,7 @@
 </template>
 ```
 
-### 5、一次显示多个slides
+### 一次显示多个slides
 同时可使用`move`指定每次移动的个数
 ```vue demo
 <template>
