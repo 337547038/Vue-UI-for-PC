@@ -1,0 +1,120 @@
+<!-- Created by 337547038 on 2021/6/15 0015. -->
+# Switch 开关
+
+### 基本用法
+```html
+<template>
+     <p><ak-switch v-model="switch1"></sk-switch></p>
+     <p><ak-switch v-model="switch2"></sk-switch></p>
+</template>
+<script>
+export default {
+  data () {
+    return {
+      switch1: false,
+      switch2: true
+    }
+  }
+}
+</script>
+```
+
+### 自定显示文本
+```html
+<template>
+  <div>
+    <ak-switch v-model="switch3">
+      <span slot="open">开</span>
+      <span slot="close">关</span>
+    </sk-switch>
+  </div>
+</template>
+<script>
+export default {
+  data () {
+    return {
+      switch3: false
+    }
+  }
+}
+</script>
+```
+
+### 禁用
+```html
+<template>
+  <div>
+     <p><ak-switch v-model="switch4" :disabled="true"></sk-switch></p>
+     <p><ak-switch v-model="switch5" :disabled="true"></sk-switch></p>
+  </div>
+</template>
+<script>
+export default {
+  data () {
+    return {
+      switch4: true,
+      switch5: false
+    }
+  }
+}
+</script>
+```
+
+### 设置开关状态时的颜色
+`closeColor`设置关闭状态颜色，`activeColor`设置打开状态颜色
+```html
+<template>
+  <div>
+     <p><ak-switch v-model="switch6" closeColor="#999" activeColor="red"></sk-switch></p>
+  </div>
+</template>
+<script>
+export default {
+  data () {
+    return {
+      switch6: false
+    }
+  }
+}
+</script>
+```
+
+### 设置开关状态时的值
+`closeValue`设置关闭状态时的值，`activeValue`设置打开状态的值
+```html
+<template>
+  <div>
+     <p>{{switch7}}</p>
+     <p><ak-switch v-model="switch7" closeValue="a" activeValue="b"></sk-switch></p>
+  </div>
+</template>
+<script>
+export default {
+  data () {
+    return {
+      switch67: 'b'
+    }
+  }
+}
+</script>
+```
+
+## API
+### Switch
+|参数|类型|说明|
+|-|-|-|
+|v-model        | boolean/false  |指定当前是否选中|
+|disabled       | boolean/false  |是否禁用状态|
+|closeColor     | String         |设置关闭时颜色值|
+|activeColor    | String         |设置打开时颜色值|
+|closeValue     | String         |设置关闭状态时的值|
+|activeValue    | String         |设置打开状态时的值|
+### Switch Event
+|参数|说明|
+|-|-|
+|change           | 改变事件|
+### Switch Slot
+|参数|说明|
+|-|-|
+|open           | 自定义显示打开时的内容|
+|close          | 自定义显示关闭时的内容|
