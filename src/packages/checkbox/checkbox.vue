@@ -2,7 +2,7 @@
 <template>
   <label :class="{[prefixCls+'-checkbox']:true,'checked':checked,'disabled':disabled}" @click="changeHandler">
     <span>
-      <span class="checkbox-inner"></span>
+      <span class="checkbox-inner icon-check" :class="{'checked':checked}"></span>
       <span v-if="$slots.default" class="checkbox-text"><slot></slot></span>
       <span v-else class="checkbox-text" v-text="label"></span>
     </span>

@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "1176866",
+      "name": "check",
+      "font_class": "check",
+      "unicode": "e6c1",
+      "unicode_decimal": 59073
+    },
+    {
       "icon_id": "902005",
       "name": "arrow down",
       "font_class": "arrow",
@@ -18,20 +25,6 @@
       "font_class": "hook",
       "unicode": "e88c",
       "unicode_decimal": 59532
-    },
-    {
-      "icon_id": "4485682",
-      "name": "最大化",
-      "font_class": "max",
-      "unicode": "e600",
-      "unicode_decimal": 58880
-    },
-    {
-      "icon_id": "6160677",
-      "name": "最大化",
-      "font_class": "full",
-      "unicode": "e60d",
-      "unicode_decimal": 58893
     },
     {
       "icon_id": "3442283",

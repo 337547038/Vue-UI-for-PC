@@ -9,6 +9,7 @@
       :label="item.label||item.value"
       :disabled="disabled||item._disabled||item.disabled"
       :class="item.class"
+      :before-change="beforeChange"
       @change="change($event,item)" />
   </div>
 </template>
@@ -34,36 +35,31 @@ export default defineComponent({
   emits: ['update:modelValue', 'change'],
   setup(props, {emit}) {
     const groupValue = ref(props.modelValue)
-    const change = (val: any, item: FormControlOption) => {
-      let before = true
-      if (props.beforeChange) {
-        before = props.beforeChange()
-      }
-      if (!before) {
-        return
-      }
-      const newLen = groupValue.value.length
+    const setChecked = (arr: string[]) => {
+      const newLen = arr.length
       if (newLen >= props.max) {
         // 将所有未勾选的设为禁用状态
         props.options.forEach((item: any) => {
-          if (groupValue.value.indexOf(item.value) === -1) {
-            // this.$set(item, '_disabled', true)
+          if (arr.indexOf(item.value) === -1) {
             item._disabled = true
           }
         })
       } else if (newLen <= props.min) {
         // 将所有已勾选的设为禁用状态
         props.options.forEach((item: any) => {
-          if (groupValue.value.indexOf(item.value) !== -1) {
+          if (arr.indexOf(item.value) !== -1) {
             item._disabled = true
           }
         })
       } else {
         // 将所有_disabled去掉
         props.options.forEach(item => {
-          delete item._disabled
+          item._disabled = false
         })
       }
+    }
+    const change = (val: any, item: FormControlOption) => {
+      setChecked(val)
       emit('update:modelValue', val)
       emit('change', val, item)
     }

@@ -1,34 +1,28 @@
 <!-- Created by 337547038 on 2021/5/17 0017. -->
 <template>
-  <div>
-    <!--    <p><ak-checkbox v-model="value3" value="1" label="String">String value1:{{value1}}</ak-checkbox></p>
-        <p><ak-checkbox v-model="value3" value="2" label="Boolean">value2:{{value2}}</ak-checkbox></p>
-        <p><ak-checkbox v-model="value3" value="3" label="Array">value3:{{value3}}</ak-checkbox></p>-->
-    <p>
-      <ak-checkbox-group v-model="value3" :data="groupData" :max="2"></ak-checkbox-group>
-    </p>
-  </div>
+  <p>已选值：{{checkbox9}}</p>
+  <p>
+    <ak-checkbox-group v-model="checkbox9" :options="groupData" :min="2" :max="4" />
+  </p>
 </template>
 <script>
-import {ref} from 'vue'
+import {reactive, toRefs} from 'vue'
 
 export default {
   setup() {
-    const value1 = ref('1')
-    const value2 = ref(false)
-    const value3 = ref(['a1'])
+    const state = reactive({
+      checkbox9: ['a5']
+    })
     const groupData = [
       {label: '选项1', value: 'a1'},
       {label: '选项2', value: 'a2'},
       {label: '选项3', value: 'a3'},
       {value: 'a4'},
-      {label: '禁用', value: 'a5', disabled: true},
-      {label: '勾选禁用', value: 'a6', disabled: true}
+      {label: '选项5', value: 'a5'},
+      {label: '选项6', value: 'a6'}
     ]
     return {
-      value1,
-      value2,
-      value3,
+      ...toRefs(state),
       groupData
     }
   }

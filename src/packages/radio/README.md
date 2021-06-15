@@ -99,11 +99,11 @@ export default {
 <template>
   <p>
   <div>当前值：{{radio8}}</div>
-  <ak-radio-group :data="data1" v-model="radio8" @change="changeGroup"></ak-radio-group>
+  <ak-radio-group :options="data1" v-model="radio8" @change="changeGroup"></ak-radio-group>
   </p>
   <p>
   <div>整个组不可选，当前值：{{radio10}}</div>
-  <ak-radio-group :data="data1" v-model="radio10" :disabled="true"></ak-radio-group>
+  <ak-radio-group :options="data1" v-model="radio10" :disabled="true"></ak-radio-group>
   </p>
 </template>
 
@@ -141,7 +141,7 @@ export default {
 |参数|类型|说明|
 |-|-|-|
 |v-model       | string         |Radio 的 v-model|
-|vale          | string/boolean/number    |选中的值，当v-model＝value时为选中状态|
+|value          | string/boolean/number    |选中的值，当v-model＝value时为选中状态|
 |disabled      | boolean/false  |是否禁用|
 |label         | String         |显示的文本值，也可以是slot|
 
