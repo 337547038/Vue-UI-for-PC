@@ -6,7 +6,7 @@ import {PropType} from 'vue'
   name: string
   children: any
 }*/
-/*const TYPES = {
+const TYPES = {
   string: String,
   number: Number,
   boolean: Boolean,
@@ -16,7 +16,9 @@ import {PropType} from 'vue'
   object: Object,
   function: Function,
   any: null
-}*/
+}
+type TypeKey = keyof typeof TYPES
+
 export default {
   // type:null
   any() {
@@ -78,8 +80,7 @@ export default {
   },*/
   oneOfType(list: [], d?: any) {
     const types = list.map(prop => {
-      return prop['type']['name']
-      // return prop.type;
+      return prop['type']
     })
     return {
       type: types,

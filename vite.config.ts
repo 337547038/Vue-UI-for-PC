@@ -13,6 +13,7 @@ export default defineConfig({
     // exclude: ['**/components/*.vue']
   })
   ],
+  base: './',
   resolve: {
     alias: {
       '@/': '/src/'

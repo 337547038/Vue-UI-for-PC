@@ -1,10 +1,10 @@
 <!--Created by 337547038 on 2019.8.-->
 <template>
   <div
-    ref="element"
-    :class="`${prefixCls}-back-top`"
-    :style="{right:right+'px',bottom:bottom+'px',opacity:show?1:0,visibility:show?'visible':'hidden'}"
-    @click="elClick">
+      ref="element"
+      :class="`${prefixCls}-back-top`"
+      :style="{right:right+'px',bottom:bottom+'px',opacity:show?1:0,visibility:show?'visible':'hidden'}"
+      @click="elClick">
     <a href="javascript:;" class="icon-top" v-text="text"></a>
   </div>
 </template>
@@ -12,7 +12,7 @@
 import dom from '../util/dom'
 import {prefixCls} from '../prefix'
 import pType from '../util/pType'
-import {defineComponent, ref, onMounted, nextTick, onUnmounted} from 'vue'
+import {defineComponent, ref, onMounted, nextTick, onBeforeUnmount} from 'vue'
 
 export default defineComponent({
   name: `${prefixCls}BackTop`,
@@ -30,6 +30,7 @@ export default defineComponent({
     const element = ref()
     const elClick = () => {
       smoothscroll()
+
       function smoothscroll() {
         const currentScroll = scrollTop()
         if (currentScroll > 0) {
@@ -37,6 +38,7 @@ export default defineComponent({
           window.scrollTo(0, currentScroll - (currentScroll / 5))
         }
       }
+
       emit('click')
     }
     onMounted(() => {
@@ -45,7 +47,7 @@ export default defineComponent({
         window.addEventListener('scroll', windowScroll)
       })
     })
-    onUnmounted(() => {
+    onBeforeUnmount(() => {
       window.removeEventListener('scroll', windowScroll)
       if (element.value && element.value.parentNode) {
         element.value.parentNode.removeChild(element.value)

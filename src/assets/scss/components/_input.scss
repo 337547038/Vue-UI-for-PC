@@ -1,0 +1,24 @@
+@charset "utf-8";
+@include ns(form-input) {
+  display: inline-block;position: relative;
+  .suffix-icon, .prefix-icon {position: absolute;right: 5px;top: 50%;transform: translateY(-50%);display: flex;align-items: center;justify-content: flex-end;
+    i {font-size: 20px;cursor: pointer;transition: all .3s;width: 25px;height: 25px;text-align: center;line-height: 25px;color: #999}
+  }
+  .prefix-icon {left: 3px;right: auto;}
+  .icon-close {display: none;}
+  &:hover {
+    .icon-close {display: block}
+  }
+  .has-prefix {padding-left: 30px}
+}
+@include ns(input-control) {
+  height: 38px;line-height: 38px;border: 1px solid $border;border-radius: 3px;background: none;outline: none;padding: 0 10px;font-size: 14px;overflow: hidden;box-sizing: border-box;width: 100%;
+  &:hover {opacity: .7}
+  &:focus, &.focus {border-color: $primary}
+  &.placeholder {color: #999}
+  /*禁用状态*/
+  &.disabled {cursor: not-allowed; opacity: .5}
+  &.medium {height: 36px; line-height: 36px;}
+  &.small {height: 32px;line-height: 32px;}
+  &.mini {height: 28px; line-height: 28px;}
+}

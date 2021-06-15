@@ -1,0 +1,37 @@
+@charset "utf-8";
+@include ns(cascader) { display: inline-block; position: relative;
+  //用个标签挡住输入框底边线
+  .mask { content: ''; height: 2px; background: #fff; position: absolute; left: 0; top: 36px; width: 100%; display: block; z-index: 100; border-left: 1px solid $primary; border-right: 1px solid $primary; box-sizing: border-box; }
+  @include ns(input-control) {min-width: 200px;}
+  .group-icon {position: absolute;right: 5px;top: 50%;transform: translateY(-50%);display: flex;align-items: center;
+    i {margin-left: 5px;cursor: pointer;transition: all .3s}
+    .clear {display: none;font-size: 14px;}
+    .is-down {transform: rotate(180deg)}
+  }
+  &.disabled {
+    .group-icon {opacity: .5;
+      i {cursor: not-allowed}
+    }
+  }
+  &:hover {
+    .group-icon {
+      .clear {display: block}
+    }
+  }
+  .cascader-down { position: absolute; left: 0; top: 37px; width: 360px; border: 1px solid $primary; background: #fff; z-index: 99; padding: 10px; overflow: hidden;border-radius: 3px;
+    .tips { margin-bottom: 5px; font-size: 12px; font-weight: 700; color: #666 }
+    .cascader-tab { height: 25px; line-height: 25px; border-bottom: 1px solid $border;
+      li { float: left; padding: 0 10px; margin-right: 10px; border: 1px solid $border; color: $primary; font-weight: 700; background: #fff; cursor: pointer; height: 24px; line-height: 24px; border-bottom: 0; overflow: hidden;
+        &.active { height: 25px; }
+      }
+    }
+    .cascader-area { clear: both; padding: 10px 5px 5px; overflow: hidden;
+      ul {display: flex; flex-wrap: wrap}
+      li { width: 25%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; padding-right: 3px; box-sizing: border-box;margin-bottom: 5px;
+        a { cursor: pointer;
+          &:hover { color: $primary }
+        }
+      }
+    }
+  }
+}

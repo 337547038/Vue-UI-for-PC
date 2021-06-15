@@ -19,11 +19,13 @@ console.log(obj2[name]) // 正确
 
 
 // 标签类型
+Event
 Element
 MouseEvent
 HTMLElement
 HTMLInputElement   const inputElRef = ref<HTMLInputElement>()
 HTMLDivElement
+HTMLInputElement
 
 // 定义
 1.const obj: { [index: number]: any; }

@@ -1,17 +1,20 @@
-<!--Created by 337547038 on 2017/12/26.-->
+<!--Created by 337547038 on 2021.6.-->
 <template>
-  <div ref="el" :class="`${prefixCls}-cascader`">
+  <div ref="el" :class="{[`${prefixCls}-cascader`]:true,'disabled':disabled}" :style="{width:width}">
     <div
       :class="{[prefixCls+'-input-control']:true,
                'focus':show,
                'placeholder':showPlaceholder,
                'disabled':disabled}"
       v-text="showValue"></div>
-    <i v-if="clear&&modelValue.length>0" @click="clearClick" class="icon-clear"></i>
+    <span class="group-icon">
+      <i v-if="clear&&modelValue.length>0" class="icon-close clear" title="清空" @click="clearClick"></i>
+      <i class="icon-arrow" :class="{'is-down':show}"></i>
+    </span>
     <span v-show="show" class="mask"></span>
     <transition name="slide-toggle">
-      <div v-show="show" @click="stopPropagation" class="cascader-down">
-        <p v-if="tipsText" v-text="tipsText" class="tips"></p>
+      <div v-show="show" class="cascader-down" @click="stopPropagation">
+        <p v-if="tipsText" class="tips" v-text="tipsText"></p>
         <div class="cascader-tab">
           <ul class="clearfix">
             <li
@@ -51,9 +54,9 @@ export default defineComponent({
     disabled: pType.bool(),
     tipsText: pType.string(), // 下拉框下面的提示文字
     selectText: pType.array(['请选择省', '请选择市', '请选择区']),
-    split: pType.array(), // 分隔符
     data: pType.array<cityProps>(cityData),// 下拉选项数据
-    clear: pType.bool(true) // 显示清空按钮
+    clear: pType.bool(false), // 显示清空按钮
+    width: pType.string()
   },
   emits: ['update:modelValue', 'change'],
   setup(props, {emit}) {
@@ -189,15 +192,10 @@ export default defineComponent({
           // 为真返回数组
           array.push(selectValue.value[i].name)
         } else {
-          // 这里返回显示的值，即文本
-          let split = ''
-          if (props.split && props.split.length === 3) {
-            split = props.split[i]
-          }
-          val += selectValue.value[i].name + split
+          val += selectValue.value[i].name
         }
       }
-      return type ? array.toString() : val
+      return type ? array : val
     }
     const stopPropagation = (e: MouseEvent) => {
       e.stopPropagation()
@@ -222,13 +220,11 @@ export default defineComponent({
       () => state.showValue,
       () => {
         const value = formatValue(true)
+        // console.log(typeof value)
         emit('update:modelValue', value)
         emit('change', value)
-        const controlChange:any = inject('controlChange')
-        controlChange && controlChange({
-          control: 'cascader',
-          value: value
-        })
+        const controlChange: any = inject('controlChange')
+        controlChange && controlChange(value)
       }
     )
     onMounted(() => {

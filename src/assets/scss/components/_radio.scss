@@ -1,0 +1,17 @@
+@charset "UTF-8";
+@include ns(radio) {cursor: pointer;display: inline-block;
+  > span {display: flex;align-items: center}
+  .radio-inner {margin-right: 5px;width: 14px;height: 14px;border-radius: 50%;border: 1px solid $primary;display: flex;align-items: center;justify-content: center;
+    &:after {display: block;width: 8px;height: 8px;border-radius: 50%;content: '';background: $primary;opacity: 0;transform: scale(0);transition: all .3s}
+  }
+  &.checked {
+    // 选中状态
+    .radio-inner {
+      &:after {opacity: 1;transform: scale(1)}
+    }
+  }
+  &.disabled {cursor: not-allowed;
+    .radio-inner {opacity: .5}
+  }
+  + .#{$namespace}radio{margin-left: 10px}
+}
