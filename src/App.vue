@@ -5,7 +5,7 @@
       <ul>
         <li v-for="item in routesListFilter" :key="item.name">
           <router-link :to="item.path">
-            {{ getName(item.name) }}
+            {{getName(item.name)}}
           </router-link>
         </li>
       </ul>
@@ -30,7 +30,7 @@ import {defineComponent, ref} from 'vue'
 
 export default defineComponent({
   setup() {
-    let visible = true
+    let visible = false
     const getName = (name: string) => {
       return name.substring(0, 1).toUpperCase() + name.substring(1)
     }
@@ -45,7 +45,7 @@ export default defineComponent({
     })
     const sortBy = (sortValue: string) => {
       // 添加排序
-      return function (a: { name: string; }, b: { name: string; }) {
+      return function (a: any, b: any) {
         let val1 = a[sortValue]
         let val2 = b[sortValue]
         if (val1 < val2) {
