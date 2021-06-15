@@ -6,7 +6,7 @@ import {PropType} from 'vue'
   name: string
   children: any
 }*/
-const TYPES = {
+/*const TYPES = {
   string: String,
   number: Number,
   boolean: Boolean,
@@ -17,7 +17,7 @@ const TYPES = {
   function: Function,
   any: null
 }
-type TypeKey = keyof typeof TYPES
+type TypeKey = keyof typeof TYPES*/
 
 export default {
   // type:null
@@ -97,6 +97,3 @@ export default {
     }
   }
 }
-// https://cloud.tencent.com/developer/article/1776214
-// https://v3.cn.vuejs.org/guide/typescript-support.html#%E6%B3%A8%E8%A7%A3-props
-// <Array<string | number>>()

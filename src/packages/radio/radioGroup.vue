@@ -2,13 +2,13 @@
 <template>
   <div :class="`${prefixCls}-radio-group`">
     <Radio
-      v-for="(item,index) in data"
+      v-for="(item,index) in options"
       :key="index"
       v-model="groupValue"
       :value="item.value"
       :disabled="disabled||item.disabled"
       @change="change($event,item)">
-      {{ item.label }}
+      {{item.label}}
     </Radio>
   </div>
 </template>
@@ -16,20 +16,21 @@
 import Radio from './radio.vue'
 import {prefixCls} from '../prefix'
 import pType from '../util/pType'
-import {ref,defineComponent} from 'vue'
+import {ref, defineComponent} from 'vue'
+import {FormControlOption} from '../types'
 
 export default defineComponent({
   name: `${prefixCls}RadioGroup`,
   components: {Radio},
   props: {
     modelValue: pType.string(),
-    data: pType.array(),
+    options: pType.array<FormControlOption>(),
     disabled: pType.bool() // 控制整个组
   },
   emits: ['update:modelValue', 'change'],
   setup(props, {emit}) {
     const groupValue = ref(props.modelValue)
-    const change = (val, item) => {
+    const change = (val: [string | number], item: FormControlOption) => {
       emit('update:modelValue', val)
       emit('change', val, item)
     }

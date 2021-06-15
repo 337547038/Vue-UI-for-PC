@@ -26,7 +26,7 @@
       <a
         v-for="item in maxMove"
         :key="item"
-        href="javascript:;"
+        href="javascript:"
         :class="{'control-nav-active':index===item}"
         @click="controlNavClick(item)">{{ item }}</a>
     </div>

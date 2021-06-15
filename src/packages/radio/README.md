@@ -154,7 +154,7 @@ export default {
 |参数|说明|
 |-|-|
 |v-model         | string         |Radio组 的 v-model|
-|data            | array          |组数据|
+|options         | array          |组数据|
 |disabled        | Boolean/false   |禁用组|
 
 ### Radio Group Event
@@ -162,7 +162,7 @@ export default {
 |-|-|
 |change          | 改变事件,返回(value,item) value为当前选中的值，item为当前data中选中的项|
 
-### Radio Group Data
+### Radio Group options
 |参数|类型|说明|
 |-|-|-|
 |label          | string         |显示的文本值|

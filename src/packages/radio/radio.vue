@@ -17,14 +17,14 @@
 <script lang="ts">
 import {prefixCls} from '../prefix'
 import pType from '../util/pType'
-import {inject, computed} from 'vue'
+import {inject, computed, defineComponent} from 'vue'
 
-export default {
+export default defineComponent({
   name: `${prefixCls}Radio`,
   props: {
     disabled: pType.bool(false),
-    value: [String, Number],
-    modelValue: [String, Number, Boolean],
+    value: pType.string(),
+    modelValue: [String, Boolean],
     label: pType.string()
   },
   emits: ['change', 'update:modelValue'],
@@ -33,7 +33,7 @@ export default {
       // 存在value时，当v-model=value时为选中状态
       // 不存在value时，当v-model=true时为选中状态
       let bool
-      if (props.value !== undefined) {
+      if (props.value) {
         bool = props.value === props.modelValue
       } else {
         bool = !!props.modelValue
@@ -58,5 +58,5 @@ export default {
       changeHandler
     }
   }
-}
+})
 </script>

@@ -1,78 +1,90 @@
-<!--Created by 337547038 on 2018/9/6.-->
-<!--<template>
-  <label :class="{[prefixCls+'-checkbox']:true,'checked':checked===value,'disabled':disabled}">
-    <input v-model="checked" type="checkbox" :disabled="disabled" :value="value" @change="_change">
-    <span :class="`${prefixCls}-checkbox-inner`"></span>
-    <span v-if="$slots.default" :class="`${prefixCls}-checkbox-text`"><slot></slot></span>
-    <span v-else :class="`${prefixCls}-checkbox-text`" v-text="label"></span>
+<!--Created by 337547038 on 2021.6.-->
+<template>
+  <label :class="{[prefixCls+'-checkbox']:true,'checked':checked,'disabled':disabled}" @click="changeHandler">
+    <span>
+      <span class="checkbox-inner"></span>
+      <span v-if="$slots.default" class="checkbox-text"><slot></slot></span>
+      <span v-else class="checkbox-text" v-text="label"></span>
+    </span>
   </label>
 </template>
-<script>
+<script lang="ts">
 import {prefixCls} from '../prefix'
+import pType from '../util/pType'
+import {defineComponent, computed, inject} from 'vue'
 
-export default {
+export default defineComponent({
   name: `${prefixCls}Checkbox`,
-  components: {},
-  model: {
-    prop: 'modelValue',
-    event: 'change'
-  },
   props: {
-    disabled: {
-      type: Boolean,
-      default: false
-    },
-    label: String,
-    modelValue: {},
-    value: {
-      type: [String, Boolean, Number],
-      default: true
-    },
-    validateEvent: {
-      type: Boolean,
-      default: true
-    }
+    disabled: pType.bool(),
+    label: pType.string(),
+    modelValue: [String, Boolean, Array],
+    value: pType.string(),
+    beforeChange: pType.func()
   },
-  data () {
-    return {
-      prefixCls: prefixCls,
-      checked: this.modelValue
-    }
-  },
-  computed: {
-    /* checkedCls () {
-      // 当value=v-model或v-model中包含了value值时为true
-      if (typeof this.modelValue === 'object') {
-        return this.modelValue.indexOf(this.value) !== -1
-      } else {
-        // modelValue值为true为勾选状态
-        return !!this.modelValue
-      }
-    } */
-  },
-  watch: {
-    modelValue () {
-      this.checked = this.modelValue
-    }
-  },
-  mounted () {
-  },
-  methods: {
-    _change (e) {
-      let value = this.checked
-      // console.log(typeof this.modelValue)
-      if (typeof this.modelValue === 'string' && this.value) {
-        if (value) {
-          value = e.target.value
+  emits: ['change', 'update:modelValue'],
+  setup(props, {emit}) {
+    const checked = computed(() => {
+      // value为真时，当v-model=value时为选中状态
+      // 否则，当v-model=true时为选中状态
+      let bool
+      if (props.value) {
+        if (typeof props.modelValue === 'object') {
+          bool = props.modelValue.indexOf(props.value) !== -1
         } else {
-          value = ''
+          bool = props.value === props.modelValue
+        }
+      } else {
+        bool = !!props.modelValue
+      }
+      return bool
+    })
+    // formItem
+    const controlChange: any = inject('controlChange')
+    const changeHandler = () => {
+      let before = true
+      if (props.beforeChange) {
+        before = props.beforeChange()
+      }
+      if (!before) {
+        return
+      }
+      // 点击后只有选中状态
+      if (props.disabled) {
+        return
+      }
+      let val
+      if (checked.value) {
+        // 当前勾选状态，
+        if (typeof props.modelValue === 'object') {
+          // 删除当前项
+          val = props.modelValue.filter(item => {
+            return item !== props.value
+          })
+        } else {
+          val = false
+        }
+      } else {
+        if (props.value) {
+          if (typeof props.modelValue === 'object') {
+            val = props.modelValue
+            val.push(props.value)
+          } else {
+            val = props.value
+          }
+        } else {
+          val = !props.modelValue
         }
       }
-      this.$emit('change', value, this.label)
-      if (this.validateEvent) {
-        // this.dispatch('formItem', `${prefixCls}.form.change`, [value, e])
-      }
+      emit('change', val)
+      emit('update:modelValue', val)
+      controlChange && controlChange(val)
+    }
+    return {
+      prefixCls,
+      checked,
+      changeHandler
     }
   }
-}
-</script>-->
+})
+</script>

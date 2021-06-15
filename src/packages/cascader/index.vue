@@ -183,10 +183,10 @@ export default defineComponent({
         state.showPlaceholder = false
       }
     }
-    const formatValue = (type?: boolean) => {
+    const formatValue = (type?: boolean): any => {
       // 将数组转为文本显示出来
       let val = ''
-      let array = []
+      let array=[]
       for (let i in selectValue.value) {
         if (type) {
           // 为真返回数组
