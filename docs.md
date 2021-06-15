@@ -22,6 +22,8 @@ console.log(obj2[name]) // 正确
 Element
 MouseEvent
 HTMLElement
+HTMLInputElement   const inputElRef = ref<HTMLInputElement>()
+HTMLDivElement
 
 // 定义
 1.const obj: { [index: number]: any; }
