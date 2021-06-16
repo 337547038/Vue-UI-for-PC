@@ -1,33 +1,33 @@
-<script>
+<script lang="ts">
 import {prefixCls} from '../prefix'
+import {inject, defineComponent, onMounted} from 'vue'
+import pType from '../util/pType'
+import {VoidFun} from '../types'
 
-export default {
+export default defineComponent({
   name: `${prefixCls}Option`,
-  data() {
-    return {
-      prefixCls: prefixCls,
-      timer: ''
-    }
-  },
   props: {
-    value: String,
-    label: String,
-    disabled: {
-      type: Boolean,
-      default: false
-    },
-    className: String
+    value: pType.string(),
+    label: pType.string(),
+    disabled: pType.bool(),
+    className: pType.string()
   },
-  mounted() {
-    this.$parent.filterOption.push({
-      label: this.label,
-      value: this.value,
-      disabled: this.disabled,
-      className: this.className
+  setup(props) {
+    const getChildOption = inject('getChildOption', '') as VoidFun
+    onMounted(() => {
+      getChildOption && getChildOption({
+        label: props.label,
+        value: props.value,
+        disabled: props.disabled,
+        className: props.className
+      })
     })
+    return {
+      prefixCls
+    }
   },
   render() {
     return null
   }
-}
+})
 </script>

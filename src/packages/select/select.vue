@@ -1,6 +1,10 @@
 <!-- Created by 337547038 on 2021/6 0027. -->
 <template>
-  <div ref="el" :class="{'open':visible,[prefixCls+'-select']:true,top:downDirection}" @click="downToggle">
+  <div
+    ref="el"
+    :class="{'open':visible,[prefixCls+'-select']:true,top:downDirection}"
+    :style="{width:width}"
+    @click="downToggle">
     <div
       :class="{
         'show-clear':clear&&value.length>0,
@@ -35,7 +39,7 @@
         </ul>
         <span v-else-if="text" v-text="text"></span>
       </div>
-      <span class="icon-group">
+      <span class="group-icon">
         <i v-if="clear&&value.length>0" class="icon-close" @click="clearClick"></i>
         <i :class="{'open':visible,'icon-arrow':true}"></i>
       </span>
@@ -78,7 +82,8 @@ import {
   toRefs,
   onMounted,
   onBeforeUnmount,
-  nextTick
+  nextTick,
+  provide
 } from 'vue'
 import pType from '../util/pType'
 import {FormControlOption} from '../types'
@@ -99,12 +104,14 @@ export default defineComponent({
     downStyle: pType.object(), // 下拉面板样式
     downClass: pType.string(), // 下拉类名
     direction: pType.bool(), // 下拉弹出方向，true向上，默认自动
-    appendToBody: pType.bool()
+    appendToBody: pType.bool(),
+    width: pType.string()
   },
   emits: ['update:modelValue', 'change', 'limitChange'],
   setup(props, {emit}) {
     const el = ref()
     const selectDown = ref()
+    const optionsList = ref(props.options)
     const state = reactive({
       visible: false,
       downDirection: props.direction, // 下拉方向
@@ -319,14 +326,14 @@ export default defineComponent({
         return item.value === props.modelValue
       }
     }
-    const clearClick= (evt:MouseEvent)=> {
+    const clearClick = (evt: MouseEvent) => {
       const value = props.multiple ? [] : ''
       emitCom(value, '', 1)
       state.keywords = ''
       state.text = ''
       evt.stopPropagation()
     }
-    const deleteText =(item:string, index:number) =>{
+    const deleteText = (item: string, index: number) => {
       // 多选时删除单个选项
       if (props.multiple) {
         let val = JSON.parse(JSON.stringify(props.modelValue))
@@ -335,6 +342,9 @@ export default defineComponent({
         emitCom(val, newText, 1)
       }
     }
+    provide('getChildOption', item => {
+      optionsList.value.push(item)
+    })
     return {
       el,
       selectDown,
