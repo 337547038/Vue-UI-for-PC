@@ -1,18 +1,29 @@
 <!-- Created by 337547038 on 2021/6/15 0015. -->
+
 # Switch 开关
 
 ### 基本用法
-```html
+
+```vue demo
+
 <template>
-     <p><ak-switch v-model="switch1"></sk-switch></p>
-     <p><ak-switch v-model="switch2"></sk-switch></p>
+  <p>
+    <ak-switch v-model="switch1" />
+  </p>
+  <p>
+    <ak-switch v-model="switch2" />
+  </p>
 </template>
 <script>
+import {ref} from 'vue'
+
 export default {
-  data () {
+  setup() {
+    const switch1 = ref(false)
+    const switch2 = ref(true)
     return {
-      switch1: false,
-      switch2: true
+      switch1,
+      switch2
     }
   }
 }
@@ -20,20 +31,22 @@ export default {
 ```
 
 ### 自定显示文本
-```html
+
+```vue deom
 <template>
-  <div>
-    <ak-switch v-model="switch3">
-      <span slot="open">开</span>
-      <span slot="close">关</span>
-    </sk-switch>
-  </div>
+  <ak-switch v-model="switch3">
+    <template #open>开</template>
+    <template #close>关</template>
+  </ak-switch>
 </template>
 <script>
+import {ref} from 'vue'
+
 export default {
-  data () {
+  setup() {
+    const switch3 = ref(false)
     return {
-      switch3: false
+      switch3
     }
   }
 }
@@ -41,58 +54,78 @@ export default {
 ```
 
 ### 禁用
-```html
+
+```vue demo
+
 <template>
-  <div>
-     <p><ak-switch v-model="switch4" :disabled="true"></sk-switch></p>
-     <p><ak-switch v-model="switch5" :disabled="true"></sk-switch></p>
-  </div>
+  <p>
+    <ak-switch v-model="switch4" :disabled="true" />
+  </p>
+  <p>
+    <ak-switch v-model="switch5" :disabled="true" />
+  </p>
 </template>
 <script>
+import {ref} from 'vue'
+
 export default {
-  data () {
+  setup() {
+    const switch4 = ref(false)
+    const switch5 = ref(true)
     return {
-      switch4: true,
-      switch5: false
+      switch4,
+      switch5
     }
   }
 }
 </script>
+
 ```
 
 ### 设置开关状态时的颜色
+
 `closeColor`设置关闭状态颜色，`activeColor`设置打开状态颜色
-```html
+
+```vue demo
+
 <template>
-  <div>
-     <p><ak-switch v-model="switch6" closeColor="#999" activeColor="red"></sk-switch></p>
-  </div>
+  <p>
+    <ak-switch v-model="switch6" close-color="#999" active-color="red" />
+  </p>
 </template>
 <script>
+import {ref} from 'vue'
+
 export default {
-  data () {
+  setup() {
+    const switch6 = ref(true)
     return {
-      switch6: false
+      switch6
     }
   }
 }
 </script>
+
 ```
 
 ### 设置开关状态时的值
-`closeValue`设置关闭状态时的值，`activeValue`设置打开状态的值
-```html
+
+`closeValue`设置关闭状态时的值，`activeValue`设置打开状态的值，当`v-model=activeValue`时选中状态
+
+```vue demo
 <template>
-  <div>
-     <p>{{switch7}}</p>
-     <p><ak-switch v-model="switch7" closeValue="a" activeValue="b"></sk-switch></p>
-  </div>
+  <p>
+    <ak-switch v-model="switch7" close-value="a" active-value="b" />
+  </p>
 </template>
 <script>
+import {ref} from 'vue'
+
 export default {
-  data () {
+  setup() {
+    const switch7 = ref('a')
     return {
-      switch67: 'b'
+      switch7
     }
   }
 }

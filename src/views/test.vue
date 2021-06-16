@@ -1,40 +1,31 @@
-<!-- Created by 337547038 on 2021/5/17 0017. -->
 <template>
-  <p>已选值：{{ checkbox9 }}</p>
-  <p>
-    <ak-checkbox-group v-model="checkbox9" :options="groupData" :min="2" :max="4" />
-  </p>
-<!--  <div>
-    <p v-for="item in groupData" @click="click4(item)">{{ item.label }}-{{ item._disabled }}</p>
-  </div>-->
+  <ak-select v-model="value1" placeholder="请选择" :options="options" :append-to-body="true" :filterable="true" />
 </template>
 <script>
-import {reactive, toRefs, ref} from 'vue'
+import {ref} from 'vue'
 
 export default {
   setup() {
-    const state = reactive({
-      checkbox9: ['a5']
-    })
-
-    const groupData = ref([
-      {label: '选项1', value: 'a1'},
-      {label: '选项2', value: 'a2'},
-      {label: '选项3', value: 'a3'},
-      {value: 'a4'},
-      {label: '选项5', value: 'a5'},
-      {label: '选项6', value: 'a6'}
+    const options = ref([
+      {label: '选项1', value: '1'},
+      {label: '选项2', value: '2'},
+      {label: '选项3', value: '3'},
+      {label: '选项4', value: '4', disabled: true},
+      {label: '选项5', value: '5'},
+      {value: '6'},
+      {label: '选项7', value: '7'},
+      {label: '选项8', value: '8'},
+      {label: '选项9', value: '9'},
+      {label: '选项10', value: '10', class: 'red'}
     ])
-    const click4 = (item) => {
-      item.a = new Date().getTime()
-    }
+    const value1 = ref('')
+    setTimeout(() => {
+      value1.value = '5'
+    }, 2000)
     return {
-      ...toRefs(state),
-      groupData, click4
+      options,
+      value1
     }
   }
 }
 </script>
-<style>
-.checked{color: #9a6e3a}
-</style>

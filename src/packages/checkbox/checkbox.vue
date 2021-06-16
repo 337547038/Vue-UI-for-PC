@@ -40,7 +40,7 @@ export default defineComponent({
       return bool
     })
     // formItem
-    const controlChange: any = inject('controlChange')
+    const controlChange: any = inject('controlChange', '')
     const changeHandler = () => {
       let before = true
       if (props.beforeChange) {

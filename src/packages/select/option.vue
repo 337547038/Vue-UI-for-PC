@@ -25,10 +25,6 @@ export default {
       disabled: this.disabled,
       className: this.className
     })
-    /* clearTimeout(this.timer)
-    this.timer = setTimeout(() => {
-      this.$parent._setFirstText()
-    }, 500) */
   },
   render() {
     return null

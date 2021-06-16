@@ -45,7 +45,7 @@ export default defineComponent({
     })
     const sortBy = (sortValue: string) => {
       // 添加排序
-      return function (a: { name: string; }, b: { name: string; }) {
+      return function (a: any, b: any) {
         let val1 = a[sortValue]
         let val2 = b[sortValue]
         if (val1 < val2) {

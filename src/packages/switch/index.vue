@@ -7,10 +7,11 @@
       'disabled':disabled}"
     :style="style"
     @click="click">
-    <i :class="`${prefixCls}-switch-inner`">
+    <i :class="`${prefixCls}-switch-inner`"></i>
+    <span class="switch-text">
       <slot v-if="status" name="open"></slot>
       <slot v-else name="close"></slot>
-    </i>
+    </span>
   </span>
 </template>
 <script lang="ts">
@@ -28,15 +29,15 @@ export default defineComponent({
     disabled: pType.bool(),
     activeColor: pType.string(), // 打开时的颜色
     closeColor: pType.string(), // 关闭时的颜色
-    activeValue: [String, Number, Boolean], // switch 打开时的值
-    closeValue: [String, Number, Boolean] // switch 关闭时的值
+    activeValue: [String, Number], // switch 打开时的值
+    closeValue: [String, Number] // switch 关闭时的值
   },
-  emits:['update:modelValue','change'],
+  emits: ['update:modelValue', 'change'],
   setup(props, {emit}) {
     // formItem
-    const controlChange: any = inject('controlChange')
+    const controlChange: any = inject('controlChange', '')
     const status = computed(() => {
-      if (props.activeValue !== false) {
+      if (props.activeValue) {
         // 指定了选中值时
         return props.modelValue === props.activeValue
       } else {
@@ -64,13 +65,13 @@ export default defineComponent({
       if (!props.disabled) {
         let checked
         if (!status.value) {
-          if (props.activeValue !== false) {
+          if (props.activeValue) {
             checked = props.activeValue
           } else {
             checked = true
           }
         } else {
-          if (props.closeValue !== false) {
+          if (props.closeValue) {
             checked = props.closeValue
           } else {
             checked = false

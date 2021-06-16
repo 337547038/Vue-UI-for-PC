@@ -17,7 +17,7 @@
 import Checkbox from './checkbox.vue'
 import {prefixCls} from '../prefix'
 import pType from '../util/pType'
-import {defineComponent, ref} from 'vue'
+import {defineComponent, ref, watch} from 'vue'
 import {FormControlOption} from '../types'
 
 export default defineComponent({
@@ -35,6 +35,9 @@ export default defineComponent({
   emits: ['update:modelValue', 'change'],
   setup(props, {emit}) {
     const groupValue = ref(props.modelValue)
+    watch(() => props.modelValue, (v: any) => {
+      groupValue.value = v
+    })
     const setChecked = (arr: string[]) => {
       const newLen = arr.length
       if (newLen >= props.max) {
@@ -51,7 +54,7 @@ export default defineComponent({
             item._disabled = true
           }
         })
-      } else {
+      } else if (props.min || props.max) {
         // 将所有_disabled去掉
         props.options.forEach(item => {
           item._disabled = false

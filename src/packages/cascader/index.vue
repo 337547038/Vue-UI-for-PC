@@ -223,7 +223,7 @@ export default defineComponent({
         // console.log(typeof value)
         emit('update:modelValue', value)
         emit('change', value)
-        const controlChange: any = inject('controlChange')
+        const controlChange: any = inject('controlChange', '')
         controlChange && controlChange(value)
       }
     )

@@ -1,11 +1,17 @@
 <!-- Created by 337547038 on 2021/6 0006. -->
 <template>
-  <textarea ref="textareaEl" v-model="textValue" :class="`${prefixCls}-textarea`" :style="style" @input="change"></textarea>
+  <textarea
+    ref="textareaEl"
+    v-model="textValue"
+    :class="{[`${prefixCls}-textarea ${prefixCls}-input-control`]:true,disabled:disabled}"
+    :style="style"
+    :disabled="disabled"
+    @input="change"></textarea>
 </template>
 <script lang="ts">
 import {prefixCls} from '../prefix'
 import pType from '../util/pType'
-import {defineComponent, inject, computed, ref,onMounted,watch} from 'vue'
+import {defineComponent, inject, computed, ref, onMounted, watch} from 'vue'
 
 export default defineComponent({
   name: `${prefixCls}Textarea`,
@@ -14,13 +20,14 @@ export default defineComponent({
     modelValue: pType.string(),
     autoHeight: pType.bool(true),
     width: pType.string('100%'),
-    height: pType.string('80px')
+    height: pType.string('80px'),
+    disabled: pType.bool()
   },
-  emits:['update:modelValue'],
+  emits: ['update:modelValue'],
   setup(props, {emit}) {
     const textValue = ref(props.modelValue)
     const border = ref(2)
-    const textareaEl=ref()
+    const textareaEl = ref()
     const style = computed(() => {
       return {
         width: props.width,
@@ -30,23 +37,23 @@ export default defineComponent({
         boxSizing: 'border-box'
       }
     })
-    const getBorder=()=> {
+    const getBorder = () => {
       // 取下边框的高，计算会准确点
       border.value = textareaEl.value.offsetHeight - textareaEl.value.clientHeight
     }
-    const change=e=> {
-      const {value} = e.target as HTMLInputElement
+    const change = (evt: Event) => {
+      const {value} = evt.target as HTMLInputElement
       emitChange(value)
     }
-    const controlChange: any = inject('controlChange')
-    const emitChange=(value:string)=>{
+    const controlChange: any = inject('controlChange', '')
+    const emitChange = (value: string) => {
       emit('update:modelValue', value)
       controlChange && controlChange(value)
     }
-    onMounted(()=>{
+    onMounted(() => {
       getBorder()
     })
-    watch(textValue,(value:string)=>{
+    watch(textValue, (value: string) => {
       emitChange(value)
       if (props.autoHeight) {
         textareaEl.value.style.height = 'auto'
@@ -54,6 +61,7 @@ export default defineComponent({
       }
     })
     return {
+      prefixCls,
       textValue,
       style,
       textareaEl,

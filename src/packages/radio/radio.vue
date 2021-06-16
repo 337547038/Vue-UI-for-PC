@@ -41,7 +41,7 @@ export default defineComponent({
       return bool
     })
     // formItem
-    const controlChange: any = inject('controlChange')
+    const controlChange: any = inject('controlChange', '')
     const changeHandler = () => {
       // 点击后只有选中状态
       if (props.disabled) {

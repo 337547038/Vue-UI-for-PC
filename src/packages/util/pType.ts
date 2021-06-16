@@ -78,7 +78,7 @@ export default {
       default: d
     }
   },*/
-  oneOfType(list: [], d?: any) {
+  oneOfType(list: Array<any>, d?: any) {
     const types = list.map(prop => {
       return prop['type']
     })

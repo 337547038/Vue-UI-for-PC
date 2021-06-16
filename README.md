@@ -1,5 +1,5 @@
 # ak-vue
-填坑 Vue 3 + Typescript + Vite
+填坑 Vue3 + Typescript + Vite
 
 ## 演示地址
 https://337547038.github.io/akvue3/
@@ -12,7 +12,7 @@ https://337547038.github.io/akvue3/
 - [x] Button 按钮
 - [x] Carousel 跑马灯
 - [x] Cascader 级联选择器
-- [ ] Checkbox 多选框
+- [x] Checkbox 多选框
 - [x] Collapse 折叠面板
 - [ ] ColorPicker 颜色选择器
 - [ ] DataPicker 时间选择器
@@ -29,11 +29,10 @@ https://337547038.github.io/akvue3/
 - [x] Radio 单选框
 - [ ] Select 选择器
 - [ ] Steps 步骤条
-- [ ] Swiper 图片轮播
-- [ ] Switch 开关
+- [x] Switch 开关
 - [ ] Table 表格
 - [ ] Tabs 标签页
-- [ ] Textarea 文本框
+- [x] Textarea 文本框
 - [ ] Tooltip 提示
 - [ ] Transfer 穿梭框
 - [ ] Tree 树形

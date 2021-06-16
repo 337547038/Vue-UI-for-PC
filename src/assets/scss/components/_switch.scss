@@ -1,0 +1,12 @@
+@charset "utf-8";
+@include ns(switch) {
+  $height: 22px;
+  display: inline-block; box-sizing: border-box; height: $height; min-width: 44px; vertical-align: middle; border-radius: 20px; background: #ccc; border: 1px solid #ccc; cursor: pointer; transition: all 1s; user-select: none; position: relative;
+  @include ns(switch-inner) {position: absolute; width: 18px; height: 18px; left: 1px; top: 1px; border-radius: 18px; background-color: #fff; cursor: pointer; transition: all .5s; display: block;}
+  .switch-text {text-align: right;display: block;padding: 0 5px;font-size: 12px;line-height: 20px;color: #fff;transition: all .3s}
+  &.switch-checked {background: $primary;
+    @include ns(switch-inner) {left: 23px;}
+    .switch-text {text-align: left}
+  }
+  &.disabled {opacity: .5;cursor: not-allowed}
+}

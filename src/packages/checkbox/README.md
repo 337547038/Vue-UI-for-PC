@@ -168,9 +168,9 @@ export default {
 ```vue demo
 
 <template>
-  <p>已选值：{{checkbox11}}</p>
+  <p>已选值：{{ checkbox11 }}</p>
   <p>
-    <ak-checkbox-group v-model="checkbox11" :options="groupData" ref="checkGroup"></ak-checkbox-group>
+    <ak-checkbox-group ref="checkGroup" v-model="checkbox11" :options="groupData" />
   </p>
   <p>
     <ak-button @click="$refs.checkGroup.toggleSelect(true)">全选</ak-button>
@@ -179,7 +179,7 @@ export default {
   </p>
 </template>
 <script>
-import {reactive, toRefs} from 'vue'
+import {reactive, toRefs, ref} from 'vue'
 
 export default {
   setup() {
@@ -194,9 +194,16 @@ export default {
       {label: '禁用', value: 'a5', disabled: true},
       {label: '勾选禁用', value: 'a6', disabled: true}
     ]
+    const checkGroup=ref()
+    const getValue=()=>{
+      const value=checkGroup.value.getValue()
+      console.log(value)
+    }
     return {
       ...toRefs(state),
-      groupData
+      groupData,
+      checkGroup,
+      getValue
     }
   }
 }
