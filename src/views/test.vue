@@ -1,5 +1,11 @@
 <template>
-  <ak-select v-model="value1" placeholder="请选择" :options="options" :append-to-body="true" :filterable="true" />
+  <ak-select
+    v-model="value1"
+    placeholder="请选择"
+    :options="options"
+    :multiple="true"
+    :multiple-limit="3"
+    @limitChange="limitChange" />
 </template>
 <script>
 import {ref} from 'vue'
@@ -18,13 +24,14 @@ export default {
       {label: '选项9', value: '9'},
       {label: '选项10', value: '10', class: 'red'}
     ])
-    const value1 = ref('')
-    setTimeout(() => {
-      value1.value = '5'
-    }, 2000)
+    const value1 = ref([])
+    const limitChange = () => {
+      alert('最多选择3项')
+    }
     return {
       options,
-      value1
+      value1,
+      limitChange
     }
   }
 }

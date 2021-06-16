@@ -2,12 +2,11 @@
 <template>
   <div
     ref="el"
-    :class="{'open':visible,[prefixCls+'-select']:true,top:downDirection}"
+    :class="{'open':visible,[prefixCls+'-select']:true,top:downDirection===1}"
     :style="{width:width}"
     @click="downToggle">
     <div
       :class="{
-        'show-clear':clear&&value.length>0,
         [prefixCls+'-select-control']:true}"
       @click="selectControlClick">
       <input
@@ -40,7 +39,7 @@
         <span v-else-if="text" v-text="text"></span>
       </div>
       <span class="group-icon">
-        <i v-if="clear&&value.length>0" class="icon-close" @click="clearClick"></i>
+        <i v-if="clear&&modelValue.length>0" class="icon-close" title="清空" @click="clearClick"></i>
         <i :class="{'open':visible,'icon-arrow':true}"></i>
       </span>
     </div>
@@ -49,7 +48,7 @@
     </div>
     <transition :name="downDirection?'slide-toggle-top':'slide-toggle'">
       <div
-        v-show="visible&&options.length>0"
+        v-show="visible"
         ref="selectDown"
         :class="{[prefixCls+'-select-down']:true,[downClass]:downClass}"
         :style="downPanelStyle">
@@ -58,10 +57,10 @@
             v-for="(item,index) in options"
             v-show="!item._disabled"
             :key="index"
-            :class="{'disabled':item.disabled,'active':getActive(item),[item.className]:item.className}"
+            :class="{'disabled':item.disabled,'active':getActive(item),[item.class]:item.class}"
             :title="item.label||item.value"
-            @click="itemClick(item,$event)">
-            {{ item.label || item.value }}
+            @click="itemClick(item,$event)"
+            v-html="getItemText(item.label || item.value)">
           </li>
         </ul>
         <slot v-else name="template"></slot>
@@ -91,11 +90,11 @@ import {FormControlOption} from '../types'
 export default defineComponent({
   name: `${prefixCls}Select`,
   props: {
-    modelValue: pType.oneOfType([pType.number(), pType.string()]),
+    modelValue: pType.oneOfType([pType.array(), pType.string()]),
     multiple: pType.bool(), // 是否多选
     multipleLimit: pType.number(0),
     placeholder: pType.string(), // 默认显示的文本
-    options: pType.array<FormControlOption>(), // 下拉选顶
+    options: pType.array<FormControlOption>([]), // 下拉选顶
     beforeChange: pType.func(),
     disabled: pType.bool(),
     filterable: pType.bool(), // 是否可搜索
@@ -103,12 +102,12 @@ export default defineComponent({
     downHeight: pType.number(0), // 显示下拉最大高度，超出显示滚动条
     downStyle: pType.object(), // 下拉面板样式
     downClass: pType.string(), // 下拉类名
-    direction: pType.bool(), // 下拉弹出方向，true向上，默认自动
+    direction: pType.number(0), // 下拉弹出方向，0自动，1向上，2向下
     appendToBody: pType.bool(),
     width: pType.string()
   },
   emits: ['update:modelValue', 'change', 'limitChange'],
-  setup(props, {emit}) {
+  setup(props, {emit, slots}) {
     const el = ref()
     const selectDown = ref()
     const optionsList = ref(props.options)
@@ -154,8 +153,8 @@ export default defineComponent({
       })
     })
     onBeforeUnmount(() => {
-      console.log('onBeforeUnmount..302')
-      console.log(selectDown.value)
+      /*console.log('onBeforeUnmount..302')
+      console.log(selectDown.value)*/
       if (props.appendToBody && selectDown.value) {
         document.body.removeChild(selectDown.value)
       }
@@ -187,7 +186,7 @@ export default defineComponent({
     }
     // 计算弹出面板方向
     const setPosition = (evt: MouseEvent) => {
-      if (!props.direction) {
+      if (props.direction === 0) {
         // 计算弹出方向
         const wh = document.documentElement.clientHeight || document.body.clientHeight
         const clientY = evt.clientY // 当鼠标事件发生时，鼠标相对于浏览器（这里说的是浏览器的有效区域）y轴的位置；
@@ -196,9 +195,9 @@ export default defineComponent({
         if (!downMaxHeight) {
           downMaxHeight = props.options.length * 25 // 按每项高25px算
         }
-        if (downMaxHeight > wh - clientY) {
+        if ((downMaxHeight > wh - clientY) && clientY > downMaxHeight) {
           // 向上
-          state.downDirection = true
+          state.downDirection = 1
         }
       }
     }
@@ -214,7 +213,7 @@ export default defineComponent({
           left: offset.left + 'px',
           top: (offset.top + offset.height) + 'px'
         }
-        if (state.downDirection) {
+        if (state.downDirection === 1) {
           state.appendStyle.top = 'auto'
           state.appendStyle.bottom = (ww.height - offset.top) + 'px'
         }
@@ -240,6 +239,9 @@ export default defineComponent({
           }
         }
       }
+      if (slots.template) {
+        text = [props.modelValue]
+      }
       state.text = text.join(',')
     }
     const itemClick = (item: FormControlOption, evt: MouseEvent) => {
@@ -253,20 +255,20 @@ export default defineComponent({
         if (props.multiple) {
           // 多选
           let newText = state.text ? state.text.split(',') : [] // label的值，即显示的文字
-          if (props.multipleLimit > 0 && props.multipleLimit < newText.length) {
+          if (props.multipleLimit > 0 && props.multipleLimit <= newText.length) {
             emit('limitChange', props.modelValue)
             return false
           }
-          let newValue = props.modelValue // value
+          let newValue = ref(props.modelValue) // value
           let index = newText.indexOf(activeValue)
           if (index !== -1) {
             // 原来选择了，这里取消
             newText.splice(index, 1)
-            newValue.splice(index, 1)
+            newValue.value.splice(index, 1)
           } else {
             // 添加
             newText.push(activeValue)
-            newValue.push(item.value)
+            newValue.value.push(item.value)
           }
           state.text = newText.join(',')
           emitCom(newValue, newText, 1)
@@ -300,6 +302,7 @@ export default defineComponent({
     }
     const searchBlur = (evt: InputEvent) => {
       // 搜索输入框失焦时，判断输入的值是否符合
+      // state.visible = false
       const {value} = evt.target as HTMLInputElement
       const filter = props.options.filter(item => {
         return (item.label || item.value) === value && !item.disabled
@@ -315,9 +318,11 @@ export default defineComponent({
         state.keywords = props.modelValue ? state.text : ''
       }
       // 还原下拉数据
-      props.options.forEach(item => {
-        item._disabled = false
-      })
+      setTimeout(() => {
+        props.options.forEach(item => {
+          item._disabled = false
+        })
+      }, 500)
     }
     const getActive = (item: FormControlOption) => {
       if (props.multiple) {
@@ -336,13 +341,24 @@ export default defineComponent({
     const deleteText = (item: string, index: number) => {
       // 多选时删除单个选项
       if (props.multiple) {
-        let val = JSON.parse(JSON.stringify(props.modelValue))
+        let val = props.modelValue
         val.splice(index, 1)
-        const newText = state.text.replace(item + ',', '').replace(item, '')
-        emitCom(val, newText, 1)
+        const newText = state.text.split(',')
+        newText.splice(index, 1)
+        state.text = newText.join(',')
+        emitCom(val, state.text, 1)
       }
     }
-    provide('getChildOption', item => {
+    const getItemText = (label: string): string => {
+      if (state.keywords && props.filterable) {
+        const reg = new RegExp(`${state.keywords}`, 'gi')
+        // return label.replace(//gi,)
+        return label.replace(reg, '<b>' + '$&' + '</b>')  // todo
+      } else {
+        return label
+      }
+    }
+    provide('getChildOption', (item: FormControlOption) => {
       optionsList.value.push(item)
     })
     return {
@@ -358,7 +374,9 @@ export default defineComponent({
       searchChange,
       searchBlur,
       clearClick,
-      deleteText
+      deleteText,
+      getItemText,
+      slideUp
     }
   }
 })
