@@ -13,6 +13,13 @@ export default {
   methods: {
     _onCellClick (row, column, rowIndex, columnIndex) {
       this.$emit('cellClick', row, column, rowIndex, columnIndex)
+    },
+    _rowspanColspanList(val) {
+      const list = this.$parent.rowspanColspanList
+      if (list.indexOf(val) === -1) {
+        // 没有才添加
+        list.push(val)
+      }
     }
   },
   computed: {},
@@ -45,24 +52,26 @@ export default {
         colspan = merge[1] > 1 ? merge[1] : 1
         rowspan = merge[0] > 1 ? merge[0] : 1
         // 计算出合并后不显示的单元格，如1和2合并=>显示1不显示2
-        let displayArr = []
+        // let displayArr = []
         // 这里处理同一行
         for (let i = 1; i < colspan; i++) {
           const col = this.columnIndex + i
-          displayArr.push(`${this.index}:${col}`)
+          // displayArr.push(`${this.index}:${col}`)
+          this._rowspanColspanList(`${this.index}:${col}`)
         }
         // 这里处理不同行时，即纵向合并
         for (let j = 1; j < rowspan; j++) {
           for (let i = 0; i < colspan; i++) {
             const col = this.columnIndex + i
             const rol = this.index + j
-            displayArr.push(`${rol}:${col}`)
+            // displayArr.push(`${rol}:${col}`)
+            this._rowspanColspanList(`${rol}:${col}`)
           }
         }
         // 这里存store会好些，单为这组件这里先不引入，先使用全局变量代替
         // window.rowspanColspan = displayArr
         // 使用全局全隐藏到其他表格
-        this.$parent.rowspanColspan = displayArr
+        // this.$parent.rowspanColspan = displayArr
       }
       const activeRowCol = `${this.index}:${this.columnIndex}`
       // let displayArr = window.sessionStorage.getItem(this.$parent.rowspanColspan)
