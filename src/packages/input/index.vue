@@ -31,7 +31,7 @@
 </template>
 <script lang="ts">
 import {prefixCls} from '../prefix'
-import {ref, defineComponent, computed, watch, inject} from 'vue'
+import {ref, defineComponent, computed, watch, inject, onMounted} from 'vue'
 import pType from '../util/pType'
 
 export default defineComponent({
@@ -93,6 +93,9 @@ export default defineComponent({
     const controlChangeEvent = (val: any, type?: string) => {
       controlChange && controlChange(val, type)
     }
+    onMounted(() => {
+      controlChangeEvent(props.modelValue, 'mounted')
+    })
     return {
       prefixCls,
       inputType,

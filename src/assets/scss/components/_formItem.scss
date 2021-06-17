@@ -1,0 +1,19 @@
+@charset "utf-8";
+@include ns(form-item) {
+  margin-bottom: 15px;line-height: 40px;position: relative;display: flex;
+  @include ns(form-label) { text-align: right;font-size: 14px;color: #606266;padding: 0 10px 0 0;box-sizing: border-box;width: 90px;
+    &.required {
+      &:before {content: '*';color: #f00;display: inline-block;vertical-align: middle;}
+    }
+  }
+  @include ns(form-box) {position: relative;display: flex;align-items: center;
+  }
+  /*错误提示*/
+  @include ns(form-tips) {color: #f00;margin: 0 5px;}
+}
+
+@include ns(form-item-error) {
+  @include ns(input-control) {
+    border-color: #f00;
+  }
+}
