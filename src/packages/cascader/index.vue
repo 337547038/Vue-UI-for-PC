@@ -183,10 +183,10 @@ export default defineComponent({
         state.showPlaceholder = false
       }
     }
-    const formatValue = (type?: boolean) => {
+    const formatValue = (type?: boolean): any => {
       // 将数组转为文本显示出来
       let val = ''
-      let array = []
+      let array=[]
       for (let i in selectValue.value) {
         if (type) {
           // 为真返回数组
@@ -223,7 +223,7 @@ export default defineComponent({
         // console.log(typeof value)
         emit('update:modelValue', value)
         emit('change', value)
-        const controlChange: any = inject('controlChange')
+        const controlChange: any = inject('controlChange', '')
         controlChange && controlChange(value)
       }
     )

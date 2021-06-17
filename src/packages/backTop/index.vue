@@ -1,10 +1,10 @@
 <!--Created by 337547038 on 2019.8.-->
 <template>
   <div
-      ref="element"
-      :class="`${prefixCls}-back-top`"
-      :style="{right:right+'px',bottom:bottom+'px',opacity:show?1:0,visibility:show?'visible':'hidden'}"
-      @click="elClick">
+    ref="element"
+    :class="`${prefixCls}-back-top`"
+    :style="{right:right+'px',bottom:bottom+'px',opacity:show?1:0,visibility:show?'visible':'hidden'}"
+    @click="elClick">
     <a href="javascript:;" class="icon-top" v-text="text"></a>
   </div>
 </template>

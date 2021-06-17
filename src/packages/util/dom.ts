@@ -1,17 +1,25 @@
 /**
  * Created by 337547038 on 2018/9/5 0005.
  */
+
 /* 节点操作的一些方法 */
+interface Offset {
+  width: number
+  height: number
+  left: number
+  top: number
+}
 export default function () {
   const scrollTop = () => {
     // 滚动条的位置
     return document.documentElement.scrollTop || document.body.scrollTop
   }
-  const getOffset = (el: any) => {
+  const getOffset = (el: HTMLElement):Offset => {
+    console.log(el)
     // 返回元素偏移位置
-    if (!el) {
+    /*if (!el) {
       return
-    }
+    }*/
     const componentRect = el.getBoundingClientRect()
     const top = componentRect.top + (window.pageYOffset || document.documentElement.scrollTop) - (document.documentElement.clientTop || 0)
     const left = componentRect.left + (window.pageXOffset || document.documentElement.scrollLeft) - (document.documentElement.clientLeft || 0)

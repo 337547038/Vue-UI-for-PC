@@ -89,8 +89,8 @@ export default defineComponent({
       controlChangeEvent(v)
     })
     // formItem
-    const controlChange: any = inject('controlChange')
-    const controlChangeEvent = (val: any, type: string) => {
+    const controlChange: any = inject('controlChange', '')
+    const controlChangeEvent = (val: any, type?: string) => {
       controlChange && controlChange(val, type)
     }
     return {

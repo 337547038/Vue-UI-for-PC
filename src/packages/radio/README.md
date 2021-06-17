@@ -99,11 +99,11 @@ export default {
 <template>
   <p>
   <div>当前值：{{radio8}}</div>
-  <ak-radio-group :data="data1" v-model="radio8" @change="changeGroup"></ak-radio-group>
+  <ak-radio-group :options="data1" v-model="radio8" @change="changeGroup"></ak-radio-group>
   </p>
   <p>
   <div>整个组不可选，当前值：{{radio10}}</div>
-  <ak-radio-group :data="data1" v-model="radio10" :disabled="true"></ak-radio-group>
+  <ak-radio-group :options="data1" v-model="radio10" :disabled="true"></ak-radio-group>
   </p>
 </template>
 
@@ -141,7 +141,7 @@ export default {
 |参数|类型|说明|
 |-|-|-|
 |v-model       | string         |Radio 的 v-model|
-|vale          | string/boolean/number    |选中的值，当v-model＝value时为选中状态|
+|value          | string/boolean/number    |选中的值，当v-model＝value时为选中状态|
 |disabled      | boolean/false  |是否禁用|
 |label         | String         |显示的文本值，也可以是slot|
 
@@ -154,7 +154,7 @@ export default {
 |参数|说明|
 |-|-|
 |v-model         | string         |Radio组 的 v-model|
-|data            | array          |组数据|
+|options         | array          |组数据|
 |disabled        | Boolean/false   |禁用组|
 
 ### Radio Group Event
@@ -162,7 +162,7 @@ export default {
 |-|-|
 |change          | 改变事件,返回(value,item) value为当前选中的值，item为当前data中选中的项|
 
-### Radio Group Data
+### Radio Group options
 |参数|类型|说明|
 |-|-|-|
 |label          | string         |显示的文本值|
