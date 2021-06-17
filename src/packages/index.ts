@@ -17,6 +17,7 @@ import {Checkbox, CheckboxGroup} from './checkbox/index'
 import Switch from './switch/index.vue'
 import Textarea from './textarea/index.vue'
 import {Select, Option} from './select/index'
+import InputNumber from './inputNumber/index.vue'
 /*import DatePicker from './datePicker/index'
 import {Dialog, DialogAlert} from './dialog/index'
 import {Form, FormItem, AutoForm} from './form/index'
@@ -41,7 +42,7 @@ import Tooltip from './tooltip/index'
 import ColorPicker from './colorPicker'
 import Slider from './slider'
 import {Icon, Icons} from './icon'
-import InputNumber from './inputNumber'
+
 import {Dropdown, DropdownItem} from './dropdown'
 import {Carousel, CarouselItem} from './carousel'*/
 
@@ -59,7 +60,8 @@ const component = [
   Checkbox, CheckboxGroup,
   Switch,
   Textarea,
-  Select, Option
+  Select, Option,
+  InputNumber
 ]
 
 /*

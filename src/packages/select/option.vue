@@ -2,7 +2,6 @@
 import {prefixCls} from '../prefix'
 import {inject, defineComponent, onMounted} from 'vue'
 import pType from '../util/pType'
-import {VoidFun} from '../types'
 
 export default defineComponent({
   name: `${prefixCls}Option`,
@@ -13,7 +12,7 @@ export default defineComponent({
     className: pType.string()
   },
   setup(props) {
-    const getChildOption = inject('getChildOption', '') as VoidFun
+    const getChildOption:any = inject('getChildOption', '')
     onMounted(() => {
       getChildOption && getChildOption({
         label: props.label,

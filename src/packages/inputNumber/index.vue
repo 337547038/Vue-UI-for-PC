@@ -2,9 +2,10 @@
   <div :class="{'disabled':disabled,[prefixCls+'-input-number']:true}">
     <input
       type="text"
-      :value="value"
+      :value="modelValue"
       :class="{'disabled':disabled,[prefixCls+'-input-control']:true}"
       :disabled="disabled"
+      :readOnly="readOnly"
       :placeholder="placeholder"
       onkeyup="this.value=this.value.replace(/[^0-9\.]/g,'')"
       @focus="focus"
@@ -12,15 +13,13 @@
       @input="input">
     <span class="number-control">
       <a
-        href="javascript:;"
         class="icon-minus"
-        :class="{'disabled':value<=min}"
+        :class="{'disabled':modelValue<=min}"
         @click="numberControl(-1)">
       </a>
       <a
-        href="javascript:;"
         class="icon-plus"
-        :class="{'disabled':value>=max}"
+        :class="{'disabled':modelValue>=max}"
         @click="numberControl(1)">
       </a>
     </span>
@@ -34,39 +33,39 @@ import {defineComponent, inject} from 'vue'
 export default defineComponent({
   name: `${prefixCls}InputNumber`,
   props: {
-    value: pType.number(0),
+    modelValue: pType.number(0),
     max: pType.number(),
     min: pType.number(),
     step: pType.number(1),// 每次增加或减少的数
     disabled: pType.bool(),
-    placeholder: pType.string()
+    placeholder: pType.string(),
+    readOnly: pType.bool(true)
   },
   emits: ['focus', 'blur', 'change', 'update:modelValue'],
   setup(props, {emit}) {
-    const focus = e => {
+    const focus = (e: InputEvent) => {
       if (!props.disabled) {
         emit('focus', e)
       }
     }
-    const blur = e => {
+    const blur = (evt: InputEvent) => {
       // 判断有没超过最大值和低于最小值
-      const val = e.target.value
-      if (!isNaN(props.max) && val > props.max) {
-        input(props.max)
+      const {value} = evt.target as HTMLInputElement
+      if (!isNaN(props.max) && parseInt(value) > props.max) {
+        emitComm(props.max)
       }
-      if (!isNaN(props.min) && val < props.min) {
-        input(props.min)
+      if (!isNaN(props.min) && parseInt(value) < props.min) {
+        emitComm(props.min)
       }
-      emit('blur', e)
+      emit('blur', evt)
     }
-    const input = e => {
-      const val = e.target ? e.target.value : e
-      emit('change', val)
-      emit('update:modelValue', val)
+    const input = (evt: InputEvent) => {
+      const {value} = evt.target as HTMLInputElement
+      emitComm(parseInt(value))
     }
-    const numberControl = type => {
+    const numberControl = (type: number) => {
       let inputValue = props.modelValue || 0
-      if (!isNaN(inputValue && !props.disabled)) {
+      if (!isNaN(inputValue) && !props.disabled) {
         let val = 0
         if (type > 0) {
           // add
@@ -92,8 +91,14 @@ export default defineComponent({
           const num = stepString.substr(stepString.indexOf('.') + 1).length // 取几位小数
           val = Number(val.toFixed(num))
         }
-        input(val)
+        emitComm(val)
       }
+    }
+    const controlChange: any = inject('controlChange', '')
+    const emitComm = (val: number) => {
+      emit('change', val)
+      emit('update:modelValue', val)
+      controlChange && controlChange(val)
     }
     return {
       prefixCls,

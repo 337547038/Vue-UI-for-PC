@@ -353,7 +353,7 @@ export default defineComponent({
       if (state.keywords && props.filterable) {
         const reg = new RegExp(`${state.keywords}`, 'gi')
         // return label.replace(//gi,)
-        return label.replace(reg, '<b>' + '$&' + '</b>')  // todo
+        return label.replace(reg, '<b>' + '$&' + '</b>')
       } else {
         return label
       }
