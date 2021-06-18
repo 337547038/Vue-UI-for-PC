@@ -211,11 +211,6 @@ export default defineComponent({
         })
       })
     }
-    /*watch(state.showValue, () => {
-      const value = formatValue(true)
-      emit('input', value)
-      emit('change', value)
-    })*/
     watch(
       () => state.showValue,
       () => {
@@ -230,10 +225,19 @@ export default defineComponent({
     onMounted(() => {
       document.addEventListener('click', showHide)
       init()
+      controlChangeEvent(props.modelValue, 'mounted')
     })
     onUnmounted(() => {
       document.addEventListener('click', showHide)
     })
+    watch(() => props.modelValue, (v: any) => {
+      controlChangeEvent(v, 'mounted')
+    })
+    // formItem
+    const controlChange: any = inject('controlChange', '')
+    const controlChangeEvent = (val: any, type?: string) => {
+      controlChange && controlChange(val, type)
+    }
     return {
       prefixCls,
       ...toRefs(state),

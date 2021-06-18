@@ -48,10 +48,11 @@ export default defineComponent({
     const controlChange: any = inject('controlChange', '')
     const emitChange = (value: string) => {
       emit('update:modelValue', value)
-      controlChange && controlChange(value)
+      controlChangeEvent(value)
     }
     onMounted(() => {
       getBorder()
+      controlChangeEvent(props.modelValue, 'mounted')
     })
     watch(textValue, (value: string) => {
       emitChange(value)
@@ -59,6 +60,12 @@ export default defineComponent({
         textareaEl.value.style.height = 'auto'
         textareaEl.value.style.height = (textareaEl.value.scrollHeight + border.value) + 'px'
       }
+    })
+    const controlChangeEvent = (val: any, type?: string) => {
+      controlChange && controlChange(val, type)
+    }
+    watch(() => props.modelValue, (v: any) => {
+      controlChangeEvent(v, 'mounted')
     })
     return {
       prefixCls,

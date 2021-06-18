@@ -9,7 +9,7 @@
   </div>
 </template>
 <script lang="ts">
-import dom from '../util/dom'
+import {scrollTop} from '../util/dom'
 import {prefixCls} from '../prefix'
 import pType from '../util/pType'
 import {defineComponent, ref, onMounted, nextTick, onBeforeUnmount} from 'vue'
@@ -24,7 +24,7 @@ export default defineComponent({
   },
   emits: ['click'],
   setup(props, {emit}) {
-    let {scrollTop} = dom()
+    /* let {scrollTop} = dom()*/
     const show = ref(false)
     // const element = ref<HTMLInputElement>()
     const element = ref()

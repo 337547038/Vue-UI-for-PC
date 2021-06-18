@@ -70,7 +70,7 @@
 </template>
 <script lang="ts">
 import {prefixCls} from '../prefix'
-import getDom from '../util/dom'
+import {getWindow, getOffset} from '../util/dom'
 import {
   ref,
   defineComponent,
@@ -204,7 +204,7 @@ export default defineComponent({
     // 计算插入body的位置样式
     const setAppendToBodyStyle = () => {
       if (props.appendToBody) {
-        let {getWindow, getOffset} = getDom()
+        // let {getWindow, getOffset} = getDom()
         const ww = getWindow()
         const offset = getOffset(el.value)
         state.appendStyle = {
