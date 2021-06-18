@@ -28,7 +28,7 @@
 <script lang="ts">
 import {prefixCls} from '../prefix'
 import pType from '../util/pType'
-import {defineComponent, inject} from 'vue'
+import {defineComponent, inject, onMounted, watch} from 'vue'
 
 export default defineComponent({
   name: `${prefixCls}InputNumber`,
@@ -95,11 +95,20 @@ export default defineComponent({
       }
     }
     const controlChange: any = inject('controlChange', '')
+    const controlChangeEvent = (val: any, type?: string) => {
+      controlChange && controlChange(val, type)
+    }
     const emitComm = (val: number) => {
       emit('change', val)
       emit('update:modelValue', val)
-      controlChange && controlChange(val)
+      controlChangeEvent(val)
     }
+    watch(() => props.modelValue, (v: any) => {
+      controlChangeEvent(v, 'mounted')
+    })
+    onMounted(() => {
+      controlChangeEvent(props.modelValue, 'mounted')
+    })
     return {
       prefixCls,
       input,

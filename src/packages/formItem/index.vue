@@ -1,6 +1,6 @@
 <!-- Created by 337547038 on 2021/6/14. -->
 <template>
-  <div :class="{className,[prefixCls+'-form-item-error']:error,[prefixCls+'-form-item']:true}">
+  <div :class="{className,[prefixCls+'-form-item-error']:errorTips!=='',[prefixCls+'-form-item']:true}">
     <label
       v-if="label || $slots.label"
       :class="{'required':isRequired,[prefixCls+'-form-label']:true}"
@@ -9,8 +9,13 @@
     </label>
     <div :class="`${prefixCls}-form-box`">
       <slot></slot>
-      <div v-if="messageShow&&errorTips" :class="`${prefixCls}-form-tips ${iconType}`" v-text="errorTips"></div>
-      <div v-else-if="messageShow&&!error" :class="`${prefixCls}-form-tips ${iconType}`"></div>
+      <template v-if="iconType&&messageShow">
+        <div v-if="errorTips===''" :class="`${prefixCls}-form-tips ${iconType}`"></div>
+        <div
+          v-else
+          :class="`${prefixCls}-form-tips ${iconType}`"
+          v-text="errorTips"></div>
+      </template>
     </div>
     <slot name="other"></slot>
   </div>
@@ -19,7 +24,7 @@
 <script lang="ts">
 import {prefixCls} from '../prefix'
 import Validate from './validate'
-import {ref, provide, defineComponent, reactive, computed, toRefs, inject} from 'vue'
+import {provide, defineComponent, reactive, computed, toRefs, inject, onMounted} from 'vue'
 import pType from '../util/pType'
 import {AnyPropName} from '../types'
 
@@ -33,22 +38,31 @@ export default defineComponent({
     verify: pType.string(),  // 用于快速验证，formItem带验证规则时，使用默认提示
     rules: pType.array<AnyPropName>([]),
     showMessage: pType.bool(true),
-    trigger: pType.oneOfString(['change', 'blur'], 'change')
+    trigger: pType.oneOfString(['change', 'blur'], 'change'),
+    labelWidth: pType.string()
   },
   setup(props) {
     const formProps: AnyPropName = inject('formProps', {})
-    let rules = ref(props.rules)
-    if (props.rules.length === 0) {
-      // 使用form的，这里优先使用formItem
-      rules = formProps.rules
+    const formRules = formProps && formProps.rules[props.prop]
+    let rules = [...props.rules]
+    if (props.rules.length === 0 && !props.verify && formRules) {
+      // 使用form的，formItem没有设置时使用form
+      rules = [...formRules]
+    }
+    // 优先使用参数2的设置
+    const getFormProps = (formItem: any, form: any) => {
+      if (form !== undefined) {
+        return form
+      } else {
+        return formItem
+      }
     }
     const state = reactive({
-      errorTips: '',
+      errorTips: '', // 有值时表示校验没通过有错误信息
       iconType: '', // 提示类型，
-      error: false, // 验证错误添加样式
       rules2: rules,
-      trigger2: Object.assign(props.trigger, formProps.trigger),
-      messageShow: Object.assign(props.showMessage, formProps.showMessage),// 优先使用form的
+      trigger2: getFormProps(props.trigger, formProps.trigger),
+      messageShow: getFormProps(props.showMessage, formProps.showMessage),// 优先使用form的
       controlValue: '' // 组件的值，改变事件时*/
     })
     // 有快速校验规则，追加
@@ -72,14 +86,12 @@ export default defineComponent({
     const isRequired = computed(() => {
       let bool = false
       if (props.required && state.rules2 && state.rules2.length > 0) {
-        if (state.rules2) {
-          state.rules2.forEach(item => {
-            if (item.type === 'required') {
-              bool = true
-              return false
-            }
-          })
-        }
+        state.rules2.forEach(item => {
+          if (item.type === 'required') {
+            bool = true
+            return false
+          }
+        })
       }
       // 通过formItem写的verify也要添加
       if (props.required && props.verify && props.verify.indexOf('required') !== -1) {
@@ -89,15 +101,16 @@ export default defineComponent({
     })
     // 如果form组件设置了label的宽
     const labelStyle = computed(() => {
-      if (formProps.labelWidth) {
+      const width = getFormProps(formProps.labelWidth, props.labelWidth)
+      if (width) {
         return {
-          width: formProps.labelWidth
+          width: width
         }
       } else {
         return null
       }
     })
-    const validate = (value: any, callback?: any) => {
+    const validate = (value: any) => {
       let value2 = value
       // 外部调用时没有值
       if (value === undefined) {
@@ -110,16 +123,23 @@ export default defineComponent({
           if (result === true) {
             // 通过
             state.errorTips = ''
-            state.error = false
-            state.iconType = 'success'
+            state.iconType = 'icon-success'
           } else {
             state.errorTips = result
-            state.error = true
-            state.iconType = 'failure'
+            state.iconType = 'icon-failure'
           }
         }
       }
-      callback && callback(state.errorTips)
+      return new Promise((resolve, reject) => {
+        if (state.errorTips === '') {
+          // 通过
+          resolve(true)
+        } else {
+          reject(state.errorTips)
+        }
+      }).catch(res => {
+        return res
+      })
     }
     const focusTips = (value: any) => {
       let typeTips = ''
@@ -131,8 +151,13 @@ export default defineComponent({
       if (typeTips && !value) {
         // 没有值时才提示
         state.errorTips = typeTips
-        state.error = true
+        state.iconType = 'icon-tips'
       }
+    }
+    // 清空输入提示，恢复初始状态
+    const clearTips = () => {
+      state.errorTips = ''
+      state.iconType = ''
     }
     provide('controlChange', (val: any, type: string) => {
       state.controlValue = val
@@ -151,12 +176,17 @@ export default defineComponent({
         validate(val)
       }
     })
+    onMounted(() => {
+      const getFormItemFields: any = inject('getFormItemFields', '')
+      getFormItemFields && getFormItemFields(validate)
+    })
     return {
       prefixCls,
       ...toRefs(state),
       isRequired,
       labelStyle,
-      validate
+      validate,
+      clearTips
     }
   }
 })

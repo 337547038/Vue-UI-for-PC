@@ -19,6 +19,7 @@ import Textarea from './textarea/index.vue'
 import {Select, Option} from './select/index'
 import InputNumber from './inputNumber/index.vue'
 import FormItem from './formItem/index.vue'
+import Form from './form/index.vue'
 /*import DatePicker from './datePicker/index'
 import {Dialog, DialogAlert} from './dialog/index'
 import {Form, FormItem, AutoForm} from './form/index'
@@ -63,7 +64,8 @@ const component = [
   Textarea,
   Select, Option,
   InputNumber,
-  FormItem
+  FormItem,
+  Form
 ]
 
 /*

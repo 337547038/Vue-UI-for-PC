@@ -17,7 +17,7 @@
 <script lang="ts">
 import {prefixCls} from '../prefix'
 import pType from '../util/pType'
-import {inject, computed, defineComponent} from 'vue'
+import {inject, computed, defineComponent, onMounted, watch} from 'vue'
 
 export default defineComponent({
   name: `${prefixCls}Radio`,
@@ -52,6 +52,14 @@ export default defineComponent({
       emit('update:modelValue', val)
       controlChange && controlChange(val)
     }
+    watch(() => props.modelValue, (v: any) => {
+      controlChange && controlChange(v, 'mounted')
+    })
+    onMounted(() => {
+      console.log('p')
+      console.log(props.modelValue)
+      controlChange && controlChange(props.modelValue, 'mounted')
+    })
     return {
       prefixCls,
       checked,

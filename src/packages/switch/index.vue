@@ -17,7 +17,7 @@
 <script lang="ts">
 import {prefixCls} from '../prefix'
 import pType from '../util/pType'
-import {defineComponent, inject, computed} from 'vue'
+import {defineComponent, inject, computed, watch, onMounted} from 'vue'
 
 export default defineComponent({
   name: `${prefixCls}Switch`,
@@ -79,9 +79,18 @@ export default defineComponent({
         }
         emit('update:modelValue', checked)
         emit('change', checked)
-        controlChange && controlChange(checked)
+        controlChangeEvent(checked)
       }
     }
+    const controlChangeEvent = (val: any, type?: string) => {
+      controlChange && controlChange(val, type)
+    }
+    watch(() => props.modelValue, (v: any) => {
+      controlChangeEvent(v, 'mounted')
+    })
+    onMounted(() => {
+      controlChangeEvent(props.modelValue, 'mounted')
+    })
     return {
       prefixCls,
       status,

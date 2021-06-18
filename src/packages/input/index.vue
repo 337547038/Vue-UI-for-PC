@@ -73,7 +73,7 @@ export default defineComponent({
     const inputHandler = (e: Event) => {
       const {value} = e.target as HTMLInputElement
       emit('update:modelValue', value)
-      // controlChangeEvent(value)
+      controlChangeEvent(value)
     }
     const clearValue = () => {
       emit('update:modelValue', '')
@@ -86,7 +86,7 @@ export default defineComponent({
       inputEl.value.blur()
     }
     watch(() => props.modelValue, (v: any) => {
-      controlChangeEvent(v)
+      controlChangeEvent(v, 'mounted')
     })
     // formItem
     const controlChange: any = inject('controlChange', '')
