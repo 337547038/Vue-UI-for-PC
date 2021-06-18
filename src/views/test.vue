@@ -1,14 +1,12 @@
 <template>
-  <ak-form-item label="123" :rules="rules" verify="required">
-    <ak-input v-model="value1" />
-  </ak-form-item>
+  <ak-date-picker v-model="value1" placeholder="请选择时间"></ak-date-picker>
 </template>
 <script>
 import {ref} from 'vue'
 
 export default {
   setup() {
-    const value1 = ref('66')
+    const value1 = ref('')
     const rules = [
       {type: 'tips', msg: 'tips输入提示'},
       {type: 'required', msg: '不能为空'},
