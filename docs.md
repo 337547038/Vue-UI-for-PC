@@ -23,6 +23,8 @@ Event
 Element
 MouseEvent
 HTMLElement
+HTMLInputElement   const inputElRef = ref<HTMLInputElement>()
+HTMLDivElement
 HTMLInputElement
 
 // 定义

@@ -5,7 +5,7 @@
       <ul>
         <li v-for="item in routesListFilter" :key="item.name">
           <router-link :to="item.path">
-            {{ getName(item.name) }}
+            {{getName(item.name)}}
           </router-link>
         </li>
       </ul>
