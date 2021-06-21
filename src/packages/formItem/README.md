@@ -62,15 +62,15 @@ export default {
 ```
 
 ### 快速校验
-对于大量的表单验证不需要精确提示时，如验证为空时统一提示为必填字段，可通过设置`verify`，从个用逗号隔开，也可同时和`rules`规则校验一起使用
+对于大量的表单验证不需要精确提示时，如验证为空时统一提示为必填字段，可通过设置`verify`，多个用逗号隔开，也可同时和`rules`规则校验一起使用
 
 ```vue demo
 <template>
-  <ak-form-item label="title" verify="tel,number">
-    <ak-input v-model="value" placeholder="" />
+  <ak-form-item label="title" verify="tel">
+    <ak-input v-model="value" placeholder="手机号验证" />
   </ak-form-item>
   <ak-form-item label="title" :rules="rules" verify="tel">
-    <ak-input v-model="value2" placeholder="" />
+    <ak-input v-model="value2" placeholder="手机号和必填验证" />
   </ak-form-item>
 </template>
 <script>
@@ -181,7 +181,7 @@ export default {
 |label          | string         |显示的标签名|
 |prop           | string         |表单校验时关联表单的校验规则|
 |required       | boolean/true   |是否根据验证规则自动生成必填样式名|
-|verify         | string         |快速验证，支持required, mobile, tel, mail, digits, number 多个用逗号隔开|
+|verify         | string         |快速验证，支持required, mobile, tel, mail, digits, number,phone 多个用逗号隔开|
 |rules          | array          |校验规则|
 |showMessage    | boolean/true   |显示错误提示，在form使用时，优先使用form的设置|
 |trigger        | string/change  |change和blur两种，在form使用时，优先使用form的设置|
@@ -203,7 +203,7 @@ export default {
 |rule           |自定义验证规则|
 |fn             |回调验证|
 
-### Form Methods
+### FormItem Methods
 |参数|说明|
 |-|-|
 |validate       |对单个表单项进行校验的方法，Promise返回验证结果|

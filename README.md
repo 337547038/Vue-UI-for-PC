@@ -15,11 +15,11 @@ https://337547038.github.io/akvue3/
 - [x] Checkbox 多选框
 - [x] Collapse 折叠面板
 - [ ] ColorPicker 颜色选择器
-- [ ] DataPicker 时间选择器
+- [x] DataPicker 时间选择器
 - [ ] Dialog 弹层对话框
 - [ ] Alert 弹框
 - [ ] Echarts 图形图表
-- [ ] Form 表单
+- [x] Form 表单
 - [x] Input 输入框
 - [ ] Lazy 图片延时加载
 - [ ] Loading 加载等待
@@ -27,7 +27,7 @@ https://337547038.github.io/akvue3/
 - [ ] Pagination 分页
 - [ ] Progress 进度条
 - [x] Radio 单选框
-- [ ] Select 选择器
+- [x] Select 选择器
 - [ ] Steps 步骤条
 - [x] Switch 开关
 - [ ] Table 表格

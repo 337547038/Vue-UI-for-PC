@@ -95,7 +95,7 @@ export default defineComponent({
     multipleLimit: pType.number(0),
     placeholder: pType.string(), // 默认显示的文本
     options: pType.array<FormControlOption>([]), // 下拉选顶
-    beforeChange: pType.func(),
+    beforeChange: pType.func(true),
     disabled: pType.bool(),
     filterable: pType.bool(), // 是否可搜索
     clear: pType.bool(), // 是否可以清空选项
@@ -142,7 +142,6 @@ export default defineComponent({
       return style
     })
     onMounted(() => {
-      console.log('onMounted')
       nextTick(() => {
         document.addEventListener('click', slideUp)
         // 插入到body
@@ -246,7 +245,7 @@ export default defineComponent({
     }
     const itemClick = (item: FormControlOption, evt: MouseEvent) => {
       if (!item.disabled) {
-        if (props.beforeChange && !props.beforeChange(item)) {
+        if (!props.beforeChange(item)) {
           state.visible = false
           evt.stopPropagation()
           return

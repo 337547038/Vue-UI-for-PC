@@ -1,71 +1,44 @@
 <template>
-  <ak-form v-model="formValue" :rules="formRules" ref="formEl">
-    <ak-form-item label="userName" prop="userName">
-      <ak-input v-model="formValue.userName" placeholder="请输入用户名" />
-    </ak-form-item>
-    <ak-form-item label="password" verify="required">
-      <ak-input v-model="formValue.password" placeholder="请输入密码" />
-    </ak-form-item>
-    <ak-form-item label="password2" prop="password2">
-      <ak-input v-model="formValue.password2" placeholder="请再次输入密码" />
-    </ak-form-item>
-  </ak-form>
-  <ak-button @click="submit">submit</ak-button>
-  <ak-button @click="resetForm">reset</ak-button>
+  <p>
+    <ak-checkbox v-model="checkbox1">选项1</ak-checkbox>
+    {{ checkbox1 }}
+  </p>
+  <!--  <p>
+      <ak-checkbox v-model="checkbox2">选项2</ak-checkbox>
+      {{checkbox2}}
+    </p>
+    <p>
+      <ak-checkbox v-model="checkbox3">选项3</ak-checkbox>
+      {{checkbox3}}（v-model的值只要为true都会是勾选状态）
+    </p>
+    <p>选中时返回指定值（v-model=value或是value存在于v-model数组中，即选中状态）</p>
+    <p>
+      <ak-checkbox v-model="checkbox4" value="4">选项4</ak-checkbox>
+      {{checkbox4}}
+    </p>
+    <p>
+      <ak-checkbox v-model="checkbox5" value="5">选项5</ak-checkbox>
+      {{checkbox5}}
+    </p>-->
 </template>
 <script>
-import {ref} from 'vue'
+import {reactive, toRefs} from 'vue'
 
 export default {
   setup() {
-    const formValue = ref({
-      password: '1',
-      password2: '2',
-      userName: ''
+    const state = reactive({
+      checkbox1: true,
+      checkbox2: false,
+      checkbox3: '1',
+      checkbox4: ['4'],
+      checkbox5: []
     })
-    const formRules = {
-      password2: [
-        {type: 'required', msg: '密码2不能为空'},
-        {
-          type: 'fn',
-          msg: '两次输入的密码不一致',
-          validator: val => {
-            return val === formValue.value.password
-          }
-        }
-      ],
-      userName: [
-        {type: 'required', msg: '用户名不能为空'}
-      ]
-    }
-    /*const rules = ref([
-      {type: 'required', msg: '密码不能为空'},
-      {
-        type: 'fn',
-        msg: '两次输入的密码不一致',
-        validator: val => {
-          return val === formValue.value.password
-        }
-      }
-    ])*/
-    const formEl = ref()
-    const resetForm = () => {
-    }
-    const submit = () => {
-      formEl.value.validate()
-        .then(res => {
-          console.log(res)
-        })
-        .catch(res => {
-          console.log(res)
-        })
+    const beforeChange = () => {
+     return 'aa'
     }
     return {
-      formValue,
-      formRules,
-      submit,
-      resetForm,
-      formEl
+      ...toRefs(state),
+      beforeChange
     }
   }
 }

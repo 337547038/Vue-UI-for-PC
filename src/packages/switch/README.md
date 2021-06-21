@@ -32,7 +32,7 @@ export default {
 
 ### 自定显示文本
 
-```vue deom
+```vue demo
 <template>
   <ak-switch v-model="switch3">
     <template #open>开</template>
@@ -89,7 +89,7 @@ export default {
 ```vue demo
 
 <template>
-  <p>
+  <p>{{switch6}}
     <ak-switch v-model="switch6" close-color="#999" active-color="red" />
   </p>
 </template>
@@ -114,7 +114,7 @@ export default {
 
 ```vue demo
 <template>
-  <p>
+  <p>{{switch7}}
     <ak-switch v-model="switch7" close-value="a" active-value="b" />
   </p>
 </template>

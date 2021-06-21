@@ -49,7 +49,7 @@ export default defineComponent({
     width: pType.string(),
     size: pType.string()
   },
-  emits: ['blur', 'focus', 'update:modelValue'],
+  emits: ['blur', 'focus', 'update:modelValue', 'change'],
   setup(props, {emit}) {
     const inputEl = ref()
     const eyeShow = ref(false)
@@ -77,6 +77,7 @@ export default defineComponent({
     }
     const clearValue = () => {
       emit('update:modelValue', '')
+      emit('change', '')
     }
     // 通过el.value.foucs()设置焦点事件
     const focus = () => {

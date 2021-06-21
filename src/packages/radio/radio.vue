@@ -23,8 +23,8 @@ export default defineComponent({
   name: `${prefixCls}Radio`,
   props: {
     disabled: pType.bool(false),
-    value: pType.string(),
-    modelValue: [String, Boolean],
+    value: [String, Boolean, Number],
+    modelValue: [String, Boolean, Number],
     label: pType.string()
   },
   emits: ['change', 'update:modelValue'],
@@ -56,8 +56,6 @@ export default defineComponent({
       controlChange && controlChange(v, 'mounted')
     })
     onMounted(() => {
-      console.log('p')
-      console.log(props.modelValue)
       controlChange && controlChange(props.modelValue, 'mounted')
     })
     return {

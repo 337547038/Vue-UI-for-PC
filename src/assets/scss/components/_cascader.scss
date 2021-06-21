@@ -27,7 +27,7 @@
     }
     .cascader-area { clear: both; padding: 10px 5px 5px; overflow: hidden;
       ul {display: flex; flex-wrap: wrap}
-      li { width: 25%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; padding-right: 3px; box-sizing: border-box;margin-bottom: 5px;
+      li { width: 25%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; padding-right: 3px; box-sizing: border-box;margin-bottom: 5px;line-height: 22px;
         a { cursor: pointer;
           &:hover { color: $primary }
         }

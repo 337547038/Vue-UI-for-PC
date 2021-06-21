@@ -10,12 +10,12 @@ interface Offset {
   top: number
 }
 
-export const scrollTop = () => {
+const scrollTop = () => {
   // 滚动条的位置
   return document.documentElement.scrollTop || document.body.scrollTop
 }
-export const getOffset = (el: HTMLElement): Offset => {
-  console.log(el)
+const getOffset = (el: HTMLElement): Offset => {
+  // console.log(el)
   // 返回元素偏移位置
   /*if (!el) {
     return
@@ -27,13 +27,13 @@ export const getOffset = (el: HTMLElement): Offset => {
   const height = el.offsetHeight
   return {left: left, top: top, width: width, height: height}
 }
-export const getWindow = () => {
+const getWindow = () => {
   // 返回窗口宽高
   const width = document.documentElement.clientWidth || document.body.clientWidth
   const height = document.documentElement.clientHeight || document.body.clientHeight
   return {width: width, height: height}
 }
-export const getScrollbarWidth = () => {
+const getScrollbarWidth = () => {
   // 取滚动条的宽
   const hasScroll = document.body.scrollHeight > (window.innerHeight || document.documentElement.clientHeight)
   if (hasScroll) {
@@ -45,10 +45,10 @@ export const getScrollbarWidth = () => {
     return scrollbarWidth
   }
 }
-export const hasClass = (elements: Element, cName = '') => {
+const hasClass = (elements: Element, cName = '') => {
   return !!elements.className.match(new RegExp('(\\s|^)' + cName + '(\\s|$)'))
 }
-export const addClass = (elements: Element, cName = '') => {
+const addClass = (elements: Element, cName = '') => {
   if (!hasClass(elements, cName)) {
     if (elements.className) {
       elements.className += ' ' + cName
@@ -57,9 +57,10 @@ export const addClass = (elements: Element, cName = '') => {
     }
   }
 }
-export const removeClass = (elements: Element, cName = '') => {
+const removeClass = (elements: Element, cName = '') => {
   if (hasClass(elements, cName)) {
     elements.className = elements.className.replace(new RegExp('(\\s|^)' + cName + '(\\s|$)'), '')
   }
 }
 
+export {scrollTop, getOffset, getWindow, getScrollbarWidth, hasClass, addClass, removeClass}

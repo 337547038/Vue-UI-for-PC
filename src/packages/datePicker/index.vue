@@ -2,23 +2,30 @@
 <template>
   <div
     ref="el"
-    :class="{[prefixCls+'-date-picker-input']:true,'date-picker-clear':modelValue&&showClear,top:downDirection===1}"
-    :style="{width:width}"
+    :class="{[prefixCls+'-date-picker']:true,'date-picker-clear':modelValue&&showClear,top:downDirection===1}"
     @click="downToggle">
     <v-input
       ref="input"
       :placeholder="placeholder"
       :class="{'disabled':disabled}"
-      :value="showValue"
+      :model-value="showValue"
       :readonly="readonly"
       :disabled="disabled"
       :clear="showClear&&!disabled"
-      @input="inputHandler"
+      :width="width"
       @blur="blurHandler"
+      @change="inputHandler"
       @click="selectControlClick" />
-    <i v-if="!disabled" class="icon-date"></i>
+    <i class="icon-date" :class="{disabled:disabled}"></i>
     <transition :name="downDirection?'slide-toggle-top':'slide-toggle'">
-      <div v-show="visible" ref="downPaneEl">下拉面板</div>
+      <div
+        v-show="visible"
+        ref="downPaneEl"
+        :class="{[`${prefixCls}-date-picker-down`]:true,[downClass]:downClass}"
+        :style="appendStyle"
+        @click.stop="">
+        <date-picker :value="childValue" :type="type" @change="datePickerChange" />
+      </div>
     </transition>
   </div>
 </template>
@@ -29,31 +36,31 @@ import {
   onBeforeUnmount, provide, inject, nextTick, watch
 } from 'vue'
 import {prefixCls} from '../prefix'
-//import DatePicker from './datePicker.vue'
+import DatePicker from './datePicker.vue'
 import pType from '../util/pType'
-import getDom from '../util/dom'
+import {getWindow, getOffset} from '../util/dom'
 import {AnyPropName} from '../types'
 
 export default defineComponent({
   name: `${prefixCls}DatePicker`,
-  components: {vInput},
+  components: {vInput, DatePicker},
   props: {
     modelValue: pType.string(),
     placeholder: pType.string(),
     showClear: pType.bool(true),// 显示清空
-    disabledDate: pType.func(),
     disabled: pType.bool(),
     type: pType.oneOfString(['year', 'month', 'date', 'datetime'], 'date'),// 下拉面板类型 四种类型，年/年月/年月日/年月日时分秒
     format: pType.string(), // 显示于输入框的值
     valueFormat: pType.string(), // 实际值，即v-model
-    innerHTML: pType.func(),
-    appendToBody: pType.bool(true), // 将日期面板插入到body中
+    appendToBody: pType.bool(false), // 将日期面板插入到body中
     downClass: pType.string(), // 下拉面板样式
     readonly: pType.bool(true), // 日期输入框只读
     direction: pType.number(0), // 下拉弹出方向，0自动，1向上，2向下
-    width: pType.string()
+    width: pType.string(),
+    disabledDate: pType.func(),
+    innerText: pType.func()
   },
-  emits: ['update:modelValue'],
+  emits: ['update:modelValue', 'change'],
   setup(props, {emit}) {
     const downPaneEl = ref()
     const el = ref()
@@ -61,15 +68,101 @@ export default defineComponent({
       downDirection: props.direction, // 下拉方向
       visible: false,
       showValue: '', // 显示在输入框的值
+      childValue: new Date(), // 传给子组件的值，即通过判断的，不合法日期时取当前时间
       appendStyle: {
         top: '',
-        width: '',
         bottom: '',
         left: ''
       } // 当前input位置坐标
     })
+    const controlChange: any = inject('controlChange', '')
+    provide('setInnerText', (date: Date) => {
+      return props.innerText(date)
+    })
+    provide('setDisabledDate', (date: Date, type: string) => {
+      return props.disabledDate(date, type)
+    })
+    const emitCom = (value: string) => {
+      emit('update:modelValue', value)
+      emit('change', value)
+    }
+    const parseDate = (dateTime: Date, formatType: string): string => {
+      if (formatType === 'timestamp') {
+        return dateTime.getTime().toString() // 时间戳直接返回
+      }
+      const m = dateTime.getMonth() + 1
+      const d = dateTime.getDate()
+      const h = dateTime.getHours()
+      const mi = dateTime.getMinutes()
+      const s = dateTime.getSeconds()
+      const formatObj: AnyPropName = {
+        y: dateTime.getFullYear(),
+        M: m,
+        MM: m > 9 ? m : '0' + m,
+        d: d,
+        dd: d > 9 ? d : '0' + d,
+        h: h,
+        hh: h > 9 ? h : '0' + h,
+        m: mi,
+        mm: mi > 9 ? mi : '0' + mi,
+        s: s,
+        ss: s > 9 ? s : '0' + s,
+        w: dateTime.getDay()
+      }
+      return formatType.replace(/(y|MM|M|dd|d|hh|h|mm|m|ss|s|w)/g, result => {
+        let value = formatObj[result]
+        if (result === 'w') return ['日', '一', '二', '三', '四', '五', '六'][value]
+        return value
+      })
+    }
+    // 初始化完成或是当modelValue变化时，返回指定的输出格式
+    const getShowValue = (date: string) => {
+      // console.log(date)
+      if (!date) {
+        return
+      }
+      // 如果当前输入的日期不合法，则清空输入框
+      let dateValue = new Date(date)
+      if (dateValue.toString() === 'Invalid Date') {
+        // 日期不合法
+        emitCom('')
+        state.showValue = ''
+        state.childValue = new Date()
+        console.log('日期不合法，清空输入框')
+      } else {
+        state.childValue = dateValue // 修改为当前值入的值
+        let type = ''
+        if (props.format) {
+          // 指定了显示的格式时，按指定的返回
+          type = props.format
+        } else {
+          switch (props.type) {
+            case 'year':
+              type = 'y'
+              break
+            case 'month':
+              type = 'y-MM'
+              break
+            case 'date':
+              type = 'y-MM-dd'
+              break
+            case 'datetime':
+              type = 'y-MM-dd hh:mm:ss'
+              break
+          }
+        }
+        state.showValue = parseDate(dateValue, type)
+        // console.log(dateValue)
+        // 日期合法，按选择的日期格式格式化后返回
+        const vModel = parseDate(dateValue, props.valueFormat || type)
+        emitCom(vModel)
+      }
+    }
+    getShowValue(props.modelValue)
     watch(() => props.modelValue, (val: string) => {
+      // console.log('watch')
       getShowValue(val)
+      controlChange && controlChange(val, 'mounted')
     })
     onMounted(() => {
       nextTick(() => {
@@ -78,8 +171,8 @@ export default defineComponent({
         if (props.appendToBody) {
           document.body.appendChild(downPaneEl.value)
         }
-        getShowValue()
       })
+      controlChange && controlChange(props.modelValue, 'mounted')
     })
     onBeforeUnmount(() => {
       if (props.appendToBody && downPaneEl.value) {
@@ -126,12 +219,12 @@ export default defineComponent({
     }
     const setAppendToBodyStyle = () => {
       if (props.appendToBody) {
-        let {getWindow, getOffset} = getDom()
+        // let {getWindow, getOffset} = getDom()
         const ww = getWindow()
         const offset = getOffset(el.value)
         state.appendStyle = {
           bottom: 'auto',
-          width: offset.width + 'px',
+          // width: offset.width + 'px',
           left: offset.left + 'px',
           top: (offset.top + offset.height) + 'px'
         }
@@ -142,79 +235,20 @@ export default defineComponent({
       }
     }
     const inputHandler = () => {
-
+      emitCom('')
+      state.showValue = ''
     }
-    const blurHandler = () => {
+    const blurHandler = (evt: FocusEvent) => {
+      const {value} = evt.target as HTMLInputElement
+      //  console.log(value)
+      getShowValue(value)
     }
-    // 初始化完成或是当modelValue变化时，返回指定的输出格式
-    const getShowValue = (date?: string) => {
-      let dateValue = date || props.modelValue
-      if (!dateValue) {
-        return
-      }
-      let type = ''
-      if (props.format) {
-        // 指定了显示的格式时，按指定的返回
-        type = props.format
-      } else {
-        switch (props.type) {
-          case 'year':
-            type = 'y'
-            break
-          case 'month':
-            type = 'y-MM'
-            break
-          case 'date':
-            type = 'y-MM-dd'
-            break
-          case 'datetime':
-            type = 'y-MM-dd hh:mm:ss'
-            break
-        }
-      }
-      state.showValue = parseDate(dateValue, type)
-      // 更新v-model
-      const vModel = parseDate(dateValue, props.valueFormat || type)
-      emitCom(vModel)
-    }
-    const emitCom = (value: string) => {
-      emit('update:modelValue', value)
-    }
-    const parseDate = (date: string, formatType: string): string => {
-      let dateTime = new Date(date)
-      if (dateTime.toString() === 'Invalid Date') {
-        // 日期不合法
-        return ''
-        throw new Error('日期不合法')
-        // return date
-      }
-      if (formatType === 'timestamp') {
-        return dateTime.getTime().toString() // 时间戳直接返回
-      }
-      const m = dateTime.getMonth() + 1
-      const d = dateTime.getDate()
-      const h = dateTime.getHours()
-      const mi = dateTime.getMinutes()
-      const s = dateTime.getSeconds()
-      const formatObj: AnyPropName = {
-        y: dateTime.getFullYear(),
-        M: m,
-        MM: m > 9 ? m : '0' + m,
-        d: d,
-        dd: d > 9 ? d : '0' + d,
-        h: h,
-        hh: h > 9 ? h : '0' + h,
-        m: mi,
-        mm: mi > 9 ? mi : '0' + mi,
-        s: s,
-        ss: s > 9 ? s : '0' + s,
-        w: dateTime.getDay()
-      }
-      return formatType.replace(/(y|MM|M|dd|d|hh|h|mm|m|ss|s|w)/g, result => {
-        let value = formatObj[result]
-        if (result === 'w') return ['日', '一', '二', '三', '四', '五', '六'][value]
-        return value
-      })
+    const datePickerChange = (date: Date) => {
+      /*console.log('index change')
+      console.log(date)*/
+      getShowValue(parseDate(date, 'y-MM-dd hh:mm:ss'))
+      state.visible = false
+      controlChange && controlChange(date)
     }
     return {
       prefixCls,
@@ -224,8 +258,9 @@ export default defineComponent({
       downToggle,
       slideUp,
       selectControlClick,
+      blurHandler,
       inputHandler,
-      blurHandler
+      datePickerChange
     }
   }
 })

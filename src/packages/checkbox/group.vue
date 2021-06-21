@@ -30,7 +30,7 @@ export default defineComponent({
     max: pType.number(),
     min: pType.number(),
     disabled: pType.bool(),
-    beforeChange: pType.func()
+    beforeChange: pType.func(true)
   },
   emits: ['update:modelValue', 'change'],
   setup(props, {emit}) {

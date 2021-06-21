@@ -20,7 +20,7 @@ export default defineComponent({
     label: pType.string(),
     modelValue: [String, Boolean, Array],
     value: pType.string(),
-    beforeChange: pType.func()
+    beforeChange: pType.func(true)
   },
   emits: ['change', 'update:modelValue'],
   setup(props, {emit}) {
@@ -42,11 +42,7 @@ export default defineComponent({
     // formItem
     const controlChange: any = inject('controlChange', '')
     const changeHandler = () => {
-      let before = true
-      if (props.beforeChange) {
-        before = props.beforeChange()
-      }
-      if (!before) {
+      if (!props.beforeChange()) {
         return
       }
       // 点击后只有选中状态
@@ -79,11 +75,11 @@ export default defineComponent({
       emit('change', val)
       emit('update:modelValue', val)
       // controlChange && controlChange(val)
-      controlChangeEvent(props.modelValue)
+      controlChangeEvent(val)
     }
     watch(() => props.modelValue, (v: any) => {
       // controlChange && controlChange(props.modelValue, 'mounted')
-      controlChangeEvent(props.modelValue, 'mounted')
+      controlChangeEvent(v, 'mounted')
     })
     onMounted(() => {
       // controlChange && controlChange(props.modelValue, 'mounted')

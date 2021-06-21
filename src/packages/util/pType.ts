@@ -66,9 +66,12 @@ export default {
     }
   },
   // type:Function
-  func() {
+  func(d?:any) {
     return {
-      type: Function
+      type: Function,
+      default: function () {
+        return d
+      }
     }
   },
   // type:[String,Number]
@@ -93,6 +96,12 @@ export default {
       validator: function (value: string) {
         return list.indexOf(value) !== -1
       },
+      default: d
+    }
+  },
+  date(d?: Date) {
+    return {
+      type: Date,
       default: d
     }
   }

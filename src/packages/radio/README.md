@@ -67,7 +67,7 @@ export default {
       当前值：{{radio7}}
     </p>
     <p>
-      <ak-radio v-model="radio8" :value="ab">选项4</ak-radio>
+      <ak-radio v-model="radio8" value="ab">选项4</ak-radio>
       当前值：{{radio8}}
     </p>
   </div>
@@ -140,8 +140,8 @@ export default {
 ### Radio
 |参数|类型|说明|
 |-|-|-|
-|v-model       | string         |Radio 的 v-model|
-|value          | string/boolean/number    |选中的值，当v-model＝value时为选中状态|
+|v-model       | string/boolean/number    |Radio 的 v-model|
+|value         | string/boolean/number    |选中的值，当v-model＝value时为选中状态|
 |disabled      | boolean/false  |是否禁用|
 |label         | String         |显示的文本值，也可以是slot|
 

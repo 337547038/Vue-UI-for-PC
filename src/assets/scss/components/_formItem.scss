@@ -9,9 +9,11 @@
   @include ns(form-box) {position: relative;display: flex;align-items: center;
   }
   /*错误提示*/
-  @include ns(form-tips) {color: #f00;margin: 0 5px;}
+  @include ns(form-tips) {color: #f00;margin: 0 5px;
+    &.icon-success {color: $primary}
+    &.icon-tips {color: #999;}
+  }
 }
-
 @include ns(form-item-error) {
   @include ns(input-control) {
     border-color: #f00;

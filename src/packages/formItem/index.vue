@@ -9,7 +9,7 @@
     </label>
     <div :class="`${prefixCls}-form-box`">
       <slot></slot>
-      <template v-if="iconType&&messageShow">
+      <template v-if="iconType&&messageShow&&rules2&&rules2.length>0">
         <div v-if="errorTips===''" :class="`${prefixCls}-form-tips ${iconType}`"></div>
         <div
           v-else
@@ -43,7 +43,10 @@ export default defineComponent({
   },
   setup(props) {
     const formProps: AnyPropName = inject('formProps', {})
-    const formRules = formProps && formProps.rules[props.prop]
+    let formRules
+    if (formProps && formProps.rules && formProps.rules[props.prop]) {
+      formRules = formProps.rules[props.prop]
+    }
     let rules = [...props.rules]
     if (props.rules.length === 0 && !props.verify && formRules) {
       // 使用form的，formItem没有设置时使用form
@@ -73,7 +76,8 @@ export default defineComponent({
         tel: '电话号码不正确',
         mail: '请输入正确邮箱',
         digits: '必须为正整数',
-        number: '必须为数字'
+        number: '必须为数字',
+        phone: '请输入固话或手机'
       }
       const temRule = props.verify.split(',')
       temRule.forEach(item => {
@@ -137,8 +141,6 @@ export default defineComponent({
         } else {
           reject(state.errorTips)
         }
-      }).catch(res => {
-        return res
       })
     }
     const focusTips = (value: any) => {
@@ -159,6 +161,17 @@ export default defineComponent({
       state.errorTips = ''
       state.iconType = ''
     }
+    const getFormItemFields: any = inject('getFormItemFields', '')
+    const getAllFormItemFields = () => {
+      // 所有带校验规则的
+      if (state.rules2.length > 0 && getFormItemFields) {
+        getFormItemFields({
+          validate: validate,
+          clear: clearTips,
+          prop: props.prop || `prop${new Date().getTime()}` // 当有prop时随机添加一个
+        })
+      }
+    }
     provide('controlChange', (val: any, type: string) => {
       state.controlValue = val
       // 将组件值存起来，不触发其他操作，在没有手动触发时也使用validate来校验
@@ -170,15 +183,18 @@ export default defineComponent({
       } else if (state.trigger2 === 'blur') {
         // 失去焦点校验
         if (type === 'blur') {
-          validate(val)
+          validate(val).catch(res => {
+            console.log(res)
+          })
         }
       } else {
-        validate(val)
+        validate(val).catch(res => {
+          console.log(res)
+        })
       }
     })
     onMounted(() => {
-      const getFormItemFields: any = inject('getFormItemFields', '')
-      getFormItemFields && getFormItemFields(validate)
+      getAllFormItemFields()
     })
     return {
       prefixCls,

@@ -4,7 +4,7 @@ $btnPri: $primary $primary #fff; // type=primary
 $btnCancel: #e3e3e3 #f7f7f7 #333; // type=cancel
 $btnText: transparent transparent $primary; // type=text
 @include ns(btn){
-  display: inline-block;line-height: 1;white-space: nowrap;cursor: pointer;border: 1px solid transparent; text-align: center; box-sizing: border-box;outline: none;padding: 12px 20px;border-radius: 4px;font-size: 14px;transition: .1s;@include BBT($btn);
+  display: inline-block;line-height: 1;white-space: nowrap;cursor: pointer;border: 1px solid transparent; text-align: center; box-sizing: border-box;outline: none;padding: 12px 20px;border-radius: 4px;font-size: 14px;transition: .1s;@include BBT($btn);user-select: none;
   &:hover{
     opacity: .8;
   }

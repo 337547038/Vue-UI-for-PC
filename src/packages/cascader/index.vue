@@ -39,7 +39,18 @@
 <script lang="ts">
 import cityData from './cityData.json'
 import {prefixCls} from '../prefix'
-import {defineComponent, computed, reactive, toRefs, ref, onMounted, nextTick, onUnmounted, watch, inject} from 'vue'
+import {
+  defineComponent,
+  computed,
+  reactive,
+  toRefs,
+  ref,
+  onMounted,
+  nextTick,
+  onBeforeUnmount,
+  watch,
+  inject
+} from 'vue'
 import pType from '../util/pType'
 
 type cityProps = {
@@ -124,7 +135,7 @@ export default defineComponent({
       return array
     })
     const showHide = (e: MouseEvent) => {
-      if (el.value.contains(e.target)) {
+      if (el.value && el.value.contains(e.target)) {
         if (props.disabled === true) {
           return
         }
@@ -186,7 +197,7 @@ export default defineComponent({
     const formatValue = (type?: boolean): any => {
       // 将数组转为文本显示出来
       let val = ''
-      let array=[]
+      let array = []
       for (let i in selectValue.value) {
         if (type) {
           // 为真返回数组
@@ -218,8 +229,7 @@ export default defineComponent({
         // console.log(typeof value)
         emit('update:modelValue', value)
         emit('change', value)
-        const controlChange: any = inject('controlChange', '')
-        controlChange && controlChange(value)
+        controlChangeEvent(value)
       }
     )
     onMounted(() => {
@@ -227,7 +237,7 @@ export default defineComponent({
       init()
       controlChangeEvent(props.modelValue, 'mounted')
     })
-    onUnmounted(() => {
+    onBeforeUnmount(() => {
       document.addEventListener('click', showHide)
     })
     watch(() => props.modelValue, (v: any) => {

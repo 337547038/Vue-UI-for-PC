@@ -1,48 +1,51 @@
 <!-- Created by 337547038 on 2018/12/24 0024. -->
 <!--月面板-->
 <template>
-  <div class="calendar-months clearfix">
-    <a v-for="(item,index) in monthList" :class="[_getClass(index)]" v-text="item" :key="index"
-       @click="_selectMonth(index,$event)"></a>
+  <div class="calendar-months">
+    <a
+      v-for="(item,index) in monthList"
+      :key="index"
+      :class="[getClass(index)]"
+      @click="selectMonth(index)"
+      v-text="item"></a>
   </div>
 </template>
 
-<script>
-export default {
-  name: 'month',
-  data () {
-    return {}
-  },
+<script lang="ts">
+import {defineComponent, inject} from 'vue'
+import pType from '../util/pType'
+
+export default defineComponent({
+  name: 'Month',
   props: {
-    value: null,
-    bodyValue: null
+    modelValue: pType.date(),
+    bodyValue: pType.date()
   },
-  watch: {},
-  components: {},
-  methods: {
-    _getClass (index) {
-      const time = new Date(this.value.getFullYear(), this.value.getMonth()).toDateString()
-      const timeSelect = new Date(this.bodyValue.getFullYear(), index).toDateString()
-      const disableDate = new Date(this.value.getFullYear(), index)
+  emits: ['click'],
+  setup(props, {emit}) {
+    const monthList = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
+    const setDisabledDate: any = inject('setDisabledDate', '')
+    const getClass = (index: number) => {
+      const time = new Date(props.modelValue.getFullYear(), props.modelValue.getMonth()).toDateString()
+      const timeSelect = new Date(props.bodyValue.getFullYear(), index).toDateString()
+      const disableDate = new Date(props.modelValue.getFullYear(), index)
       return {
         'calendar-date-select': time === timeSelect,
-        'calendar-date-disabled': this.$parent.disabledDate(disableDate)// 不能选择的
-      }
-    },
-    _selectMonth (index, e) {
-      let disabled = e.target.className
-      if (disabled.indexOf('calendar-date-disabled') === -1) {
-        const date = new Date(this.value.getFullYear(), index).toDateString()
-        this.$emit('click', date)
+        'calendar-date-disabled': setDisabledDate && setDisabledDate(disableDate, 'month')// 不能选择的
       }
     }
-  },
-  computed: {
-    monthList () {
-      return ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
+    const selectMonth = (index: number) => {
+      let disabledCls = getClass(index)
+      if (!disabledCls['calendar-date-disabled']) {
+        const date = new Date(props.modelValue.getFullYear(), index).toDateString()
+        emit('click', date)
+      }
     }
-  },
-  mounted () {
+    return {
+      monthList,
+      getClass,
+      selectMonth
+    }
   }
-}
+})
 </script>
