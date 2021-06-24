@@ -3,11 +3,11 @@
   > span {display: flex;align-items: center}
   /*默认*/
   .checkbox-text {margin-left: 5px}
-  .checkbox-inner {border: 1px solid $border;border-radius: 2px;box-sizing: border-box;width: 16px;height: 16px;display: flex;align-items: center;justify-content: center;
+  .checkbox-inner {border: 1px solid $border;border-radius: 2px;box-sizing: border-box;width: 14px;height: 14px;display: flex;align-items: center;justify-content: center;
     &:hover {opacity: .8}
     &:before {font-size: 12px;display: block;opacity: 0;transform: scale(0);transition: all .3s;}
     &.checked {
-      &:before {opacity: 1;transform: scale(1);color: $primary;}
+      &:before {opacity: 1;transform: scale(.9);color: $primary;}
     }
   }
   &.disabled {cursor: not-allowed;
