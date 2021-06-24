@@ -90,7 +90,7 @@ import {FormControlOption} from '../types'
 export default defineComponent({
   name: `${prefixCls}Select`,
   props: {
-    modelValue: pType.oneOfType([pType.array(), pType.string()]),
+    modelValue: pType.oneOfType([pType.array(), pType.string(), pType.number()]),
     multiple: pType.bool(), // 是否多选
     multipleLimit: pType.number(0),
     placeholder: pType.string(), // 默认显示的文本

@@ -1,45 +1,39 @@
-<template>
-  <p>
-    <ak-checkbox v-model="checkbox1">选项1</ak-checkbox>
-    {{ checkbox1 }}
-  </p>
-  <!--  <p>
-      <ak-checkbox v-model="checkbox2">选项2</ak-checkbox>
-      {{checkbox2}}
-    </p>
-    <p>
-      <ak-checkbox v-model="checkbox3">选项3</ak-checkbox>
-      {{checkbox3}}（v-model的值只要为true都会是勾选状态）
-    </p>
-    <p>选中时返回指定值（v-model=value或是value存在于v-model数组中，即选中状态）</p>
-    <p>
-      <ak-checkbox v-model="checkbox4" value="4">选项4</ak-checkbox>
-      {{checkbox4}}
-    </p>
-    <p>
-      <ak-checkbox v-model="checkbox5" value="5">选项5</ak-checkbox>
-      {{checkbox5}}
-    </p>-->
-</template>
+<!--<template>
+  <ak-tabs>
+      <ak-tab-pane label="用户管理">用户管理</ak-tab-pane>
+      <ak-tab-pane label="配置管理">配置管理</ak-tab-pane>
+      <ak-tab-pane label="角色管理">角色管理</ak-tab-pane>
+      <ak-tab-pane label="定时任务补偿">
+        <template #default="scope">
+          定时任务补偿{{scope}}
+        </template>
+      </ak-tab-pane>
+      <ak-tab-pane>
+        <template #label><i class="icon-user"></i> 用户管理</template>
+        用户管理
+      </ak-tab-pane>
+    </ak-tabs>
+&lt;!&ndash;  <childTest>
+    <template #default="scope">
+      111{{ scope }}
+    </template>
+  </childTest>&ndash;&gt;
+</template>-->
 <script>
-import {reactive, toRefs} from 'vue'
+import {reactive, toRefs, h} from 'vue'
+import childTest from './components/childTest.vue'
 
 export default {
+  components: {childTest},
   setup() {
-    const state = reactive({
-      checkbox1: true,
-      checkbox2: false,
-      checkbox3: '1',
-      checkbox4: ['4'],
-      checkbox5: []
-    })
-    const beforeChange = () => {
-     return 'aa'
-    }
-    return {
-      ...toRefs(state),
-      beforeChange
-    }
+
+    return () => [
+      h('div', {class: 'counter-display'}, [
+        h('span', {class: 'counter-label'}, '恭喜你，你已经写了'),
+        h('span', {class: 'counter-text'}, 1),
+        h('span', {class: 'counter-label'}, '斤代码！')
+      ])
+    ]
   }
 }
 </script>

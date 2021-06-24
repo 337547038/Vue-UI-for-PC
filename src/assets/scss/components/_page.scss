@@ -1,0 +1,35 @@
+@charset "utf-8";
+@include ns(page) {display: flex;align-items: center;justify-content: center;
+  > div {margin-right: 10px;}
+  .page-list {
+    ul {display: flex;
+      li {padding: 0;display: block; height: 32px; min-width: 32px; line-height: 30px; margin: 0 4px 0 0;cursor: pointer;
+        a {display: block;border: 1px solid $border; border-radius: 4px; transition: all .5s;text-align: center;
+          &:hover { border-color: $primary; color: #2d8cf0; }
+          &.active { border-color: $primary; color: #fff; background: $primary }
+          &.disabled {opacity: 0.5; cursor: not-allowed }
+          // 向前页
+          &.jump-prev {font-size: 10px;
+            &:before {content: '•••';}
+            &:hover:before { content: '<<' }
+          }
+          // 向后
+          &.jump-next {font-size: 10px;
+            &:before {content: '•••';}
+            &:hover {
+              &:before { content: '>>' }
+            }
+          }
+        }
+      }
+    }
+  }
+  @include ns(input-control) {text-align: center;width: 50px;height: 32px;line-height: 32px;box-sizing: border-box}
+  @include ns(select) {min-width: inherit;
+    ul {}
+    @include ns(input-control) {width: 100px;}
+  }
+  .total {line-height: 32px;
+    span {color: $primary}
+  }
+}
