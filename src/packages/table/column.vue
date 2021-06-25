@@ -1,7 +1,7 @@
 <!-- Created by 337547038 on 2021/6/22 0022. -->
 
 <script lang="ts">
-import {defineComponent, inject} from 'vue'
+import {defineComponent, inject, onMounted} from 'vue'
 import {prefixCls} from '../prefix'
 import pType from '../util/pType'
 import {AnyPropName} from '../types'
@@ -22,19 +22,21 @@ export default defineComponent({
     drag: pType.bool(true) // 当前单元格允许拖动，仅在table设置drag＝true时有效
   },
   setup(props, {slots}) {
-    const getColumns = inject('getColumns') as AnyPropName
-    // 判断下不重复添加
-    let has = false
-    const addData = Object.assign({}, props, {slots: slots})
-    getColumns && getColumns.forEach((item: any) => {
-      if (JSON.stringify(item) === JSON.stringify(addData)) {
-        // 表示有
-        has = true
+    onMounted(() => {
+      const getColumns = inject('getColumns') as AnyPropName
+      // 判断下不重复添加
+      let has = false
+      const addData = Object.assign({}, props, {slots: slots})
+      getColumns && getColumns.forEach((item: any) => {
+        if (JSON.stringify(item) === JSON.stringify(addData)) {
+          // 表示有
+          has = true
+        }
+      })
+      if (!has) {
+        getColumns.push(addData)
       }
     })
-    if (!has) {
-      getColumns.push(addData)
-    }
   },
   render() {
     return null

@@ -14,8 +14,8 @@
           :index="rowIndex"
           :column-index="indexTd"
           :title="title"
-          :show-hide-extend="showHideExtend"
           :toggle="toggle[rowIndex]===undefined?defaultToggle:toggle[rowIndex]"
+          @toggle-extend="toggleExtend(rowIndex)"
           @cellClick="cellClick" />
       </tr>
       <!--子级行-->
@@ -41,22 +41,15 @@
       </template>
       <!--扩展列-->
       <tr
-        v-if="colsExtend.length>0"
-        v-show="toggle[rowIndex]===undefined?defaultToggle:toggle[rowIndex]"
+        v-if="toggle[rowIndex]===undefined?defaultToggle:toggle[rowIndex]&&colsExtend.length>0"
         :key="'tr' + rowIndex"
         class="extend"
-        :class="{'warning':selectedRows.indexOf(row) !== -1,[`extend-tr-${rowIndex+1}`]:true}"
-        @cllick="rowClick(row, rowIndex)">
+        :class="{'warning':selectedRows.indexOf(row) !== -1,[`extend-tr-${rowIndex+1}`]:true}">
         <TableTd
-          v-for="(column,indexTd) in colsExtend"
-          :key="indexTd"
-          :column="column"
+          :column="colsExtend[0]"
           :row="row"
           :index="rowIndex"
-          :title="title"
-          :colspan="colsNoExtend.length"
-          :selectedRows="selectedRows"
-          @cellClick="cellClick" />
+          :colspan="colsNoExtend.length" />
       </tr>
     </template>
   </tbody>
@@ -64,7 +57,7 @@
 
 <script lang="ts">
 import {reactive, inject, toRefs, defineComponent, computed} from 'vue'
-import TableTd from './TableTd.vue'
+import TableTd from './tableTd.vue'
 import {AnyPropName} from '../types'
 import pType from '../util/pType'
 
@@ -84,24 +77,24 @@ export default defineComponent({
   setup(props, {emit}) {
     const getColumns = inject('getColumns') as AnyPropName
     const state = reactive<any>({
-      columns: getColumns,
+      // columns: getColumns,
       defaultToggle: props.extendToggle, // 默认展开或收起状态
       toggle: {}, // {1: true, 2: false, 0: false} // 对应每行展开或收起状态
       rowspanColspanList: []
     })
     const colsExtend = computed(() => {
-      return state.columns.filter((item: any) => {
+      return getColumns.filter((item: any) => {
         return item.type === 'extend'
       })
     })
     const colsNoExtend = computed(() => {
       // 不带扩展的
-      return state.columns.filter((item: any) => {
+      return getColumns.filter((item: any) => {
         return item.type !== 'extend'
       })
     })
     // 展开或收起扩展行
-    const showHideExtend = (index: number) => {
+    const toggleExtend = (index: number) => {
       // 存在扩展时或有子级时
       if (colsExtend.value.length > 0 || props.hasChild) {
         if (typeof state.toggle[index] === 'undefined') {
@@ -110,11 +103,11 @@ export default defineComponent({
           state.toggle[index] = !state.toggle[index]
         }
         // 展开时，如果是懒加载
-        if (state.toggle[index] && props.lazyLoad) {
+        /*if (state.toggle[index] && props.lazyLoad) {
           props.lazyLoad((row: any, child: any) => {
             row.children = child
           })
-        }
+        }*/
       }
     }
     const rowClick = (row: any, index: number) => {
@@ -127,7 +120,7 @@ export default defineComponent({
       ...toRefs(state),
       colsExtend,
       colsNoExtend,
-      showHideExtend,
+      toggleExtend,
       rowClick,
       cellClick
     }

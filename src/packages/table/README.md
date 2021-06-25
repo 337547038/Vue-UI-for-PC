@@ -21,27 +21,9 @@
   </ak-table>
 </template>
 <script>
-
+import tableData from './demoJs.json'
 export default {
   setup() {
-    const tableData = [
-      {
-        date: '2016-05-03',
-        name: '1张222',
-        province: '广东',
-        city: '天河区',
-        address: '广东市天河区无名路888号',
-        zip: 200330
-      },
-      {
-        date: '2016-05-02',
-        name: '2张三',
-        province: '广东',
-        city: '天河区',
-        address: '广东市天河区无名路888号',
-        zip: 200331
-      }
-    ]
     const delClick = item => {
       alert(JSON.stringify(item))
     }
@@ -81,27 +63,9 @@ export default {
 </template>
 <script>
 import {ref} from 'vue'
-
+import tableData from './demoJs.json'
 export default {
   setup() {
-    const tableData = [
-      {
-        date: '2016-05-03',
-        name: '1张222',
-        province: '广东',
-        city: '天河区',
-        address: '广东市天河区无名路888号',
-        zip: 200330
-      },
-      {
-        date: '2016-05-02',
-        name: '2张三',
-        province: '广东',
-        city: '天河区',
-        address: '广东市天河区无名路888号',
-        zip: 200331
-      }
-    ]
     const tableEl = ref()
     const delClick = item => {
       alert(JSON.stringify(item))

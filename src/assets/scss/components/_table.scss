@@ -1,90 +1,84 @@
 @charset "UTF-8";
-
-@include ns(table){
+@include ns(table) {
   $highlight: #eaf4fe; //鼠标经过高亮背景色
   $stripe: #f9f9f9; //斑马纹
   $background: #fff; //table背景色
   $selectBackground: #fcf8e3; //勾选行的背景颜色
   position: relative;overflow: hidden;
-  table{border-collapse: collapse; border-spacing: 0;margin: 0;padding: 0;transform-style: preserve-3d;border: 1px solid $border;width: 100%;
+  table {border-collapse: collapse; border-spacing: 0;margin: 0;padding: 0;transform-style: preserve-3d;width: 100%;border: none;table-layout: fixed;
   }
-  td, th{border-bottom: 1px solid $border; text-align: left;padding: 8px 10px;box-sizing: border-box;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;background: #fff}
-  //*溢出不换行*
-  .table-ellipsis{table-layout: fixed;
-    td, th{}
+  td, th {text-align: left;padding: 8px 10px;box-sizing: border-box;border: 1px solid $border;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;background: #fff}
+  tr:hover td { background: $highlight; transition: background .5s }
+  tr:nth-child(odd) td { background: $stripe }
+  .no-border {border: none;
+
+    td, th {border: none;border-bottom: 1px solid $border;}
   }
-  /*表头表格*/
-  .thead{
-    table{border: 0;
-      th{border-bottom: 0}
-    }
+  .no-ellipsis {table-layout: inherit;
+
+    td, th {}
   }
-  // 存在纵向滚动条时，用于body和头对齐
-  &.scroll-top{
-    &:before{content: '';display: block;position: absolute;right: 0;top: 0;height: 40px;width: 22px;z-index: 20;background: white;border: 1px solid #ddd;border-left: 0}
-    .thead{overflow-y: scroll}
+  .no-hover {
+    tr:hover td {background: none}
   }
-  //*奇偶分隔*!
-  .table-stripe{
-    tr:nth-child(odd) td{ background: $stripe }
-  }
-  //*鼠标悬停时的高亮*!
-  .table-hover{
-    tr:hover td{ background: $highlight; transition: all .5s }
+  .no-stripe {
+    tr:nth-child(odd) td { background: none }
   }
   // transform上下移动，边框会消失，这里补上，没有纵边框时只处理头部
-  /*.transform{
-    tr{transform-style: preserve-3d;}
-    th{transform: translateZ(10px);position: relative;top: -1px;
-      &:before{content: '';display: block;width: 100%;height: 100%;border-top: 1px solid $border;border-bottom: 1px solid $border;position: absolute;top: 0;left: 0;box-sizing: border-box}
+  .transform {
+    tr {transform-style: preserve-3d;}
+
+    th {transform: translateZ(10px);position: relative;
+
+      &:before {content: '';display: block;width: 100%;height: 102%;border-top: 1px solid $border;border-bottom: 1px solid $border;position: absolute;top: 0;left: 0;box-sizing: border-box}
     }
-  }*/
-  //*显示纵向边框*!
-  .table-border{
-    th, td{ border: 1px solid $border;}
-    // transform左右移动，边框会消失，这里补上
-    .left:after, .right:after{content: '';border-right: 1px solid $border;display: block;height: 100%;width: 100%;position: absolute;left: 0;top: 0;border-left: 1px solid $border;box-sizing: border-box;}
   }
+  @include ns(checkbox) {position: relative;z-index: 2}
 
   /*排序*/
-  .caret-wrapper{display: inline-flex;flex-direction: column;align-items: center;height: 34px;width: 24px;vertical-align: middle;cursor: pointer;overflow: initial;position: relative;
-    .sort-caret{width: 0;height: 0;border: 5px solid transparent;position: absolute;left: 7px;
-      &.asc{border-bottom-color: #c0c4cc;top: 5px;}
-      &.desc{border-top-color: #c0c4cc;bottom: 7px;}
-    }
-    //选中状态
-    &.asc{
-      .asc{border-bottom-color: #409eff}
-    }
-    &.desc{
-      .desc{border-top-color: #409eff}
+  .caret-wrapper {display: inline-flex;flex-direction: column;align-items: center;height: 34px;width: 24px;vertical-align: middle;cursor: pointer;overflow: initial;position: relative;
+
+    .sort-caret {width: 0;height: 0;border: 5px solid transparent;position: absolute;left: 7px;
+
+      &.asc {border-bottom-color: #c0c4cc;top: 5px;}
+
+      &.desc {border-top-color: #c0c4cc;bottom: 7px;}
+
+      &.active {
+        &.asc {border-bottom-color: $primary}
+
+        &.desc {border-top-color: $primary}
+      }
     }
   }
 
   /*勾选行的颜色*/
-  .warning{
-    td{background: $selectBackground !important;}
+  .warning {
+    td {background: $selectBackground !important;}
   }
   // 扩展
-  .extend{
-    td{white-space: normal}
+  .extend {
+    td {white-space: normal}
   }
   // 拖动相关
-  .drag{
-    th{position: relative;
-      &:hover{
-        .drag-line{display: block}
+  .drag {
+    th {position: relative;
+
+      &:hover {
+        .drag-line {display: block}
       }
     }
-    .drag-line{display: none;
+
+    .drag-line {display: none;
       width: 0;
-      height: 25px;
+      height: 100%;
       cursor: ew-resize;
-      border-right: 2px solid #dfe6ee;
+      border-right: 3px solid #dfe6ee;
       padding: 0 1px;
       position: absolute;
-      right: 0;
-      top: 7px;}
+      right: 1px;
+      z-index: 2;
+      top: 0;}
   }
-  .table-drag-line{position: absolute;top: 0;height: 100%;border-left: 1px solid #2093f7;cursor: ew-resize}
+  .table-drag-line {position: absolute;top: 0;height: 100%;border-left: 1px solid $primary;cursor: ew-resize}
 }
