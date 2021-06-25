@@ -282,6 +282,7 @@ export default {
 |showMessage    | boolean/true   |显示错误提示|
 |trigger        | string/change  |表单控件校验触发类型，change和blur两种|
 |labelWidth     | string         |label的宽度|
+|required       | boolean/true   |是否根据验证规则自动生成必填样式名|
 
 
 ### Form Methods

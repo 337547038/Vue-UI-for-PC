@@ -1,44 +1,39 @@
 <!-- Created by 337547038 on 2021/5/18 0018. -->
-<template>
-  <div>child</div>
-  <p @click="clickEmit">children click emit</p>
-  <p>props:{{text}}</p>
-</template>
+<!--<template>
+  <ul class="textaa">
+&lt;!&ndash;    <li v-for="( item, index ) in items">
+      <slot :row="item" :index="index"></slot>
+    </li>&ndash;&gt;
+    <slot :row="items[0]"></slot>
+  </ul>
+</template>-->
 
 <script lang="ts">
-import {inject, defineComponent, ref} from 'vue'
+import {inject, defineComponent, ref,h,renderSlot} from 'vue'
 
 export default defineComponent({
-  props: {
-    text: {
-      type: String,
-      default: ''
-    }
-  },
-  emits: {
-    'click': (payload: any) => {
-      return payload.type === 'close'
-    }
-  },
+
   setup(props, context) {
-    // console.log(props)
-    const text = ref(null) // 会覆盖props里的
-    // const userLocation = inject('location')
-    const controlChange = inject('controlChange')
-    console.log('controlChange')
-    controlChange && controlChange('1')
-    const controlChange2 = inject('controlChange2') || ''
-    console.log(controlChange2)
-    const clickEmit = () => {
-      context.emit('click', {type: 'close'})
-    }
-    const init = () => {
-      console.log('init')
-    }
+    const items = [
+      {label: '11', value: '1111'},
+      {label: '22', value: '2222'},
+      {label: '33', value: '333'},
+      {label: '44', value: '444'},
+      {label: '55', value: '555'}
+    ]
     return {
-      clickEmit,
-      init
+      items
     }
+  },
+  /*render(){
+    return h('div', {
+
+      },
+      [renderSlot(this.$slots, 'default',{aa:'00'})])
+  }*/
+  render() {
+    return h('div', {},
+      this.$slots.default)
   }
 })
 </script>

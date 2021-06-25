@@ -20,11 +20,16 @@ import {Select, Option} from './select/index'
 import InputNumber from './inputNumber/index.vue'
 import FormItem from './formItem/index.vue'
 import Form from './form/index.vue'
+import AutoForm from './autoForm/index.vue'
 import DatePicker from './datePicker/index.vue'
 import Pagination from './pagination/index.vue'
+import {Table, TableColumn} from './table/index'
 import {Tabs, TabPane} from './tabs/index'
 /*import {Table, TableColumn} from './table/index'
 import {Dialog, DialogAlert} from './dialog/index'
+import {Table, TableColumn} from './table/index'
+import {Tabs, TabPane} from './tabs/index'
+/*import {Dialog, DialogAlert} from './dialog/index'
 import DatePicker from './datePicker/index.vue'
 /*import {Dialog, DialogAlert} from './dialog/index'
 import {Form, FormItem, AutoForm} from './form/index'
@@ -32,10 +37,10 @@ import Input from './input/index'
 import Loading from './loading/index'
 
 
+import {Table, TableColumn} from './table/index'
+import {Tabs, TabPane} from './tabs/index'
 
-
-
-
+import Pagination from './pagination/index'
 import {Swiper, SwiperItem} from './swiper/index'
 import Tree from './tree/index'
 import {Upload, ImgCrop} from './upload/index'
@@ -73,6 +78,9 @@ const component = [
   Form,
   DatePicker,
   Pagination,
+  AutoForm,
+  DatePicker,
+  Table, TableColumn,
   Tabs, TabPane
 ]
 

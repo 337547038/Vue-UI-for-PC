@@ -89,7 +89,8 @@ export default defineComponent({
     }
     const isRequired = computed(() => {
       let bool = false
-      if (props.required && state.rules2 && state.rules2.length > 0) {
+      const required = getFormProps(props.required, formProps.required)
+      if (required && state.rules2 && state.rules2.length > 0) {
         state.rules2.forEach(item => {
           if (item.type === 'required') {
             bool = true
@@ -120,26 +121,24 @@ export default defineComponent({
       if (value === undefined) {
         value2 = state.controlValue
       }
-      if (state.rules2) {
-        const result = Validate(value2, state.rules2)
-        // console.log(result)
-        if (state.messageShow) {
+      return new Promise((resolve, reject) => {
+        if (state.rules2) {
+          const result = Validate(value2, state.rules2)
           if (result === true) {
             // 通过
             state.errorTips = ''
             state.iconType = 'icon-success'
+            resolve(state.controlValue)
+            // console.log('通过')
           } else {
             state.errorTips = result
             state.iconType = 'icon-failure'
+            reject(state.errorTips)
+            // console.log('不通过')
           }
-        }
-      }
-      return new Promise((resolve, reject) => {
-        if (state.errorTips === '') {
-          // 通过
-          resolve(true)
-        } else {
-          reject(state.errorTips)
+        } else { // 没有校验规则
+          resolve(state.controlValue)
+          console.log('没有校验规则通过')
         }
       })
     }

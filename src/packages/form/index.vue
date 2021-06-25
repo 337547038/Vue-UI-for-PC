@@ -18,7 +18,8 @@ export default defineComponent({
     showMessage: pType.bool(true),
     modelValue: pType.object({}),
     trigger: pType.oneOfString(['change', 'blur'], 'change'),
-    labelWidth: pType.string()
+    labelWidth: pType.string(),
+    required:pType.bool(true)
   },
   setup(props) {
     const state = reactive({
@@ -56,8 +57,8 @@ export default defineComponent({
         validateFields.forEach((item: any) => {
           // console.log(item.prop)
           item.validate()
-            .then((res: boolean) => {
-              allTips.push(res + '')
+            .then(() => {
+              allTips.push('true')
               returnResult()// 通过
             })
             .catch((res: string) => {

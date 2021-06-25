@@ -78,7 +78,7 @@ export default defineComponent({
       controlChangeEvent(val)
     }
     watch(() => props.modelValue, (v: any) => {
-      // controlChange && controlChange(props.modelValue, 'mounted')
+      controlChange && controlChange(props.modelValue, 'mounted')
       controlChangeEvent(v, 'mounted')
     })
     onMounted(() => {
