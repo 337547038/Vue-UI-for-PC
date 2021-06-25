@@ -1,9 +1,10 @@
-<script>
+<script lang="ts">
 import {prefixCls} from '../prefix'
-import {inject} from 'vue'
+import {inject, defineComponent} from 'vue'
 import pType from '../util/pType'
+import {AnyPropName} from '../types'
 
-export default {
+export default defineComponent({
   name: `${prefixCls}TabPane`,
   props: {
     className: pType.string(),
@@ -12,12 +13,9 @@ export default {
     disabled: pType.bool()
   },
   setup(props, {slots}) {
-    console.log(slots.label)
-    const childrenList = inject('childrenList')
-    childrenList.push({
-      slots: slots,
-      props: props
-    })
+    // console.log(slots.label)
+    const childrenList = inject('childrenList') as AnyPropName
+    childrenList.push(Object.assign({}, props, {slots: slots}))
     return {
       childrenList
     }
@@ -25,5 +23,5 @@ export default {
   render() {
     return null
   }
-}
+})
 </script>

@@ -1,9 +1,9 @@
 <!-- Created by 337547038 on 2021/6/23. -->
-<!--<template>
+<template>
   <div>
     <slot :row="row"></slot>
   </div>
-</template>-->
+</template>
 
 <script>
 import {h, renderSlot} from 'vue'
@@ -13,18 +13,18 @@ export default {
   components: {},
   props: {},
   setup() {
-    const row = {label: '11', value: '222'}
+    const row = {label: '11', value: '2225555552'}
     return {
       row
     }
   },
-  render() {
+  /*render() {
     return h('div', {
       class: 'sss'
     },
-    /*[renderSlot(this.$slots, 'default',{label: '11', value: '222'})]*/
-    this.$slots.default({label: '11', value: '222'})
+    /!*[renderSlot(this.$slots, 'default',{label: '11', value: '222'})]*!/
+    this.$slots.default({label: '11', value: '222456'})
     )
-  }
+  }*/
 }
 </script>

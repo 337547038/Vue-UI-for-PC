@@ -37,6 +37,16 @@ children: any
 3. ref<any>([]
 4.let array: Array<any> = []
 
+props: {
+callback: {
+type: Function as PropType<() => void>},
+book: {
+type: Object as PropType<Book>,
+}
+}
+解勾
+const title = toRef(props, 'title')
+const { title } = toRefs(props)
 
 todo
 cascader/index.vue controlChange

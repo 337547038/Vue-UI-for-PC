@@ -1,10 +1,9 @@
-<script>
+<script lang="ts">
 import {prefixCls} from '../prefix'
-import {inject} from 'vue'
+import {inject, defineComponent} from 'vue'
 
-export default {
+export default defineComponent({
   name: `${prefixCls}CarouselItem`,
-  componentName: 'CarouselItem',
   props: {
     className: String
   },
@@ -21,5 +20,5 @@ export default {
   render() {
     return null
   }
-}
+})
 </script>

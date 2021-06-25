@@ -1,0 +1,15 @@
+@charset "UTF-8";
+@include ns(tabs) {
+  .tabs-nav {position: relative;border-bottom: 1px solid $border;height: 40px;display: flex;
+    .tabs-tab {padding: 0 20px;position: relative;line-height: 40px;cursor: pointer;z-index: 2;
+      &:after {content: '';display: block;margin: 0 auto;height: 2px;background: $primary;opacity: 0;width: 0;transition: all .3s;position: relative;top: -1px;}
+      /*选中*/
+      &.active {
+        &:after {opacity: 1;width: 100%}
+      }
+      /*禁用*/
+      &.disabled {cursor: not-allowed;opacity: .5}
+    }
+  }
+  .tabs-content {padding: 20px;}
+}
