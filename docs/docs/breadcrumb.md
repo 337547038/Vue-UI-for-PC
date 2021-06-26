@@ -4,7 +4,7 @@
 :::demo 
 ```html
 <template>
-   <ak-breadcrumb :data="data" separator=">"></Breadcrumb>
+   <ak-breadcrumb :data="data" separator=">"></ak-breadcrumb>
 </template>
 <script>
  export default {

@@ -56,7 +56,7 @@ export default {
 :::
 
 ### 指定选中状态的值
-:::demo 使用label时，选中状态返回label的值，当label=value时为选中状态。
+:::demo 使用`value`时，选中状态返回`value`的值，当`v-model=value`时为选中状态。
 ```html
 <template>
   <div>
