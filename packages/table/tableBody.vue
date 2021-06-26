@@ -77,7 +77,8 @@ export default {
   data () {
     return {
       defaultToggle: this.$parent.extendToggle, // 默认展开或收起状态
-      toggle: {} // {1: true, 2: false, 0: false} // 对应每行展开或收起状态
+      toggle: {}, // {1: true, 2: false, 0: false} // 对应每行展开或收起状态
+      rowspanColspanList: []
     }
   },
   computed: {
