@@ -1,13 +1,15 @@
 <!-- Created by 337547038 on 2021/6/24 0024. -->
 <template>
   <thead v-if="showHeader" ref="el">
-    <tr :class="{drag:drag}">
+    <tr v-for="thLayer in headMaxLayer" :key="thLayer" :class="{drag:drag}">
       <th
-        v-for="(th,thIndex) in columnsFilter"
+        v-for="(th,thIndex) in getColumnsFilter(thLayer)"
         :key="thIndex"
         :class="[th.fixed,th.className]"
         :style="{textAlign:th.align}"
         :title="getShowHoverTitle(th)"
+        :colspan="th.colspan"
+        :rowspan="th.rowspan"
         @mousemove="headMouseMove($event,thIndex)">
         <Checkbox
           v-if="th.type==='selection'"
@@ -36,7 +38,7 @@
 
 <script lang="ts">
 import pType from '../util/pType'
-import {defineComponent, reactive, toRefs, inject, watch, ref, computed} from 'vue'
+import {defineComponent, reactive, toRefs, inject, watch, ref, computed, onMounted} from 'vue'
 import {Checkbox} from '../checkbox/index'
 import {AnyPropName} from '../types'
 
@@ -48,12 +50,13 @@ export default defineComponent({
     drag: pType.bool(),
     title: pType.bool(),
     selectChecked: pType.number(), // 表头checkbox勾选状态0全不选，1全选，2半选
-    sortSingle: pType.bool()
+    sortSingle: pType.bool(),
+    headMaxLayer: pType.number(1)
   },
   emits: ['event'],
   setup(props, {emit}) {
     const el = ref()
-    const getColumns = inject('getColumns') as AnyPropName
+    const getColumns = inject('getColumns', []) as AnyPropName
     const state = reactive<AnyPropName>({
       checkboxChecked: props.selectChecked.toString(),
       // columns: getColumns,
@@ -62,11 +65,20 @@ export default defineComponent({
     watch(() => props.selectChecked, (v: number) => {
       state.checkboxChecked = v.toString()
     })
-    const columnsFilter = computed(() => {
-      return getColumns.filter((item: any) => {
-        return item.type !== 'extend'
+
+    /*onMounted(() => {
+
+    })*/
+    /*const columnsFilter = computed(() => {
+      return getColumns.value.filter((item: any) => {
+        return item.type !== 'extend' && !item.children
       })
-    })
+    })*/
+    const getColumnsFilter = (index: number) => {
+      return getColumns.value.filter((item: any) => {
+        return item.type !== 'extend' && item.layer === index
+      })
+    }
     // 鼠标滑过单元格时显示title提示，当设置为false时不显示，否则使用父级table的设置
     const getShowHoverTitle = (item: any) => {
       if (!item.title) {
@@ -101,7 +113,7 @@ export default defineComponent({
     const emitEvent = (type: string, obj: any) => {
       emit('event', type, obj)
     }
-    // 由table调用
+    // 由table组件调用，固定表头滚动时
     const scrollTop = (scrollTop: number) => {
       if (scrollTop) {
         el.value.style.transform = `translateY(${scrollTop}px) translateZ(100px)`
@@ -120,7 +132,7 @@ export default defineComponent({
       headMouseDown,
       el,
       scrollTop,
-      columnsFilter
+      getColumnsFilter
     }
   }
 })

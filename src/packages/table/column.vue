@@ -18,23 +18,27 @@ export default defineComponent({
     fixed: pType.oneOfString(['left', 'right']), // 固定当前列，可选left/right
     sortBy: pType.bool(), // 当前列显示排序按钮
     title: pType.bool(true),// 鼠标滑过单元格时是否显示title提示语
-    order: pType.number(0),
     drag: pType.bool(true) // 当前单元格允许拖动，仅在table设置drag＝true时有效
   },
   setup(props, {slots}) {
     onMounted(() => {
-      const getColumns = inject('getColumns') as AnyPropName
-      // 判断下不重复添加
-      let has = false
-      const addData = Object.assign({}, props, {slots: slots})
-      getColumns && getColumns.forEach((item: any) => {
-        if (JSON.stringify(item) === JSON.stringify(addData)) {
-          // 表示有
-          has = true
+      const columnsType: boolean = inject('columnsType', false)
+      if (!columnsType) {
+        // 没有通过表头参数传参时
+        const getColumns = inject('getColumns') as AnyPropName
+        const columns = getColumns.value
+        // 判断下不重复添加
+        let has = false
+        const addData = Object.assign({}, props, {slots: slots, layer: 1})
+        columns && columns.forEach((item: any) => {
+          if (JSON.stringify(item) === JSON.stringify(addData)) {
+            // 表示有
+            has = true
+          }
+        })
+        if (!has) {
+          columns && columns.push(addData)
         }
-      })
-      if (!has) {
-        getColumns.push(addData)
       }
     })
   },

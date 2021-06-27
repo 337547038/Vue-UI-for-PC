@@ -2,10 +2,18 @@
   <div v-if="visible" class="container">
     <div class="sidebar">
       <div class="logo"><img src="./assets/logo.jpg">AK-Docs</div>
+      <div class="version">
+        <ak-select v-model="version" width="160px">
+          <template #template>
+            <a href="https://337547038.github.io/akvue/" target="_blank">Vue2.X</a>
+            <a href="https://337547038.github.io/akvue3/" target="_blank">Vue3.X</a>
+          </template>
+        </ak-select>
+      </div>
       <ul>
         <li v-for="item in routesListFilter" :key="item.name">
           <router-link :to="item.path">
-            {{getName(item.name)}}
+            {{ getName(item.name) }}
           </router-link>
         </li>
       </ul>
@@ -30,7 +38,7 @@ import {defineComponent, ref} from 'vue'
 
 export default defineComponent({
   setup() {
-    let visible = false
+    let visible = true
     const getName = (name: string) => {
       return name.substring(0, 1).toUpperCase() + name.substring(1)
     }
@@ -56,10 +64,12 @@ export default defineComponent({
       }
     }
     routesListFilter.value.sort(sortBy('name'))
+    const version = ref('Vue3.X')
     return {
       routesListFilter,
       visible,
-      getName
+      getName,
+      version
     }
   }
 })

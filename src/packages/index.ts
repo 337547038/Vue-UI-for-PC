@@ -79,7 +79,6 @@ const component = [
   DatePicker,
   Pagination,
   AutoForm,
-  DatePicker,
   Table, TableColumn,
   Tabs, TabPane
 ]

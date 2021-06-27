@@ -1,9 +1,9 @@
 <!-- Created by 337547038 on 2021/6/24 0024. -->
 <template>
   <tbody>
-    <template v-for="(row,rowIndex) in data" :key="rowIndex">
+    <template v-for="(row,rowIndex) in dataList" :key="rowIndex">
       <tr
-        :class="{'warning':selectedRows.indexOf(row) !== -1,[`parent-tr-${rowIndex+1}`]:colsExtend.length,[row.trClass]:row.trClass}"
+        :class="{'warning':selectedRows.indexOf(row) !== -1,[row.trClass]:row.trClass}"
         @click="rowClick(row, rowIndex)">
         <table-td
           v-for="(column,indexTd) in colsNoExtend"
@@ -14,15 +14,27 @@
           :index="rowIndex"
           :column-index="indexTd"
           :title="title"
-          :toggle="toggle[rowIndex]===undefined?defaultToggle:toggle[rowIndex]"
-          @toggle-extend="toggleExtend(rowIndex)"
+          :toggle="getToggle(rowIndex)"
+          :row-col-span="rowColSpan"
+          :rowspan-colspan-list="rowspanColspanList"
+          @toggle-extend="toggleExtend(rowIndex,row)"
           @cellClick="cellClick" />
       </tr>
-      <!--子级行-->
+      <tr
+        v-if="getToggle(rowIndex)&&colsExtend.length>0"
+        :key="'tr' + rowIndex"
+        class="extend"
+        :class="{'warning':selectedRows.indexOf(row) !== -1}">
+        <TableTd
+          :column="colsExtend[0]"
+          :row="row"
+          :index="rowIndex"
+          :colspan="colsNoExtend.length" />
+      </tr>
       <template v-if="hasChild">
         <tr
           v-for="(item,index) in row.children"
-          v-show="toggle[rowIndex]===undefined?defaultToggle:toggle[rowIndex]"
+          v-show="getToggle(rowIndex)"
           :key="'child'+index"
           :class="{[row.trClass]:row.trClass}"
           class="tr-child"
@@ -39,24 +51,12 @@
             @cellClick="cellClick" />
         </tr>
       </template>
-      <!--扩展列-->
-      <tr
-        v-if="toggle[rowIndex]===undefined?defaultToggle:toggle[rowIndex]&&colsExtend.length>0"
-        :key="'tr' + rowIndex"
-        class="extend"
-        :class="{'warning':selectedRows.indexOf(row) !== -1,[`extend-tr-${rowIndex+1}`]:true}">
-        <TableTd
-          :column="colsExtend[0]"
-          :row="row"
-          :index="rowIndex"
-          :colspan="colsNoExtend.length" />
-      </tr>
     </template>
   </tbody>
 </template>
 
 <script lang="ts">
-import {reactive, inject, toRefs, defineComponent, computed} from 'vue'
+import {reactive, inject, toRefs, defineComponent, computed, ref} from 'vue'
 import TableTd from './tableTd.vue'
 import {AnyPropName} from '../types'
 import pType from '../util/pType'
@@ -69,7 +69,7 @@ export default defineComponent({
     rowColSpan: pType.func(),
     hasChild: pType.bool(),
     lazyLoad: pType.func(),
-    extendToggle: pType.bool(),
+    extendToggle: pType.bool(),// 默认展开或收起状态
     title: pType.bool(),
     selectedRows: pType.array()
   },
@@ -77,37 +77,42 @@ export default defineComponent({
   setup(props, {emit}) {
     const getColumns = inject('getColumns') as AnyPropName
     const state = reactive<any>({
-      // columns: getColumns,
-      defaultToggle: props.extendToggle, // 默认展开或收起状态
       toggle: {}, // {1: true, 2: false, 0: false} // 对应每行展开或收起状态
       rowspanColspanList: []
     })
+    const dataList = ref(props.data) // 这里要转一下，加载子级时才能同步展示
     const colsExtend = computed(() => {
-      return getColumns.filter((item: any) => {
-        return item.type === 'extend'
+      return getColumns.value.filter((item: any) => {
+        return item.type === 'extend' && !item.children
       })
     })
     const colsNoExtend = computed(() => {
       // 不带扩展的
-      return getColumns.filter((item: any) => {
-        return item.type !== 'extend'
+      return getColumns.value.filter((item: any) => {
+        return item.type !== 'extend' && !item.children
       })
     })
+    const getToggle = (rowIndex: number) => {
+      return state.toggle[rowIndex] === undefined ? props.extendToggle : state.toggle[rowIndex]
+    }
     // 展开或收起扩展行
-    const toggleExtend = (index: number) => {
+    const toggleExtend = (index: number, row: AnyPropName) => {
       // 存在扩展时或有子级时
       if (colsExtend.value.length > 0 || props.hasChild) {
         if (typeof state.toggle[index] === 'undefined') {
-          state.toggle[index] = !state.defaultToggle
+          state.toggle[index] = !props.extendToggle
         } else {
           state.toggle[index] = !state.toggle[index]
         }
         // 展开时，如果是懒加载
-        /*if (state.toggle[index] && props.lazyLoad) {
-          props.lazyLoad((row: any, child: any) => {
-            row.children = child
+        console.log(state.toggle[index])
+        if (state.toggle[index] && props.lazyLoad) {
+          props.lazyLoad(row, (child: any) => {
+            if (child && child.length > 0) {
+              row.children = child
+            }
           })
-        }*/
+        }
       }
     }
     const rowClick = (row: any, index: number) => {
@@ -122,7 +127,9 @@ export default defineComponent({
       colsNoExtend,
       toggleExtend,
       rowClick,
-      cellClick
+      cellClick,
+      getToggle,
+      dataList
     }
   }
 })

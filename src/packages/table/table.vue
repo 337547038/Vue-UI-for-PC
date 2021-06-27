@@ -23,10 +23,11 @@
         :sort-single="sortSingle"
         :show-header="showHeader"
         :select-checked="selectChecked"
+        :head-max-layer="headMaxLayer"
         @event="tableHeadEvent" />
       <tbody v-if="data.length===0">
         <tr>
-          <td :colspan="columns.length" class="empty">
+          <td :colspan="columnsData.length" class="empty">
             {{ emptyText }}
           </td>
         </tr>
@@ -43,23 +44,28 @@
         @rowClick="rowClick"
         @cellClick="cellClick" />
     </table>
+    <Pagination
+      v-if="Object.keys(pagination).length>0"
+      :total="data&&data.length"
+      v-bind="pagination" />
     <div v-if="dragLine&&drag&&dragHead.mouseDown" class="table-drag-line"></div>
   </div>
 </template>
 
 <script lang="ts">
 import {prefixCls} from '../prefix'
+import Pagination from '../pagination/index.vue'
 
 import TableHead from './tableHead.vue'
 import TableBody from './tableBody.vue'
-import {reactive, provide, toRefs, onMounted, defineComponent, computed, onUnmounted, nextTick, ref} from 'vue'
+import {reactive, provide, toRefs, onMounted, defineComponent, computed, onUnmounted, nextTick, ref, watch} from 'vue'
 import pType from '../util/pType'
 import {AnyPropName} from '../types'
 import {getOffset} from '../util/dom'
 
 export default defineComponent({
   name: `${prefixCls}Table`,
-  components: {TableHead, TableBody},
+  components: {TableHead, TableBody, Pagination},
   props: {
     data: pType.array([]),
     height: pType.string(), // table的高，溢出显示滚动条，且表头固定
@@ -79,21 +85,25 @@ export default defineComponent({
     hasChild: pType.bool(false),
     lazyLoad: pType.func(),
     extendToggle: pType.bool(), // 默认展开扩展
-    sortSingle: pType.bool() // 单个排序
+    sortSingle: pType.bool(), // 单个排序
+    columns: pType.array(), // 表头数据
+    pagination: pType.object() // 分页相关参数
   },
-  emits: ['selectClick', 'sortChange', 'rowClick', 'cellClick'],
-  setup(props, {emit}) {
+  emits: ['selectClick', 'sortChange', 'rowClick', 'cellClick', 'dragChange'],
+  setup(props, {emit, slots}) {
     const el = ref()
     const tableHeadEl = ref()
+    const columnsData = ref<AnyPropName>([])
     const state = reactive<AnyPropName>({
-      columns: [],
       colWidth: [],
       selectedRows: [], // 已选择的行
       dragHead: {}, // 临时存放表头拖动信息
       ctrlIsDown: false, // 是否按下ctrl键
       ctrlRowIndex: -1, // 按下ctrl键盘时点击的checkbox序号
-      isSetThWidth: false // 用于记录是否已经重新设置过表头的实际宽
+      isSetThWidth: false, // 用于记录是否已经重新设置过表头的实际宽
+      headMaxLayer: 1 // 表头的层级
     })
+    provide('columnsType', !!props.columns) // column组件用来判断添加表头数据
     const selectChecked = computed(() => {
       // 表头checkbox勾选状态0全不选，1全选，2半选
       const len = state.selectedRows.length
@@ -105,10 +115,11 @@ export default defineComponent({
         return 2
       }
     })
-    const toggleRowSelection = (row: any, selected?: boolean) => {
+    // 对外提供的方法，用于多选或取消表格行
+    const toggleRowSelection = (row: any, selected = true) => {
       // 用于多选表格，切换某一行的选中状态，如果使用了第二个参数，则是设置这一行选中与否（selected 为 true 则选中）row, selected
       const index = state.selectedRows.indexOf(row)
-      if (selected === false) {
+      if (!selected) {
         // 取消勾选当前行
         if (index !== -1) {
           state.selectedRows.splice(index, 1)
@@ -120,7 +131,44 @@ export default defineComponent({
         }
       }
     }
-    provide('getColumns', state.columns)
+    watch(() => props.columns, () => {
+      columnsData.value = []
+      getColumns(props.columns)
+    })
+    const getColumns = (data: any, layer = 0) => {
+      layer++
+      if (state.headMaxLayer < layer) {
+        state.headMaxLayer = layer
+      }
+      // 使用传参形式
+      // 有slots时，将slots添加到columns里
+      data.forEach((item: any) => {
+        item.layer = layer // 表示层级
+        if (item.children) {
+          // 有多级表头
+          item.colspan = item.children.length // 添加一个属性，表示横向需要合并children长度
+          columnsData.value.push(item)
+          getColumns(item.children, layer)
+        } else {
+          // 有具名插槽时
+          if (Object.keys(slots).length) {
+            for (let key in slots) {
+              if (item.prop === key) {
+                item.slots = {
+                  default: slots[key]
+                }
+              }
+            }
+          }
+          columnsData.value.push(item)
+        }
+      })
+    }
+    // 表头使用参数形式
+    if (props.columns) {
+      getColumns(props.columns)
+    }
+    provide('getColumns', columnsData) // columns.value的形式不是双向的
     provide('setSelectedRows', (bool: boolean, row: any, index: number) => {
       // 由单元格勾选时触发，添加或删除
       const indexOf = state.selectedRows.indexOf(row)
@@ -149,7 +197,7 @@ export default defineComponent({
     })
     // 获取设置列宽
     const getColWidth = () => {
-      state.columns.forEach((item: any) => {
+      columnsData.value.forEach((item: any) => {
         state.colWidth.push(item.width)
       })
     }
@@ -171,18 +219,10 @@ export default defineComponent({
       nextTick(() => {
         // 当前表格偏移位置
         const tableOffset = getOffset(el.value)
-        console.log(tableOffset)
         let dragLine = el.value.querySelector('.table-drag-line')
         if (dragLine) {
           dragLine.style.left = (event.pageX - tableOffset.left) + 'px'
           dragLine.style.height = tableOffset.height + 'px'
-          // 拖动发生滚动条位置时，同步位置 todo
-          /*const a = theadEl.value.scrollLeft
-          if (document.body.scrollTo) {
-            this.$refs.srcollBody && this.$refs.srcollBody.scrollTo(a, 0)
-          } else {
-            this.$refs.srcollBody.scrollLeft = a
-          }*/
         }
       })
     }
@@ -190,8 +230,8 @@ export default defineComponent({
       if (!props.drag) {
         return
       }
-      const th = el.value.querySelectorAll('th')
-      console.log(th)
+      const th = el.value && el.value.querySelectorAll('th')
+      //      console.log(th)
       state.colWidth = []
       th.forEach((item: HTMLElement) => {
         state.colWidth.push(item.offsetWidth + 'px')
@@ -239,11 +279,13 @@ export default defineComponent({
         if (props.dragWidth[1] > 0 && newWidth > props.dragWidth[1]) {
           newWidth = props.dragWidth[1] // 超出限制时使用最大值
         }
-        // this.$set(this.colWidth, this.dragHead.index, newWidth + 'px')
         state.colWidth[state.dragHead.index] = newWidth + 'px'
       }
     }
     const headMouseUp = () => {
+      if (props.drag && state.dragHead && state.dragHead.mouseDown) {
+        emit('dragChange', state.colWidth)
+      }
       state.dragHead = {
         mouseDown: false,
         oldX: '',
@@ -280,20 +322,18 @@ export default defineComponent({
       tableHeadEl.value.sortBy = {}
     }
     const keyup = (evt: KeyboardEvent) => {
-      if (evt.keyCode === 17) {
+      if (evt.key === 'Control') {
         // 恢复
         state.ctrlIsDown = false
         state.ctrlRowIndex = -1
       }
     }
     const keydown = (evt: KeyboardEvent) => {
-      if (evt.keyCode === 17 && !state.ctrlIsDown) {
+      // console.log(evt)
+      if (evt.key === 'Control' && !state.ctrlIsDown) {
         state.ctrlIsDown = true
       }
     }
-    /*const resize = () => {
-
-    }*/
     const scrollHandle = () => {
       const scrollTop = el.value.scrollTop
       const scrollLeft = el.value.scrollLeft
@@ -313,6 +353,7 @@ export default defineComponent({
           }
         }
       }
+      fixedRight(scrollLeft)
     }
     const fixedRight = (scrollLeft: number) => {
       const fixedRight = el.value.querySelectorAll('.right')
@@ -334,11 +375,14 @@ export default defineComponent({
       }
       fixedRight(0)// 初始化时横向滚动条在0位置
     }
+    // 返回已勾选的行
+    const getSelectAll = () => {
+      return state.selectedRows
+    }
     onMounted(() => {
       getColWidth()
       window.addEventListener('keydown', keydown)
       window.addEventListener('keyup', keyup)
-      // window.addEventListener('resize', resize)
       if (props.drag) {
         document.addEventListener('mouseup', headMouseUp)
       }
@@ -365,7 +409,10 @@ export default defineComponent({
       clearSort,
       selectChecked,
       el,
-      tableHeadEl
+      tableHeadEl,
+      columnsData,
+      getSelectAll,
+      toggleRowSelection
     }
   }
 })

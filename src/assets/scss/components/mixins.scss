@@ -15,4 +15,11 @@ $namespace: 'ak-';
   color: nth($color, 3);
 }
 $border: #dcdfe6; // 边框色
-$primary: #07c160// 主色
+$primary: #07c160;// 主色
+// transparentize($primary, 0.2);
+/*
+lighten         (颜色, 百分比)   // 调亮
+darken          (颜色, 百分比)   // 调暗
+saturate        (颜色, 百分比)   // 调高饱和度
+desaturate      (颜色, 百分比)   // 降低饱和度
+transparentize  (颜色, 0.0-1.0) // 透明度，注意这里接收的不是百分比，是 0.0-1.0 的小数值*/

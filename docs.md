@@ -46,7 +46,7 @@ type: Object as PropType<Book>,
 }
 解勾
 const title = toRef(props, 'title')
-const { title } = toRefs(props)
+const { title } = toRefs(props) // title.value
 
 todo
 cascader/index.vue controlChange

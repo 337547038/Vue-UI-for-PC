@@ -8,6 +8,9 @@
     &:hover {color: #07c160}
   }
   .router-link-active {color: #07c160;background: rgba(7, 229, 108, 0.19);border-left-color: #07c160}
+  .version{
+    .ak-select{min-width: inherit;margin: 0 auto;display: block}
+  }
 }
 .main- {padding: 20px 20px 20px 200px;
   .markdownIt-Anchor{display: none}
@@ -28,6 +31,7 @@
   .vuedoc-demo__footer{
     &:hover{color: #07c160}
   }
+  .language-json,.language-javascript{margin-bottom: 30px}
 }
 table {width: 100%;border-spacing: 0; border-collapse: collapse;border: 1px solid #eaeefb;margin-bottom: 20px;
   th, td {border: 1px solid #eaeefb;color: #314659;text-align: left;padding: 10px 15px;}

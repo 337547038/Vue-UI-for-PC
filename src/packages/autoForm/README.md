@@ -1,6 +1,7 @@
 <!-- Created by 337547038 on 2021/6/18 0018. -->
 
 # AutoForm 表单
+
 通过json数据快速创建表单，支持格栅和tabs布局
 
 ### 基本使用
@@ -86,31 +87,6 @@ export default {
             controlList: []
           }
         ]
-      },
-      {
-        type: 'tabs',
-        columns: [
-          {
-            tabs: {
-              label: '选项1'
-            },
-            controlList: [
-              {
-                type: 'input',
-                name: 'userName2',
-                formItem: {
-                  label: 'userName'
-                },
-                control: {
-                  value: ''
-                },
-                rules: [
-                  {type: 'required', msg: '请输入用户名'}
-                ]
-              }
-            ]
-          }
-        ]
       }
     ]
     const autoFormEl = ref()
@@ -142,9 +118,109 @@ export default {
 
 ```
 
-
 ### 格栅布局
+
 ```vue demo
+<template>
+  <div>
+    <ak-auto-form :data="data" />
+  </div>
+</template>
+<script>
+export default {
+  setup() {
+    const data = [
+      {
+        type: 'input',
+        name: 'test',
+        formItem: {
+          label: 'test'
+        },
+        control: {
+          value: ''
+        }
+      },
+      {
+        type: 'grid',
+        columns: [
+          {
+            span: 6,
+            controlList: [
+              {
+                type: 'input',
+                name: 'userName2',
+                formItem: {
+                  label: 'userName'
+                },
+                control: {
+                  value: ''
+                },
+                rules: [
+                  {type: 'required', msg: '请输入用户名'}
+                ]
+              }
+            ]
+          },
+          {
+            span: 6,
+            controlList: [
+              {
+                type: 'select',
+                name: 'userName2',
+                formItem: {
+                  label: 'userName'
+                },
+                control: {
+                  value: '',
+                  placeholder: '请选择',
+                  options: [
+                    {label: '选项', value: 1}
+                  ]
+                },
+                rules: [
+                  {type: 'required', msg: '请输入用户名'}
+                ]
+              }
+            ]
+          },
+          {
+            span: 12,
+            controlList: [
+              {
+                type: 'radio',
+                name: 'userName3',
+                formItem: {
+                  label: 'userName'
+                },
+                control: {
+                  value: '',
+                  placeholder: '请选择',
+                  options: [
+                    {label: '选项1', value: 'a1'}
+                  ]
+                },
+                rules: [
+                  {type: 'required', msg: '请输入用户名'}
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+    return {
+      data
+    }
+  }
+}
+</script>
+
+```
+
+### Tabs布局
+
+```vue demo
+
 <template>
   <div>
     <ak-auto-form :data="data" />
@@ -253,6 +329,33 @@ export default {
                 ]
               }
             ]
+          },
+          {
+            tabs: {
+              label: '选项2'
+            },
+            controlList: [
+              {
+                type: 'input',
+                name: 'userName2',
+                formItem: {
+                  label: 'userName1'
+                },
+                control: {
+                  value: ''
+                }
+              },
+              {
+                type: 'input',
+                name: 'userName5',
+                formItem: {
+                  label: 'userName2'
+                },
+                control: {
+                  value: ''
+                }
+              }
+            ]
           }
         ]
       }
@@ -263,14 +366,10 @@ export default {
   }
 }
 </script>
-
 ```
-
-### Tabs布局
-
 ## API
 
-### Form Props
+### AutoForm Props
 |参数|类型|说明|
 |-|-|-|
 |data           | object         |表单数据|
@@ -280,14 +379,14 @@ export default {
 |required       | boolean/true   |是否根据验证规则自动生成必填样式名|
 
 
-### Form Methods
+### AutoForm Methods
 |参数|说明|
 |-|-|
 |validate       |对单个表单项进行校验的方法，Promise返回验证结果|
 |resetForm      |重置表单|
 |setValue       |使用resetForm功能时，当表单数据发生改变，需使用setValue设置|
 
-### Form Data
+### AutoForm Data
 |参数|类型|说明|
 |-|-|-|
 |type           | string         |组件类型，支持input,radio,checkbox,datePicker,select,switch,textarea,grid,tabs|
