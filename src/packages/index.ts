@@ -25,6 +25,7 @@ import DatePicker from './datePicker/index.vue'
 import Pagination from './pagination/index.vue'
 import {Table, TableColumn} from './table/index'
 import {Tabs, TabPane} from './tabs/index'
+import {Dialog} from './dialog/index'
 /*import {Table, TableColumn} from './table/index'
 import {Dialog, DialogAlert} from './dialog/index'
 import {Table, TableColumn} from './table/index'
@@ -80,7 +81,8 @@ const component = [
   Pagination,
   AutoForm,
   Table, TableColumn,
-  Tabs, TabPane
+  Tabs, TabPane,
+  Dialog
 ]
 
 /*
@@ -99,7 +101,11 @@ const install = function (Vue, options) {
 export default install*/
 
 export default (app: App): void => {
+  console.log(app)
+  console.log('------')
   component.forEach(item => {
     app.component(item.name, item)
   })
+ // app.config.globalProperties.$alert =Message.alert
+ // app.config.globalProperties.$msg =Message.msg
 }

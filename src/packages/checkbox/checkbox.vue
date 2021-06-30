@@ -42,7 +42,7 @@ export default defineComponent({
     // formItem
     const controlChange: any = inject('controlChange', '')
     const changeHandler = () => {
-      if (!props.beforeChange()) {
+      if (props.beforeChange&&!props.beforeChange()) {
         return
       }
       // 点击后只有选中状态

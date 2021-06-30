@@ -1,35 +1,39 @@
 <template>
   <div>
-    <ak-table
-      :data="tableData"
-      :pagination="pagination">
-      <ak-column type="selection" />
-      <ak-column type="index" label="序号" />
-      <ak-column label="日期" prop="date" />
-      <ak-column label="姓名" prop="name" />
-      <ak-column label="省份" prop="province" />
-      <ak-column label="城市" prop="city" />
-      <ak-column label="地址" prop="address" />
-      <ak-column label="邮编" prop="zip" />
-    </ak-table>
+    <ak-dialog v-model="visible">dialog</ak-dialog>
+    <!--    <Child @click="childClick"></Child>-->
+    <ak-button @click="visible=true">0</ak-button>
+<!--    <p>
+      <router-link to="/">123abc</router-link>
+    </p>-->
   </div>
 </template>
 <script>
-import tableData from '@/packages/table/demoJs.json'
+import {ref, getCurrentInstance, onMounted, onBeforeMount} from 'vue'
+// import {Message} from '../packages/dialog'
+import Child from './child.vue'
 
 export default {
-  setup() {
-    const pagination = {
-      current: 1,
-      pageSize: 3,
-      onChange: v => {
-        console.log(v)
-      }
+  components: {},
+  setup(props, {attrs}) {
+    // const {ctx, proxy} = getCurrentInstance()
+    const value1 = ref(1)
+    const callback=close=>{
+      console.log('点击手动关闭')
+      close()
     }
+    const visible=ref(false)
     return {
-      tableData,
-      pagination
+      value1,
+      callback,
+      visible
     }
+  },
+  mounted() {
+    console.log('mounted')
+    // this.$alert('3')
+    // this.$alert()
+    // this.$msg()
   }
 }
 </script>

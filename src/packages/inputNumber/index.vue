@@ -3,7 +3,7 @@
     <input
       type="text"
       :value="modelValue"
-      :class="{'disabled':disabled,[prefixCls+'-input-control']:true}"
+      :class="{'disabled':disabled,[prefixCls+'-input-control']:true,[size]:size}"
       :disabled="disabled"
       :readOnly="readOnly"
       :placeholder="placeholder"
@@ -39,7 +39,8 @@ export default defineComponent({
     step: pType.number(1),// 每次增加或减少的数
     disabled: pType.bool(),
     placeholder: pType.string(),
-    readOnly: pType.bool(true)
+    readOnly: pType.bool(true),
+    size: pType.string()
   },
   emits: ['focus', 'blur', 'change', 'update:modelValue'],
   setup(props, {emit}) {

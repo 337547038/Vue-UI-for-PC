@@ -1,7 +1,7 @@
 <template>
   <div v-if="visible" class="container">
     <div class="sidebar">
-      <div class="logo"><img src="./assets/logo.jpg">AK-Docs</div>
+      <div class="logo"><img src="./assets/logo.jpg" alt="">AK-Docs</div>
       <div class="version">
         <ak-select v-model="version" width="160px">
           <template #template>
@@ -38,7 +38,7 @@ import {defineComponent, ref} from 'vue'
 
 export default defineComponent({
   setup() {
-    let visible = true
+    let visible = false
     const getName = (name: string) => {
       return name.substring(0, 1).toUpperCase() + name.substring(1)
     }

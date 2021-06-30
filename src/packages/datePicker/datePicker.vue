@@ -88,7 +88,7 @@ export default defineComponent({
       }
       state.activeValue = new Date(state.activeValue.setMonth(state.activeValue.getMonth() + num))
     }
-    const paneClick = (date: Date) => {
+    const paneClick = (date: Date|string) => {
       if (typeof date === 'string') {
         date = new Date(date)
       }

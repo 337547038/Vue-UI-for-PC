@@ -41,7 +41,7 @@ export default defineComponent({
     })
     provide('childrenList', state.children)
     const tabsClick = (item: any, index: number) => {
-      if (props.beforeLeave(item)) {
+      if (props.beforeLeave&&props.beforeLeave(item)) {
         // 判断阻止点击
         state.active = item.name || 'tab-' + (index + 1)
         emit('change', item, index)

@@ -38,7 +38,7 @@
 
 <script lang="ts">
 import pType from '../util/pType'
-import {defineComponent, reactive, toRefs, inject, watch, ref, computed, onMounted} from 'vue'
+import {defineComponent, reactive, toRefs, inject, watch, ref} from 'vue'
 import {Checkbox} from '../checkbox/index'
 import {AnyPropName} from '../types'
 

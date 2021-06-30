@@ -93,6 +93,7 @@ export default {
 |disabled       | boolean/false|是否禁用|
 |placeholder    | string       |输入框点位符|
 |readOnly       | boolean/true |允许手动输入|
+|size           | string         |添加的大小尺寸样式|
 
 ### InputNumber Events
 |参数|说明|
