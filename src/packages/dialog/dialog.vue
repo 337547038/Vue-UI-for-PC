@@ -5,10 +5,11 @@
       v-show="visible"
       ref="el"
       :class="`${prefixCls}-dialog-modal`"
-      :style="{zIndex:zIndex}"
+      :style="{zIndex:zIndex,left:left,top:top}"
       @click="btnClick('modal')">
       <div
         :class="{[prefixCls+'-dialog']:true,[className]:className,[prefixCls+'-dialog-isAlert']:isAlert,'dialog-full-screen':fullScreen}"
+        :style="{width:width,top:top}"
         @click.stop="">
         <a
           v-if="showClose"
@@ -16,11 +17,11 @@
           @click="btnClick('close')">
         </a>
         <div v-if="autoClose>0" :class="`${prefixCls}-dialog-auto-close`">
-          <span v-text="autoTime"></span>秒后自动关闭
+          <span v-text="closeTips.replace('S',autoTime)"></span>
         </div>
         <div
           v-if="title||$slots.title"
-          ref="head"
+          ref="headEl"
           :class="`${prefixCls}-dialog-header`"
           @mousedown="mouseDown">
           <template v-if="title">{{ title }}</template>
@@ -53,6 +54,7 @@ import {defineComponent, reactive, toRefs, computed, onMounted, nextTick, ref, o
 import dButton from '../button/button.vue'
 import {prefixCls} from '../prefix'
 import pType from '../util/pType'
+import {getOffset, scrollTop, getWindow} from '../util/dom'
 
 export default defineComponent({
   name: `${prefixCls}Dialog`,
@@ -63,6 +65,7 @@ export default defineComponent({
     title: pType.string(), // 标题，也可通过具名 slot 传入，title优先
     content: pType.string(),
     appendToBody: pType.bool(true), // Dialog 自身是否插入至 body 元素上
+    top: pType.string(), // 默认弹出时距离顶部的距离
     width: pType.string(),
     height: pType.string(),// 内容区域的高度
     modal: pType.bool(true), // 是否需要遮罩层
@@ -72,37 +75,26 @@ export default defineComponent({
     showClose: pType.bool(true), // 是否显示关闭按钮
     confirm: pType.string(), // 确认按钮
     cancel: pType.string(), // 取消按钮
-    /*move: {
-      // 允许拖动窗口
-      type: Boolean,
-      default: true
-    },*/
+    move: pType.bool(false),// 允许拖动窗口
     autoClose: pType.number(0), // 自动关闭时间
+    closeTips: pType.string('S秒后自动关闭'), // 自动关闭时提示语,大写S会被替换为具体时间
     beforeClose: pType.func(true), // 关闭前的回调
-    // callback: pType.func(false), // 确定按钮关闭前的回调
     animation: pType.string('fade'),
-    /*after: Function,
-    center: {
-      // 默认水平垂直居中。false时不设置位置
-      type: Boolean,
-      default: true
-    },
-    isAlert: {
-      // 用于区别引用形式，组件或者是插件，不需要通过外部传参。true时关闭弹窗时同时从body移除
-      type: Boolean,
-      default: false
-    },*/
+    isAlert: pType.bool(), // 用于区别引用形式，组件或者是插件，不需要通过外部传参。true时关闭弹窗时同时从body移除
     icon: pType.oneOfType([pType.number(), pType.string()], 0), // 主要用于this.$dialog中常见的几种提示
     fullScreen: pType.bool(false)
   },
   emits: ['callback'],
   setup(props, {emit, attrs}) {
     const el = ref()
+    const headEl = ref()
     const state = reactive({
       autoTime: props.autoClose, // 自动关闭时间
       visible: props.modelValue, // 控制窗口显示隐藏
       clearTime: 0,
-      isAlert: false
+      isAlert: false,
+      left: '',
+      top: ''
     })
     watch(() => props.modelValue, (bool: boolean) => {
       state.visible = bool
@@ -165,8 +157,44 @@ export default defineComponent({
         }, 1000)
       }
     }
-    const mouseDown = () => {
-      console.log('mouseDown')
+    const mouseDown = (evt: MouseEvent) => {
+      if (props.move && headEl.value) {
+        let flag = false
+        let offSet = getOffset(headEl.value)
+        let x = evt.pageX - offSet.left
+        let y = evt.pageY - offSet.top
+        const scrollTop = scrollTop()
+        flag = true
+        document.onmousemove = (evt: MouseEvent) => {
+          if (flag) {
+            let left = evt.pageX - x
+            let top = evt.pageY - y - scrollTop
+            const windowWH = getWindow()
+            const dialogHeight = el.value.offsetHeight
+            const dialogWidth = el.value.dialogWidth
+            if (left <= 0) {
+              left = 0// 最左边
+            } else if (left > windowWH.width - dialogWidth) {
+              // 最右边，窗口宽－弹层宽
+              left = windowWH.width - dialogWidth
+            }
+            if (top <= 0) {
+              top = 0
+            } else if (top > windowWH.height - dialogHeight) {
+              top = windowWH.height - dialogHeight
+            }
+            state.left = left + 'px'
+            state.top = top + 'px'
+            // this.$el.style.transitionDuration = '0s' // 拖动时要设为0，否则拖动很慢的感觉
+          }
+          return false
+        }
+        document.onmouseup = function () {
+          document.onmousemove = null
+          document.onmouseup = null
+          flag = false
+        }
+      }
     }
     onMounted(() => {
       nextTick(() => {
@@ -189,7 +217,8 @@ export default defineComponent({
       close,
       btnClick,
       scrollStyle,
-      mouseDown
+      mouseDown,
+      headEl
     }
   }
 })

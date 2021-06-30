@@ -1,7 +1,7 @@
 /**
  * Created by 337547038 on 2018/8/31 0031.
  */
-import {App} from 'vue'
+import {App, provide} from 'vue'
 // 所有需要全局注册的组件入口
 import BackTop from './backTop/index.vue'
 import Badge from './badge/index.vue'
@@ -25,7 +25,7 @@ import DatePicker from './datePicker/index.vue'
 import Pagination from './pagination/index.vue'
 import {Table, TableColumn} from './table/index'
 import {Tabs, TabPane} from './tabs/index'
-import {Dialog} from './dialog/index'
+import {Dialog, MessageBox} from './dialog/index'
 /*import {Table, TableColumn} from './table/index'
 import {Dialog, DialogAlert} from './dialog/index'
 import {Table, TableColumn} from './table/index'
@@ -106,6 +106,9 @@ export default (app: App): void => {
   component.forEach(item => {
     app.component(item.name, item)
   })
- // app.config.globalProperties.$alert =Message.alert
- // app.config.globalProperties.$msg =Message.msg
+  app.config.globalProperties.$alert = MessageBox.alert
+  app.config.globalProperties.$msg = MessageBox.msg
+  app.config.globalProperties.$dialog = MessageBox.dialog
+  app.config.globalProperties.$clear = MessageBox.clear
+  provide('MessageBox', MessageBox)
 }

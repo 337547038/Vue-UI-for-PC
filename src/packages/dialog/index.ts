@@ -1,6 +1,6 @@
 import Dialog from './dialog.vue'
-//import messageBox from './messageBox'
-//import {h, createApp, render, onBeforeUnmount, createVNode} from 'vue'
+import MessageBox from './messageBox'
+export {Dialog,MessageBox}
 
 /*
 const Message = {
@@ -43,6 +43,3 @@ const Message = {
     document.body.appendChild(container.firstElementChild)
   }
 }*/
-
-
-export {Dialog}
