@@ -4,12 +4,13 @@
     <div
       v-show="visible"
       ref="el"
-      :class="`${prefixCls}-dialog-modal`"
-      :style="{zIndex:zIndex,left:left,top:top}"
+      :class="{[`${prefixCls}-dialog-modal`]:true,modal:modal}"
+      :style="{zIndex:zIndex}"
       @click="btnClick('modal')">
       <div
-        :class="{[prefixCls+'-dialog']:true,[className]:className,[prefixCls+'-dialog-isAlert']:isAlert,'dialog-full-screen':fullScreen}"
-        :style="{width:width,top:top}"
+        ref="dialogEl"
+        :class="{[prefixCls+'-dialog']:true,[className]:className,[prefixCls+'-dialog-isAlert']:isAlert}"
+        :style="{width:width,top:top,left:left,'transition-duration':0}"
         @click.stop="">
         <a
           v-if="showClose"
@@ -17,25 +18,24 @@
           @click="btnClick('close')">
         </a>
         <div v-if="autoClose>0" :class="`${prefixCls}-dialog-auto-close`">
-          <span v-text="closeTips.replace('S',autoTime)"></span>
+          <span v-html="closeTips.replace('S',autoTime)"></span>
         </div>
         <div
           v-if="title||$slots.title"
           ref="headEl"
-          :class="`${prefixCls}-dialog-header`"
+          :class="{[`${prefixCls}-dialog-header`]:true,move:move}"
           @mousedown="mouseDown">
           <template v-if="title">{{ title }}</template>
           <slot v-else name="title"></slot>
         </div>
         <div
           v-if="content||$slots.default"
-          :style="scrollStyle"
+          :style="{height:height}"
           :class="{
             [prefixCls+'-dialog-alert']:isAlert,
             [prefixCls+'-dialog-content']:true}">
-          <div v-if="content" :class="[prefixCls+'-dialog-text']">
-            <i v-if="icon" :class="[{['icon-'+iconName]:icon}]"></i>
-            <span v-html="content"></span>
+          <i v-if="icon" :class="[{['icon-'+iconName]:icon}]"></i>
+          <div v-if="content" :class="[prefixCls+'-dialog-text']" v-html="content">
           </div>
           <slot v-else></slot>
         </div>
@@ -75,29 +75,31 @@ export default defineComponent({
     showClose: pType.bool(true), // 是否显示关闭按钮
     confirm: pType.string(), // 确认按钮
     cancel: pType.string(), // 取消按钮
+    callback: pType.func(false),
     move: pType.bool(false),// 允许拖动窗口
     autoClose: pType.number(0), // 自动关闭时间
     closeTips: pType.string('S秒后自动关闭'), // 自动关闭时提示语,大写S会被替换为具体时间
     beforeClose: pType.func(true), // 关闭前的回调
     animation: pType.string('fade'),
     isAlert: pType.bool(), // 用于区别引用形式，组件或者是插件，不需要通过外部传参。true时关闭弹窗时同时从body移除
-    icon: pType.oneOfType([pType.number(), pType.string()], 0), // 主要用于this.$dialog中常见的几种提示
-    fullScreen: pType.bool(false)
+    icon: pType.oneOfType([pType.number(), pType.string()], 0) // 主要用于this.$dialog中常见的几种提示
   },
-  emits: ['callback'],
-  setup(props, {emit, attrs}) {
+  emits: ['update:modelValue'],
+  setup(props, {emit}) {
     const el = ref()
     const headEl = ref()
+    const dialogEl = ref()
     const state = reactive({
       autoTime: props.autoClose, // 自动关闭时间
       visible: props.modelValue, // 控制窗口显示隐藏
-      clearTime: 0,
-      isAlert: false,
       left: '',
-      top: ''
+      top: props.top,
+      moveFlag: false
     })
+    let clearTime = 0
     watch(() => props.modelValue, (bool: boolean) => {
       state.visible = bool
+      bool && autoClose() // 调用自动关闭
     })
     const iconName = computed(() => {
       let icon = props.icon
@@ -114,64 +116,68 @@ export default defineComponent({
       }
       return icon
     })
-    const scrollStyle = computed(() => {
-      return {}
-    })
+    const autoClose = () => {
+      // 自动关闭
+      if (props.autoClose > 0) {
+        state.autoTime = props.autoClose
+        clearTime = window.setInterval(() => {
+          if (state.autoTime > 1) {
+            state.autoTime--
+          } else {
+            // emit('callback')
+            props.callback && props.callback()
+            close()
+          }
+        }, 1000)
+      }
+    }
     const open = () => {
       state.visible = true
       autoClose() // 调用自动关闭
     }
     const close = () => {
       state.visible = false
+      if (props.autoClose) {
+        window.clearInterval(clearTime)
+      }
+      emit('update:modelValue', false)
     }
     const btnClick = (type: string) => {
-      if (props.autoClose) {
-        clearInterval(state.clearTime)
-      }
       // 点击遮罩层不允许操作时
       if (!props.closeModal && type === 'modal') {
         return false
       }
       // 点确定并且绑定了回调事件时，由确定回调关闭
-      if (type === 'confirm' && attrs.onCallback) {
-        emit('callback', close) // 将关闭方法传出去
+      // 自动关闭时不处理，即时间没到也可以点确定取消直接关闭
+      if (!props.autoClose && type === 'confirm' && props.callback && !props.callback()) {
+        // emit('callback', close) // 将关闭方法传出去
+        // props.callback() // 回调时使用return true关闭
         return false
       }
-      if (props.beforeClose && !props.beforeClose()) {
+
+      if (props.beforeClose && !props.beforeClose(type, close)) {
         // beforeClose返回false时阻止关闭
-        props.beforeClose(type, close)
+        // props.beforeClose(type, close)
+        return false
       } else {
         close()
       }
     }
-    const autoClose = () => {
-      // 自动关闭
-      if (props.autoClose > 0) {
-        state.clearTime = window.setInterval(() => {
-          if (state.autoTime > 1) {
-            state.autoTime--
-          } else {
-            emit('callback')
-            close()
-          }
-        }, 1000)
-      }
-    }
     const mouseDown = (evt: MouseEvent) => {
       if (props.move && headEl.value) {
-        let flag = false
+        state.moveFlag = false
         let offSet = getOffset(headEl.value)
         let x = evt.pageX - offSet.left
         let y = evt.pageY - offSet.top
-        const scrollTop = scrollTop()
-        flag = true
+        const scrollT = scrollTop()
+        state.moveFlag = true
         document.onmousemove = (evt: MouseEvent) => {
-          if (flag) {
+          if (state.moveFlag) {
             let left = evt.pageX - x
-            let top = evt.pageY - y - scrollTop
+            let top = evt.pageY - y - scrollT
             const windowWH = getWindow()
-            const dialogHeight = el.value.offsetHeight
-            const dialogWidth = el.value.dialogWidth
+            const dialogHeight = dialogEl.value.offsetHeight
+            const dialogWidth = dialogEl.value.offsetWidth
             if (left <= 0) {
               left = 0// 最左边
             } else if (left > windowWH.width - dialogWidth) {
@@ -192,7 +198,7 @@ export default defineComponent({
         document.onmouseup = function () {
           document.onmousemove = null
           document.onmouseup = null
-          flag = false
+          state.moveFlag = false
         }
       }
     }
@@ -216,9 +222,9 @@ export default defineComponent({
       open,
       close,
       btnClick,
-      scrollStyle,
       mouseDown,
-      headEl
+      headEl,
+      dialogEl
     }
   }
 })

@@ -1,24 +1,35 @@
 import Dialog from './dialog.vue'
-import {createApp} from 'vue'
+import {createApp, defineComponent} from 'vue'
 import {AnyPropName} from '../types'
 import {prefixCls} from '../prefix'
 import {removeClass} from '../util/dom'
 
-export default {
+const dialogCom = (opt: AnyPropName) => {
+  console.log(opt)
+  const mountNode = document.createElement('div')
+  document.body.appendChild(mountNode)
+  const app = createApp(Dialog, {
+    ...opt,
+    remove() {
+      app.unmount()
+      document.body.removeChild(mountNode)
+    }
+  })
+  return app.mount(mountNode)
+}
+
+interface optList {
+  modal?: boolean
+  title?: string
+  confirm?: string
+}
+
+export default defineComponent({
   dialog(opt: AnyPropName) {
-    const mountNode = document.createElement('div')
-    document.body.appendChild(mountNode)
-    const app = createApp(Dialog, {
-      ...opt,
-      remove() {
-        app.unmount()
-        document.body.removeChild(mountNode)
-      }
-    })
-    return app.mount(mountNode)
+    return dialogCom(opt)
   },
-  alert(content: string, opt: AnyPropName) {
-    return this.dialog(Object.assign({}, {
+  alert(content: string, opt: optList) {
+    return dialogCom(Object.assign({}, {
       title: opt.title || '信息',
       content: content,
       confirm: opt.confirm || '确定',
@@ -26,12 +37,12 @@ export default {
       closeModal: false
     }, opt))
   },
-  msg(content: string, opt: AnyPropName) {
-    return this.dialog(Object.assign({}, {
+  msg(content: string, opt: optList) {
+    return dialogCom(Object.assign({}, {
       content: content,
       isAlert: true,
       closeModal: false,
-      modal: opt.modal || false
+      modal: opt && opt.modal || false
     }, opt))
   },
   clear() {
@@ -44,4 +55,4 @@ export default {
       })
     }
   }
-}
+})

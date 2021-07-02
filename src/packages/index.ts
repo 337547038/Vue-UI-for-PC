@@ -1,7 +1,7 @@
 /**
  * Created by 337547038 on 2018/8/31 0031.
  */
-import {App, provide} from 'vue'
+import {App, provide,readonly} from 'vue'
 // 所有需要全局注册的组件入口
 import BackTop from './backTop/index.vue'
 import Badge from './badge/index.vue'
@@ -26,23 +26,11 @@ import Pagination from './pagination/index.vue'
 import {Table, TableColumn} from './table/index'
 import {Tabs, TabPane} from './tabs/index'
 import {Dialog, MessageBox} from './dialog/index'
-/*import {Table, TableColumn} from './table/index'
-import {Dialog, DialogAlert} from './dialog/index'
-import {Table, TableColumn} from './table/index'
-import {Tabs, TabPane} from './tabs/index'
+/*
+
 /*import {Dialog, DialogAlert} from './dialog/index'
-import DatePicker from './datePicker/index.vue'
-/*import {Dialog, DialogAlert} from './dialog/index'
-import {Form, FormItem, AutoForm} from './form/index'
-import Input from './input/index'
 import Loading from './loading/index'
 
-
-import {Table, TableColumn} from './table/index'
-import {Tabs, TabPane} from './tabs/index'
-
-import Pagination from './pagination/index'
-import {Swiper, SwiperItem} from './swiper/index'
 import Tree from './tree/index'
 import {Upload, ImgCrop} from './upload/index'
 import Menu from './menu/index'
@@ -58,7 +46,7 @@ import {Icon, Icons} from './icon'
 
 import {Dropdown, DropdownItem} from './dropdown'
 import {Carousel, CarouselItem} from './carousel'*/
-
+import './theme/index.scss'
 const component = [
   BackTop,
   Badge,
@@ -110,5 +98,5 @@ export default (app: App): void => {
   app.config.globalProperties.$msg = MessageBox.msg
   app.config.globalProperties.$dialog = MessageBox.dialog
   app.config.globalProperties.$clear = MessageBox.clear
-  provide('MessageBox', MessageBox)
+  app.provide('MessageBox', readonly(MessageBox))
 }

@@ -1,37 +1,53 @@
 <template>
   <div>
-    <ak-dialog v-model="visible">dialog</ak-dialog>
-    <!--    <Child @click="childClick"></Child>-->
-    <ak-button @click="visible=true">0</ak-button>
-<!--    <p>
-      <router-link to="/">123abc</router-link>
-    </p>-->
+    <ak-button @click="click">click{{ visible }}</ak-button>
+    <ak-dialog
+      v-model="visible"
+      confirm="submit"
+      cancel="cancel"
+      :callback="callback"
+      :move="true"
+      title="title">
+      dialog
+    </ak-dialog>
   </div>
 </template>
 <script>
-import {ref, getCurrentInstance, onMounted, onBeforeMount} from 'vue'
+import {ref, getCurrentInstance, onMounted, onBeforeMount, inject} from 'vue'
 // import {Message} from '../packages/dialog'
 import Child from './child.vue'
 
 export default {
-  components: {},
+  components: {Child},
   setup(props, {attrs}) {
     // const {ctx, proxy} = getCurrentInstance()
+    // const msgbox = inject('MessageBox')
+    // msgbox.msg('4',{icon:4})
     const value1 = ref(1)
-    const callback=close=>{
+    const callback = () => {
       console.log('点击手动关闭')
-      close()
+      // return true
+      // close()
     }
-    const visible=ref(false)
+    const beforeClose = () => {
+      return false
+    }
+    const visible = ref(false)
+    const click = () => {
+      visible.value = true
+    }
+
     return {
       value1,
       callback,
-      visible
+      visible,
+      click,
+      beforeClose
     }
   },
   mounted() {
     console.log('mounted')
-    // this.$alert('3')
+    // this.$msg('3')
     // this.$alert()
     // this.$msg()
   }
