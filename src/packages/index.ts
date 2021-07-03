@@ -1,7 +1,7 @@
 /**
  * Created by 337547038 on 2018/8/31 0031.
  */
-import {App} from 'vue'
+import {App, provide,readonly} from 'vue'
 // 所有需要全局注册的组件入口
 import BackTop from './backTop/index.vue'
 import Badge from './badge/index.vue'
@@ -25,6 +25,12 @@ import DatePicker from './datePicker/index.vue'
 import Pagination from './pagination/index.vue'
 import {Table, TableColumn} from './table/index'
 import {Tabs, TabPane} from './tabs/index'
+import {Dialog, MessageBox} from './dialog/index'
+import ColorPicker from './colorPicker/index.vue'
+import Progress from './progress/index.vue'
+import Tooltip from './tooltip/index.vue'
+/*
+
 import ColorPicker from './colorPicker/index.vue'
 import Progress from './progress/index.vue'
 import Tooltip from './tooltip/index.vue'
@@ -50,17 +56,17 @@ import {Upload, ImgCrop} from './upload/index'
 import Menu from './menu/index'
 import ECharts from './echarts/index'
 
-
+import Progress from './progress/index'
 import Transfer from './transfer/index'
 import Steps from './steps/index'
-
-
+import Tooltip from './tooltip/index'
+import ColorPicker from './colorPicker'
 import Slider from './slider'
 import {Icon, Icons} from './icon'
 
 import {Dropdown, DropdownItem} from './dropdown'
 import {Carousel, CarouselItem} from './carousel'*/
-
+import './theme/index.scss'
 const component = [
   BackTop,
   Badge,
@@ -83,6 +89,7 @@ const component = [
   Pagination,
   AutoForm,
   Table, TableColumn,
+  Dialog
   Tabs, TabPane,
   ColorPicker,
   Progress,
@@ -108,4 +115,9 @@ export default (app: App): void => {
   component.forEach(item => {
     app.component(item.name, item)
   })
+  app.config.globalProperties.$alert = MessageBox.alert
+  app.config.globalProperties.$msg = MessageBox.msg
+  app.config.globalProperties.$dialog = MessageBox.dialog
+  app.config.globalProperties.$clear = MessageBox.clear
+  app.provide('MessageBox', readonly(MessageBox))
 }

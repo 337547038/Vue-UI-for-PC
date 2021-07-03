@@ -15,6 +15,7 @@
         type="text"
         :class="{
           [prefixCls+'-input-control']:true,
+          [size]:size,
           'focus':visible,
           'placeholder':placeholder&&modelValue.length===0,
           'disabled':disabled}"
@@ -27,6 +28,7 @@
         v-if="!filterable"
         :class="{
           [prefixCls+'-input-control']:true,
+          [size]:size,
           'focus':visible,
           'disabled':disabled}"
         :placeholder="!text?placeholder:''">
@@ -104,7 +106,8 @@ export default defineComponent({
     downClass: pType.string(), // 下拉类名
     direction: pType.number(0), // 下拉弹出方向，0自动，1向上，2向下
     appendToBody: pType.bool(),
-    width: pType.string()
+    width: pType.string(),
+    size: pType.string()
   },
   emits: ['update:modelValue', 'change', 'limitChange'],
   setup(props, {emit, slots}) {
@@ -245,7 +248,7 @@ export default defineComponent({
     }
     const itemClick = (item: FormControlOption, evt: MouseEvent) => {
       if (!item.disabled) {
-        if (!props.beforeChange(item)) {
+        if (props.beforeChange&&!props.beforeChange(item)) {
           state.visible = false
           evt.stopPropagation()
           return

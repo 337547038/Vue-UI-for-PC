@@ -350,6 +350,7 @@ export default {
 |direction         | Number/0              |下拉弹出方向，0自动，1向上，2向下|
 |width             | string                |宽度|
 |beforeChange      | Function              |选项改变前事件,return false阻止选择|
+|size           | string         |添加的大小尺寸样式|
 
 ### Options Attributes
 |参数|类型|说明|

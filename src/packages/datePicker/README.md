@@ -326,6 +326,7 @@ export default {
 |appendToBody   | Boolean｜true   |是否将弹出日期面板插入到body中|
 |downStyle      | Object          |下拉面板样式，快速个性化设置单个日期下拉面板|
 |readonly       | Boolean｜true   |日期输入框只读模式|
+|size           | string         |添加的大小尺寸样式|
 
 ### DatePicker Event
 |参数|说明|

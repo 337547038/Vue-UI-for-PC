@@ -7,7 +7,7 @@
     <v-input
       ref="input"
       :placeholder="placeholder"
-      :class="{'disabled':disabled}"
+      :class="{'disabled':disabled,[size]:size}"
       :model-value="showValue"
       :readonly="readonly"
       :disabled="disabled"
@@ -58,7 +58,8 @@ export default defineComponent({
     direction: pType.number(0), // 下拉弹出方向，0自动，1向上，2向下
     width: pType.string(),
     disabledDate: pType.func(),
-    innerText: pType.func()
+    innerText: pType.func(),
+    size: pType.string()
   },
   emits: ['update:modelValue', 'change'],
   setup(props, {emit}) {
@@ -77,10 +78,10 @@ export default defineComponent({
     })
     const controlChange: any = inject('controlChange', '')
     provide('setInnerText', (date: Date) => {
-      return props.innerText(date)
+      return props.innerText&&props.innerText(date)
     })
     provide('setDisabledDate', (date: Date, type: string) => {
-      return props.disabledDate(date, type)
+      return props.disabledDate&&props.disabledDate(date, type)
     })
     const emitCom = (value: string) => {
       emit('update:modelValue', value)

@@ -2,8 +2,6 @@
 import {h, defineComponent, ref, computed, inject, watch} from 'vue'
 import pType from '../util/pType'
 import {Checkbox} from '../checkbox/index'
-import checkbox from '../checkbox/checkbox.vue'
-import {AnyPropName} from '../types'
 
 export default defineComponent({
   name: 'TableTd',
@@ -48,7 +46,7 @@ export default defineComponent({
       }
       return null
     })
-    const onCellClick = (evt: MouseEvent) => {
+    const onCellClick = () => {
       emit('cellClick', props.row, props.column, props.index, props.columnIndex)
       // 单元格点击
       // evt.stopPropagation()
@@ -70,7 +68,7 @@ export default defineComponent({
           parentRow: props.parentRow
         })
       } else if (props.column.type === 'selection') {
-        return h(checkbox, {
+        return h(Checkbox, {
           modelValue: checkValue.value,
           onChange: (val: boolean) => {
             setSelectedRows(val, props.row, props.index)

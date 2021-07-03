@@ -8,7 +8,7 @@
       :value="item.value"
       :disabled="disabled||item.disabled"
       @change="change($event,item)">
-      {{item.label}}
+      {{ item.label }}
     </Radio>
   </div>
 </template>
