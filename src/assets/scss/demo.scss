@@ -50,3 +50,32 @@ table {width: 100%;border-spacing: 0; border-collapse: collapse;border: 1px soli
 
 /**/
 .ak-badge{margin-right: 35px}
+.tooltip-demo{margin-bottom: 30px}
+.tooltip-demo span{
+  display: inline-block;
+  vertical-align: middle;
+  width: 55px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  background: #f7f7f7;
+  border: 1px solid #dddee1;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all .5s;
+  margin-right: 30px}
+.tooltip-demo span:hover {
+  background: #fff;
+  border-color: #36a1d3;}
+.tooltip-icon {
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  font-style: normal;
+  background: #ddd;
+  display: inline-block;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-right: 30px}
+.tooltip-align{color: red;background: #66b1ff}

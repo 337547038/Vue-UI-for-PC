@@ -1,0 +1,31 @@
+@charset "utf-8";
+@include ns(tooltip) {
+  $background: #666;
+  position: absolute; z-index: 100; background: $background; color: #fff; padding: 8px 12px; line-height: 20px; border-radius: 5px;box-sizing: border-box;
+  &:before { content: ''; display: inline-block; border: 5px solid transparent; position: absolute; }
+  /*处理下箭头方向*/
+  &.top-left {
+    &:before { left: 15px; bottom: -10px; border-top-color: $background; }
+  }
+  &.top {
+    &:before { left: 50%; bottom: -10px; border-top-color: $background; margin-left: -5px; }
+  }
+  &.top-right {
+    &:before { right: 15px; bottom: -10px; border-top-color: $background; }
+  }
+  &.left {
+    &:before { right: -10px; top: 50%; border-left-color: $background; margin-top: -5px; }
+  }
+  &.right {
+    &:before { left: -10px; top: 50%; border-right-color: $background; margin-top: -5px; }
+  }
+  &.bottom-left {
+    &:before { left: 15px; top: -10px; border-bottom-color: $background; }
+  }
+  &.bottom {
+    &:before { left: 50%; top: -10px; border-bottom-color: $background; margin-left: -5px; }
+  }
+  &.bottom-right {
+    &:before { right: 15px; top: -10px; border-bottom-color: $background; }
+  }
+}

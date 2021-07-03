@@ -21,7 +21,7 @@ https://337547038.github.io/akvue3/
 - [x] Cascader 级联选择器
 - [x] Checkbox 多选框
 - [x] Collapse 折叠面板
-- [ ] ColorPicker 颜色选择器
+- [x] ColorPicker 颜色选择器
 - [x] DataPicker 时间选择器
 - [ ] Dialog 弹层对话框
 - [ ] Alert 弹框
@@ -32,7 +32,7 @@ https://337547038.github.io/akvue3/
 - [ ] Loading 加载等待
 - [ ] Menu 菜单
 - [x] Pagination 分页
-- [ ] Progress 进度条
+- [x] Progress 进度条
 - [x] Radio 单选框
 - [x] Select 选择器
 - [ ] Steps 步骤条

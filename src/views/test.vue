@@ -1,34 +1,21 @@
 <template>
   <div>
-    <ak-table
-      :data="tableData"
-      :pagination="pagination">
-      <ak-column type="selection" />
-      <ak-column type="index" label="序号" />
-      <ak-column label="日期" prop="date" />
-      <ak-column label="姓名" prop="name" />
-      <ak-column label="省份" prop="province" />
-      <ak-column label="城市" prop="city" />
-      <ak-column label="地址" prop="address" />
-      <ak-column label="邮编" prop="zip" />
-    </ak-table>
+    <!--    <ak-tooltip content="这是提示内容这是提示内容"><ak-button>上左</ak-button></ak-tooltip>-->
+    <ak-tooltip content="这是提示内容这是提示内容">
+      <div class="a">
+        <span>上左</span>
+      </div>
+    </ak-tooltip>
   </div>
 </template>
 <script>
-import tableData from '@/packages/table/demoJs.json'
+import {ref} from 'vue'
 
 export default {
   setup() {
-    const pagination = {
-      current: 1,
-      pageSize: 3,
-      onChange: v => {
-        console.log(v)
-      }
-    }
+    const value1 = ref(50)
     return {
-      tableData,
-      pagination
+      value1
     }
   }
 }

@@ -25,6 +25,9 @@ import DatePicker from './datePicker/index.vue'
 import Pagination from './pagination/index.vue'
 import {Table, TableColumn} from './table/index'
 import {Tabs, TabPane} from './tabs/index'
+import ColorPicker from './colorPicker/index.vue'
+import Progress from './progress/index.vue'
+import Tooltip from './tooltip/index.vue'
 /*import {Table, TableColumn} from './table/index'
 import {Dialog, DialogAlert} from './dialog/index'
 import {Table, TableColumn} from './table/index'
@@ -47,11 +50,11 @@ import {Upload, ImgCrop} from './upload/index'
 import Menu from './menu/index'
 import ECharts from './echarts/index'
 
-import Progress from './progress/index'
+
 import Transfer from './transfer/index'
 import Steps from './steps/index'
-import Tooltip from './tooltip/index'
-import ColorPicker from './colorPicker'
+
+
 import Slider from './slider'
 import {Icon, Icons} from './icon'
 
@@ -80,7 +83,10 @@ const component = [
   Pagination,
   AutoForm,
   Table, TableColumn,
-  Tabs, TabPane
+  Tabs, TabPane,
+  ColorPicker,
+  Progress,
+  Tooltip
 ]
 
 /*
