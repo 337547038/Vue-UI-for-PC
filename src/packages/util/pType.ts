@@ -66,11 +66,17 @@ export default {
     }
   },
   // type:Function
-  func(d?:any) {
-    return {
-      type: Function,
-      default: function () {
-        return d
+  func(d?: any) {
+    if (d !== undefined) {
+      return {
+        type: Function,
+        default: function () {
+          return d
+        }
+      }
+    } else {
+      return {
+        type: Function
       }
     }
   },

@@ -89,7 +89,7 @@ const component = [
   Pagination,
   AutoForm,
   Table, TableColumn,
-  Dialog
+  Dialog,
   Tabs, TabPane,
   ColorPicker,
   Progress,

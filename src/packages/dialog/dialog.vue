@@ -4,13 +4,13 @@
     <div
       v-show="visible"
       ref="el"
-      :class="{[`${prefixCls}-dialog-modal`]:true,modal:modal}"
+      :class="{[`${prefixCls}-dialog-modal`]:true,modal:modal,center:center}"
       :style="{zIndex:zIndex}"
       @click="btnClick('modal')">
       <div
         ref="dialogEl"
         :class="{[prefixCls+'-dialog']:true,[className]:className,[prefixCls+'-dialog-isAlert']:isAlert}"
-        :style="{width:width,top:top,left:left,'transition-duration':0}"
+        :style="{width:width,top:top,left:left,'transition-duration':moveFlag?'0s':''}"
         @click.stop="">
         <a
           v-if="showClose"
@@ -39,7 +39,9 @@
           </div>
           <slot v-else></slot>
         </div>
-        <slot name="footer"></slot>
+        <div v-if="$slots.footer" :class="`${prefixCls}-dialog-footer`">
+          <slot name="footer"></slot>
+        </div>
         <div v-if="confirm||cancel" :class="`${prefixCls}-dialog-footer`">
           <d-button v-if="confirm" type="primary" @click="btnClick('confirm')">{{ confirm }}</d-button>
           <d-button v-if="cancel" type="cancel" @click="btnClick('cancel')">{{ cancel }}</d-button>
@@ -50,11 +52,22 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, reactive, toRefs, computed, onMounted, nextTick, ref, onBeforeUnmount, watch} from 'vue'
+import {
+  defineComponent,
+  reactive,
+  toRefs,
+  computed,
+  onMounted,
+  nextTick,
+  ref,
+  onBeforeUnmount,
+  watch
+} from 'vue'
 import dButton from '../button/button.vue'
 import {prefixCls} from '../prefix'
 import pType from '../util/pType'
-import {getOffset, scrollTop, getWindow} from '../util/dom'
+import {getOffset, scrollTop, getWindow, getScrollbarWidth} from '../util/dom'
+import {AnyPropName} from '../types'
 
 export default defineComponent({
   name: `${prefixCls}Dialog`,
@@ -68,6 +81,7 @@ export default defineComponent({
     top: pType.string(), // 默认弹出时距离顶部的距离
     width: pType.string(),
     height: pType.string(),// 内容区域的高度
+    center: pType.bool(false), // 垂直对齐
     modal: pType.bool(true), // 是否需要遮罩层
     closeModal: pType.bool(true), // 是否可以通过点击 modal 关闭 Dialog
     lockScroll: pType.bool(false), // 是否在 Dialog 出现时将 body 滚动锁定
@@ -75,7 +89,7 @@ export default defineComponent({
     showClose: pType.bool(true), // 是否显示关闭按钮
     confirm: pType.string(), // 确认按钮
     cancel: pType.string(), // 取消按钮
-    callback: pType.func(false),
+    callback: pType.func(),
     move: pType.bool(false),// 允许拖动窗口
     autoClose: pType.number(0), // 自动关闭时间
     closeTips: pType.string('S秒后自动关闭'), // 自动关闭时提示语,大写S会被替换为具体时间
@@ -89,17 +103,19 @@ export default defineComponent({
     const el = ref()
     const headEl = ref()
     const dialogEl = ref()
-    const state = reactive({
+    const state = reactive<AnyPropName>({
       autoTime: props.autoClose, // 自动关闭时间
       visible: props.modelValue, // 控制窗口显示隐藏
       left: '',
       top: props.top,
-      moveFlag: false
+      moveFlag: false,
+      scrollbar: {}
     })
     let clearTime = 0
     watch(() => props.modelValue, (bool: boolean) => {
       state.visible = bool
       bool && autoClose() // 调用自动关闭
+      setScrollBarLock(bool) // 锁住
     })
     const iconName = computed(() => {
       let icon = props.icon
@@ -134,6 +150,7 @@ export default defineComponent({
     const open = () => {
       state.visible = true
       autoClose() // 调用自动关闭
+      setScrollBarLock(true) // 锁住
     }
     const close = () => {
       state.visible = false
@@ -141,6 +158,7 @@ export default defineComponent({
         window.clearInterval(clearTime)
       }
       emit('update:modelValue', false)
+      setScrollBarLock(false) // 解锁
     }
     const btnClick = (type: string) => {
       // 点击遮罩层不允许操作时
@@ -149,9 +167,11 @@ export default defineComponent({
       }
       // 点确定并且绑定了回调事件时，由确定回调关闭
       // 自动关闭时不处理，即时间没到也可以点确定取消直接关闭
-      if (!props.autoClose && type === 'confirm' && props.callback && !props.callback()) {
+      // console.log('props.callback')
+      // console.log(props.callback)
+      if (!props.autoClose && type === 'confirm' && props.callback) {
         // emit('callback', close) // 将关闭方法传出去
-        // props.callback() // 回调时使用return true关闭
+        props.callback(close) // 回调时使用return true关闭
         return false
       }
 
@@ -202,10 +222,29 @@ export default defineComponent({
         }
       }
     }
+    const setScrollBarLock = (bool: boolean) => {
+      if (props.lockScroll) {
+        // 滚动body滚动
+        const {hasScroll, width} = state.scrollbar
+        if (hasScroll && bool) {
+          // 当前页面有滚动条
+          document.body.style.overflow = 'hidden'
+          document.body.style.paddingRight = width + 'px' // 滚动条的宽，防抖动
+        }
+        if (!bool && hasScroll) {
+          // 解锁
+          document.body.style.overflow = ''
+          document.body.style.paddingRight = '' // 滚动条的宽，防抖动
+        }
+      }
+    }
     onMounted(() => {
       nextTick(() => {
         if (props.appendToBody && el.value) {
           document.body.appendChild(el.value)
+        }
+        if (props.lockScroll) {
+          state.scrollbar = getScrollbarWidth(true) // 滚动条宽
         }
       })
     })

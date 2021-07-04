@@ -9,6 +9,7 @@
     :type="nativeType"
     :class="classStyle"
     :disabled="disabled"
+    :style="{width:width}"
     @click="handleClick">
     <i v-if="icon" :class="`icon-${[icon]}`"></i>
     <slot></slot>
@@ -18,6 +19,7 @@
     v-bind="$attrs"
     :class="classStyle"
     :href="disabled?null:routerHref"
+    :style="{width:width}"
     @click="handleClick">
     <i v-if="icon" :class="`icon-${[icon]}`"></i>
     <slot></slot>
@@ -41,7 +43,8 @@ export default defineComponent({
     icon: pType.string(),
     round: pType.bool(),
     disabled: pType.bool(),
-    nativeType: pType.oneOfString(['', 'button', 'submit', 'reset'])
+    nativeType: pType.oneOfString(['', 'button', 'submit', 'reset']),
+    width: pType.string()
   },
   emits: ['click'],
   setup(props, {emit}) {

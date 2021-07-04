@@ -33,15 +33,17 @@ const getWindow = () => {
   const height = document.documentElement.clientHeight || document.body.clientHeight
   return {width: width, height: height}
 }
-const getScrollbarWidth = () => {
+const getScrollbarWidth = (bool?: boolean) => {
   // 取滚动条的宽
   const hasScroll = document.body.scrollHeight > (window.innerHeight || document.documentElement.clientHeight)
-  if (hasScroll) {
-    const scrollDiv = document.createElement('div')
-    scrollDiv.style.cssText = 'width: 99px; height: 99px; overflow: scroll; position: absolute; top: -9999px;'
-    document.body.appendChild(scrollDiv)
-    const scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth
-    document.body.removeChild(scrollDiv)
+  const scrollDiv = document.createElement('div')
+  scrollDiv.style.cssText = 'width: 99px; height: 99px; overflow: scroll; position: absolute; top: -9999px;'
+  document.body.appendChild(scrollDiv)
+  const scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth
+  document.body.removeChild(scrollDiv)
+  if (bool) {
+    return {hasScroll: hasScroll, width: scrollbarWidth}
+  } else {
     return scrollbarWidth
   }
 }

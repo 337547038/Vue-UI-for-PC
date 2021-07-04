@@ -131,6 +131,7 @@
 |----------|--------------|--------|
 |type      |String        |类型，实际是给按钮添加类名，primary/text等|
 |size      |String        |大小尺寸，可选medium / small / mini |
+|width     |String        |按钮宽|
 |round     |boolean/false |是否圆角按钮|
 |routerTo  |String        |路由url，输入为a标签时|
 |href      |String        |a标签链接地址|

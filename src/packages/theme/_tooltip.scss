@@ -1,6 +1,6 @@
 @charset "utf-8";
 @include ns(tooltip) {
-  $background: #666;
+  $background: lighten($primary,0);
   position: absolute; z-index: 100; background: $background; color: #fff; padding: 8px 12px; line-height: 20px; border-radius: 5px;box-sizing: border-box;
   &:before { content: ''; display: inline-block; border: 5px solid transparent; position: absolute; }
   /*处理下箭头方向*/

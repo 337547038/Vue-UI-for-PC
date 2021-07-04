@@ -40,7 +40,7 @@ https://337547038.github.io/akvue3/
 - [x] Table 表格
 - [x] Tabs 标签页
 - [x] Textarea 文本框
-- [ ] Tooltip 提示
+- [x] Tooltip 提示
 - [ ] Transfer 穿梭框
 - [ ] Tree 树形
 - [ ] Upload 上传
