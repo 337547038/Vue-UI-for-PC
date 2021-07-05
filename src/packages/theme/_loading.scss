@@ -1,0 +1,42 @@
+@charset "UTF-8";
+@include ns(loading-parent-relative){ position: relative!important;}
+@include ns(loading){
+  position: absolute;z-index: 2000;background-color: rgba(0, 0, 0, .1);margin: 0;top: 0;right: 0;bottom: 0;left: 0;transition: opacity .3s;
+  @include ns(loading-spinner){top: 50%;left: 50%;width: 100%;text-align: center;position: absolute;transform: translate(-50%, -50%);
+    .loading-svg{width: 45px;height: 45px;animation: loading-rotate 2s linear infinite}
+    .svg-path{animation: loading-dash 1.5s ease-in-out infinite;stroke-dasharray: 90, 150;stroke-dashoffset: 0;stroke-width: 2px;stroke: #41a259;stroke-linecap: round}
+  }
+  @include ns(icon-rotate){animation: loading-rotate 2s linear infinite;display: inline-block;border: 2px solid #fff;border-top-color:transparent ;border-radius: 50%;width: 30px;height: 30px;
+  }
+  @include ns(loading-text){color: #409eff;margin: 3px 0;font-size: 14px;}
+  &.#{$namespace}loading-full{position: fixed}
+}
+/*过渡动画*/
+@include ns(loading-fade-enter-active){animation: loading-fade-enter .3s}
+@include ns(loading-fade-leave-active){animation: loading-fade-leave .3s}
+@keyframes loading-fade-enter{
+  0%{opacity: 0}
+}
+@keyframes loading-fade-leave{
+  100%{opacity: 0}
+}
+@keyframes loading-rotate{
+  100%{
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes loading-dash {
+  0% {
+    stroke-dasharray: 1,200;
+    stroke-dashoffset: 0
+  }
+  50% {
+    stroke-dasharray: 90,150;
+    stroke-dashoffset: -40px
+  }
+  to {
+    stroke-dasharray: 90,150;
+    stroke-dashoffset: -120px
+  }
+}

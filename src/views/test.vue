@@ -1,32 +1,36 @@
 <template>
   <div>
-    <span class="green" @click="visible=true">试一试</span>
-    <ak-dialog v-model="visible" title="title" :center="true">
-      <p>这是的 dialog 弹窗内容</p>
-      <p></p>
-      <template #footer>
-        <ak-button>取消</ak-button>
-        <ak-button type="primary">确定</ak-button>
-        <ak-button type="primary">提交</ak-button>
-      </template>
-    </ak-dialog>
-    <div style="height: 1000px">0</div>
+    <div id="a"></div>
+    <ak-button v-loading.el.lock="loading" type="primary" @click="openFullScreen">加载</ak-button>
+    <ak-button type="primary" @click="openFullScreen2">服务方式</ak-button>
   </div>
 </template>
 <script>
-import {ref, onMounted, nextTick} from 'vue'
+import {ref, inject} from 'vue'
 
 export default {
   setup() {
-    const visible = ref(false)
-    onMounted(() => {
-      nextTick(() => {
-
-      })
-    })
-    return {
-      visible
+    const loading = ref(false)
+    const openFullScreen = () => {
+      loading.value = true
+      setTimeout(() => {
+        loading.value = false
+      }, 3000)
     }
+    const Loading = inject('Loading')
+    const openFullScreen2 = () => {
+      const loading = Loading.loading()
+      setTimeout(() => {
+        loading.close()
+      }, 3000)
+    }
+    return {
+      loading,
+      openFullScreen,
+      openFullScreen2
+    }
+  },
+  mounted(){
   }
 }
 </script>

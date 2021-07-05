@@ -4,7 +4,7 @@
     <div
       v-show="visible"
       ref="el"
-      :class="{[`${prefixCls}-dialog-modal`]:true,modal:modal,center:center}"
+      :class="{[`${prefixCls}-dialog-modal`]:true,modal:!modal,center:center}"
       :style="{zIndex:zIndex}"
       @click="btnClick('modal')">
       <div
@@ -96,6 +96,7 @@ export default defineComponent({
     beforeClose: pType.func(true), // 关闭前的回调
     animation: pType.string('fade'),
     isAlert: pType.bool(), // 用于区别引用形式，组件或者是插件，不需要通过外部传参。true时关闭弹窗时同时从body移除
+    remove: pType.func(), // 用于移动message弹窗
     icon: pType.oneOfType([pType.number(), pType.string()], 0) // 主要用于this.$dialog中常见的几种提示
   },
   emits: ['update:modelValue'],
@@ -113,6 +114,7 @@ export default defineComponent({
     })
     let clearTime = 0
     watch(() => props.modelValue, (bool: boolean) => {
+      console.log('watch')
       state.visible = bool
       bool && autoClose() // 调用自动关闭
       setScrollBarLock(bool) // 锁住
@@ -156,6 +158,12 @@ export default defineComponent({
       state.visible = false
       if (props.autoClose) {
         window.clearInterval(clearTime)
+      }
+      // message方法时移除，延时移除可保留过渡动画
+      if (props.isAlert && props.remove) {
+        window.setTimeout(() => {
+          props.remove && props.remove()
+        }, 500)
       }
       emit('update:modelValue', false)
       setScrollBarLock(false) // 解锁
