@@ -1,25 +1,17 @@
 <template>
   <div>
-    111111
     <router-link to="/test">123abc</router-link>
-    <ak-button @click="click">click</ak-button>
   </div>
 </template>
 <script>
 import {createApp} from 'vue'
 import {defineComponent, h, createVNode, onBeforeUnmount, onUnmounted} from 'vue'
 import HelloWorld from './child.vue'
-import messageBox from "../packages/dialog/messageBox";
+
 
 export default {
   setup() {
-    const msg = messageBox.alert({animation: 'abc'})
-    console.log(msg)
-    const click = () => {
-      msg.remove()
-    }
     return {
-      click
     }
   }
 }

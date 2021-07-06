@@ -31,6 +31,7 @@ import ColorPicker from './colorPicker/index.vue'
 import Progress from './progress/index.vue'
 import Tooltip from './tooltip/index.vue'
 import Loading from './loading'
+import Lazy from './lazy'
 import './theme/index.scss'
 
 const component = [
@@ -81,12 +82,16 @@ export default (app: App): void => {
   component.forEach(item => {
     app.component(item.name, item)
   })
+  // message
   app.config.globalProperties.$alert = Message.alert
   app.config.globalProperties.$msg = Message.msg
   app.config.globalProperties.$dialog = Message.dialog
   app.config.globalProperties.$clear = Message.clear
   app.provide('Message', readonly(Message))
+  // loading
   app.config.globalProperties.$loading = Loading.Loading
   app.provide('Loading', readonly(Loading))
   app.use(Loading.vLoading)
+  // lazy
+  app.use(Lazy)
 }
