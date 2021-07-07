@@ -3,7 +3,7 @@
     <div class="sidebar">
       <div class="logo"><img src="./assets/logo.jpg" alt="">AK-Docs</div>
       <div class="version">
-        <ak-select v-model="version" width="160px">
+        <ak-select v-model="version" width="160px" style="color: red">
           <template #template>
             <a href="https://337547038.github.io/akvue/" target="_blank">Vue2.X</a>
             <a href="https://337547038.github.io/akvue3/" target="_blank">Vue3.X</a>

@@ -121,14 +121,14 @@ class Lazy {
   inView(container: any) {
     let isView = false
     const rect = this.el.getBoundingClientRect()
-    console.log(rect)
+    // console.log(rect)
     const parentRect = container === window ? {left: 0, top: 0} : container.getBoundingClientRect()
     const viewWidth = container === window ? window.innerWidth : container.clientWidth
     const viewHeight = container === window ? window.innerHeight : container.clientHeight
     if (rect.bottom > this.threshold + parentRect.top && rect.top + this.threshold < viewHeight + parentRect.top && rect.right > this.threshold + parentRect.left && rect.left + this.threshold < viewWidth + parentRect.left) {
       isView = true
     }
-    console.log(isView)
+    // console.log(isView)
     return isView
   }
 
