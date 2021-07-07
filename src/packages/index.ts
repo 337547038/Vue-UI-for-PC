@@ -1,7 +1,7 @@
 /**
  * Created by 337547038 on 2018/8/31 0031.
  */
-import {App, provide,readonly} from 'vue'
+import {App, provide, readonly} from 'vue'
 // 所有需要全局注册的组件入口
 import BackTop from './backTop/index.vue'
 import Badge from './badge/index.vue'
@@ -29,44 +29,9 @@ import {Dialog, MessageBox} from './dialog/index'
 import ColorPicker from './colorPicker/index.vue'
 import Progress from './progress/index.vue'
 import Tooltip from './tooltip/index.vue'
-/*
-
-import ColorPicker from './colorPicker/index.vue'
-import Progress from './progress/index.vue'
-import Tooltip from './tooltip/index.vue'
-/*import {Table, TableColumn} from './table/index'
-import {Dialog, DialogAlert} from './dialog/index'
-import {Table, TableColumn} from './table/index'
-import {Tabs, TabPane} from './tabs/index'
-/*import {Dialog, DialogAlert} from './dialog/index'
-import DatePicker from './datePicker/index.vue'
-/*import {Dialog, DialogAlert} from './dialog/index'
-import {Form, FormItem, AutoForm} from './form/index'
-import Input from './input/index'
-import Loading from './loading/index'
-
-
-import {Table, TableColumn} from './table/index'
-import {Tabs, TabPane} from './tabs/index'
-
-import Pagination from './pagination/index'
-import {Swiper, SwiperItem} from './swiper/index'
-import Tree from './tree/index'
-import {Upload, ImgCrop} from './upload/index'
-import Menu from './menu/index'
-import ECharts from './echarts/index'
-
-import Progress from './progress/index'
-import Transfer from './transfer/index'
-import Steps from './steps/index'
-import Tooltip from './tooltip/index'
-import ColorPicker from './colorPicker'
-import Slider from './slider'
-import {Icon, Icons} from './icon'
-
-import {Dropdown, DropdownItem} from './dropdown'
-import {Carousel, CarouselItem} from './carousel'*/
+import {Icon, Icons} from './icon/index'
 import './theme/index.scss'
+
 const component = [
   BackTop,
   Badge,
@@ -93,7 +58,8 @@ const component = [
   Tabs, TabPane,
   ColorPicker,
   Progress,
-  Tooltip
+  Tooltip,
+  Icon, Icons
 ]
 
 /*

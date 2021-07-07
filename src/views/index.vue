@@ -9,7 +9,7 @@
 import {createApp} from 'vue'
 import {defineComponent, h, createVNode, onBeforeUnmount, onUnmounted} from 'vue'
 import HelloWorld from './child.vue'
-import messageBox from "../packages/dialog/messageBox";
+import messageBox from '../packages/dialog/messageBox'
 
 export default {
   setup() {
