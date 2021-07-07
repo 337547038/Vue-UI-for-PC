@@ -1,25 +1,40 @@
 .logo {display: flex;align-items: center;justify-content: center;font-size: 20px;font-weight: 700;padding: 10px 0;
+
   img {width: 35px;}
 }
+
 .sidebar {position: fixed;height: 100vh;width: 180px;overflow: hidden;overflow-y: auto;border-right: 1px solid #ddd;
+
   li {margin: 0;list-style: none;padding: 0;font-size: 14px;overflow: hidden;
     text-overflow: ellipsis;cursor: pointer;}
+
   a {font-size: 16px;color: #333;line-height: 35px;height: 35px;margin: 0;padding: 0 25px;text-decoration: none;display: block;position: relative;-webkit-transition: .15s ease-out;transition: .15s ease-out;border-left: 3px solid transparent;
+
     &:hover {color: #07c160}
   }
+
   .router-link-active {color: #07c160;background: rgba(7, 229, 108, 0.19);border-left-color: #07c160}
-  .version{
-    .ak-select{min-width: inherit;margin: 0 auto;display: block}
+
+  .version {
+    .ak-select {min-width: inherit;margin: 0 auto;display: block}
   }
 }
+
 .main- {padding: 20px 20px 20px 200px;
-  .markdownIt-Anchor{display: none}
+
+  .markdownIt-Anchor {display: none}
+
   .row {margin-bottom: 15px}
+
   h1 {margin-bottom: 30px}
+
   h2 {margin-bottom: 20px}
+
   h3 {margin-bottom: 10px;}
+
   .vuedoc-demo {margin-bottom: 20px;}
-  p code { color: #444;
+
+  p code,table code { color: #444;
     background-color: #eeffde;
     margin: 0 4px;
     display: inline-block;
@@ -27,31 +42,41 @@
     border-radius: 3px;
     font-size: 14px;
     line-height: 20px;}
+
   .vuedoc__code {line-height: 22px;}
-  .vuedoc-demo__footer{
-    &:hover{color: #07c160}
+
+  .vuedoc-demo__footer {
+    &:hover {color: #07c160}
   }
-  .language-json,.language-javascript{margin-bottom: 30px}
+
+  .language-json, .language-javascript,.language-js {margin-bottom: 30px}
 }
+
 table {width: 100%;border-spacing: 0; border-collapse: collapse;border: 1px solid #eaeefb;margin-bottom: 20px;
+
   th, td {border: 1px solid #eaeefb;color: #314659;text-align: left;padding: 10px 15px;}
 }
+
 /*left-fade-enter-active left-fade-enter-to*/
 .left-fade-enter-active {
   transition: all 1.2s ease;
 }
+
 .left-fade-leave-active {
   transition: all .1s cubic-bezier(2.0, 0.5, 0.8, 1.0);
 }
+
 .left-fade-leave-to, .left-fade-enter-from {
   transform: translateX(10px);
   opacity: 0;
 }
 
 /**/
-.ak-badge{margin-right: 35px}
-.tooltip-demo{margin-bottom: 30px}
-.tooltip-demo span{
+.ak-badge {margin-right: 35px}
+
+.tooltip-demo {margin-bottom: 30px}
+
+.tooltip-demo span {
   display: inline-block;
   vertical-align: middle;
   width: 55px;
@@ -64,9 +89,11 @@ table {width: 100%;border-spacing: 0; border-collapse: collapse;border: 1px soli
   cursor: pointer;
   transition: all .5s;
   margin-right: 30px}
+
 .tooltip-demo span:hover {
   background: #fff;
   border-color: #36a1d3;}
+
 .tooltip-icon {
   width: 20px;
   height: 20px;
@@ -78,4 +105,9 @@ table {width: 100%;border-spacing: 0; border-collapse: collapse;border: 1px soli
   border-radius: 50%;
   cursor: pointer;
   margin-right: 30px}
-.green{color: #07c160;cursor: pointer}
+
+.green {color: #07c160;cursor: pointer}
+
+.lazy-demo {
+  img {max-width: 100%}
+}

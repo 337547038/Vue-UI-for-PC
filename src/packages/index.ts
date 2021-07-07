@@ -25,13 +25,16 @@ import DatePicker from './datePicker/index.vue'
 import Pagination from './pagination/index.vue'
 import {Table, TableColumn} from './table/index'
 import {Tabs, TabPane} from './tabs/index'
-import {Dialog, MessageBox} from './dialog/index'
+import {Icon, Icons} from './icon/index'
+import Dialog from './dialog/index.vue'
+import Message from './message/index'
 import ColorPicker from './colorPicker/index.vue'
 import Progress from './progress/index.vue'
 import Tooltip from './tooltip/index.vue'
-import {Icon, Icons} from './icon/index'
+import Loading from './loading'
+import Lazy from './lazy'
+import Tree from './tree/index.vue'
 import './theme/index.scss'
-
 const component = [
   BackTop,
   Badge,
@@ -59,6 +62,7 @@ const component = [
   ColorPicker,
   Progress,
   Tooltip,
+  Tree,
   Icon, Icons
 ]
 
@@ -81,9 +85,16 @@ export default (app: App): void => {
   component.forEach(item => {
     app.component(item.name, item)
   })
-  app.config.globalProperties.$alert = MessageBox.alert
-  app.config.globalProperties.$msg = MessageBox.msg
-  app.config.globalProperties.$dialog = MessageBox.dialog
-  app.config.globalProperties.$clear = MessageBox.clear
-  app.provide('MessageBox', readonly(MessageBox))
+  // message
+  app.config.globalProperties.$alert = Message.alert
+  app.config.globalProperties.$msg = Message.msg
+  app.config.globalProperties.$dialog = Message.dialog
+  app.config.globalProperties.$clear = Message.clear
+  app.provide('Message', readonly(Message))
+  // loading
+  app.config.globalProperties.$loading = Loading.Loading
+  app.provide('Loading', readonly(Loading))
+  app.use(Loading.vLoading)
+  // lazy
+  app.use(Lazy)
 }

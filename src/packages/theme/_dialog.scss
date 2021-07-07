@@ -10,10 +10,8 @@
   @include ns(dialog-content) {overflow: hidden;overflow-y: auto;padding: 20px;box-sizing: border-box;transition: all .3s}
   @include ns(dialog-footer) {text-align: center;padding: 10px}
   @include ns(dialog-auto-close) {position: absolute; left: 10px; top: 45px;}
-  @include ns(dialog-alert) {text-align: center;
-    @include ns(dialog-text) {display: inline-block;text-align: left;font-size: 16px;
-      i {font-size: 30px;display: inline-block;vertical-align: middle;margin-right: 5px;}
-    }
+  @include ns(dialog-alert) {display: flex;justify-content: center;align-items: center;
+    i {font-size: 30px;margin-right: 5px;}
     // 其他的需要再定义样式
     // success
     .icon-success {
@@ -29,26 +27,37 @@
     }
   }
 }
-@include ns(dialog-modal) {position: fixed;left: 0;top: 0;right: 0;bottom: 0;z-index: 100;display: flex;justify-content: center;
-  &.modal {background: rgba(55, 55, 55, .6);}
+
+@include ns(dialog-modal) {position: fixed;left: 0;top: 0;right: 0;bottom: 0;z-index: 100;display: flex;justify-content: center;background: rgba(55, 55, 55, .6);
+  &.modal {background: none}
   &.center {align-items: center;
     @include ns(dialog) {
-      top: auto !important;
+      top: auto;
     }
   }
 }
+
+@include ns(dialog-isAlert) {
+  // message类的自动关闭不显示
+  @include ns(dialog-auto-close) {display: none}
+}
+
 .fade-enter-active {
   animation: modal-fade-in .3s !important;
+
   .#{$namespace}dialog {
     animation: dialog-fade-in .3s;
   }
 }
+
 .fade-leave-active {
   animation: modal-fade-out 0.3s;
+
   .#{$namespace}dialog {
     animation: dialog-fade-out 0.3s;
   }
 }
+
 @keyframes dialog-fade-in {
   0% {
     transform: translate3d(0, -20px, 0);
@@ -59,6 +68,7 @@
     opacity: 1;
   }
 }
+
 @keyframes dialog-fade-out {
   0% {
     transform: translate3d(0, 0, 0);
@@ -69,6 +79,7 @@
     opacity: 0;
   }
 }
+
 @keyframes modal-fade-in {
   0% {
     opacity: 0;
@@ -78,6 +89,7 @@
     opacity: 1;
   }
 }
+
 @keyframes modal-fade-out {
   0% {
     opacity: 1;
@@ -86,19 +98,24 @@
     opacity: 0;
   }
 }
+
 // 放大
 .zoom-enter-active {
   animation: modal-fade-in .3s !important;
+
   .#{$namespace}dialog {
     animation: dialog-zoom-in .3s;
   }
 }
+
 .zoom-leave-active {
   animation: modal-fade-out 0.3s;
+
   .#{$namespace}dialog {
     animation: dialog-zoom-out 0.3s;
   }
 }
+
 @keyframes dialog-zoom-in {
   0% {
     transform: scale(0);
@@ -109,6 +126,7 @@
     opacity: 1;
   }
 }
+
 @keyframes dialog-zoom-out {
   0% {
     transform: scale(1);
