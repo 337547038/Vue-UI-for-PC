@@ -1,0 +1,27 @@
+@charset "utf-8";
+@include ns(tree) {
+  ul {padding-left: 20px !important;}
+  .tree-box {display: flex;align-items: center;
+
+    &.has-child {cursor: pointer;
+
+      i {opacity: 1;}
+    }
+    &.selected {color: red}
+  }
+  .icon-down {font-size: 12px;transform: rotate(-90deg);transition: all .3s;cursor: pointer;width: 12px;opacity: 0;display: block}
+  // 有子级时显示icon
+  i.open-child {transform: rotate(0deg);}
+
+  .tree-loading {
+    // 异步加载时等待动画
+    height: 24px;
+
+    &:after {content: '';width: 15px;height: 15px;border: 1px solid #666;border-right: 1px solid transparent;display: block;border-radius: 50%;animation: treeLoad 1s infinite linear both;}
+  }
+}
+
+@keyframes treeLoad {
+  0% {transform: rotate(0)}
+  100% {transform: rotate(360deg)}
+}

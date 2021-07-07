@@ -32,6 +32,7 @@ import Progress from './progress/index.vue'
 import Tooltip from './tooltip/index.vue'
 import Loading from './loading'
 import Lazy from './lazy'
+import Tree from './tree/index.vue'
 import './theme/index.scss'
 
 const component = [
@@ -60,7 +61,8 @@ const component = [
   Tabs, TabPane,
   ColorPicker,
   Progress,
-  Tooltip
+  Tooltip,
+  Tree
 ]
 
 /*
