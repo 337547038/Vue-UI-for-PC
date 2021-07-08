@@ -1,26 +1,17 @@
 @charset "utf-8";
 @include ns(tree) {
   ul {padding-left: 20px !important;}
-  .tree-box {display: flex;align-items: center;
-
+  .tree-box {display: flex;align-items: center;padding: 2px 3px;
+    &:hover {background: lighten($primary, 50)}
     &.has-child {cursor: pointer;
-
-      i {opacity: 1;}
+      i {opacity: 1;visibility: visible}
     }
-
-    &.selected {color: red}
+    &.selected {color: lighten($primary, 0)}
   }
-  .icon-down {font-size: 12px;transform: rotate(-90deg);transition: all .3s;cursor: pointer;width: 12px;opacity: 0;display: block}
+  .icon-down {font-size: 12px;transform: rotate(-90deg);transition: all .3s;cursor: pointer;width: 12px;opacity: 0;display: block;visibility: hidden}
   // 有子级时显示icon
   i.open-child {transform: rotate(0deg);}
-
   .lazy-loading {position: relative;width: 20px;
-
     .loading-svg {width: 15px;height: 15px;}
   }
-}
-
-@keyframes treeLoad {
-  0% {transform: rotate(0)}
-  100% {transform: rotate(360deg)}
 }

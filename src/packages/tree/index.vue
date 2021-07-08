@@ -35,7 +35,7 @@ export default defineComponent({
     // checkbox点击事件
     const checkboxChange = (item: TreeList) => {
       emit('change', item)
-      console.log(item)
+      // console.log(item)
       item.tid && setParentChecked(item.tid) // 设置父级
       setChildChecked(item.id, item.checked as boolean) // 设置子级
     }
@@ -100,9 +100,13 @@ export default defineComponent({
           // 添加选中属性
           checked = {checked: false, someChecked: false}
         }
+        // 如果没有id时，根据label自动生成一个
+        if (!newItem.id) {
+          newItem.id = item.label + '-' + Math.random().toString(36).substr(2, 8)
+        }
         state.dataList.push(Object.assign({}, checked, newItem, {tid: tid, hasChild: hasChild}))
         if (hasChild) {
-          formatData(item.children, item.id)
+          formatData(item.children, newItem.id)
         }
       })
     }
@@ -129,7 +133,7 @@ export default defineComponent({
       }
       // 更新v-model
       if (typeof props.modelValue === 'object') {
-        const temp = modelValue.value as string[]
+        const temp = (modelValue && modelValue.value) as string[]
         const index = temp.indexOf(item.id)
         if (index !== -1) {
           // 表示存在，则删除

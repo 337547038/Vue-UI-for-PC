@@ -10,7 +10,8 @@ export default {
     if (typeof treeSlots.default === 'function') {
       return treeSlots.default({node: ctx.data})
     }
-    return h('span', ctx.node.label)
+    // return h('span', ctx.data.label)
+    return null
   }
 }
 </script>

@@ -25,7 +25,7 @@ import DatePicker from './datePicker/index.vue'
 import Pagination from './pagination/index.vue'
 import {Table, TableColumn} from './table'
 import {Tabs, TabPane} from './tabs'
-import {Icon, Icons} from './icon'
+import Icon from './icon/index.vue'
 import Dialog from './dialog/index.vue'
 import Message from './message'
 import ColorPicker from './colorPicker/index.vue'
@@ -63,7 +63,7 @@ const component = [
   Progress,
   Tooltip,
   Tree,
-  Icon, Icons
+  Icon
 ]
 
 /*

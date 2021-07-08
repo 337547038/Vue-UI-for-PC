@@ -17,8 +17,8 @@ routes.push(
   {
     path: '/',
     name: 'index',
-    // component: () => import('../packages/README.md')
-    component: () => import('../views/index.vue')
+    component: () => import('../packages/README.md')
+    // component: () => import('../views/index.vue')
   },
   {
     path: '/test',
