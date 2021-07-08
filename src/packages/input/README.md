@@ -108,8 +108,9 @@ export default {
 ## API
 
 ### Input Props
+
 |参数|类型|说明|
-|-|-|-|
+|----------|--------------|--------|
 |v-model        | any            |输入框的值|
 |clear          | boolean/false  |显示清空按钮|
 |showEye        | boolean/false  |密码框显示明文切换|

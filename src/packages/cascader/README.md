@@ -97,8 +97,9 @@ export default {
 ## API
 
 ### Cascader
+
 |参数|类型|说明|
-|-|-|-|
+|----------|--------------|--------|
 |v-model        | Array          |当前值|
 |placeholder    | String         |提示点位|
 |disabled       | Boolean/false  |禁用|
@@ -107,12 +108,14 @@ export default {
 |data           | Array          |自定义下拉数据|
 
 ### Cascader Event
+
 |参数| 说明|
-|-|-|
+|----------|--------|
 |change      |选择回调|
 
 ### data
+
 |参数|类型|说明|
-|-|-|-|
+|----------|--------------|--------|
 |name           | String          |选项名称|
 |children       | Array           |子级数据，见自定义数据格式|

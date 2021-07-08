@@ -225,7 +225,9 @@ export default {
 </script>
 
 ```
+
 ### 自定显示特殊字符
+
 ```vue demo
 <template>
   <ak-date-picker v-model="value1" placeholder="请选择时间" :innerText="innerText" :disabled-date="disabledDate" :readonly="false" />
@@ -312,8 +314,9 @@ export default {
 ## API
 
 ### DatePicker
+
 |参数|类型|说明|
-|-|-|-|
+|----------|--------------|--------|
 |v-model        | String         |绑定的值|
 |placeholder    | String         |输入框提示占位文本|
 |showClear      | Boolean｜true   |显示清空|
@@ -329,6 +332,7 @@ export default {
 |size           | string         |添加的大小尺寸样式|
 
 ### DatePicker Event
+
 |参数|说明|
-|-|-|
+|----------|--------------|
 |change       |改变事件|

@@ -71,8 +71,9 @@ export default {
 ## API
 
 ### Textarea
+
 |参数|类型|说明|
-|-|-|-|
+|----------|--------------|--------|
 |v-model        | String         |绑定的值|
 |autoHeight     | boolean/true   |自动高|
 |width          | String         |要带单位px/%|

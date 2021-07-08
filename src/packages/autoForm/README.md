@@ -367,28 +367,31 @@ export default {
 }
 </script>
 ```
+
 ## API
 
 ### AutoForm Props
+
 |参数|类型|说明|
-|-|-|-|
+|----------|--------------|--------|
 |data           | object         |表单数据|
 |showMessage    | boolean/true   |显示错误提示|
 |trigger        | string/change  |表单控件校验触发类型，change和blur两种|
 |labelWidth     | string         |label的宽度|
 |required       | boolean/true   |是否根据验证规则自动生成必填样式名|
 
-
 ### AutoForm Methods
+
 |参数|说明|
-|-|-|
+|----------|--------|
 |validate       |对单个表单项进行校验的方法，Promise返回验证结果|
 |resetForm      |重置表单|
 |setValue       |使用resetForm功能时，当表单数据发生改变，需使用setValue设置|
 
 ### AutoForm Data
+
 |参数|类型|说明|
-|-|-|-|
+|----------|--------------|--------|
 |type           | string         |组件类型，支持input,radio,checkbox,datePicker,select,switch,textarea,grid,tabs|
 |name           | string   | 用单字段名，唯一性|  
 |formItem       | object   |组件formItem的props|

@@ -90,8 +90,9 @@ export default {
 ## API
 
 ### Pagination
+
 |参数|类型|说明|
-|-|-|-|
+|----------|--------------|--------|
 |current        | number         |当前页数，支持v-model|
 |total          | number         |总条目数|
 |pageSize       | number         |每页显示条数|
@@ -103,7 +104,8 @@ export default {
 |format         | boolean/false  |数值转千分制显示|
 
 ### Pagination Methods
+
 |参数|说明|
-|-|-|
+|----------|--------------|
 |changePageSizes    |每页显示条数改变事件|
 |change             |页码点击改变事件|

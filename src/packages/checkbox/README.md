@@ -298,22 +298,24 @@ export default {
 ### Checkbox
 
 |参数|类型|说明|
-|-|-|-|
+|----------|--------------|--------|
 |v-model        | String, Boolean, Array         |选中值|
 |label          | String         |显示的文本值，也可以是slot形式|
 |disabled       | Boolean/false  |禁用|
 |beforeChange   | Function       |点击改变前的事件，返回false阻止事件|
 
 ### Checkbox Event
+
 |参数|说明|
-|-|-|
+|----------|--------|
 |change         | 改变事件|
 
 ### CheckboxGroup
+
 > options
 
 |参数|类型|说明|
-|-|-|-|
+|----------|--------------|--------|
 |v-model        | Array           |当前选中的值|
 |options        | Array           |选项数据|
 |max            | number          |可被勾选的 checkbox 的最大数量|
@@ -322,13 +324,15 @@ export default {
 |beforeChange   | Function       |点击改变前的事件，返回false阻止事件|
 
 ### CheckboxGroup Methods
+
 |参数|类型|
-|-|-|
+|----------|--------|
 |toggleSelect         | 全选true/取消false当前组所有选项 |
 |getValue             | 获取当前所有勾选项的集合 |
 
 ### CheckboxGroup Event
+
 |参数|说明|
-|-|-|
+|----------|--------|
 |change         |改变事件|
 

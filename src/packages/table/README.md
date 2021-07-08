@@ -680,7 +680,9 @@ export default {
 ```
 
 ### 带分页组件
+
 内置分页组件
+
 ```vue demo
 <template>
   <div>
@@ -721,6 +723,7 @@ export default {
 ```
 
 ### 示例数据
+
 ```json
 [
   {
@@ -806,7 +809,7 @@ export default {
 ### Table
 
 | 参数           | 类型          | 说明|
-|-|-|-|
+|----------|--------------|--------|
 | data           | array         | 列表数据 |
 | columns        | array         | 表头数据 |
 | showHeader     | boolean/true  | 是否显示表头 |
@@ -829,11 +832,10 @@ export default {
 | lazyLoad      | function      | 设置了`lazyLoad`时，被视为子节点使用懒加载方式，function(row,resolve) row当前行信息|
 | sortSingle    | boolean/false | 如果设置了排序功能，开启后只能按其中一个字段排序|
 
-
 ### Table Event
 
 | 参数 | 说明 |
-|-|-|
+|----------|--------------|
 | selectClick    | 勾选单列事件，function(list,checked,row, index) list所有已勾选的row集合，checked当前状态，row当前点击行信息，index当前行序号|
 | sortChange     | 排序点击事件 |
 | rowClick       | 当前行点击事件，即tr点击事件，function(row,index) |
@@ -843,7 +845,7 @@ export default {
 ### Table Methods
 
 | 参数               | 类型        |
-|-|- |
+|----------|--------------|
 | getSelectAll       | 返回所有选中的行|
 | toggleRowSelection | 用于多选表格，切换某一行的选中状态，如果使用了第二个参数，则是设置这一行选中与否（selected 为 true 则选中） row, selected |
 | toggleSelection | 用于多选表格，切换所有行的选中/清空状态,true为选中，false取消选中，默认false|
@@ -852,7 +854,7 @@ export default {
 ### Table-column
 
 | 参数      | 类型          | 说明 |
-|-|-|-|
+|----------|--------------|--------|
 | prop      | String        | 对应列内容的字段名|
 | label     | String        | 显示的标题|
 | width     | String        | 对应列的宽度|
@@ -867,5 +869,5 @@ export default {
 ### Table-column Scoped Slot
 
 | 参数       | 说明|
-| -|-|
+|----------|--------------|
 | slot-scope | 自定义列的内容，参数为 { row, index, extend } |

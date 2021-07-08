@@ -96,8 +96,9 @@ export default {
 ## API
 
 ### Badge
+
 |参数|类型|说明|
-|-|-|-|
+|----------|--------------|--------|
 |value          | String/Number  |显示值|
 |max            | Number         |最大值，value为Number有效|
 |dot            | boolean/false  |显示小圆点|

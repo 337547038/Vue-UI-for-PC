@@ -1,7 +1,9 @@
 <!-- Created by 337547038 on 2021/7/3. -->
 
 # Tooltip 提示
+
 注意：内容必须要包含一层标签用作事件触发区域，不能是纯文字
+
 ### 基本用法
 
 ```vue demo
@@ -105,7 +107,9 @@
 ```
 
 ### 设置延时关闭
+
 通过`delay`设置延时关闭，可将鼠标移至提示语上，例如实现提示语上的点击事件
+
 ```vue demo
 <template>
   <div class="tooltip-demo">
@@ -119,10 +123,13 @@
 </template>
 
 ```
+
 ## API
+
 ### Tooltip Props
+
 |参数|类型|说明|
-|-|-|-|
+|----------|--------------|--------|
 |content        | String         |显示的内容，也可以是slot|
 |direction      | String         |显示方向。有top-left、top、top-right、left、right、bottom-left、bottom、bottom-right共8个方向，默认top-left|
 |maxWidth       | Number/500     |最大显示宽|

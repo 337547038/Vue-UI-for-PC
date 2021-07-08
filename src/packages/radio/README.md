@@ -136,35 +136,42 @@ export default {
 </script>
 
 ```
+
 ## API
+
 ### Radio
+
 |参数|类型|说明|
-|-|-|-|
+|----------|--------------|--------|
 |v-model       | string/boolean/number    |Radio 的 v-model|
 |value         | string/boolean/number    |选中的值，当v-model＝value时为选中状态|
 |disabled      | boolean/false  |是否禁用|
 |label         | String         |显示的文本值，也可以是slot|
 
 ### Radio Event
+
 |参数|说明|
-|-|-|
+|----------|--------------|
 |change          |  改变事件|
 
 ### Radio Group
-|参数|说明|
-|-|-|
+
+|参数|类型|说明|
+|----------|--------------|--------|
 |v-model         | string         |Radio组 的 v-model|
 |options         | array          |组数据|
 |disabled        | Boolean/false   |禁用组|
 
 ### Radio Group Event
+
 |参数|说明|
-|-|-|
+|----------|--------------|
 |change          | 改变事件,返回(value,item) value为当前选中的值，item为当前data中选中的项|
 
 ### Radio Group options
+
 |参数|类型|说明|
-|-|-|-|
+|----------|--------------|--------|
 |label          | string         |显示的文本值|
 |value          | string         |当前选项值|
 |disabled       | boolean/false  |是否禁用|

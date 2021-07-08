@@ -1,6 +1,7 @@
 <!-- Created by 337547038 on 2021/6/18 0018. -->
 
 # FormItem 表单集合
+
 强大的校验功能，使用简单快捷
 
 ### 基本使用
@@ -62,6 +63,7 @@ export default {
 ```
 
 ### 快速校验
+
 对于大量的表单验证不需要精确提示时，如验证为空时统一提示为必填字段，可通过设置`verify`，多个用逗号隔开，也可同时和`rules`规则校验一起使用
 
 ```vue demo
@@ -97,6 +99,7 @@ export default {
 ```
 
 ### 自定义验证规则
+
 ```vue demo
 <template>
   <ak-form-item label="age" :rules="rules" ref="formItemEl">
@@ -136,6 +139,7 @@ export default {
 ```
 
 ### 回调验证
+
 ```vue demo
 <template>
   <ak-form-item label="password" verify="required">
@@ -176,8 +180,9 @@ export default {
 ## API
 
 ### FormItem Props
+
 |参数|类型|说明|
-|-|-|-|
+|----------|--------------|--------|
 |label          | string         |显示的标签名|
 |prop           | string         |表单校验时关联表单的校验规则|
 |required       | boolean/true   |是否根据验证规则自动生成必填样式名|
@@ -188,8 +193,9 @@ export default {
 |labelWidth     | string         |label的宽度|
 
 ### FormItem Rules 验证规则
+
 |类型|说明|
-|-|-|
+|----------|--------------|
 |required       |为空|
 |maxLength      |最大字符|
 |minLength      |最小字符|
@@ -204,7 +210,8 @@ export default {
 |fn             |回调验证|
 
 ### FormItem Methods
+
 |参数|说明|
-|-|-|
+|----------|--------------|
 |validate       |对单个表单项进行校验的方法，Promise返回验证结果|
 |clearTips      |用于清空验证提示信息，恢复初始状态|

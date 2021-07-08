@@ -1,17 +1,20 @@
 <!-- Created by 337547038 on 2020/4/22 0022. -->
 <template>
-  <i
-    :class="[prefixCls+'-icon','icon-'+icon]"
-    :title="label"
-    @click="iconClick">
-    {{ showLabel2 ? label : '' }}
+  <span v-if="hasLabel" :class="[prefixCls+'-icon']" @click="iconClick">
+    <i :class="['icon-'+icon]"></i>
+    {{ label }}
     <slot></slot>
+  </span>
+  <i
+    v-else
+    :class="[prefixCls+'-icon','icon-'+icon]"
+    @click="iconClick">
   </i>
 </template>
 
 <script lang="ts">
 import {prefixCls} from '../prefix'
-import {defineComponent} from 'vue'
+import {defineComponent, computed} from 'vue'
 import pType from '../util/pType'
 
 export default defineComponent({
@@ -23,15 +26,19 @@ export default defineComponent({
     label: pType.string()
   },
   emits: ['click'],
-  setup(props, {emit}) {
+  setup(props, {emit, slots}) {
+    const hasLabel = computed(() => {
+      return !!props.label || !!slots.default
+    })
     const iconClick = () => {
       emit('click')
     }
     return {
       prefixCls,
+      hasLabel,
       iconClick
     }
-  },
+  }
   /*computed: {
     ab() {
       return this.$parent.showLabel

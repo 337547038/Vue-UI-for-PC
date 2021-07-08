@@ -97,9 +97,11 @@ export default {
 ```
 
 ## API
+
 ### Loading
+
 |参数|类型|说明|
-|-|-|-|
+|----------|--------------|--------|
 |text           | String         |显示在加载图标下方的加载文案|
 |background     | String         |遮罩背景色|
 |spinner        | String         |自定义加载图标类名|

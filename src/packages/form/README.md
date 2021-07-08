@@ -78,7 +78,9 @@ export default {
 </script>
 
 ```
+
 ### 表单校验
+
 ```vue demo
 <template>
   <div>
@@ -275,8 +277,9 @@ export default {
 ## API
 
 ### Form Props
+
 |参数|类型|说明|
-|-|-|-|
+|----------|--------------|--------|
 |v-model        | object          |表单值|
 |rules          | object          |校验规则|
 |showMessage    | boolean/true   |显示错误提示|
@@ -284,10 +287,10 @@ export default {
 |labelWidth     | string         |label的宽度|
 |required       | boolean/true   |是否根据验证规则自动生成必填样式名|
 
-
 ### Form Methods
+
 |参数|说明|
-|-|-|
+|----------|--------------|
 |validate       |对单个表单项进行校验的方法，Promise返回验证结果|
 |resetForm      |重置表单|
 |setValue       |使用resetForm功能时，当表单数据发生改变，需使用setValue设置|

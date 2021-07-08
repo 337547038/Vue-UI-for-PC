@@ -30,9 +30,7 @@ export default {
 </script>
 ```
 
-
 ### 其他用法
-
 
 ```vue demo
 
@@ -88,11 +86,12 @@ export default {
 </script>
 ```
 
-
 ## API
+
 ### Progress
+
 |参数|类型|说明|
-|-|-|-|
+|----------|--------------|--------|
 |v-model        | Number         |进度值|
 |type           | String         |进度条类型，支持两种line直线、circle圆环|
 |radius         | Number         |圆环半径，单位px。line时为宽|

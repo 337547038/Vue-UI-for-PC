@@ -1,6 +1,7 @@
 # Carousel 走马灯
 
 ### 基本使用
+
 ```vue demo
 <template>
    <ak-carousel>
@@ -12,7 +13,9 @@
 ```
 
 ### 循环轮播
+
 循环轮播`loop=true`
+
 ```vue demo
 <template>
    <ak-carousel :loop="true">
@@ -24,7 +27,9 @@
 ```
 
 ### 方向
+
 默认情况下，`direction` 为 `horizontal`。通过设置 `direction` 为 `vertical` 来让走马灯在垂直方向上显示。需设置高度`itemHeight`
+
 ```vue demo
 <template>
    <ak-carousel direction="v" :itemHeight="100">
@@ -36,7 +41,9 @@
 ```
 
 ### 卡片
+
 通过设置每屏可视数量，配合自定义样式展示卡片化切换。每屏展示的可视数一般为3/5/7个，每次移动单位为1个
+
 ```vue demo
 <template>
    <ak-carousel :showNumber="3" type="card">
@@ -48,7 +55,9 @@
 ```
 
 ### 一次显示多个slides
+
 同时可使用`move`指定每次移动的个数
+
 ```vue demo
 <template>
    <ak-carousel :showNumber="5" :move="2">
@@ -58,10 +67,13 @@
    </ak-carousel>
 </template>
 ```
+
 ## API
+
 ### Carousel Props
+
 |参数|类型|说明|
-|-|-|-|
+|----------|--------------|--------|
 |controlNav     | Boolean/true    |显示控制导航|
 |directionNav   | Boolean/true    |显示前后控制导航|
 |direction      | string/h        |走马灯展示的方向，horizontal/vertical两种，简写h/v|
@@ -77,7 +89,8 @@
 |type           | string          |卡片类型，可选card|
 
 ### Carousel Event
+
 |参数|说明|
-|-|-|
+|----------|-------|
 |slideBefore          | -|
 |slideAfter           | -|

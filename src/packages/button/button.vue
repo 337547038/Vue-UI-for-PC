@@ -9,9 +9,9 @@
     :type="nativeType"
     :class="classStyle"
     :disabled="disabled"
-    :style="{width:width}"
+    :style="{width:btnWidth}"
     @click="handleClick">
-    <i v-if="icon" :class="`icon-${[icon]}`"></i>
+    <i v-if="icon" :class="`icon-${[icon]} ${prefixCls}-icon`"></i>
     <slot></slot>
   </button>
   <a
@@ -19,9 +19,9 @@
     v-bind="$attrs"
     :class="classStyle"
     :href="disabled?null:routerHref"
-    :style="{width:width}"
+    :style="{width:btnWidth}"
     @click="handleClick">
-    <i v-if="icon" :class="`icon-${[icon]}`"></i>
+    <i v-if="icon" :class="`icon-${[icon]} ${prefixCls}-icon`"></i>
     <slot></slot>
   </a>
 </template>
@@ -29,12 +29,12 @@
 <script lang="ts">
 import {prefixCls} from '../prefix'
 import pType from '../util/pType'
-import {computed, defineComponent} from 'vue'
+import {computed, defineComponent, inject, ref} from 'vue'
 import {useRouter} from 'vue-router'
+import {GroupConfig} from '../types/button'
 
 export default defineComponent({
   name: `${prefixCls}Button`,
-  components: {},
   props: {
     type: pType.string(),
     size: pType.string(),
@@ -44,17 +44,21 @@ export default defineComponent({
     round: pType.bool(),
     disabled: pType.bool(),
     nativeType: pType.oneOfString(['', 'button', 'submit', 'reset']),
-    width: pType.string()
+    width: pType.string(),
+    name: pType.string() // btn group中作为唯一标识
   },
   emits: ['click'],
   setup(props, {emit}) {
+    const btnClick = inject('btnClick', '') as (event: Element, name: string) => void
+    const groupConfig: GroupConfig = inject('groupConfig', {})
+    const btnWidth = ref(props.width || groupConfig.width)
     const classStyle = computed(() => {
       return {
         [`${prefixCls}-btn`]: true,
-        'is-round': props.round,
+        'is-round': props.round || groupConfig.round,
         [`${prefixCls}-btn-` + props.type]: props.type,
-        'disabled': props.disabled,
-        [props.size]: props.size
+        'disabled': props.disabled || groupConfig.disabled,
+        [props.size || groupConfig.size]: props.size || groupConfig.size
       }
     })
     const routerHref = computed(() => {
@@ -72,12 +76,15 @@ export default defineComponent({
     const handleClick = (event: Element) => {
       if (!props.disabled) {
         emit('click', event)
+        btnClick && btnClick(event, props.name)
       }
     }
     return {
       classStyle,
       routerHref,
-      handleClick
+      handleClick,
+      btnWidth,
+      prefixCls
     }
   }
 })

@@ -28,7 +28,9 @@
 ```
 
 ### 禁用状态
+
 使用`disabled="true"`禁用
+
 ```vue demo
 <template>
   <div>
@@ -71,6 +73,7 @@
 ```
 
 ### 带Icon图标
+
 ```vue demo
 <template>
   <div>
@@ -83,7 +86,9 @@
 ```
 
 ### 带路由或链接地址
+
 使用`routerTo`添加路由地址
+
 ```vue demo
 <template>
   <div>
@@ -103,7 +108,9 @@
 ```
 
 ### 输出原始按钮
+
 使用`nativeType="button/submit/reset"`输出button
+
 ```vue demo
 <template>
   <div>
@@ -115,18 +122,44 @@
 ```
 
 ### 按钮组
+
+可统一设置组内按钮`size`,`disabled`,`width`,`round`属性和`click`点击事件
+
 ```vue demo
+
 <template>
-  <ak-button-group>
-   <ak-button>默认按钮</ak-button>
-   <ak-button type="primary">确认按钮</ak-button>
-   <ak-button type="cancel">取消按钮</ak-button>
-   <ak-button type="text">文字按钮</ak-button>
-  </ak-button-group> 
+  <p>
+    <ak-button-group size="mini" @click="btnGroupClick">
+      <ak-button name="btn1">默认按钮</ak-button>
+      <ak-button type="primary" name="btn2">确认按钮</ak-button>
+      <ak-button type="cancel" name="btn3">取消按钮</ak-button>
+      <ak-button type="text" name="btn4">文字按钮</ak-button>
+    </ak-button-group>
+  </p>
+  <p>
+    <ak-button-group :disabled="true">
+      <ak-button>默认按钮</ak-button>
+      <ak-button type="primary">确认按钮</ak-button>
+      <ak-button type="cancel">取消按钮</ak-button>
+      <ak-button type="text">文字按钮</ak-button>
+    </ak-button-group>
+  </p>
 </template>
+<script>
+export default {
+  setup(){
+    const btnGroupClick=(evt,name)=>{
+      console.log(name) // 用于区分点击了哪个按钮
+	}
+  }
+}
+</script>
 ```
+
 ## API
+
 ### Button Props
+
 | 参数      | 类型          | 说明   |
 |----------|--------------|--------|
 |type      |String        |类型，实际是给按钮添加类名，primary/text等|
@@ -138,9 +171,26 @@
 |disabled  |boolean/false |是否禁用状态|
 |icon      |String        |前缀icon|
 |nativeType|String        |原生 type 属性，button / submit / reset|
+|name      |String        |按钮组时有效，按钮组点击事件时返回当前按钮唯一标识|
 |-         | -            |其它原生属性|
 
 ### Button Event
-|参数|说明|
-|-|-|
-|click          | -|
+
+|参数|说明| 
+|-------|-------| 
+|click | -|
+
+### Button Group
+
+| 参数      | 类型          | 说明   |
+|----------|--------------|--------|
+|size      |String        |大小尺寸，可选medium / small / mini |
+|width     |String        |按钮宽|
+|round     |boolean/false |是否圆角按钮|
+|disabled  |boolean/false |是否禁用状态|
+
+### Button Group Event
+
+|参数|说明| 
+|-------|-------| 
+|click | -|

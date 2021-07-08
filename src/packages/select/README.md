@@ -332,9 +332,11 @@ export default {
 ```
 
 ## API
+
 ### Select
+
 |参数|类型|说明|
-|-|-|-|
+|----------|--------------|--------|
 |v-model           | string,array          |通过v-model绑定，multiple时为array|
 |multiple          | boolean/false         |是否多选|
 |multipleLimit     | boolean/false         |多选时用户最多可以选择的项目数，为 0 则不限制|
@@ -353,26 +355,30 @@ export default {
 |size           | string         |添加的大小尺寸样式|
 
 ### Options Attributes
+
 |参数|类型|说明|
-|-|-|-|
+|----------|--------------|--------|
 |value            | string                |选项的值|
 |label            | string                |选项的标签，若不设置则默认与 value 相同|
 |disabled         | boolean/false         |是否禁用该选项|
 |class            | string                |对当前项添加样式|
 
 ### Select Events
+
 |参数|类型|说明|
-|-|-|-|
+|----------|--------------|--------|
 |change            | function              |选中值发生变化时触发|
 |beforeChange      | function              |选择前事件|
 |limitChange       | function              |超出最大选择数时事件，仅`multiple=true`和设定了`multipleLimit`时有效|
 
 ### Select Method
+
 |参数|类型|
-|-|-|
+|----------|--------------|
 |slideUp            |用于收起下拉|
 
 ### Select Slots
+
 |参数|说明|
-|-|-|
+|----------|--------------|
 |template       |自定义下拉内容|

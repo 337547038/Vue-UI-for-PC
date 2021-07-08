@@ -172,32 +172,37 @@ export default {
 </script>
 ```
 
-
 ## API
+
 ### Tabs
+
 |参数|类型|说明|
-|-|-|-|
+|----------|--------------|--------|
 |v-model        | string         |绑定值。对应选项卡的 name，为空时自动生成`tab-*`，初始默认显示第一项|
 |beforeLeave    | function       |切换标签之前的钩子，若返回 false，则阻止切换|
 
 ### Tabs Event
+
 |参数|说明|
-|-|-|
+|----------|--------------|
 |change         | 点击改变事件,function(item, index)|
 
 ### Tabs Slot
-|参数|类型|说明|
-|-|-|-|
+
+|参数|说明|
+|----------|--------------|
 |content          | 显示于标题和内容之间的其他内容信息|
 
 ### TabPane
+
 |参数|类型|说明|
-|-|-|-|
+|----------|--------------|--------|
 |name           | string         |对应 Tabs 的 v-model 值，为空时自动生成。一般可不填写|
 |label          | string         |标签名称|
 |disabled       | boolean/false  |禁用选顶|
 
 ### TabPane Slot
+
 |参数|说明|
-|-|-|
+|----------|--------------|
 |label          | |

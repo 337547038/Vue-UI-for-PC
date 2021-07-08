@@ -1,7 +1,9 @@
 <!-- Created by 337547038 on 2021/6/17 0017. -->
+
 # InputNumber 计数器
 
 ### 基础用法
+
 ```vue demo
 <template>
   <ak-input-number v-model="value1" />
@@ -20,6 +22,7 @@ export default {
 ```
 
 ### 禁用状态
+
 ```vue demo
 <template>
   <ak-input-number v-model="value1" :disabled="true" />
@@ -40,7 +43,9 @@ export default {
 ```
 
 ### 设置最大最小值
+
 `max="10" min="1"`
+
 ```vue demo
 <template>
   <ak-input-number v-model="value1" :max="10" :min="1" />
@@ -60,9 +65,10 @@ export default {
 
 ```
 
-
 ### 设置步长
- `step="5"`
+
+`step="5"`
+
 ```vue demo
 <template>
   <ak-input-number v-model="value1" :step="5" />
@@ -83,9 +89,11 @@ export default {
 ```
 
 ## API
+
 ### InputNumber
+
 |参数|类型|说明|
-|-|-|-|
+|----------|--------------|--------|
 |v-model        | number       |绑定值，默认0|
 |max            | number       |允许的最大值|
 |min            | number       |允许的最小值|
@@ -96,8 +104,9 @@ export default {
 |size           | string         |添加的大小尺寸样式|
 
 ### InputNumber Events
+
 |参数|说明|
-|-|-|
+|----------|--------------|
 |change          | 绑定值被改变时触发|
 |blur            | 在组件 Input 失去焦点时触发|
 |focus           | 在组件 Input 获得焦点时触发|

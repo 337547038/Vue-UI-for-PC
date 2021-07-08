@@ -176,25 +176,25 @@ export default {
 ### Collapse
 
 |参数|类型|说明|
-|-|-|-|
+|----------|--------------|--------|
 |v-model | Array |当前激活的面板的，对应panel里的name，可不填|
 |accordion | boolean/false |风琴效果，开启后每次只能展开一个面板|
 
 ### Collapse Event
 
 |参数|说明|
-|-|-|
+|----------|--------------|
 |change |点击切换事件|
 
 ### Panel
 
 |参数|类型|说明|
-|-|-|-|
+|----------|--------------|--------|
 |name | String |对应Collapse里的value，可不填|
 
 ### Panel Slot
 
 |参数|说明|
-|-|-|
+|----------|--------------|
 |trigger | 事件触发标签插槽|
 |content | 内容|

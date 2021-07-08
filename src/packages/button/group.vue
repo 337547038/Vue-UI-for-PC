@@ -5,16 +5,30 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import {prefixCls} from '../prefix'
+import pType from '../util/pType'
+import {provide, defineComponent} from 'vue'
 
-export default {
+export default defineComponent({
   name: `${prefixCls}ButtonGroup`,
-  props: {},
-  setup() {
+  props: {
+    size: pType.string(),
+    round: pType.bool(),
+    disabled: pType.bool(),
+    width: pType.string()
+  },
+  emits: ['click'],
+  setup(props, {emit}) {
+    provide('groupConfig', props)
+    provide('btnClick', (event: Element, name: string) => {
+      if (!props.disabled) {
+        emit('click', event, name)
+      }
+    })
     return {
       prefixCls
     }
   }
-}
+})
 </script>

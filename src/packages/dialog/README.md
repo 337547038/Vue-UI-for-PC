@@ -284,8 +284,9 @@ export default {
 ## API
 
 ### Dialog
+
 |参数|类型|说明|
-|-|-|-|
+|----------|--------------|--------|
 |v-model        | boolean/false  |显示隐藏 Dialog|
 |title          | string         |Dialog 的标题，也可通过具名 slot 方式|
 |content        | null           |Dialog 的内容，建议使用slot方式|
@@ -297,7 +298,7 @@ export default {
 |cancel         | string         |取消按钮，点击默认关闭窗口|
 |beforeClose    | function       |关闭前的回调，会阻止 Dialog 的关闭。function(type,close),type=close/confirm/cancel/modal 表示点了哪里关闭，close 方法用于关闭 Dialog|
 |callback       |function        |确定回调比较常用而添加，同`beforeClose`，相当于type=confirm，减少对type的判断。根据需求和`beforeClose`二选一使用|
-|modal          | boolean/true   |是否需要遮罩层	|
+|modal          | boolean/true   |是否需要遮罩层    |
 |closeModal     | boolean/true   |是否可以通过点击 modal 关闭 Dialog|
 |appendToBody   | boolean/true   |Dialog 自身是否插入至 body 元素上|
 |lockScroll     | boolean/true   |是否在 Dialog 出现时将 body 滚动锁定|
@@ -310,16 +311,17 @@ export default {
 |icon           | number/0       |用于展示常见的alert提示显示对应的icon图标，1成功，2失败，3提示，4警告。其它的可通过添加样式控制|
 |zIndex         | number         |弹层的z-index样式|
 
-
 ### Dialog Slot
+
 |参数|说明|
-|-|-|
+|----------|--------------|
 |title           |标题|
 |footer          |尾部内容|
 
 ### Dialog Methods
+
 |参数|说明|
-|-|-|
+|----------|--------------|
 |open           |打开窗口，使用此方法打开时不支持v-model双向绑定|
 |close          |关闭窗口|
 |setPosition    |设置窗口top位置，适用于窗口展开收起事件，导致窗口高度发生变化时，用于修正窗口的位置|

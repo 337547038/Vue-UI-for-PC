@@ -133,21 +133,27 @@ export default {
 ```
 
 ## API
+
 ### Switch
+
 |参数|类型|说明|
-|-|-|-|
+|----------|--------------|--------|
 |v-model        | boolean/false  |指定当前是否选中|
 |disabled       | boolean/false  |是否禁用状态|
 |closeColor     | String         |设置关闭时颜色值|
 |activeColor    | String         |设置打开时颜色值|
 |closeValue     | String         |设置关闭状态时的值|
 |activeValue    | String         |设置打开状态时的值|
+
 ### Switch Event
+
 |参数|说明|
-|-|-|
+|----------|--------------|
 |change           | 改变事件|
+
 ### Switch Slot
+
 |参数|说明|
-|-|-|
+|----------|--------------|
 |open           | 自定义显示打开时的内容|
 |close          | 自定义显示关闭时的内容|
