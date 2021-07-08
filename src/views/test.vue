@@ -1,18 +1,18 @@
 <template>
   <div>
-<!--    {{value}}-->
-    <ak-tree :data="data" v-model="value">
-      <template #default="row">
-        {{row}}
-      </template>
+    <!--    {{value}}-->
+    <ak-tree :data="data" :show-checkbox="true" @click="click">
+      <!--      <template #default="row">
+              {{ row }}
+            </template>-->
     </ak-tree>
   </div>
 </template>
 <script>
 import {ref} from 'vue'
 
-
 export default {
+  components: {},
   setup() {
     const data = [
       {
@@ -30,8 +30,24 @@ export default {
               {
                 id: 'ccc',
                 label: 'ccc'
+              },
+              {
+                id: 'ccc2',
+                label: 'ccc'
+              },
+              {
+                id: 'ccc3',
+                label: 'ccc'
+              },
+              {
+                id: 'ccc4',
+                label: 'ccc'
               }
             ]
+          },
+          {
+            id: 'ac',
+            label: 'ac'
           }
         ]
       },
@@ -45,9 +61,21 @@ export default {
       }
     ]
     const value = ref('b')
+    const click = (item, lazy) => {
+      console.log(item)
+      if (item.open && !item.lazy) {
+        const data = [
+          {id: 'dd', label: 'dd'}
+        ]
+        setTimeout(() => {
+          lazy && lazy(data)
+        }, 500)
+      }
+    }
     return {
       data,
-      value
+      value,
+      click
     }
   }
 }

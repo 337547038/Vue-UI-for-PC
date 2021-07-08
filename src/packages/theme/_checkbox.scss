@@ -4,14 +4,23 @@
   /*默认*/
   .checkbox-text {margin-left: 5px}
   .checkbox-inner {border: 1px solid $border;border-radius: 2px;box-sizing: border-box;width: 14px;height: 14px;display: flex;align-items: center;justify-content: center;
+
     &:hover {opacity: .8}
-    &:before {font-size: 12px;display: block;opacity: 0;transform: scale(0);transition: all .3s;}
+
+    &:before {font-size: 12px;display: block;opacity: 0;transform: scale(0);transition: opacity .3s, transform .3s;}
+
     &.checked {
       &:before {opacity: 1;transform: scale(.9);color: $primary;}
     }
   }
   &.disabled {cursor: not-allowed;
+
     .checkbox-inner {opacity: .5;background: #ddd}
   }
-  + .#{$namespace}checkbox{margin-left: 10px}
+  + .#{$namespace}checkbox {margin-left: 10px}
+  &.some-select {
+    .checkbox-inner {
+      &:before {opacity: 1;transform: scale(1);content: '';height: 3px;background: $primary;width: 75%}
+    }
+  }
 }
