@@ -1,41 +1,133 @@
 <!--Created by 337547038 on 2018/1/26.-->
 <template>
   <div :class="`${prefixCls}-tree`">
-    <!--    <slot :row="true"></slot>-->
-    <treeItem
-      :data="data"
-      @toggle="toggle">
-      <template #default="node">
-        <slot :row="node.row" :index="node.index"></slot>
-      </template>
-    </treeItem>
+    <treeItem @toggle="toggle" />
   </div>
 </template>
 <script lang="ts">
 import {prefixCls} from '../prefix'
-import treeItem from './treeItem.vue'
+import treeItem from './treeNode.vue'
 import pType from '../util/pType'
-import {ref, defineComponent, provide, toRef, toRefs, computed} from 'vue'
+import {defineComponent, provide, toRefs, watch, reactive} from 'vue'
 import {TreeList} from '../types/tree'
+import {AnyPropName} from '../types'
 
 export default defineComponent({
   name: `${prefixCls}Tree`,
   components: {treeItem},
   props: {
-    data: pType.array(),
+    data: pType.array([]),
     lazy: pType.bool(),
     showCheckbox: pType.bool(), // 显示checkbox
     modelValue: [String, Array]
   },
-  emits: ['toggle', 'update:modelValue'],
-  setup(props, {emit}) {
+  emits: ['click', 'update:modelValue', 'change'],
+  setup(props, {emit, slots}) {
     const {modelValue} = toRefs(props)
-    const mv = computed(() => {
-      return props.modelValue
+    const state = reactive<AnyPropName>({
+      dataList: [],
+      lazy: props.lazy,
+      showCheckbox: props.showCheckbox,
+      modelValue: props.modelValue
     })
-    provide('modelValue', mv)
-    const toggle = (item: TreeList) => {
-      emit('toggle', item)
+    provide('propsData', state)
+    provide('treeSlots', slots)
+    // checkbox点击事件
+    const checkboxChange = (item: TreeList) => {
+      emit('change', item)
+      console.log(item)
+      item.tid && setParentChecked(item.tid) // 设置父级
+      setChildChecked(item.id, item.checked as boolean) // 设置子级
+    }
+    // 将父节点全选或全不选
+    const setParentChecked = (id: string) => {
+      if (!id) {
+        return
+      }
+      let parent: any = {}
+      let checked = true
+      let someChecked = false
+      state.dataList.forEach((item: TreeList) => {
+        if (item.id === id) {
+          parent = item
+        }
+        if (item.tid === id) {
+          // 兄弟节点，其中有一条没选，则false
+          if (!item.checked) {
+            checked = false
+          }
+          // 有其中一条选择了，则有部分选择
+          if (item.checked) {
+            someChecked = true
+          }
+        }
+      })
+      parent.checked = checked
+      if (checked) {
+        // 全选时，修改部分选择为false
+        someChecked = false
+      }
+      parent.someChecked = someChecked
+      // 继续上一层
+      setParentChecked(parent.tid)
+    }
+    // 设置子级
+    const setChildChecked = (id: string, bool: boolean) => {
+      state.dataList.forEach((item: TreeList) => {
+        if (item.tid === id) {
+          item.checked = bool
+          if (item.hasChild) {
+            setChildChecked(item.id, bool)
+          }
+        }
+      })
+    }
+    provide('checkboxChange', checkboxChange)
+    watch(() => props.data, (val: AnyPropName) => {
+      formatData(val)
+    })
+    watch(() => props.modelValue, (val: AnyPropName) => {
+      state.modelValue = val
+    })
+    // 格式化数据
+    const formatData = (data: AnyPropName, tid?: string) => {
+      data && data.forEach((item: TreeList) => {
+        const newItem = JSON.parse(JSON.stringify(item))
+        delete newItem.children
+        const hasChild = item.children && item.children.length > 0
+        let checked = {}
+        if (props.showCheckbox) {
+          // 添加选中属性
+          checked = {checked: false, someChecked: false}
+        }
+        state.dataList.push(Object.assign({}, checked, newItem, {tid: tid, hasChild: hasChild}))
+        if (hasChild) {
+          formatData(item.children, item.id)
+        }
+      })
+    }
+    formatData(props.data)
+    const toggle = (item: TreeList, loading: any) => {
+      if (props.lazy) {
+        // 异步加载时
+        emit('click', item, (result: any) => {
+          item.lazy = true // 用来表示已经加载过数据了
+          item.hasChild = true // 添加有子节点标识，才会展开子级
+          loading && loading(false) // 关闭加载等待
+          let checked = {}
+          if (props.showCheckbox) {
+            // 添加选中属性
+            checked = {checked: false}
+          }
+          // 将数据添加上父节点信息，追加到数据列表
+          result.forEach((re: TreeList) => {
+            state.dataList.push(Object.assign({}, checked, re, {tid: item.id}))
+          })
+        })
+      } else {
+        emit('click', item)
+      }
+      // 更新v-model
       if (typeof props.modelValue === 'object') {
         const temp = modelValue.value as string[]
         const index = temp.indexOf(item.id)
