@@ -44,17 +44,19 @@ export default {
     <p><img
       data-src="http://www.33lc.com/article/UploadPic/2012-8/2012831462935573.jpg"
       data-error="error.jpg"
-      src="default.jpg" v-lazy></p>
-    <p><img
-      data-src="http://www.33lc.com/article/UploadPic/2012-8/20128314143814136.jpg"
-      data-error="error.jpg"
-      src="default.jpg" v-lazy></p>
-    <p><img
-      data-src="http://www.33lc.com/article/UploadPic/2012-8/2012831416948898.jpg"
-      data-error="error.jpg"
-      src="default.jpg" v-lazy></p>
+      :src="src" v-lazy></p>
   </div>
-</template> 
+</template>
+<script>
+export default {
+  setup() {
+    const src = 'default.jpg'
+    return {
+      src
+    }
+  }
+}
+</script>
 ```
 
 ### 在指定容器中滚动

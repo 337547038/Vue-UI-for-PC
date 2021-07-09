@@ -1,7 +1,9 @@
 # ak-vue
 填坑 Vue3 + Typescript + Vite，用于学习研究，欢迎交流，QQ/微信:337547038
 
-Vue2版本的请切换分支vue2
+<font color=red>
+Vue2版本的[请点这里](https://github.com/337547038/Vue-UI-for-PC)
+</font>
 
 组件库包含了 AutoForm 自动表单、BackTop 返回顶部、Breadcrumb 面包屑、 Button 按钮、Cascader 级联选择器、Checkbox 多选框、Collapse 折叠面板、ColorPicker 
 颜色选择器、DataPicker 时间选择器、Dialog 弹层对话框、Alert 弹框、Echarts 图形图表、Form 表单、Input 输入框、Lazy 图片延时加载、Loading 加载等待、Menu 
@@ -23,13 +25,13 @@ https://337547038.github.io/akvue3/
 - [x] Collapse 折叠面板
 - [x] ColorPicker 颜色选择器
 - [x] DataPicker 时间选择器
-- [ ] Dialog 弹层对话框
-- [ ] Alert 弹框
+- [x] Dialog 弹层对话框
+- [x] Alert 弹框
 - [ ] Echarts 图形图表
 - [x] Form 表单
 - [x] Input 输入框
-- [ ] Lazy 图片延时加载
-- [ ] Loading 加载等待
+- [x] Lazy 图片延时加载
+- [x] Loading 加载等待
 - [ ] Menu 菜单
 - [x] Pagination 分页
 - [x] Progress 进度条
