@@ -76,7 +76,7 @@ export default {
       const activeRowCol = `${this.index}:${this.columnIndex}`
       // let displayArr = window.sessionStorage.getItem(this.$parent.rowspanColspan)
       // let displayArr = window.rowspanColspan
-      const displayArr = this.$parent.rowspanColspan
+      const displayArr = this.$parent.rowspanColspanList
       if (displayArr) {
         // displayArr = JSON.parse(displayArr)
         if (displayArr.indexOf(activeRowCol) !== -1) {
