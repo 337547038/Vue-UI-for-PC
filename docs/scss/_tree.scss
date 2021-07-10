@@ -1,10 +1,15 @@
 @charset "utf-8";
 @include ns(tree) {
   ul {padding-left: 20px !important;}
-  i {font-size: 12px;vertical-align: middle;transform: rotate(-90deg);transition: all .3s;cursor: pointer;width: 12px;opacity: 0}
+  i {vertical-align: middle;transition: all .3s;cursor: pointer;opacity: 0;display: inline-block;
+    width: 0;
+    height: 0;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent transparent #666;}
   i.has-child {opacity: 1;}
   // 有子级时显示icon
-  i.open-child {transform: rotate(0deg);}
+  i.open-child {transform: rotate(90deg);}
   span {display: inline-block;vertical-align: middle}
   .checked {color: red}
   .tree-loading {
