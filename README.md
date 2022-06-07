@@ -11,11 +11,7 @@ https://gitee.com/q337547038/ak-vue3
 
 包含了每个组件的使用方法及所有参数配置说明
 
-https://337547038.github.io/akvue/
-
-或
-
-https://q337547038.gitee.io/ak-vue
+https://337547038.github.io/Vue-UI-for-PC/
 
 ## 组件说明
 - dist-buildDocs 打包生成的示例演示文件

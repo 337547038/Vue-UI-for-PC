@@ -11,12 +11,11 @@ const prodEnv = {
   build: {'VUE_APP_BASE_URL': '"/"'},
   buildDocs: {'VUE_APP_BASE_URL': '"/"'}
 }
-
 const original = JSON.parse(process.env.npm_config_argv).original[1] || 'serve' // 运行的命令名称npm run build=>build
 const NODE_ENV = process.env.NODE_ENV === 'production'
 let entry = 'src/main.js'
 if (original === 'docs' || original === 'buildDocs') {
-  entry = 'docs/main.js'
+  entry = 'demo/main.js'
 }
 // 合并图片，暂不作判断，每次重新生成
 let sprites = []
@@ -66,7 +65,7 @@ if (original === 'buildDocs') {
 module.exports = {
   publicPath: publicPath,
   assetsDir: 'static',
-  outputDir: 'dist-' + original,
+  outputDir: 'docs',
   productionSourceMap: false,
   lintOnSave: !NODE_ENV,
   pages: {

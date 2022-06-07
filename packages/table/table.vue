@@ -252,9 +252,9 @@ export default {
       // 可移动的最大宽
       let moveMaxWidth = tableWidth - el.clientWidth // div可见宽
       moveMaxWidth = scrollLeft - moveMaxWidth
-      console.log(fixedRight)
-      console.log('tableWidth:' + tableWidth)
-      console.log(moveMaxWidth)
+      // console.log(fixedRight)
+      // console.log('tableWidth:' + tableWidth)
+      // console.log(moveMaxWidth)
       if (fixedRight.length > 0) {
         for (let i = 0, len = fixedRight.length; i < len; i++) {
           fixedRight[i].style.transform = `translateX(${moveMaxWidth}px)translateZ(90px)`
