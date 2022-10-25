@@ -16,6 +16,10 @@ https://github.com/337547038/vite-react
 
 https://337547038.github.io/Vue-UI-for-PC/
 
+## 微信交流群
+
+<img src="https://gitee.com/q337547038/vue-form-design/raw/main/qrcode.jpg" width ="200" alt=""/>
+
 ## 组件说明
 - dist-buildDocs 打包生成的示例演示文件
 - docs 下为示例演示页面，同时为了方便样式维护，全部独立为scss文件；
